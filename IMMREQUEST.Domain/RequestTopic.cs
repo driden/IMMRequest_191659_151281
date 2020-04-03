@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace IMMREQUEST.Domain
+namespace IMMRequest.Domain
 {
     public class RequestTopic
     {

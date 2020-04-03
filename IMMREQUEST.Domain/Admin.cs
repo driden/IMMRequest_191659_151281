@@ -1,10 +1,10 @@
 using System;
 
-namespace IMMREQUEST.Domain
+namespace IMMRequest.Domain
 {
     public class Admin : Citizen
     {
-        public String Password { get; set; }
+        public string Password { get; set; }
 
         public Admin()
         {

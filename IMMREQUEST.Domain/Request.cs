@@ -1,9 +1,9 @@
 using System;
 
-namespace IMMREQUEST.Domain
+namespace IMMRequest.Domain
 {
 
-    public enum Status { Creada, EnRevision, Aceptada, Denegada, Finalizada }
+    public enum Status { Created, InReview, Accepted, Denied, Done }
 
     public class Request
     {

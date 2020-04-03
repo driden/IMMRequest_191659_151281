@@ -1,6 +1,6 @@
 using System;
 
-namespace IMMREQUEST.Domain
+namespace IMMRequest.Domain
 {
     public class RequestType
     {

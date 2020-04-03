@@ -1,11 +1,11 @@
 using System;
 
-namespace IMMREQUEST.Domain
+namespace IMMRequest.Domain
 {
     public abstract class Field
     {
-        public String Name { get; set; }
-        public Boolean Required { get; set; }
+        public string Name { get; set; }
+        public bool IsRequired { get; set; }
 
         public Field()
         {

@@ -1,11 +1,11 @@
 using System;
 
-namespace IMMREQUEST.Domain
+namespace IMMRequest.Domain
 {
     public class TextField : Field
     {
-        public String Type { get; set; }
+        public string Type { get; set; }
 
-        public String[] Range { get; set; }
+        public string[] Range { get; set; }
     }
 }

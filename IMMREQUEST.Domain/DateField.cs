@@ -1,16 +1,16 @@
 using System;
 
-namespace IMMREQUEST.Domain
+namespace IMMRequest.Domain
 {
-    public class DataField : Field
+    public class DateField : Field
     {
         public DateTime Type { get; set; }
 
         public DateTime[] Range { get; set; }
 
-        public DataField()
+        public DateField()
         {
-            
+
         }
     }
 }
