@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace IMMRequest.Domain.Fields
 {
@@ -6,6 +7,11 @@ namespace IMMRequest.Domain.Fields
     {
         public string Type { get; set; }
 
-        public string[] Range { get; set; }
+        public IEnumerable<Item<string>> Range { get; set; }
+
+        public TextField() : base()
+        {
+
+        }
     }
 }

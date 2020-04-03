@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace IMMRequest.WebApi
 {
@@ -25,7 +26,22 @@ namespace IMMRequest.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(
+                options =>
+                {
+                    options.AddPolicy(
+                        "CorsPolicy",
+                        builder => builder
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader());
+                });
+
             services.AddControllers();
+
+            services.AddDbContext<DataAccess.IMMRequestContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1",

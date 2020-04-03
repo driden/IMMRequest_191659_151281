@@ -14,12 +14,18 @@ namespace IMMRequest.DataAccess
 
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //modelBuilder.Entity<DateField>().HasMany(dateField => dateField.Range);
+        }
+
         // Users
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Citizen> Citizens { get; set; }
 
         // Fields
-        public DbSet<Field> Fields{ get; set; }
+        public DbSet<IntegerField> IntegerFields{ get; set; }
+        public DbSet<DateField> DateFields { get; set; }
 
         // Core
         public DbSet<RequestArea> RequestAreas { get; set; }
