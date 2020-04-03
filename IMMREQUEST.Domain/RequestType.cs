@@ -1,3 +1,4 @@
+using IMMRequest.Domain.Fields;
 using System;
 
 namespace IMMRequest.Domain

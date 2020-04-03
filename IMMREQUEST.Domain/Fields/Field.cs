@@ -1,6 +1,6 @@
 using System;
 
-namespace IMMRequest.Domain
+namespace IMMRequest.Domain.Fields
 {
     public abstract class Field
     {

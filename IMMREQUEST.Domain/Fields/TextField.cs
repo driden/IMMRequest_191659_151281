@@ -1,6 +1,6 @@
 using System;
 
-namespace IMMRequest.Domain
+namespace IMMRequest.Domain.Fields
 {
     public class TextField : Field
     {
