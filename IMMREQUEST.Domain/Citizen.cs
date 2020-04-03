@@ -2,7 +2,7 @@ using System;
 
 namespace IMMRequest.Domain
 {
-    public class Citizen : User
+    public class Citizen
     {
         public int Id { get; set; }
         public string Name { get; set; }
