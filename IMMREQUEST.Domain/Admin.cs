@@ -2,13 +2,13 @@ using System;
 
 namespace IMMRequest.Domain
 {
-    public class Admin : Citizen
+    public class Admin : User
     {
         public string Password { get; set; }
 
-        public Admin()
+        public Admin() : base()
         {
-            
+
         }
     }
 }
