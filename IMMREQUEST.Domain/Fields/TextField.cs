@@ -5,13 +5,11 @@ namespace IMMRequest.Domain.Fields
 {
     public class TextField : Field
     {
-        public string Type { get; set; }
-
         public IEnumerable<Item<string>> Range { get; set; }
 
-        public TextField() : base()
+        public override void ValidateRange()
         {
-
+            throw new NotImplementedException();
         }
     }
 }

@@ -11,6 +11,11 @@ namespace IMMRequest.DataAccess
 
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            
+        }
+
         // Users
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Citizen> Citizens { get; set; }
@@ -18,11 +23,12 @@ namespace IMMRequest.DataAccess
         // Fields
         public DbSet<IntegerField> IntegerFields{ get; set; }
         public DbSet<DateField> DateFields { get; set; }
+        public DbSet<TextField> TextFields { get; set; }
 
         // Core
-        public DbSet<RequestArea> RequestAreas { get; set; }
-        public DbSet<RequestTopic> RequestTopics { get; set; }
-        public DbSet<RequestType> RequestTypes { get; set; }
+        public DbSet<Area> RequestAreas { get; set; }
+        public DbSet<Topic> RequestTopics { get; set; }
+        public DbSet<Type> RequestTypes { get; set; }
 
     }
 }

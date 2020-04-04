@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace IMMRequest.Domain.Fields
 {
@@ -8,9 +9,6 @@ namespace IMMRequest.Domain.Fields
         public string Name { get; set; }
         public bool IsRequired { get; set; }
 
-        public Field()
-        {
-            
-        }
+        public abstract void ValidateRange();
     }
 }

@@ -3,14 +3,14 @@ using System;
 
 namespace IMMRequest.Domain
 {
-    public class RequestType
+    public class Type
     {
         public int Id { get; set; }
         public string Topic { get; set; }
 
         public Field[] AditionalFields { get; set; }
 
-        public RequestType()
+        public Type()
         {
             
         }
