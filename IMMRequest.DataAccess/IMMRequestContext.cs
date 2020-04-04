@@ -1,9 +1,6 @@
 using IMMRequest.Domain;
 using IMMRequest.Domain.Fields;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace IMMRequest.DataAccess
 {
@@ -12,11 +9,6 @@ namespace IMMRequest.DataAccess
         public IMMRequestContext(DbContextOptions<IMMRequestContext> options) : base(options)
         {
 
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            //modelBuilder.Entity<DateField>().HasMany(dateField => dateField.Range);
         }
 
         // Users

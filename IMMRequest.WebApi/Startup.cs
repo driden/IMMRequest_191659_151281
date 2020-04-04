@@ -40,7 +40,9 @@ namespace IMMRequest.WebApi
             services.AddControllers();
 
             services.AddDbContext<DataAccess.IMMRequestContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             services.AddSwaggerGen(options =>
             {
