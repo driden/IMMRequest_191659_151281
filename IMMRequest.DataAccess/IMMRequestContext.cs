@@ -13,6 +13,21 @@ namespace IMMRequest.DataAccess
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            // Auto generating Ids
+            builder.Entity<Request>().Property(p => p.Id).ValueGeneratedOnAdd();
+            builder.Entity<Area>().Property(p => p.Id).ValueGeneratedOnAdd();
+            builder.Entity<Topic>().Property(p => p.Id).ValueGeneratedOnAdd();
+            builder.Entity<Type>().Property(p => p.Id).ValueGeneratedOnAdd();
+            builder.Entity<User>().Property(p => p.Id).ValueGeneratedOnAdd();
+            builder.Entity<Field>().Property(p => p.Id).ValueGeneratedOnAdd();
+
+            // Request can only have a max length of 2000
+            builder.Entity<Request>().Property(req => req.Details).HasMaxLength(2000);
+
+            // User email needs to be unique
+            builder.Entity<User>().HasAlternateKey(user => user.Email);
+
+
             
         }
 
