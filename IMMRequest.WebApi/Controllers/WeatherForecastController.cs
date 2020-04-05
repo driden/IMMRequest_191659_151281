@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace IMMREQUEST.BusinessLogic.Controllers
+namespace IMMRequest.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]

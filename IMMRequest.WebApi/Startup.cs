@@ -10,8 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
-namespace IMMREQUEST.BusinessLogic
+namespace IMMRequest.WebApi
 {
     public class Startup
     {
@@ -25,7 +26,29 @@ namespace IMMREQUEST.BusinessLogic
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(
+                options =>
+                {
+                    options.AddPolicy(
+                        "CorsPolicy",
+                        builder => builder
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader());
+                });
+
             services.AddControllers();
+
+            services.AddDbContext<DataAccess.IMMRequestContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1",
+                    new Microsoft.OpenApi.Models.OpenApiInfo { Title = "IMM Request API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +59,8 @@ namespace IMMREQUEST.BusinessLogic
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger();
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -45,6 +70,11 @@ namespace IMMREQUEST.BusinessLogic
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwaggerUI(conf =>
+            {
+                conf.SwaggerEndpoint("/swagger/v1/swagger.json", "IMM Request API");
             });
         }
     }

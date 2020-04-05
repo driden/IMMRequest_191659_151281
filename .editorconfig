@@ -1,0 +1,13 @@
+root = true
+[*]
+charset = utf-8
+indent_syle = space
+end_of_line = crlf
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{cs,csproj}]
+tab_width = 4
+
+[*.{js,ts,json}]
+tab_width = 2

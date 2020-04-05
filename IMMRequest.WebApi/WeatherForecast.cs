@@ -1,6 +1,6 @@
 using System;
 
-namespace IMMREQUEST.WebApi
+namespace IMMRequest.WebApi
 {
     public class WeatherForecast
     {
