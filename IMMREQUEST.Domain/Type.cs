@@ -1,5 +1,5 @@
 using IMMRequest.Domain.Fields;
-using System;
+using System.Collections.Generic;
 
 namespace IMMRequest.Domain
 {
@@ -7,12 +7,6 @@ namespace IMMRequest.Domain
     {
         public int Id { get; set; }
         public string Topic { get; set; }
-
-        public Field[] AditionalFields { get; set; }
-
-        public Type()
-        {
-            
-        }
+        public IEnumerable<FieldBase> AditionalFields { get; set; }
     }
 }

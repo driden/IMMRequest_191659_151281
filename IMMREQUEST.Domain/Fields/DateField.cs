@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace IMMRequest.Domain.Fields
 {
-    public class DateField : Field
+    public class DateField : FieldBase
     {
         public IEnumerable<Item<DateTime>> Range { get; set; }
 

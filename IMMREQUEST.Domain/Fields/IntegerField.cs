@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace IMMRequest.Domain.Fields
 {
-    public class IntegerField : Field
+    public class IntegerField: FieldBase
     {
         public IEnumerable<Item<int>> Range { get; set; }
 

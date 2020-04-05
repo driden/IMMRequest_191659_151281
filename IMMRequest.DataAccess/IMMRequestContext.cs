@@ -19,16 +19,15 @@ namespace IMMRequest.DataAccess
             builder.Entity<Topic>().Property(p => p.Id).ValueGeneratedOnAdd();
             builder.Entity<Type>().Property(p => p.Id).ValueGeneratedOnAdd();
             builder.Entity<User>().Property(p => p.Id).ValueGeneratedOnAdd();
-            builder.Entity<Field>().Property(p => p.Id).ValueGeneratedOnAdd();
-
+            builder.Entity<FieldBase>().Property(p => p.Id).ValueGeneratedOnAdd();
+            
             // Request can only have a max length of 2000
             builder.Entity<Request>().Property(req => req.Details).HasMaxLength(2000);
 
             // User email needs to be unique
             builder.Entity<User>().HasAlternateKey(user => user.Email);
 
-
-            
+            builder.Entity<FieldBase>().ToTable("Fields");
         }
 
         // Users
@@ -41,9 +40,10 @@ namespace IMMRequest.DataAccess
         public DbSet<TextField> TextFields { get; set; }
 
         // Core
-        public DbSet<Area> RequestAreas { get; set; }
-        public DbSet<Topic> RequestTopics { get; set; }
-        public DbSet<Type> RequestTypes { get; set; }
+        public DbSet<Request> Requests { get; set; }
+        public DbSet<Area> Areas { get; set; }
+        public DbSet<Topic> Topics { get; set; }
+        public DbSet<Type> Types { get; set; }
 
     }
 }
