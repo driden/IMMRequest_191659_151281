@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using IMMRequest.DataAccess;
 
 namespace IMMRequest.WebApi
 {
@@ -49,6 +50,8 @@ namespace IMMRequest.WebApi
                 options.SwaggerDoc("v1",
                     new Microsoft.OpenApi.Models.OpenApiInfo { Title = "IMM Request API", Version = "v1" });
             });
+
+            services.AddScoped<IDbSeeder, IMMRequestDBSeeder>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,6 +79,13 @@ namespace IMMRequest.WebApi
             {
                 conf.SwaggerEndpoint("/swagger/v1/swagger.json", "IMM Request API");
             });
+
+            var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var dbSeeder = scope.ServiceProvider.GetService<IDbSeeder>();
+                dbSeeder.Seed();
+            }
         }
     }
 }
