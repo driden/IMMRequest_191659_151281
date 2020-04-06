@@ -28,8 +28,8 @@ namespace IMMRequest.DataAccess
                 context.IntegerFields.AddRange(SeededAdditionalIntegerFields);
                 context.DateFields.AddRange(SeededAdditionalDateFields);
                 context.TextFields.AddRange(SeededAdditionalTextFields);
-                context.Types.AddRange(SeededTypes);
-                context.Topics.AddRange(SeededTopics);
+                //context.Types.AddRange(SeededTypes);
+                //context.Topics.AddRange(SeededTopics);
                 context.Areas.AddRange(SeededAreas);
 
                 context.Citizens.AddRange(SeededCitizens);
@@ -52,9 +52,9 @@ namespace IMMRequest.DataAccess
                 };
             }
         }
-        private Area AreaTransporte => new Area { Name = "Transporte", Topics = this.SeededTopics.ToList() };
+        private Area AreaTransporte => new Area { Name = "Transporte", Topics = SeededTopics.ToList() };
 
-        private Topic AcosoSexual => new Topic { Name = "Acoso Sexual" };
+        private Topic AcosoSexual => new Topic { Name = "Acoso Sexual", Types = SeededTypes.ToList() };
         private Topic[] SeededTopics
         {
             get
