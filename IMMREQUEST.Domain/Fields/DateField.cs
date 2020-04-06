@@ -1,12 +1,13 @@
 using System;
-using System.Collections.Generic;
 
 namespace IMMRequest.Domain.Fields
 {
-    public class DateField : FieldBase
+    public class DateField : FieldOfType<DateTime>
     {
-        public IEnumerable<Item<DateTime>> Range { get; set; }
-
+        public DateField()
+        {
+            this.FieldType = FieldType.Date;
+        }
         public override void ValidateRange()
         {
             throw new NotImplementedException();

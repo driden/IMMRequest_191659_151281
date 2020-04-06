@@ -1,11 +1,13 @@
 using System;
-using System.Collections.Generic;
 
 namespace IMMRequest.Domain.Fields
 {
-    public class TextField : FieldBase
+    public class TextField : FieldOfType<string>
     {
-        public IEnumerable<Item<string>> Range { get; set; }
+        public TextField()
+        {
+            this.FieldType = FieldType.Text;
+        }
 
         public override void ValidateRange()
         {
