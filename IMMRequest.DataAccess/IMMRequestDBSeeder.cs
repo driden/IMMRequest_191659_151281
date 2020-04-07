@@ -2,10 +2,8 @@ using IMMRequest.Domain;
 using IMMRequest.Domain.Fields;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace IMMRequest.DataAccess
 {
@@ -20,23 +18,17 @@ namespace IMMRequest.DataAccess
 
         public void Seed()
         {
-            using (var serviceScope = _scopeFactory.CreateScope())
-            using (var context = serviceScope.ServiceProvider.GetService<IMMRequestContext>())
-            {
-                context.Database.Migrate();
+            using var serviceScope = _scopeFactory.CreateScope();
+            using var context = serviceScope.ServiceProvider.GetService<IMMRequestContext>();
 
-                context.IntegerFields.AddRange(SeededAdditionalIntegerFields);
-                context.DateFields.AddRange(SeededAdditionalDateFields);
-                context.TextFields.AddRange(SeededAdditionalTextFields);
-                //context.Types.AddRange(SeededTypes);
-                //context.Topics.AddRange(SeededTopics);
-                context.Areas.AddRange(SeededAreas);
-
-                context.Citizens.AddRange(SeededCitizens);
-                context.Admins.AddRange(SeededAdmins);
-
-                context.SaveChanges();
-            }
+            context.Database.Migrate();
+            context.IntegerFields.AddRange(SeededAdditionalIntegerFields);
+            context.DateFields.AddRange(SeededAdditionalDateFields);
+            context.TextFields.AddRange(SeededAdditionalTextFields);
+            context.Areas.AddRange(SeededAreas);
+            context.Citizens.AddRange(SeededCitizens);
+            context.Admins.AddRange(SeededAdmins);
+            context.SaveChanges();
         }
 
         private Area[] SeededAreas
