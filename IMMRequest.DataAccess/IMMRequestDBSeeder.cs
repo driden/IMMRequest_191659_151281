@@ -22,9 +22,9 @@ namespace IMMRequest.DataAccess
             using var context = serviceScope.ServiceProvider.GetService<IMMRequestContext>();
 
             context.Database.Migrate();
-            context.IntegerFields.AddRange(SeededAdditionalIntegerFields);
-            context.DateFields.AddRange(SeededAdditionalDateFields);
-            context.TextFields.AddRange(SeededAdditionalTextFields);
+            //context.IntegerFields.AddRange(SeededAdditionalIntegerFields);
+            //context.DateFields.AddRange(SeededAdditionalDateFields);
+            //context.TextFields.AddRange(SeededAdditionalTextFields);
             context.Areas.AddRange(SeededAreas);
             context.Citizens.AddRange(SeededCitizens);
             context.Admins.AddRange(SeededAdmins);
