@@ -10,5 +10,9 @@ namespace IMMRequest.Domain.Fields
         public FieldType FieldType { get; set; }
         public bool IsRequired { get; set; }
         public int TypeId { get; set; }
+
+        public abstract void ValidateRange();
+
+        public abstract void AddToRange(IItem item);
     }
 }

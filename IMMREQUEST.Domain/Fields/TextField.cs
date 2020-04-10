@@ -13,14 +13,23 @@ namespace IMMRequest.Domain.Fields
             (this.Range as IList<TextItem>).Add(new TextItem { Value = item });
 
         }
+
         public TextField()
         {
             this.FieldType = FieldType.Text;
         }
 
-        public void ValidateRange()
+        public override void ValidateRange()
         {
             throw new NotImplementedException();
+        }
+
+        public override void AddToRange(IItem item)
+        {
+            if (item.Type == FieldType.Integer)
+            {
+                this.AddToRange(((TextField)item).Value);
+            }
         }
     }
 }

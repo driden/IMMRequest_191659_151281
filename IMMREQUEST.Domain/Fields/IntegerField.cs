@@ -18,9 +18,17 @@ namespace IMMRequest.Domain.Fields
             this.FieldType = FieldType.Integer;
         }
 
-        public void ValidateRange()
+        public override void ValidateRange()
         {
             throw new NotImplementedException();
+        }
+
+        public override void AddToRange(IItem item)
+        {
+            if (item.Type == FieldType.Integer)
+            {
+                this.AddToRange(((IntegerItem)item).Value);
+            }
         }
     }
 }
