@@ -3,16 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IMMRequest.Domain", "IMMREQUEST.Domain\IMMRequest.Domain.csproj", "{F241871A-F721-4FD3-88B1-86649AA747B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IMMRequest.Domain", "IMMRequest.Domain\IMMRequest.Domain.csproj", "{F241871A-F721-4FD3-88B1-86649AA747B0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DCB66727-A5EE-42FB-8D51-FF03D61B8676}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMMRequest.WebApi", "IMMRequest.WebApi\IMMRequest.WebApi.csproj", "{A6F97BF1-F3E3-4F14-AFF0-AA4E2B31A203}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IMMRequest.WebApi", "IMMRequest.WebApi\IMMRequest.WebApi.csproj", "{A6F97BF1-F3E3-4F14-AFF0-AA4E2B31A203}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMMRequest.DataAccess", "IMMRequest.DataAccess\IMMRequest.DataAccess.csproj", "{85EE3ED1-91DF-4824-97CB-EA9BDC30A73F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IMMRequest.DataAccess", "IMMRequest.DataAccess\IMMRequest.DataAccess.csproj", "{85EE3ED1-91DF-4824-97CB-EA9BDC30A73F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMMRequest.DataAccess.Tests", "IMMRequest.DataAccess.Tests\IMMRequest.DataAccess.Tests.csproj", "{8F00C2EF-7B57-4C95-A954-74A08A13A0BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +62,18 @@ Global
 		{85EE3ED1-91DF-4824-97CB-EA9BDC30A73F}.Release|x64.Build.0 = Release|Any CPU
 		{85EE3ED1-91DF-4824-97CB-EA9BDC30A73F}.Release|x86.ActiveCfg = Release|Any CPU
 		{85EE3ED1-91DF-4824-97CB-EA9BDC30A73F}.Release|x86.Build.0 = Release|Any CPU
+		{8F00C2EF-7B57-4C95-A954-74A08A13A0BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F00C2EF-7B57-4C95-A954-74A08A13A0BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F00C2EF-7B57-4C95-A954-74A08A13A0BC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8F00C2EF-7B57-4C95-A954-74A08A13A0BC}.Debug|x64.Build.0 = Debug|Any CPU
+		{8F00C2EF-7B57-4C95-A954-74A08A13A0BC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8F00C2EF-7B57-4C95-A954-74A08A13A0BC}.Debug|x86.Build.0 = Debug|Any CPU
+		{8F00C2EF-7B57-4C95-A954-74A08A13A0BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F00C2EF-7B57-4C95-A954-74A08A13A0BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F00C2EF-7B57-4C95-A954-74A08A13A0BC}.Release|x64.ActiveCfg = Release|Any CPU
+		{8F00C2EF-7B57-4C95-A954-74A08A13A0BC}.Release|x64.Build.0 = Release|Any CPU
+		{8F00C2EF-7B57-4C95-A954-74A08A13A0BC}.Release|x86.ActiveCfg = Release|Any CPU
+		{8F00C2EF-7B57-4C95-A954-74A08A13A0BC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
