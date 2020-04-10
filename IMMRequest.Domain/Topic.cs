@@ -3,15 +3,16 @@ using System.Collections.Generic;
 
 namespace IMMRequest.Domain
 {
-  public class Area
+  public class Topic
   {
     public int Id { get; set; }
+    public int AreaId { get; set; }
     public string Name { get; set; }
-    public List<Topic> Topics { get; set; }
+    public List<Type> Types { get; set; }
 
-    public Area()
+    public Topic()
     {
-      this.Topics = new List<Topic>();
+
     }
   }
 }

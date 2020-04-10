@@ -1,10 +1,10 @@
 namespace IMMRequest.Domain
 {
-    public class Citizen : User
+  public class Citizen : User
+  {
+    public Citizen() : base()
     {
-        public Citizen() : base()
-        {
 
-        }
     }
+  }
 }
