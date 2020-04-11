@@ -1,16 +1,7 @@
 # IMMRequest_191659_151281
 
-Preguntas:
-- Los campos adicionales son todos obligatorios?
 
-
-
-
-
-
-
-
-
+[![Build Status](https://dev.azure.com/driden87/IMMRequest/_apis/build/status/IMMRequest-ASP.NET%20Core-CI?branchName=develop)](https://dev.azure.com/driden87/IMMRequest/_build/latest?definitionId=3&branchName=develop)
 
 
 
