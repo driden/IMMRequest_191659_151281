@@ -18,6 +18,12 @@ namespace IMMRequest.DataAccess.Tests
             _repository = new TypeRepository(_context);
         }
 
+        [TestCleanup]
+        public override void TearDown()
+        {
+            base.TearDown();
+        }
+
         [TestMethod]
         public void CanAddTypeToDatabase()
         {
@@ -26,6 +32,7 @@ namespace IMMRequest.DataAccess.Tests
             {
                 taxiType.AdditionalFields.Add(additionalField);
             }
+
             _repository.Add(taxiType);
 
             Assert.AreEqual(1, _context.Set<Domain.Type>().Count());

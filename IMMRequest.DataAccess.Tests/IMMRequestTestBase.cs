@@ -12,7 +12,6 @@ namespace IMMRequest.DataAccess.Tests
     {
         protected IMMRequestContext _context;
 
-        [TestInitialize]
         public virtual void Setup()
         {
             var dbContextOptions =
@@ -21,8 +20,7 @@ namespace IMMRequest.DataAccess.Tests
             _context.Database.EnsureCreated();
         }
 
-        [TestCleanup]
-        public void TearDown()
+        public virtual void TearDown()
         {
             _context.Database.EnsureDeleted();
         }

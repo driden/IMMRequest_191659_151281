@@ -24,6 +24,7 @@ namespace IMMRequest.DataAccess.Repositories
 
         public void Update(T entity)
         {
+            Context.Attach(entity);
             Context.Entry(entity).State = EntityState.Modified;
             Context.SaveChanges();
         }
