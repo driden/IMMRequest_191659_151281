@@ -27,7 +27,8 @@ namespace IMMRequest.DataAccess
             builder.Entity<User>().HasAlternateKey(user => user.Email);
 
             // Area Name needs to be unique
-            builder.Entity<Area>().HasAlternateKey(area => area.Name);
+            builder.Entity<Area>().HasKey(area => area.Id);
+            //builder.Entity<Area>().HasAlternateKey(area => area.Name);
 
             builder.Entity<IntegerField>();
             builder.Entity<TextField>();
