@@ -1,37 +1,41 @@
 using System;
 
-namespace IMMRequest.Domain.State
+namespace IMMRequest.Domain.States
 {
-    internal class AcceptedState : IState
+    public class AcceptedState : State
     {
         private Request Request;
+        public AcceptedState()
+        {
+                
+        }
         public AcceptedState(Request Request)
         {
             this.Request = Request;
         }
-        public void Accepted()
+        public override  void Accepted()
         {
             Console.WriteLine("ERROR: The request is already accepted");
         }
 
-        public void Created()
+        public override void Created()
         {
             Console.WriteLine("ERROR: The request is already accepted");
         }
 
-        public void Denied()
+        public override void Denied()
         {
             Console.WriteLine("ERROR: The request is already accepted");
         }
 
-        public void Done()
+        public override void Done()
         {
             // The request changes the status to be done
             this.Request.Status = new DoneState(this.Request);
             Console.WriteLine("The request " + this.Request.Id + " change to Done");
         }
 
-        public void InReview()
+        public override void InReview()
         {
             // The request changes the status to be in review
             this.Request.Status = new InReviewState(this.Request);

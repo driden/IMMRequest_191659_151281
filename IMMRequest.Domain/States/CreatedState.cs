@@ -2,37 +2,40 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace IMMRequest.Domain.State
+namespace IMMRequest.Domain.States
 {
-    internal class CreatedState : IState
+    public class CreatedState : State
     {
         private Request Request;
+        public CreatedState()
+        {
 
+        }
         public CreatedState(Request Request)
         {
             this.Request = Request;
         }
-        public void Accepted()
+        public override void Accepted()
         {
             Console.WriteLine("ERROR: The request is not created");
         }
 
-        public void Created()
+        public override void Created()
         {
             Console.WriteLine("ERROR: The request is not created");
         }
 
-        public void Denied()
+        public override void Denied()
         {
             Console.WriteLine("ERROR: The request is not created");
         }
 
-        public void Done()
+        public override void Done()
         {
             Console.WriteLine("ERROR: The request is not created");
         }
 
-        public void InReview()
+        public override void InReview()
         {
             // The request changes the status to be reviewed
             this.Request.Status = new InReviewState(this.Request);
