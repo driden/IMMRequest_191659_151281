@@ -1,7 +1,7 @@
 # IMMRequest_191659_151281
 
 
-[![Build Status](https://dev.azure.com/driden87/IMMRequest/_apis/build/status/IMMRequest-ASP.NET%20Core-CI?branchName=develop)](https://dev.azure.com/driden87/IMMRequest/_build/latest?definitionId=3&branchName=develop)
+[![Build status](https://dev.azure.com/IMMRequest/IMMRequest/_apis/build/status/IMMRequest-ASP.NET%20Core-CI)](https://dev.azure.com/IMMRequest/IMMRequest/_build/latest?definitionId=3)
 
 
 
