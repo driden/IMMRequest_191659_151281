@@ -5,15 +5,17 @@ namespace IMMRequest.Domain.States
     public class AcceptedState : State
     {
         private Request Request;
+
         public AcceptedState()
         {
-                
+
         }
+
         public AcceptedState(Request Request)
         {
             this.Request = Request;
         }
-        public override  void Accepted()
+        public override void Accepted()
         {
             Console.WriteLine("ERROR: The request is already accepted");
         }

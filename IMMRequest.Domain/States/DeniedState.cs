@@ -5,10 +5,12 @@ namespace IMMRequest.Domain.States
     public class DeniedState : State
     {
         private Request Request;
+
         public DeniedState()
         {
 
         }
+
         public DeniedState(Request request)
         {
             this.Request = request;

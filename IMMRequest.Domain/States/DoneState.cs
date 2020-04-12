@@ -5,14 +5,17 @@ namespace IMMRequest.Domain.States
     public class DoneState : State
     {
         private Request Request;
+
         public DoneState()
         {
 
         }
+
         public DoneState(Request Request)
         {
             this.Request = Request;
         }
+
         public override void Accepted()
         {
             // The request changes the status to be accepted

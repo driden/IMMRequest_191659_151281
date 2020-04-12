@@ -7,10 +7,12 @@ namespace IMMRequest.Domain.States
     public class CreatedState : State
     {
         private Request Request;
+
         public CreatedState()
         {
 
         }
+
         public CreatedState(Request Request)
         {
             this.Request = Request;

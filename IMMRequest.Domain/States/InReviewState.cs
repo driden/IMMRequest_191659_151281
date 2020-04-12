@@ -5,10 +5,12 @@ namespace IMMRequest.Domain.States
     public class InReviewState : State
     {
         private Request Request;
+
         public InReviewState()
         {
 
         }
+
         public InReviewState(Request Request)
         {
             this.Request = Request;
