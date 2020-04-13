@@ -1,6 +1,6 @@
+using IMMRequest.Domain.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace IMMRequest.Domain.States
 {
@@ -19,22 +19,22 @@ namespace IMMRequest.Domain.States
         }
         public override void Accepted()
         {
-            Console.WriteLine("ERROR: The request is not created");
+            throw new InvalidStateException("ERROR: The request is not created");
         }
 
         public override void Created()
         {
-            Console.WriteLine("ERROR: The request is not created");
+            throw new InvalidStateException("ERROR: The request is not created");
         }
 
         public override void Denied()
         {
-            Console.WriteLine("ERROR: The request is not created");
+            throw new InvalidStateException("ERROR: The request is not created");
         }
 
         public override void Done()
         {
-            Console.WriteLine("ERROR: The request is not created");
+            throw new InvalidStateException("ERROR: The request is not created");
         }
 
         public override void InReview()

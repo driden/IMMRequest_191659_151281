@@ -1,3 +1,4 @@
+using IMMRequest.Domain.Exceptions;
 using System;
 
 namespace IMMRequest.Domain.States
@@ -25,7 +26,7 @@ namespace IMMRequest.Domain.States
 
         public override void Created()
         {
-            Console.WriteLine("ERROR: The request is already done. Opcions: Accepted/Denied");
+            throw new InvalidStateException("ERROR: The request is already done. Opcions: Accepted/Denied");
         }
 
         public override void Denied()
@@ -37,12 +38,12 @@ namespace IMMRequest.Domain.States
 
         public override void Done()
         {
-            Console.WriteLine("ERROR: The request is already done");
+            throw new InvalidStateException("ERROR: The request is already done");
         }
 
         public override void InReview()
         {
-            Console.WriteLine("ERROR: The request is already done. Opcions are: Accepted/Denied");
+            throw new InvalidStateException("ERROR: The request is already done. Opcions are: Accepted/Denied");
         }
     }
 }

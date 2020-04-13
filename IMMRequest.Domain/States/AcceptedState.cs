@@ -1,3 +1,4 @@
+using IMMRequest.Domain.Exceptions;
 using System;
 
 namespace IMMRequest.Domain.States
@@ -17,17 +18,17 @@ namespace IMMRequest.Domain.States
         }
         public override void Accepted()
         {
-            Console.WriteLine("ERROR: The request is already accepted");
+            throw new InvalidStateException("ERROR: The request is already accepted");
         }
 
         public override void Created()
         {
-            Console.WriteLine("ERROR: The request is already accepted");
+            throw new InvalidStateException("ERROR: The request is already accepted");
         }
 
         public override void Denied()
         {
-            Console.WriteLine("ERROR: The request is already accepted");
+            throw new InvalidStateException("ERROR: The request is already accepted");
         }
 
         public override void Done()
@@ -41,7 +42,7 @@ namespace IMMRequest.Domain.States
         {
             // The request changes the status to be in review
             this.Request.Status = new InReviewState(this.Request);
-            Console.WriteLine("The request " + this.Request.Id + " change to In review");
+            throw new InvalidStateException("The request " + this.Request.Id + " change to In review");
         }
     }
 }

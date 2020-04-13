@@ -1,3 +1,4 @@
+using IMMRequest.Domain.Exceptions;
 using System;
 
 namespace IMMRequest.Domain.States
@@ -18,17 +19,17 @@ namespace IMMRequest.Domain.States
 
         public override void Accepted()
         {
-            Console.WriteLine("ERROR: The request is already denied");
+            throw new InvalidStateException("ERROR: The request is already denied");
         }
 
         public override void Created()
         {
-            Console.WriteLine("ERROR: The request is already denied");
+            throw new InvalidStateException("ERROR: The request is already denied");
         }
 
         public override void Denied()
         {
-            Console.WriteLine("ERROR: The request is already denied");
+            throw new InvalidStateException("ERROR: The request is already denied");
         }
 
         public override void Done()

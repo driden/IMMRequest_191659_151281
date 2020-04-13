@@ -1,7 +1,6 @@
 using System.Linq;
 using IMMRequest.DataAccess.Repositories;
 using IMMRequest.Domain;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IMMRequest.DataAccess.Tests

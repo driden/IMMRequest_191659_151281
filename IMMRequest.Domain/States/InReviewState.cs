@@ -1,3 +1,4 @@
+using IMMRequest.Domain.Exceptions;
 using System;
 
 namespace IMMRequest.Domain.States
@@ -39,12 +40,12 @@ namespace IMMRequest.Domain.States
 
         public override void Done()
         {
-            Console.WriteLine("ERROR: the request cannot be closed.Must complete review: Accepted / Denied");
+            throw new InvalidStateException("ERROR: the request cannot be closed.Must complete review: Accepted / Denied");
         }
 
         public override void InReview()
         {
-            Console.WriteLine("ERROR: the application is already under review");
+            throw new InvalidStateException("ERROR: the application is already under review");
         }
     }
 }
