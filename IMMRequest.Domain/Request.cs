@@ -13,6 +13,10 @@ namespace IMMRequest.Domain
     public Citizen Citizen { get; set; }
     public Type Type { get; set; }
 
+    // We can leave these 2 properties, so it's easier to handle
+    public Area Area { get; set; }
+    public Topic Topic { get; set; }
+
     public Request()
     {
 
