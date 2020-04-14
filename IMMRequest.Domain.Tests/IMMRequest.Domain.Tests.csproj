@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IMMRequest.Domain.Exceptions\IMMRequest.Domain.Exceptions.csproj" />
     <ProjectReference Include="..\IMMRequest.Domain\IMMRequest.Domain.csproj" />
   </ItemGroup>
 
