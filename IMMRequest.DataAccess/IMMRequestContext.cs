@@ -1,5 +1,6 @@
 using IMMRequest.Domain;
 using IMMRequest.Domain.Fields;
+using IMMRequest.Domain.States;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMMRequest.DataAccess
@@ -38,6 +39,13 @@ namespace IMMRequest.DataAccess
             builder.Entity<IntegerField>();
             builder.Entity<TextField>();
             builder.Entity<DateField>();
+
+            // State
+            builder.Entity<AcceptedState>();
+            builder.Entity<CreatedState>();
+            builder.Entity<DeniedState>();
+            builder.Entity<DoneState>();
+            builder.Entity<InReviewState>();
 
             // Nicer Names for range items
             builder.Entity<IntegerItem>().ToTable("IntegerRangeItems");

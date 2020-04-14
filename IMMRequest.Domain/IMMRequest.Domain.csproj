@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\IMMRequest.Domain.Exceptions\IMMRequest.Domain.Exceptions.csproj" />
+  </ItemGroup>
+
 </Project>
