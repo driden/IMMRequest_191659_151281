@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using IMMRequest.Domain;
 using IMMRequest.Domain.Fields;
+using IMMRequest.Domain.States;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Type = IMMRequest.Domain.Type;
@@ -31,7 +32,6 @@ namespace IMMRequest.DataAccess.Tests
             {
                 Citizen = new Citizen { Email = "citizen@mail.com", Name = "Name", PhoneNumber = "555-5555555" },
                 Details = "Request Details",
-                Status = Status.Created,
                 Type = Newtype(),
             };
         }
