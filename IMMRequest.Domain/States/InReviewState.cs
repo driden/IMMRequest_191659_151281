@@ -5,7 +5,7 @@ namespace IMMRequest.Domain.States
 {
     public class InReviewState : State
     {
-        private Request Request;
+        public Request Request { get; }
 
         public InReviewState()
         {

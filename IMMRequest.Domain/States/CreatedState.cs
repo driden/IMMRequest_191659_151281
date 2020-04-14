@@ -6,11 +6,10 @@ namespace IMMRequest.Domain.States
 {
     public class CreatedState : State
     {
-        private Request Request;
+        public Request Request { get; }
 
         public CreatedState()
         {
-
         }
 
         public CreatedState(Request Request)
@@ -40,7 +39,7 @@ namespace IMMRequest.Domain.States
         public override void InReview()
         {
             // The request changes the status to be reviewed
-            this.Request.Status = new InReviewState(this.Request);
+            Request.Status = new InReviewState(this.Request);
             Console.WriteLine("The request " + this.Request.Id + " change to In Review");
         }
     }

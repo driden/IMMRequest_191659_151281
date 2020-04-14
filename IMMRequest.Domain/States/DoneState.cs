@@ -5,7 +5,7 @@ namespace IMMRequest.Domain.States
 {
     public class DoneState : State
     {
-        private Request Request;
+        public Request Request { get; }
 
         public DoneState()
         {

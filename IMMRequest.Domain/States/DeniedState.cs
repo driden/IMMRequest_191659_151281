@@ -5,7 +5,7 @@ namespace IMMRequest.Domain.States
 {
     public class DeniedState : State
     {
-        private Request Request;
+        public Request Request { get; }
 
         public DeniedState()
         {
@@ -35,15 +35,15 @@ namespace IMMRequest.Domain.States
         public override void Done()
         {
             // The request changes the status to be done
-            this.Request.Status = new DoneState(this.Request);
-            Console.WriteLine("The request " + this.Request.Id + " change to Done");
+            Request.Status = new DoneState(Request);
+            Console.WriteLine("The request " + Request.Id + " change to Done");
         }
 
         public override void InReview()
         {
             // The request changes the status to be in review
-            this.Request.Status = new InReviewState(this.Request);
-            Console.WriteLine("The request " + this.Request.Id + " change to In review");
+            Request.Status = new InReviewState(Request);
+            Console.WriteLine("The request " + Request.Id + " change to In review");
         }
     }
 }
