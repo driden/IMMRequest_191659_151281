@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IMMRequest.DataAccess.Repositories
 {
-    public class RequestRepository:Repository<Area>
-    {
-        public RequestRepository(DbContext context): base(context) { }
-    }
+  public class RequestRepository : Repository<Request>
+  {
+    public RequestRepository(DbContext context) : base(context) { }
+  }
 }

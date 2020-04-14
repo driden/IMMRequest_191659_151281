@@ -11,6 +11,11 @@ namespace IMMRequest.DataAccess
         {
         }
 
+        public IMMRequestContext()
+        {
+
+        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             // Auto generating Ids
