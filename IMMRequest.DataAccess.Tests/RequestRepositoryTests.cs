@@ -97,7 +97,7 @@ namespace IMMRequest.DataAccess.Tests
             _context.Add(request);
             _context.SaveChanges();
 
-            var requestInDb = _repository.GetWithAreaAndType(request.Id);
+            var requestInDb = _repository.Get(request.Id);
 
             Assert.IsNotNull(requestInDb.Area);
             Assert.IsNotNull(requestInDb.Topic);
