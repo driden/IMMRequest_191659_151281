@@ -16,6 +16,8 @@
   <ItemGroup>
     <ProjectReference Include="..\IMMRequest.Domain.Exceptions\IMMRequest.Domain.Exceptions.csproj" />
     <ProjectReference Include="..\IMMRequest.Domain\IMMRequest.Domain.csproj" />
+    <ProjectReference Include="..\IMMRequest.Logic.Core\IMMRequest.Logic.Core.csproj" />
+    <ProjectReference Include="..\IMMRequest.Logic.Interfaces\IMMRequest.Logic.csproj" />
   </ItemGroup>
 
 </Project>

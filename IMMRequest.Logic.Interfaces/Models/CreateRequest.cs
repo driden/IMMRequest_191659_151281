@@ -1,4 +1,4 @@
-namespace IMMRequest.WebApi.Models
+namespace IMMRequest.Logic.Models
 {
     public class CreateRequest
     {
