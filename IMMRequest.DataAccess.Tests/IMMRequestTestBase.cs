@@ -25,6 +25,17 @@ namespace IMMRequest.DataAccess.Tests
             _context.Database.EnsureDeleted();
         }
 
+        protected Request NewRequest()
+        {
+            return new Request
+            {
+                Citizen = new Citizen { Email = "citizen@mail.com", Name = "Name", PhoneNumber = "555-5555555" },
+                Details = "Request Details",
+                Status = Status.Created,
+                Type = Newtype(),
+            };
+        }
+
         protected Type Newtype()
         {
             DateField dateFieldFechaYHora = new DateField
@@ -63,6 +74,7 @@ namespace IMMRequest.DataAccess.Tests
                 Topics = new List<Topic> { NewTopic() }
             };
         }
+
         protected IEnumerable<AdditionalField> ExtraFields => new List<AdditionalField>
         {
             new IntegerField { IsRequired = true, Name = "Nro de Movil" },
