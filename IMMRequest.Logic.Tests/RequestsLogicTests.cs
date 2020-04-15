@@ -25,12 +25,16 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CanCreateANewRequest()
         {
-            _requestRepo.Setup(x => x.Add(It.IsAny<Request>())).Verifiable();
-
+            SetUpMocks();
             _requestsLogic.Add(CreateRequest);
 
             _requestRepo.Verify(mock => mock.Add(It.IsAny<Request>()));
-            _requestRepo.VerifyNoOtherCalls();
+        }
+
+        private void SetUpMocks()
+        {
+            _requestRepo.Setup(x => x.Add(It.IsAny<Request>())).Verifiable();
+            _areaRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(NewArea()).Verifiable();
         }
 
         [TestMethod]
