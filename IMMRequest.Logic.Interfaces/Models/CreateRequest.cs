@@ -6,8 +6,8 @@ namespace IMMRequest.Logic.Models
         public string Email { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
-        public int AreaId { get; set; }
-        public int TopicId { get; set; }
-        public int TypeId { get; set; }
+        public int AreaId { get; set; } = -1;
+        public int TopicId { get; set; } = -1;
+        public int TypeId { get; set; } = -1;
     }
 }

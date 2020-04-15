@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using IMMRequest.DataAccess;
+using IMMRequest.DataAccess.Core;
 
 namespace IMMRequest.WebApi
 {
@@ -40,7 +40,7 @@ namespace IMMRequest.WebApi
 
             services.AddControllers();
 
-            services.AddDbContext<DataAccess.IMMRequestContext>(options =>
+            services.AddDbContext<IMMRequestContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });

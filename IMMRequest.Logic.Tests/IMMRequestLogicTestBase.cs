@@ -1,31 +1,13 @@
-using System.Collections.Generic;
-using IMMRequest.DataAccess.Core;
 using IMMRequest.Domain;
 using IMMRequest.Domain.Fields;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using IMMRequest.Logic.Models;
+using System.Collections.Generic;
 using Type = IMMRequest.Domain.Type;
 
-namespace IMMRequest.DataAccess.Tests
+namespace IMMRequest.Logic.Tests
 {
-    [TestClass]
-    public class IMMRequestTestBase
+    public class IMMRequestLogicTestBase
     {
-        protected IMMRequestContext _context;
-
-        public virtual void Setup()
-        {
-            var dbContextOptions =
-                new DbContextOptionsBuilder<IMMRequestContext>().UseInMemoryDatabase("Types");
-            _context = new IMMRequestContext(dbContextOptions.Options);
-            _context.Database.EnsureCreated();
-        }
-
-        public virtual void TearDown()
-        {
-            _context.Database.EnsureDeleted();
-        }
-
         protected Request NewRequest()
         {
             return new Request
@@ -53,8 +35,6 @@ namespace IMMRequest.DataAccess.Tests
                 Name = "TestType",
                 AdditionalFields = new List<AdditionalField>() { dateFieldFechaYHora }
             };
-
-
         }
 
         protected Topic NewTopic()
@@ -70,6 +50,7 @@ namespace IMMRequest.DataAccess.Tests
         {
             return new Area()
             {
+                Id = 1,
                 Name = "TestArea",
                 Topics = new List<Topic> { NewTopic() }
             };
@@ -80,6 +61,14 @@ namespace IMMRequest.DataAccess.Tests
             new IntegerField { IsRequired = true, Name = "Nro de Movil" },
              new TextField { Name = "Matricula" }
         };
+
+        protected CreateRequest CreateRequest => new CreateRequest
+        {
+            Email = "test@mail.com",
+            Details = "test details",
+            Name = "test name",
+            Phone = "phone number",
+        };
+
     };
 }
-

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using IMMRequest.DataAccess.Repositories;
+using IMMRequest.DataAccess.Core.Repositories;
 using IMMRequest.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Type = IMMRequest.Domain.Type;

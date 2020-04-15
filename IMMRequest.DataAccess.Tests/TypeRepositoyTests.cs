@@ -1,5 +1,5 @@
 using System.Linq;
-using IMMRequest.DataAccess.Repositories;
+using IMMRequest.DataAccess.Core.Repositories;
 using IMMRequest.Domain;
 using IMMRequest.Domain.Fields;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

@@ -21,8 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IMMRequest.DataAccess.Core\IMMRequest.DataAccess.Core.csproj" />
     <ProjectReference Include="..\IMMRequest.DataAccess\IMMRequest.DataAccess.csproj" />
     <ProjectReference Include="..\IMMRequest.Domain\IMMRequest.Domain.csproj" />
+    <ProjectReference Include="..\IMMRequest.Logic.Core\IMMRequest.Logic.Core.csproj" />
     <ProjectReference Include="..\IMMRequest.Logic.Interfaces\IMMRequest.Logic.csproj" />
   </ItemGroup>
 

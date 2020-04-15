@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using IMMRequest.DataAccess.Repositories;
+using IMMRequest.DataAccess.Core.Repositories;
 using IMMRequest.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
