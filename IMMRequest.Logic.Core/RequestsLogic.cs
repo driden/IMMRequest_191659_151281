@@ -9,12 +9,12 @@ namespace IMMRequest.Logic.Core
 {
     public class RequestsLogic
     {
-        private readonly IRequestRepository _requestRepo;
-        private readonly IAreaRepository _areaRepo;
+        private readonly IRepository<Request> _requestRepo;
+        private readonly IRepository<Area> _areaRepo;
 
         public RequestsLogic(
-               IRequestRepository requestRepository,
-               IAreaRepository areaRepository)
+               IRepository<Request> requestRepository,
+               IRepository<Area>areaRepository)
         {
             this._requestRepo = requestRepository;
             this._areaRepo = areaRepository;
