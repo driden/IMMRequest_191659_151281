@@ -12,14 +12,14 @@ namespace IMMRequest.Logic.Tests
     {
         private RequestsLogic _requestsLogic;
         private Mock<IRepository<Request>> _requestRepo;
-        private Mock<IRepository<Area>> _areaRepo;
+        private Mock<IRepository<Topic>> _topicRepo;
 
         [TestInitialize]
         public void SetUp()
         {
             _requestRepo = new Mock<IRepository<Request>>(MockBehavior.Strict);
-            _areaRepo = new Mock<IRepository<Area>>(MockBehavior.Strict);
-            _requestsLogic = new RequestsLogic(_requestRepo.Object, _areaRepo.Object);
+            _topicRepo = new Mock<IRepository<Topic>>(MockBehavior.Strict);
+            _requestsLogic = new RequestsLogic(_requestRepo.Object, _topicRepo.Object);
         }
 
         [TestMethod]
@@ -32,20 +32,24 @@ namespace IMMRequest.Logic.Tests
         }
 
         [TestMethod]
-        public void NewRequestShouldHaveAnExistingAreaAssociated()
+        public void NewRequestShouldHaveAnExistingTopicAssociated()
         {
             SetUpMocks();
             _requestsLogic.Add(CreateRequest);
 
-            _areaRepo.Verify(ar => ar.Get(-1), Times.Once());
+            _topicRepo.Verify(tr => tr.Get(-1), Times.Once());
             _requestRepo.Verify(rr => rr.Add(It.IsAny<Request>()), Times.Once());
         }
-
         private void SetUpMocks()
         {
             _requestRepo.Setup(x => x.Add(It.IsAny<Request>())).Verifiable();
-            _areaRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(NewArea()).Verifiable();
+            _topicRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(NewTopic()).Verifiable();
         }
 
+        //Tests para hacer
+        // Que los gets de topic y type devuelvan algo
+        // hacerlo reventar si no existen
+        // que no devuelvan fruta? el tema aca es si quiero dejar solo el topicId en el request no dtendria drama
+        // Citizen ya registrado o no? se agrega siempre creo, y si repite el mail?
     }
 }

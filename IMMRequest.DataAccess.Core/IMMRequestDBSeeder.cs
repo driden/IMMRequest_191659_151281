@@ -22,13 +22,13 @@ namespace IMMRequest.DataAccess.Core
             using var context = serviceScope.ServiceProvider.GetService<IMMRequestContext>();
 
             context.Database.Migrate();
-            //context.IntegerFields.AddRange(SeededAdditionalIntegerFields);
-            //context.DateFields.AddRange(SeededAdditionalDateFields);
-            //context.TextFields.AddRange(SeededAdditionalTextFields);
-            context.Areas.AddRange(SeededAreas);
-            context.Citizens.AddRange(SeededCitizens);
-            context.Admins.AddRange(SeededAdmins);
-            context.SaveChanges();
+            if (!context.Set<Area>().Any())
+            {
+                context.Areas.AddRange(SeededAreas);
+                context.Citizens.AddRange(SeededCitizens);
+                context.Admins.AddRange(SeededAdmins);
+                context.SaveChanges();
+            }
         }
 
         private Area[] SeededAreas

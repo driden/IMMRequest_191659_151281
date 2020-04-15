@@ -10,25 +10,24 @@ namespace IMMRequest.Logic.Core
     public class RequestsLogic
     {
         private readonly IRepository<Request> _requestRepo;
-        private readonly IRepository<Area> _areaRepo;
+        private readonly IRepository<Topic> _topicRepo;
 
         public RequestsLogic(
                IRepository<Request> requestRepository,
-               IRepository<Area>areaRepository)
+               IRepository<Topic> topicRepository
+            )
         {
             this._requestRepo = requestRepository;
-            this._areaRepo = areaRepository;
+            this._topicRepo = topicRepository;
         }
 
         public void Add(CreateRequest createRequest)
         {
             var request = new Request
             {
-                Area = _areaRepo.Get(createRequest.AreaId),
                 Citizen = new Citizen(),
                 Details = createRequest.Details,
-                Topic = new Topic(),
-                Type = new Domain.Type()
+                Topic = _topicRepo.Get(createRequest.TopicId),
             };
 
             _requestRepo.Add(request);

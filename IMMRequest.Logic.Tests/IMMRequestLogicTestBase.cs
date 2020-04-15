@@ -14,11 +14,11 @@ namespace IMMRequest.Logic.Tests
             {
                 Citizen = new Citizen { Email = "citizen@mail.com", Name = "Name", PhoneNumber = "555-5555555" },
                 Details = "Request Details",
-                Type = Newtype(),
+                Type = NewType(),
             };
         }
 
-        protected Type Newtype()
+        protected Type NewType()
         {
             DateField dateFieldFechaYHora = new DateField
             {
@@ -42,7 +42,7 @@ namespace IMMRequest.Logic.Tests
             return new Topic
             {
                 Name = "TestTopic",
-                Types = new List<Type>() { Newtype() }
+                Types = new List<Type>() { NewType() }
             };
         }
 
