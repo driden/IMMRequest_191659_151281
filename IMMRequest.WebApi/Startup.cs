@@ -43,6 +43,7 @@ namespace IMMRequest.WebApi
             services.AddDbContext<IMMRequestContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseLazyLoadingProxies();
             });
 
             services.AddSwaggerGen(options =>
