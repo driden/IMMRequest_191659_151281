@@ -13,8 +13,8 @@ namespace IMMRequest.Domain.States.Tests
         [TestMethod()]
         public void DeniedStateTest()
         {
-            CreatedState created = new CreatedState();
-            Assert.IsNull(created.Request);
+            DeniedState denied = new DeniedState();
+            Assert.IsNull(denied.Request);
         }
 
         [TestMethod()]
@@ -33,7 +33,7 @@ namespace IMMRequest.Domain.States.Tests
             DeniedState State = new DeniedState(request);
             try
             {
-                State.Done();
+                State.Accepted();
                 Assert.AreEqual(State.GetType(), typeof(DeniedState));
             }
             catch (Exception ex)

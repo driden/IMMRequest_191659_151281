@@ -82,7 +82,7 @@ namespace IMMRequest.Domain.States.Tests
             InReviewState State = new InReviewState(request);
             try
             {
-                State.Created();
+                State.Done();
                 Assert.AreEqual(State.GetType(), typeof(InReviewState));
             }
             catch (Exception ex)
