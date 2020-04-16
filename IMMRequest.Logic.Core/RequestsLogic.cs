@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using IMMRequest.DataAccess.Interfaces;
 using IMMRequest.Domain;
+using IMMRequest.Logic.Exceptions;
 using IMMRequest.Logic.Models;
 
 namespace IMMRequest.Logic.Core
@@ -23,11 +21,17 @@ namespace IMMRequest.Logic.Core
 
         public void Add(CreateRequest createRequest)
         {
+            var topic = _topicRepo.Get(createRequest.TopicId);
+            if (topic == null)
+            {
+                throw new NoSuchTopicException($"No topic with id={createRequest.TopicId} exists");
+            }
+
             var request = new Request
             {
                 Citizen = new Citizen(),
                 Details = createRequest.Details,
-                Topic = _topicRepo.Get(createRequest.TopicId),
+                Topic = topic,
             };
 
             _requestRepo.Add(request);

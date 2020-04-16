@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using IMMRequest.DataAccess.Interfaces;
 using IMMRequest.Domain;
 using Moq;
+using IMMRequest.Logic.Exceptions;
 
 namespace IMMRequest.Logic.Tests
 {
@@ -40,6 +41,18 @@ namespace IMMRequest.Logic.Tests
             _topicRepo.Verify(tr => tr.Get(-1), Times.Once());
             _requestRepo.Verify(rr => rr.Add(It.IsAny<Request>()), Times.Once());
         }
+
+        [TestMethod]
+        public void NewRequestShouldThrowAnExceptionIfTopicIdDoesNotExist()
+        {
+            _requestRepo.Setup(x => x.Add(It.IsAny<Request>())).Verifiable();
+            _topicRepo.Setup(x => x.Get(It.IsAny<int>()))
+                .Returns<Topic>(null)
+                .Verifiable();
+            Assert.ThrowsException<NoSuchTopicException>(() => { _requestsLogic.Add(CreateRequest); });
+            _requestRepo.Verify(reqRepo => reqRepo.Add(It.IsAny<Request>()), Times.Never());
+        }
+
         private void SetUpMocks()
         {
             _requestRepo.Setup(x => x.Add(It.IsAny<Request>())).Verifiable();
@@ -47,7 +60,6 @@ namespace IMMRequest.Logic.Tests
         }
 
         //Tests para hacer
-        // Que los gets de topic y type devuelvan algo
         // hacerlo reventar si no existen
         // que no devuelvan fruta? el tema aca es si quiero dejar solo el topicId en el request no dtendria drama
         // Citizen ya registrado o no? se agrega siempre creo, y si repite el mail?
