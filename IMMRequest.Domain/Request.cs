@@ -1,4 +1,5 @@
 using IMMRequest.Domain.States;
+using IMMRequest.Domain.Exceptions;
 using System;
 
 namespace IMMRequest.Domain
@@ -7,7 +8,7 @@ namespace IMMRequest.Domain
   {
     public int Id { get; set; }
     public State Status { get; set; }
-    public string Details { get; set; } /* less 2000 */
+    public string Details { get; set; } // set method} } /* less 2000 */
     public Citizen Citizen { get; set; }
     public Type Type { get; set; }
 
