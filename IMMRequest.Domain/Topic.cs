@@ -8,7 +8,7 @@ namespace IMMRequest.Domain
     public int Id { get; set; }
     public int AreaId { get; set; }
     public string Name { get; set; }
-    public List<Type> Types { get; set; }
+    public virtual List<Type> Types { get; set; }
 
     public Topic()
     {

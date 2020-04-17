@@ -5,7 +5,7 @@ namespace IMMRequest.Domain.Fields
 {
   public class DateField : AdditionalField
   {
-    public IEnumerable<DateItem> Range { get; set; } = new List<DateItem>();
+    public virtual IEnumerable<DateItem> Range { get; set; } = new List<DateItem>();
     public DateTime Value { get; set; } = default(DateTime);
 
     public void AddToRange(DateTime item)

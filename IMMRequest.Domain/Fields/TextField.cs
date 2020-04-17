@@ -5,7 +5,7 @@ namespace IMMRequest.Domain.Fields
 {
   public class TextField : AdditionalField
   {
-    public IEnumerable<TextItem> Range { get; set; } = new List<TextItem>();
+    public virtual IEnumerable<TextItem> Range { get; set; } = new List<TextItem>();
     public string Value { get; set; } = string.Empty;
 
     public void AddToRange(string item)
