@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace IMMRequest.DataAccess.Interfaces
 {
@@ -6,6 +8,7 @@ namespace IMMRequest.DataAccess.Interfaces
     {
         void Add(T entity);
         T Get(int id);
+        T FirstOrDefault(Expression<Func<T, bool>> predicate);
         IEnumerable<T> GetAll();
         void Remove(T entity);
         void Update(T entity);

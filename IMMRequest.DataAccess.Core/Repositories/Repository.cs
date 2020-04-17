@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using IMMRequest.DataAccess.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,6 +43,11 @@ namespace IMMRequest.DataAccess.Core.Repositories
         {
             Context.Remove(entity);
             Context.SaveChanges();
+        }
+
+        public T FirstOrDefault(Expression<Func<T, bool>> predicate)
+        {
+            return Context.Set<T>().FirstOrDefault(predicate);
         }
     }
 }
