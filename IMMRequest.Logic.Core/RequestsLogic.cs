@@ -29,7 +29,7 @@ namespace IMMRequest.Logic.Core
 
             var request = new Request
             {
-                Citizen = new Citizen(),
+                Citizen = new Citizen { Email = createRequest.Email, Name = createRequest.Name, PhoneNumber = createRequest.Phone },
                 Details = createRequest.Details,
                 Topic = topic,
             };
