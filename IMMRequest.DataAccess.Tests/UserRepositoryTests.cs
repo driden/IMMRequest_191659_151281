@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using IMMRequest.DataAccess.Repositories;
+using IMMRequest.DataAccess.Core.Repositories;
 using IMMRequest.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -40,6 +40,18 @@ namespace IMMRequest.DataAccess.Tests
         }
 
         [TestMethod]
+        public void CanGetAllUsersFromTheDatabase()
+        {
+            User admin = new Admin { Email = "admin@admin", Name = "admin" };
+            User citizen = new Citizen { Email = "citizen@citizen", Name = "citizen" };
+
+            _context.Set<User>().AddRange(admin, citizen);
+            _context.SaveChanges();
+
+            Assert.AreEqual(2, _repository.GetAll().Count());
+        }
+
+        [TestMethod]
         public void CanModifyAUserInTheDatabase()
         {
             User admin = new Admin { Email = "admin@admin", Name = "admin" };
@@ -74,7 +86,7 @@ namespace IMMRequest.DataAccess.Tests
             _context.Set<User>().Add(admin);
             _context.SaveChanges();
 
-            Assert.AreEqual(1,_context.Set<Admin>().Count());
+            Assert.AreEqual(1, _context.Set<Admin>().Count());
             _repository.Remove(admin);
 
             Assert.AreEqual(0, _context.Set<Admin>().Count());

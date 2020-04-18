@@ -1,5 +1,5 @@
 using System.Linq;
-using IMMRequest.DataAccess.Repositories;
+using IMMRequest.DataAccess.Core.Repositories;
 using IMMRequest.Domain;
 using IMMRequest.Domain.Fields;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -27,7 +27,7 @@ namespace IMMRequest.DataAccess.Tests
         [TestMethod]
         public void CanAddTypeToDatabase()
         {
-            Type taxiType = Newtype();
+            Type taxiType = NewType();
             foreach (var additionalField in ExtraFields)
             {
                 taxiType.AdditionalFields.Add(additionalField);
@@ -43,7 +43,7 @@ namespace IMMRequest.DataAccess.Tests
         [TestMethod]
         public void CanRemoveATypeFromDatabase()
         {
-            Type taxiType = Newtype();
+            Type taxiType = NewType();
             foreach (var additionalField in ExtraFields)
             {
                 taxiType.AdditionalFields.Add(additionalField);
@@ -67,7 +67,7 @@ namespace IMMRequest.DataAccess.Tests
         [TestMethod]
         public void CanModifyTheExitingFieldsInAType()
         {
-            Type taxiType = Newtype();
+            Type taxiType = NewType();
             foreach (var additionalField in ExtraFields)
             {
                 taxiType.AdditionalFields.Add(additionalField);
@@ -91,7 +91,7 @@ namespace IMMRequest.DataAccess.Tests
         [TestMethod]
         public void CanModifyTypeData()
         {
-            Type taxiType = Newtype();
+            Type taxiType = NewType();
 
             _context.Types.Add(taxiType);
             _context.SaveChanges();
@@ -106,12 +106,21 @@ namespace IMMRequest.DataAccess.Tests
         [TestMethod]
         public void CanReadATypeFromDatabase()
         {
-            Type taxiType = Newtype();
+            Type taxiType = NewType();
 
             _context.Types.Add(taxiType);
             _context.SaveChanges();
 
             Assert.AreEqual(taxiType, _repository.Get(taxiType.Id));
+        }
+
+        [TestMethod]
+        public void CanGetAllTypesFromTheDatabase()
+        {
+            _context.Set<Type>().AddRange(NewType(), NewType());
+            _context.SaveChanges();
+
+            Assert.AreEqual(2, _repository.GetAll().Count());
         }
     }
 }

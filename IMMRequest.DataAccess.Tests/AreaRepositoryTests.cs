@@ -1,5 +1,5 @@
 using System.Linq;
-using IMMRequest.DataAccess.Repositories;
+using IMMRequest.DataAccess.Core.Repositories;
 using IMMRequest.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -41,6 +41,15 @@ namespace IMMRequest.DataAccess.Tests
             _context.SaveChanges();
 
             Assert.AreEqual(area, _repository.Get(area.Id));
+        }
+
+        [TestMethod]
+        public void CanGetAllAreasFromTheDatabase()
+        {
+            _context.Set<Area>().AddRange(NewArea(), NewArea());
+            _context.SaveChanges();
+
+            Assert.AreEqual(2, _repository.GetAll().Count());
         }
 
         [TestMethod]
