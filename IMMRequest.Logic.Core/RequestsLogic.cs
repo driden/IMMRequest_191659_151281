@@ -1,11 +1,12 @@
 using IMMRequest.DataAccess.Interfaces;
 using IMMRequest.Domain;
 using IMMRequest.Logic.Exceptions;
+using IMMRequest.Logic.Interfaces;
 using IMMRequest.Logic.Models;
 
 namespace IMMRequest.Logic.Core
 {
-    public class RequestsLogic
+    public class RequestsLogic : IRequestsLogic
     {
         private readonly IRepository<Request> _requestRepo;
         private readonly IRepository<Topic> _topicRepo;

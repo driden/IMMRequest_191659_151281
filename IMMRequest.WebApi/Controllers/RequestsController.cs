@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IMMRequest.Logic.Interfaces;
 using IMMRequest.Logic.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,12 @@ namespace IMMRequest.WebApi.Controllers
     [ApiController]
     public class RequestsController : ControllerBase
     {
+        private readonly IRequestsLogic _requestsLogic;
+        public RequestsController(IRequestsLogic requestsLogic)
+        {
+            this._requestsLogic = requestsLogic;
+        }
+        
         [HttpGet]
         public IEnumerable<object> Get()
         {
@@ -20,7 +27,8 @@ namespace IMMRequest.WebApi.Controllers
         [HttpPost]
         public ActionResult CreateRequest([FromBody] CreateRequest request)
         {
-            return new OkObjectResult(request);
+            _requestsLogic.Add(request);
+            return new OkObjectResult("Ok");
         }
     }
 }
