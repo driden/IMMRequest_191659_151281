@@ -19,14 +19,14 @@ namespace IMMRequest.DataAccess.Core
         public void Seed()
         {
             using var serviceScope = _scopeFactory.CreateScope();
-            using var context = serviceScope.ServiceProvider.GetService<IMMRequestContext>();
+            using var context = serviceScope.ServiceProvider.GetService<DbContext>();
 
             context.Database.Migrate();
             if (!context.Set<Area>().Any())
             {
-                context.Areas.AddRange(SeededAreas);
-                context.Citizens.AddRange(SeededCitizens);
-                context.Admins.AddRange(SeededAdmins);
+                context.Set<Area>().AddRange(SeededAreas);
+                context.Set<Citizen>().AddRange(SeededCitizens);
+                context.Set<Admin>().AddRange(SeededAdmins);
                 context.SaveChanges();
             }
         }

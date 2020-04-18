@@ -12,6 +12,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using IMMRequest.DataAccess.Core;
+using IMMRequest.DataAccess.Interfaces;
+using IMMRequest.Domain;
+using IMMRequest.DataAccess.Core.Repositories;
+using IMMRequest.Logic.Core;
+using IMMRequest.Logic.Interfaces;
 
 namespace IMMRequest.WebApi
 {
@@ -40,7 +45,7 @@ namespace IMMRequest.WebApi
 
             services.AddControllers();
 
-            services.AddDbContext<IMMRequestContext>(options =>
+            services.AddDbContext<DbContext, IMMRequestContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
                 options.UseLazyLoadingProxies();
@@ -53,7 +58,16 @@ namespace IMMRequest.WebApi
                     new Microsoft.OpenApi.Models.OpenApiInfo { Title = "IMM Request API", Version = "v1" });
             });
 
+            // Database Injections
             services.AddScoped<IDbSeeder, IMMRequestDBSeeder>();
+            services.AddScoped<IRepository<Area>, AreaRepository>();
+            services.AddScoped<IRepository<Request>, RequestRepository>();
+            services.AddScoped<IRepository<Topic>, TopicRepository>();
+            services.AddScoped<IRepository<Domain.Type>, TypeRepository>();
+            services.AddScoped<IRepository<User>, UserRepository>();
+
+            // Logic Injection
+            services.AddScoped<IRequestsLogic, RequestsLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
