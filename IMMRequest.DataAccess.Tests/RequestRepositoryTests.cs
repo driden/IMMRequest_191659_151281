@@ -65,6 +65,17 @@ namespace IMMRequest.DataAccess.Tests
         }
 
         [TestMethod]
+        public void CanGetAllRequestsFromTheDatabase()
+        {
+            var newRequest = NewRequest();
+            newRequest.Citizen.Email = "new@email.com";
+            _context.Set<Request>().AddRange(NewRequest(), newRequest);
+            _context.SaveChanges();
+
+            Assert.AreEqual(2, _repository.GetAll().Count());
+        }
+
+        [TestMethod]
         public void CanDeleteARequestFromTheDatabase()
         {
             var request = NewRequest();
@@ -79,7 +90,7 @@ namespace IMMRequest.DataAccess.Tests
         [TestMethod]
         public void CanGetARequestWithCorrespondingAreaTopicAndType()
         {
-            var type = Newtype();
+            var type = NewType();
             var topic = NewTopic();
             var area = NewArea();
             area.Topics = new List<Topic> { topic };

@@ -44,6 +44,7 @@ namespace IMMRequest.WebApi
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
                 options.UseLazyLoadingProxies();
+                options.EnableSensitiveDataLogging();
             });
 
             services.AddSwaggerGen(options =>

@@ -35,7 +35,7 @@ namespace IMMRequest.DataAccess.Tests
             };
         }
 
-        protected Type Newtype()
+        protected Type NewType()
         {
             DateField dateFieldFechaYHora = new DateField
             {
@@ -61,7 +61,7 @@ namespace IMMRequest.DataAccess.Tests
             return new Topic
             {
                 Name = "TestTopic",
-                Types = new List<Type>() { Newtype() }
+                Types = new List<Type>() { NewType() }
             };
         }
 

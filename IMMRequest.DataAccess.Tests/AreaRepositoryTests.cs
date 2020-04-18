@@ -44,6 +44,15 @@ namespace IMMRequest.DataAccess.Tests
         }
 
         [TestMethod]
+        public void CanGetAllAreasFromTheDatabase()
+        {
+            _context.Set<Area>().AddRange(NewArea(), NewArea());
+            _context.SaveChanges();
+
+            Assert.AreEqual(2, _repository.GetAll().Count());
+        }
+
+        [TestMethod]
         public void CanModifyAnAreaInTheDatabase()
         {
             var area = NewArea();

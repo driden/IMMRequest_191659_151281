@@ -5,7 +5,7 @@ namespace IMMRequest.Domain
 {
     public class Area
     {
-        public int Id { get; set; } = -1;
+        public int Id { get; set; }
         public string Name { get; set; }
         public virtual List<Topic> Topics { get; set; }
 
