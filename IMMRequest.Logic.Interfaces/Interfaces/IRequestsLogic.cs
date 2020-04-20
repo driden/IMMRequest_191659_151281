@@ -4,6 +4,6 @@ namespace IMMRequest.Logic.Interfaces
 {
     public interface IRequestsLogic
     {
-        void Add(CreateRequest createRequest);
+        int Add(CreateRequest createRequest);
     }
 }

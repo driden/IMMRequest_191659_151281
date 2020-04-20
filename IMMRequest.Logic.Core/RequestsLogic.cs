@@ -20,7 +20,7 @@ namespace IMMRequest.Logic.Core
             this._topicRepo = topicRepository;
         }
 
-        public void Add(CreateRequest createRequest)
+        public int Add(CreateRequest createRequest)
         {
             var topic = _topicRepo.Get(createRequest.TopicId);
             if (topic == null)
@@ -36,6 +36,8 @@ namespace IMMRequest.Logic.Core
             };
 
             _requestRepo.Add(request);
+
+            return request.Id;
         }
     }
 }

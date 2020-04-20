@@ -27,8 +27,8 @@ namespace IMMRequest.WebApi.Controllers
         [HttpPost]
         public ActionResult CreateRequest([FromBody] CreateRequest request)
         {
-            _requestsLogic.Add(request);
-            return new OkObjectResult("Ok");
+            var requestId = _requestsLogic.Add(request);
+            return new OkObjectResult($"request created with id {requestId}");
         }
     }
 }
