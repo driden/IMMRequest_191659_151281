@@ -23,6 +23,7 @@ Retuns a 200 if everything was ok
     * [ ] email no tien formate correcto
     * [ ] phone no acepta caracteres espaciales o no tiene numeros
     * [ ] nombre vacio
+    * [ ] Arreglar bug cuando se repite el email en una request y da una excepción de key duplicada.
 
 
 # Docker command
