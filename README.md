@@ -18,9 +18,11 @@ POST /api/requests
 Retuns a 200 if everything was ok
 ### TODO
 * [ ] Make it return the Id of the newly created Request for tracking
-* [ ] Handle errors in validations, return 400
-
-
+* Return 400 si
+    * [ ] detalles tiene mas de 2000 caracteres
+    * [ ] email no tien formate correcto
+    * [ ] phone no acepta caracteres espaciales o no tiene numeros
+    * [ ] nombre vacio
 
 
 # Docker command
