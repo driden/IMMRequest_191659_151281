@@ -9,10 +9,10 @@ namespace IMMRequest.Domain.States
 
         public DoneState()
         {
-
+            this.Description = "This request is currently done";
         }
 
-        public DoneState(Request Request)
+        public DoneState(Request Request) : this()
         {
             this.Request = Request;
         }

@@ -9,10 +9,10 @@ namespace IMMRequest.Domain.States
 
         public InReviewState()
         {
-
+            this.Description = "This request is currently in-review";
         }
 
-        public InReviewState(Request Request)
+        public InReviewState(Request Request) : this()
         {
             this.Request = Request;
         }

@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using IMMRequest.DataAccess.Core.Repositories;
 using IMMRequest.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -92,6 +89,5 @@ namespace IMMRequest.DataAccess.Tests
             Assert.AreEqual(0, _context.Set<Admin>().Count());
             Assert.AreEqual(0, _context.Set<User>().Count());
         }
-
     }
 }

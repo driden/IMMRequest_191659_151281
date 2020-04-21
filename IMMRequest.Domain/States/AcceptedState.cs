@@ -9,9 +9,10 @@ namespace IMMRequest.Domain.States
 
         public AcceptedState()
         {
+            this.Description = "This request has been accepted";
         }
 
-        public AcceptedState(Request request)
+        public AcceptedState(Request request) : this()
         {
             this.Request = request;
         }

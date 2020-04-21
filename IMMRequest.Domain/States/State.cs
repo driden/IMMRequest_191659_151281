@@ -8,6 +8,8 @@ namespace IMMRequest.Domain.States
     {
         public int Id { get; set; }
 
+        public string Description { get; protected set; }
+
         public abstract void Created();
 
         public abstract void InReview();

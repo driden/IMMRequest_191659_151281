@@ -10,9 +10,11 @@ namespace IMMRequest.Domain.States
 
         public CreatedState()
         {
+            this.Description = "This request has been created";
+
         }
 
-        public CreatedState(Request Request)
+        public CreatedState(Request Request) : this()
         {
             this.Request = Request;
         }

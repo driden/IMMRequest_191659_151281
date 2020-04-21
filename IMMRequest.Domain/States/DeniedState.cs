@@ -9,10 +9,10 @@ namespace IMMRequest.Domain.States
 
         public DeniedState()
         {
-
+            this.Description = "This request has been denied";
         }
 
-        public DeniedState(Request request)
+        public DeniedState(Request request) : this()
         {
             this.Request = request;
         }

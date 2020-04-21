@@ -39,5 +39,29 @@ namespace IMMRequest.Logic.Core
 
             return request.Id;
         }
+
+        public GetStatusRequestResponse GetRequestStatus(int requestId)
+        {
+            ValidateRequestId(requestId);
+
+            var request = this._requestRepo.Get(requestId);
+
+            return new GetStatusRequestResponse
+            {
+                Details = request.Details,
+                RequestState = request.Status.Description,
+                CitizenName = request.Citizen.Name,
+                CitizenPhoneNumber = request.Citizen.PhoneNumber,
+                CitizenEmail = request.Citizen.Email
+            };
+        }
+
+        private void ValidateRequestId(int requestId)
+        {
+            if (requestId <= 0)
+            {
+                throw new InvalidGetRequestStatusException($"A valid request id should be greater than zero");
+            }
+        }
     }
 }
