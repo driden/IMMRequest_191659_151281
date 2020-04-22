@@ -100,7 +100,7 @@ namespace IMMRequest.DataAccess.Tests
             {
                 Citizen = new Citizen { Email = "citizen@mail.com", Name = "Citizen Name" },
                 Details = "new request details",
-                Topic = topic,
+                Type = type,
             };
 
             _context.Add(request);
@@ -108,7 +108,7 @@ namespace IMMRequest.DataAccess.Tests
 
             var requestInDb = _repository.Get(request.Id);
 
-            Assert.IsNotNull(requestInDb.Topic);
+            Assert.IsNotNull(requestInDb.Type);
         }
 
     }

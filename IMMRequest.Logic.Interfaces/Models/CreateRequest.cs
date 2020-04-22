@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace IMMRequest.Logic.Models
 {
     public class CreateRequest
@@ -7,5 +10,13 @@ namespace IMMRequest.Logic.Models
         public string Name { get; set; }
         public string Phone { get; set; }
         public int TopicId { get; set; } = -1;
+        public IEnumerable<FieldRequest> AdditionalFields { get; set; }
+    }
+
+    public class FieldRequest
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+        public int Id { get; set; }
     }
 }
