@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using IMMRequest.DataAccess.Repositories;
+using IMMRequest.DataAccess.Core.Repositories;
 using IMMRequest.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Type = IMMRequest.Domain.Type;
@@ -65,6 +65,17 @@ namespace IMMRequest.DataAccess.Tests
         }
 
         [TestMethod]
+        public void CanGetAllRequestsFromTheDatabase()
+        {
+            var newRequest = NewRequest();
+            newRequest.Citizen.Email = "new@email.com";
+            _context.Set<Request>().AddRange(NewRequest(), newRequest);
+            _context.SaveChanges();
+
+            Assert.AreEqual(2, _repository.GetAll().Count());
+        }
+
+        [TestMethod]
         public void CanDeleteARequestFromTheDatabase()
         {
             var request = NewRequest();
@@ -79,7 +90,7 @@ namespace IMMRequest.DataAccess.Tests
         [TestMethod]
         public void CanGetARequestWithCorrespondingAreaTopicAndType()
         {
-            var type = Newtype();
+            var type = NewType();
             var topic = NewTopic();
             var area = NewArea();
             area.Topics = new List<Topic> { topic };
@@ -87,11 +98,9 @@ namespace IMMRequest.DataAccess.Tests
 
             var request = new Request
             {
-                Area = area,
                 Citizen = new Citizen { Email = "citizen@mail.com", Name = "Citizen Name" },
                 Details = "new request details",
                 Topic = topic,
-                Type = type
             };
 
             _context.Add(request);
@@ -99,9 +108,7 @@ namespace IMMRequest.DataAccess.Tests
 
             var requestInDb = _repository.Get(request.Id);
 
-            Assert.IsNotNull(requestInDb.Area);
             Assert.IsNotNull(requestInDb.Topic);
-            Assert.IsNotNull(requestInDb.Type);
         }
 
     }

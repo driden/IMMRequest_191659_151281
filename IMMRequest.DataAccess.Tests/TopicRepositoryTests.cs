@@ -1,5 +1,5 @@
 using System.Linq;
-using IMMRequest.DataAccess.Repositories;
+using IMMRequest.DataAccess.Core.Repositories;
 using IMMRequest.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -52,7 +52,16 @@ namespace IMMRequest.DataAccess.Tests
             _context.Set<Topic>().Add(topic);
             _context.SaveChanges();
 
-            Assert.AreEqual(topic,_repository.Get(topic.Id));
+            Assert.AreEqual(topic, _repository.Get(topic.Id));
+        }
+
+        [TestMethod]
+        public void CanGetAllTopicsFromTheDatabase()
+        {
+            _context.Set<Topic>().AddRange(NewTopic(), NewTopic());
+            _context.SaveChanges();
+
+            Assert.AreEqual(2, _repository.GetAll().Count());
         }
 
         [TestMethod]
@@ -62,7 +71,7 @@ namespace IMMRequest.DataAccess.Tests
             _context.Set<Topic>().Add(topic);
             _context.SaveChanges();
             _repository.Remove(topic);
-            Assert.AreEqual(0,_context.Set<Topic>().Count());
+            Assert.AreEqual(0, _context.Set<Topic>().Count());
         }
     }
 }

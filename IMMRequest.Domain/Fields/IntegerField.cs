@@ -5,7 +5,7 @@ namespace IMMRequest.Domain.Fields
 {
   public class IntegerField : AdditionalField
   {
-    public IEnumerable<IntegerItem> Range { get; set; } = new List<IntegerItem>();
+    public virtual IEnumerable<IntegerItem> Range { get; set; } = new List<IntegerItem>();
     public int Value { get; set; } = default(int);
 
     public void AddToRange(int item)
