@@ -66,7 +66,7 @@ namespace IMMRequest.Logic.Tests
             Email = "test@mail.com",
             Details = "test details",
             Name = "test name",
-            Phone = "phone number",
+            Phone = "555-555555",
         };
 
         protected CreateRequest NewCreateRequestBody()

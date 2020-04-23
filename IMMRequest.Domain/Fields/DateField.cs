@@ -17,6 +17,7 @@ namespace IMMRequest.Domain.Fields
         public DateField()
         {
             this.FieldType = FieldType.Date;
+            this.IsRequired = false;
         }
 
         public override void ValidateRange(object value)
@@ -46,7 +47,7 @@ namespace IMMRequest.Domain.Fields
 
         public override void AddToRange(IItem item)
         {
-            if (item.Type == FieldType.Integer)
+            if (item.Type == FieldType.Date)
             {
                 this.AddToRange(((DateItem)item).Value);
             }
@@ -56,6 +57,5 @@ namespace IMMRequest.Domain.Fields
         {
             return date.ToString("dd-MM-yyyy");
         }
-
     }
 }

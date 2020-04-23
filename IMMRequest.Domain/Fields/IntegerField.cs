@@ -17,6 +17,7 @@ namespace IMMRequest.Domain.Fields
         public IntegerField()
         {
             this.FieldType = FieldType.Integer;
+           this.IsRequired = false;
         }
 
         public override void ValidateRange(object value)
