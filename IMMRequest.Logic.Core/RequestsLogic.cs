@@ -3,6 +3,7 @@ using IMMRequest.Domain;
 using IMMRequest.Logic.Exceptions;
 using IMMRequest.Logic.Interfaces;
 using IMMRequest.Logic.Models;
+using IMMRequest.Logic.Tests;
 using System;
 using System.Linq;
 
@@ -73,11 +74,19 @@ namespace IMMRequest.Logic.Core
                     default:
                         break;
                 }
+
+                // validar que los fields esten en rango
             }
 
-            // validar que los fields esten en rango
             // validar que no falten campos obligatorios
-
+            var requiredFields = type.AdditionalFields.Where(af => af.IsRequired).Select(af => af.Name);
+            var providedFields = createRequest.AdditionalFields.Select(x => x.Name);
+            var nonProvidedRequiredFields = requiredFields.Except<string>(providedFields, StringComparer.InvariantCultureIgnoreCase);
+            if (nonProvidedRequiredFields.Any())
+            {
+                throw new LessAdditionalFieldsThanRequiredException($"Required fields {string.Join(", ", nonProvidedRequiredFields.ToArray())} should have been provided");
+            }
+            
             var request = new Request
             {
                 Citizen = new Citizen { Email = createRequest.Email, Name = createRequest.Name, PhoneNumber = createRequest.Phone },

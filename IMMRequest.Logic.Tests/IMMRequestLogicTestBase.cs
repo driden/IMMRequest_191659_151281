@@ -69,5 +69,16 @@ namespace IMMRequest.Logic.Tests
             Phone = "phone number",
         };
 
+        protected CreateRequest NewCreateRequestBody()
+        {
+            return new CreateRequest
+            {
+                Email = "test@mail.com",
+                Details = "test details",
+                Name = "test name",
+                Phone = "phone number",
+                AdditionalFields = new List<FieldRequest>()
+            };
+        }
     };
 }
