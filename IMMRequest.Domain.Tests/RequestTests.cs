@@ -100,15 +100,15 @@ namespace IMMRequest.Domain.Tests
 
             Assert.AreSame(citizen, request.Citizen);
         }
-
+        
         [TestMethod()]
-        public void RequestTypeTest()
+        public void RequestTopicTest()
         {
             var request = new Request();
-            var type = new Type();
-            request.Type = type;
+            var topic = new Topic();
+            request.Topic = topic;
 
-            Assert.AreSame(type, request.Type);
+            Assert.AreSame(topic, request.Topic);
         }
     }
 

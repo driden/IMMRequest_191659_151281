@@ -1,8 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using IMMRequest.Domain.Fields;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace IMMRequest.Domain.Fields.Tests
 {
@@ -12,25 +10,42 @@ namespace IMMRequest.Domain.Fields.Tests
         [TestMethod()]
         public void AddToRangeTest()
         {
-            Assert.Fail();
+            var textField = new TextField();
+            var textItem = new TextItem();
+            textField.AddToRange(textItem);
+            Assert.AreEqual(1, textField.Range.Count());
         }
 
         [TestMethod()]
         public void TextFieldTest()
         {
-            Assert.Fail();
+            var textField = new TextField();
+            Assert.AreEqual(FieldType.Text, textField.FieldType);
         }
 
         [TestMethod()]
         public void ValidateRangeTest()
         {
-            Assert.Fail();
+            // TODO Definir validacion
+            try
+            {
+                var dateField = new DateField();
+                dateField.ValidateRange();
+
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         [TestMethod()]
         public void AddToRangeTest1()
         {
-            Assert.Fail();
+            var textField = new TextField();
+            var other = new IntegerItem();
+            textField.AddToRange(other);
+            Assert.AreEqual(0, textField.Range.Count());
         }
     }
 }

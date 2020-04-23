@@ -26,9 +26,9 @@ namespace IMMRequest.Domain.Fields
 
     public override void AddToRange(IItem item)
     {
-      if (item.Type == FieldType.Integer)
+      if (item.Type == FieldType.Text)
       {
-        this.AddToRange(((TextField)item).Value);
+        this.AddToRange(((TextItem)item).Value);
       }
     }
   }
