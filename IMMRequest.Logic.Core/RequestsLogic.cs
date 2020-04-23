@@ -38,14 +38,14 @@ namespace IMMRequest.Logic.Core
 
             foreach (var additionalField in createRequest.AdditionalFields)
             {
-                // buscar el corresponding additionalfield del formulario
+                // Look for the definition of the additional field in the defined type 
                 var correspondingField = type.AdditionalFields.FirstOrDefault(field => field.Name == additionalField.Name);
                 if (correspondingField == null)
                 {
                     throw new NoSuchAdditionalFieldException($"There's no field named {additionalField.Name} for type with id {type.Id})");
                 }
 
-                // validar que los fields tengan tipos correctos
+                // Validate provided fields have the correct value type 
                 switch (correspondingField.FieldType)
                 {
                     case Domain.Fields.FieldType.Date:
@@ -54,6 +54,8 @@ namespace IMMRequest.Logic.Core
                         {
                             throw new InvalidFieldValueCastForFieldTypeException($"value '{additionalField.Value}' for field with name {additionalField.Name} cannot be read as a date");
                         }
+
+                        // is in range?
                         break;
 
                     case Domain.Fields.FieldType.Integer:
@@ -62,6 +64,8 @@ namespace IMMRequest.Logic.Core
                         {
                             throw new InvalidFieldValueCastForFieldTypeException($"value '{additionalField.Value}' for field with name {additionalField.Name} cannot be read as an integer");
                         }
+
+                        correspondingField.ValidateRange(num);
                         break;
 
                     case Domain.Fields.FieldType.Text:
@@ -69,6 +73,8 @@ namespace IMMRequest.Logic.Core
                         {
                             throw new InvalidFieldValueCastForFieldTypeException($"value for field with name {additionalField.Name} cannot be empty or null");
                         }
+
+                        correspondingField.ValidateRange(additionalField.Value);
                         break;
 
                     default:
@@ -76,6 +82,7 @@ namespace IMMRequest.Logic.Core
                 }
 
                 // validar que los fields esten en rango
+                
             }
 
             // validar que no falten campos obligatorios
@@ -86,15 +93,16 @@ namespace IMMRequest.Logic.Core
             {
                 throw new LessAdditionalFieldsThanRequiredException($"Required fields {string.Join(", ", nonProvidedRequiredFields.ToArray())} should have been provided");
             }
-            
+
             var request = new Request
             {
                 Citizen = new Citizen { Email = createRequest.Email, Name = createRequest.Name, PhoneNumber = createRequest.Phone },
                 Details = createRequest.Details,
                 Type = type,
-                // Persistir la lista de fields en la base, osea agregarlo a este request
+                FieldValues = new System.Collections.Generic.List<RequestField>()
             };
 
+            // Do the field conversion for each provided field into the new request
             _requestRepo.Add(request);
 
             return request.Id;

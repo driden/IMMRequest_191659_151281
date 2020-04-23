@@ -8,6 +8,7 @@ using IMMRequest.Logic.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
 using IMMRequest.Domain.Fields;
+using IMMRequest.Domain.Exceptions;
 
 namespace IMMRequest.Logic.Tests
 {
@@ -256,6 +257,60 @@ namespace IMMRequest.Logic.Tests
             _requestsLogic.Add(request);
             _requestRepo.Verify(reqRepo => reqRepo.Add(It.IsAny<Request>()), Times.Once());
         }
+
+        [TestMethod]
+        public void ProvidingAnIntegerFieldOutOfRangeShouldThrowException()
+        {
+            var typeInDatabase = NewType();
+            typeInDatabase.AdditionalFields = new List<AdditionalField>
+            {
+                new IntegerField
+                {
+                    Name = "number",
+                    IsRequired = true,
+                    Range = new List<IntegerItem>
+                    {
+                        new IntegerItem { Value = 0},
+                        new IntegerItem { Value = 2}
+                    }
+                }
+            };
+
+            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+
+            var request = CreateRequest;
+            request.AdditionalFields = new List<FieldRequest> { new FieldRequest { Name = "number", Value = "-1" } };
+
+            _requestRepo.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
+            Assert.ThrowsException<InvalidFieldRangeException>(() => _requestsLogic.Add(request));
+        }
+
+        [TestMethod]
+        public void ProvidingATextFieldOutOfRangeShouldThrowException()
+        {
+            var typeInDatabase = NewType();
+            typeInDatabase.AdditionalFields = new List<AdditionalField>
+            {
+                new TextField
+                {
+                    Name = "text",
+                    IsRequired = true,
+                    Range = new List<TextItem>
+                    {
+                        new TextItem { Value = "value"},
+                    }
+                }
+            };
+
+            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+
+            var request = CreateRequest;
+            request.AdditionalFields = new List<FieldRequest> { new FieldRequest { Name = "text", Value = "-1" } };
+
+            _requestRepo.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
+            Assert.ThrowsException<InvalidFieldRangeException>(() => _requestsLogic.Add(request));
+        }
+
         //[TestMethod]
         //public void NewRequestShouldContainAdditionalTextFields()
         //{

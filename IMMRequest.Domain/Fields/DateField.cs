@@ -6,7 +6,6 @@ namespace IMMRequest.Domain.Fields
   public class DateField : AdditionalField
   {
     public virtual IEnumerable<DateItem> Range { get; set; } = new List<DateItem>();
-    public DateTime Value { get; set; } = default(DateTime);
 
     public void AddToRange(DateTime item)
     {
@@ -18,7 +17,7 @@ namespace IMMRequest.Domain.Fields
       this.FieldType = FieldType.Date;
     }
 
-    public override void ValidateRange()
+    public override void ValidateRange(object value)
     {
       throw new NotImplementedException();
     }
@@ -27,7 +26,7 @@ namespace IMMRequest.Domain.Fields
     {
       if (item.Type == FieldType.Integer)
       {
-        this.AddToRange(((DateField)item).Value);
+        this.AddToRange(((DateItem)item).Value);
       }
     }
 
