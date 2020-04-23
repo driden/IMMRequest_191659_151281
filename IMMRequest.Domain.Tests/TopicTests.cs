@@ -12,10 +12,20 @@ namespace IMMRequest.Domain.Tests
         public void TopicTest()
         {
             var topic = new Topic();
-            Assert.IsNull(topic.Id);
             Assert.IsNull(topic.Name);
-            Assert.IsNull(topic.AreaId);
             Assert.IsNull(topic.Types);
+        }
+
+        [TestMethod()]
+        public void TopicIdTest()
+        {
+            Random random = new Random();
+            var id = random.Next(1, 50);
+            var topic = new Topic
+            {
+                Id = id
+            };
+            Assert.AreEqual(id, topic.Id);
         }
 
         [TestMethod()]
