@@ -1,5 +1,6 @@
 using IMMRequest.DataAccess.Interfaces;
 using IMMRequest.Domain;
+using IMMRequest.Domain.Fields;
 using IMMRequest.Logic.Exceptions;
 using IMMRequest.Logic.Interfaces;
 using IMMRequest.Logic.Models;
@@ -81,9 +82,6 @@ namespace IMMRequest.Logic.Core
                     default:
                         break;
                 }
-
-                // validar que los fields esten en rango
-                
             }
 
             // validar que no falten campos obligatorios
@@ -100,10 +98,33 @@ namespace IMMRequest.Logic.Core
                 Citizen = new Citizen { Email = createRequest.Email, Name = createRequest.Name, PhoneNumber = createRequest.Phone },
                 Details = createRequest.Details,
                 Type = type,
-                FieldValues = new System.Collections.Generic.List<RequestField>()
+                FieldValues = new System.Collections.Generic.List<RequestField>(),
             };
 
-            // Do the field conversion for each provided field into the new request
+            var fieldsWithType = type.AdditionalFields.Join(
+                createRequest.AdditionalFields,
+                af => af.Name,
+                crf => crf.Name,
+                (af, crf) => new { Type = af.FieldType, Name = crf.Name, Value = crf.Value }
+                );
+               
+            // create additional fields list
+            foreach (var field in fieldsWithType)
+            {
+                switch (field.Type)
+                {
+                    case Domain.Fields.FieldType.Date:
+                        request.FieldValues.Add(new DateRequestField { Name = field.Name, Value = DateTime.Parse(field.Value) });
+                        break;
+                    case Domain.Fields.FieldType.Integer:
+                        request.FieldValues.Add(new IntRequestField { Name = field.Name, Value = int.Parse(field.Value) });
+                        break;
+                    case Domain.Fields.FieldType.Text:
+                        request.FieldValues.Add(new TextRequestField { Name = field.Name, Value = field.Value });
+                        break;
+                }
+            }
+            
             _requestRepo.Add(request);
 
             return request.Id;

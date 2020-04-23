@@ -339,28 +339,43 @@ namespace IMMRequest.Logic.Tests
             Assert.ThrowsException<InvalidFieldRangeException>(() => _requestsLogic.Add(request));
         }
 
-        //[TestMethod]
-        //public void NewRequestShouldContainAdditionalTextFields()
-        //{
-        //    IList<RequestField> listOfFields = null;
-        //    _requestRepo.Setup(x => x.Add(It.IsAny<Request>()))
-        //        .Callback<Request>(req => { listOfFields = req.FieldValues; })
-        //        .Verifiable();
+        [TestMethod]
+        public void NewRequestShouldContainAdditionalTextFields()
+        {
+            IList<RequestField> listOfFields = null;
+            _requestRepo.Setup(x => x.Add(It.IsAny<Request>()))
+                .Callback<Request>(req => { listOfFields = req.FieldValues; })
+                .Verifiable();
 
-        //    var request = new CreateRequest
-        //    {
-        //        AdditionalFields = new List<FieldRequest>
-        //        {
-        //           new FieldRequest { Name = "text", Value = "some text"}
-        //        }
-        //    };
+            var request = new CreateRequest
+            {
+                Phone = "5555555",
+                Email = "mail@mail.com",
+                Details = "some details",
+                AdditionalFields = new List<FieldRequest>
+                {
+                   new FieldRequest { Name = "text", Value = "some text"}
+                }
+            };
+            
+            var typeInDatabase = NewType();
+            typeInDatabase.AdditionalFields = new List<AdditionalField>
+            {
+                new TextField
+                {
+                    Name = "text",
+                    IsRequired = true,
+                }
+            };
 
-        //    _requestsLogic.Add(request);
+            _typeRepo.Setup(repo => repo.Get(It.IsAny<int>())).Returns(typeInDatabase);
 
-        //    TextRequestField textRequestField = ((TextRequestField)listOfFields[0]);
-        //    Assert.AreEqual(textRequestField.Name, "text");
-        //    Assert.AreEqual(textRequestField.Value, "some text");
-        //}
+            _requestsLogic.Add(request);
+
+            TextRequestField textRequestField = ((TextRequestField)listOfFields[0]);
+            Assert.AreEqual(textRequestField.Name, "text");
+            Assert.AreEqual(textRequestField.Value, "some text");
+        }
 
         //[TestMethod]
         //public void NewRequestShouldContainAdditionalIntegerFields()
