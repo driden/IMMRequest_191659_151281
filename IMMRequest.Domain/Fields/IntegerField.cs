@@ -15,6 +15,7 @@ namespace IMMRequest.Domain.Fields
 
     public IntegerField()
     {
+      this.IsRequired = false;
       this.FieldType = FieldType.Integer;
     }
 
