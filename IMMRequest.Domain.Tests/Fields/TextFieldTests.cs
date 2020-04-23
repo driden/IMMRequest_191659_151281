@@ -47,5 +47,26 @@ namespace IMMRequest.Domain.Fields.Tests
             textField.AddToRange(other);
             Assert.AreEqual(0, textField.Range.Count());
         }
+
+        [TestMethod()]
+        public void IsRequiredTest()
+        {
+            var textField = new TextField
+            {
+                IsRequired = true
+            };
+            Assert.IsTrue(textField.IsRequired);
+        }
+
+        [TestMethod()]
+        public void TypeIdTest()
+        {
+            var number = 12;
+            var textField = new TextField
+            {
+                TypeId = number
+            };
+            Assert.AreEqual(number, textField.TypeId);
+        }
     }
 }

@@ -47,5 +47,33 @@ namespace IMMRequest.Domain.Fields.Tests
             dateField.AddToRange(other);
             Assert.AreEqual(0, dateField.Range.Count());
         }
+
+        [TestMethod()]
+        public void NotRequiredTest()
+        {
+            var dateField = new DateField();
+            Assert.IsFalse(dateField.IsRequired);
+        }
+
+        [TestMethod()]
+        public void IsRequiredTest()
+        {
+            var dateField = new DateField
+            {
+                IsRequired = true
+            };
+            Assert.IsTrue(dateField.IsRequired);
+        }
+
+        [TestMethod()]
+        public void TypeIdTest()
+        {
+            var number = 12;
+            var dateField = new DateField
+            {
+                TypeId = number
+            };
+            Assert.AreEqual(number, dateField.TypeId);
+        }
     }
 }
