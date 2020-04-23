@@ -56,6 +56,7 @@ namespace IMMRequest.Logic.Core
                         }
 
                         // is in range?
+                        correspondingField.ValidateRange(parseDate);
                         break;
 
                     case Domain.Fields.FieldType.Integer:

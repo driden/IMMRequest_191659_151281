@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using IMMRequest.Domain.Fields;
 using IMMRequest.Domain.Exceptions;
+using System;
 
 namespace IMMRequest.Logic.Tests
 {
@@ -17,7 +18,7 @@ namespace IMMRequest.Logic.Tests
     {
         private RequestsLogic _requestsLogic;
         private Mock<IRepository<Request>> _requestRepo;
-        private Mock<IRepository<Type>> _typeRepo;
+        private Mock<IRepository<Domain.Type>> _typeRepo;
         private Mock<IRepository<User>> _userRepo;
         private Mock<IAreaQueries> _areaQueries;
 
@@ -25,7 +26,7 @@ namespace IMMRequest.Logic.Tests
         public void SetUp()
         {
             _requestRepo = new Mock<IRepository<Request>>(MockBehavior.Strict);
-            _typeRepo = new Mock<IRepository<Type>>(MockBehavior.Strict);
+            _typeRepo = new Mock<IRepository<Domain.Type>>(MockBehavior.Strict);
             _userRepo = new Mock<IRepository<User>>(MockBehavior.Strict);
             _areaQueries = new Mock<IAreaQueries>(MockBehavior.Strict);
             _requestsLogic = new RequestsLogic(
@@ -306,6 +307,33 @@ namespace IMMRequest.Logic.Tests
 
             var request = CreateRequest;
             request.AdditionalFields = new List<FieldRequest> { new FieldRequest { Name = "text", Value = "-1" } };
+
+            _requestRepo.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
+            Assert.ThrowsException<InvalidFieldRangeException>(() => _requestsLogic.Add(request));
+        }
+
+        [TestMethod]
+        public void ProvidingADateFieldOutOfRangeShouldThrowException()
+        {
+            var typeInDatabase = NewType();
+            typeInDatabase.AdditionalFields = new List<AdditionalField>
+            {
+                new DateField
+                {
+                    Name = "date",
+                    IsRequired = true,
+                    Range = new List<DateItem>
+                    {
+                        new DateItem { Value = DateTime.Parse("01/05/1994")},
+                        new DateItem { Value = DateTime.Parse("05/05/1994")},
+                    }
+                }
+            };
+
+            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+
+            var request = CreateRequest;
+            request.AdditionalFields = new List<FieldRequest> { new FieldRequest { Name = "date", Value = "01/04/1994" } };
 
             _requestRepo.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
             Assert.ThrowsException<InvalidFieldRangeException>(() => _requestsLogic.Add(request));
