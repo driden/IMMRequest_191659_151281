@@ -6,6 +6,8 @@ using IMMRequest.Domain;
 using Moq;
 using IMMRequest.Logic.Exceptions;
 using System.Collections.Generic;
+using System.Linq;
+using IMMRequest.Domain.Fields;
 
 namespace IMMRequest.Logic.Tests
 {
@@ -85,24 +87,186 @@ namespace IMMRequest.Logic.Tests
         }
 
         [TestMethod]
-        public void NewRequestShouldContainAdditionalFields()
+        public void SendingAFieldIfNoFieldIsDefinedShouldThrowException()
         {
-            _requestRepo.Setup(x => x.Add(It.IsAny<Request>())).Verifiable();
+            var typeInDatabase = NewType();
+            typeInDatabase.AdditionalFields = new List<AdditionalField>();
 
             var request = new CreateRequest
             {
                 AdditionalFields = new List<FieldRequest>
                 {
-                   new FieldRequest { Name = "date", Value = "01-12-1998"},
-                   new FieldRequest { Name = "numero", Value = "52"},
                    new FieldRequest { Name = "text", Value = "some text"}
                 }
             };
 
-            _requestsLogic.Add(request);
+            _typeRepo.Setup(repo => repo.Get(It.IsAny<int>())).Returns(typeInDatabase);
+            _ = Assert.ThrowsException<InvalidAdditionalFieldForTypeException>(() => _requestsLogic.Add(request));
         }
 
+        [TestMethod]
+        public void UsingAnUnknownFieldNameThrowsException()
+        {
+            var typeInDatabase = NewType();
+            typeInDatabase.AdditionalFields = new List<AdditionalField> { new IntegerField { Name = "number" } };
 
+            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+
+            var request = new CreateRequest
+            {
+                AdditionalFields = new List<FieldRequest>
+                {
+                   new FieldRequest { Name = "text", Value = "some text"}
+                }
+            };
+
+            Assert.ThrowsException<NoSuchAdditionalFieldException>(() => _requestsLogic.Add(request));
+        }
+
+        [TestMethod]
+        public void UsingANonCorrespondingFieldIntegerTypeThrowsException()
+        {
+            var typeInDatabase = NewType();
+            typeInDatabase.AdditionalFields = new List<AdditionalField> { new IntegerField { Name = "number" } };
+
+            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+
+            var request = new CreateRequest
+            {
+                AdditionalFields = new List<FieldRequest>
+                {
+                   new FieldRequest { Name = "number", Value = "some text"}
+                }
+            };
+
+            Assert.ThrowsException<InvalidFieldValueCastForFieldTypeException>(() => _requestsLogic.Add(request));
+        }
+
+        [TestMethod]
+        public void UsingANonCorrespondingFieldDateTypeThrowsException()
+        {
+            var typeInDatabase = NewType();
+            typeInDatabase.AdditionalFields = new List<AdditionalField> { new DateField { Name = "date" } };
+
+            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+
+            var request = new CreateRequest
+            {
+                AdditionalFields = new List<FieldRequest>
+                {
+                   new FieldRequest { Name = "date", Value = "some text"}
+                }
+            };
+
+            Assert.ThrowsException<InvalidFieldValueCastForFieldTypeException>(() => _requestsLogic.Add(request));
+        }
+
+        [TestMethod]
+        public void UsingANonCorrespondingFieldTextTypeThrowsException()
+        {
+            var typeInDatabase = NewType();
+            typeInDatabase.AdditionalFields = new List<AdditionalField> { new TextField { Name = "text" } };
+
+            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+
+            var request = new CreateRequest
+            {
+                AdditionalFields = new List<FieldRequest>
+                {
+                   new FieldRequest { Name = "text", Value = ""}
+                }
+            };
+
+            Assert.ThrowsException<InvalidFieldValueCastForFieldTypeException>(() => _requestsLogic.Add(request));
+        }
+
+        [TestMethod]
+        public void UsingAnEmptySpaceInsteadOfTextThrowsException()
+        {
+            var typeInDatabase = NewType();
+            typeInDatabase.AdditionalFields = new List<AdditionalField> { new TextField { Name = "text" } };
+
+            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+
+            var request = new CreateRequest
+            {
+                AdditionalFields = new List<FieldRequest>
+                {
+                   new FieldRequest { Name = "text", Value = "  "}
+                }
+            };
+
+            Assert.ThrowsException<InvalidFieldValueCastForFieldTypeException>(() => _requestsLogic.Add(request));
+        }
+
+        [TestMethod]
+        public void NewRequestShouldContainAdditionalTextFields()
+        {
+            //IList<RequestField> listOfFields = null;
+            //_requestRepo.Setup(x => x.Add(It.IsAny<Request>()))
+            //    .Callback<Request>(req => { listOfFields = req.FieldValues; })
+            //    .Verifiable();
+
+            //var request = new CreateRequest
+            //{
+            //    AdditionalFields = new List<FieldRequest>
+            //    {
+            //       new FieldRequest { Name = "text", Value = "some text"}
+            //    }
+            //};
+
+            //_requestsLogic.Add(request);
+
+            //TextRequestField textRequestField = ((TextRequestField)listOfFields[0]);
+            //Assert.AreEqual(textRequestField.Name, "text");
+            //Assert.AreEqual(textRequestField.Value, "some text");
+        }
+
+        [TestMethod]
+        public void NewRequestShouldContainAdditionalIntegerFields()
+        {
+            //IList<RequestField> listOfFields = null;
+            //_requestRepo.Setup(x => x.Add(It.IsAny<Request>()))
+            //    .Callback<Request>(req => { listOfFields = req.FieldValues; })
+            //    .Verifiable();
+
+            //var request = new CreateRequest
+            //{
+            //    AdditionalFields = new List<FieldRequest>
+            //    {
+            //       new FieldRequest { Name = "numero", Value = "52"},
+            //    }
+            //};
+
+            //_requestsLogic.Add(request);
+
+            //Assert.AreEqual(((IntRequestField)listOfFields[1]).Name, "numero");
+            //Assert.AreEqual(((DateRequestField)listOfFields[1]).Value, 52);
+        }
+
+        [TestMethod]
+        public void NewRequestShouldContainAdditionalDateFields()
+        {
+            //IList<RequestField> listOfFields = null;
+            //_requestRepo.Setup(x => x.Add(It.IsAny<Request>()))
+            //    .Callback<Request>(req => { listOfFields = req.FieldValues; })
+            //    .Verifiable();
+
+            //var request = new CreateRequest
+            //{
+            //    AdditionalFields = new List<FieldRequest>
+            //    {
+            //       new FieldRequest { Name = "date", Value = "01-12-1998"},
+            //       new FieldRequest { Name = "numero", Value = "52"},
+            //       new FieldRequest { Name = "text", Value = "some text"}
+            //    }
+            //};
+
+            //_requestsLogic.Add(request);
+
+            //Assert.AreEqual(((DateRequestField)listOfFields[2]).Name, "text");
+            //Assert.AreEqual(((DateRequestField)listOfFields[2]).Value, "some text");
+        }
         //[TestMethod]
         //public void CantGetARequestStatusWithANegativeId()
         //{

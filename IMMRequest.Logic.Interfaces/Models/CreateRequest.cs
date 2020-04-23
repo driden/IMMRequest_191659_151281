@@ -10,7 +10,7 @@ namespace IMMRequest.Logic.Models
         public string Name { get; set; }
         public string Phone { get; set; }
         public int TopicId { get; set; } = -1;
-        public IEnumerable<FieldRequest> AdditionalFields { get; set; }
+        public IEnumerable<FieldRequest> AdditionalFields { get; set; } = new List<FieldRequest>();
     }
 
     public class FieldRequest

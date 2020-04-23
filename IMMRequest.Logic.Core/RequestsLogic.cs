@@ -3,18 +3,20 @@ using IMMRequest.Domain;
 using IMMRequest.Logic.Exceptions;
 using IMMRequest.Logic.Interfaces;
 using IMMRequest.Logic.Models;
+using System;
+using System.Linq;
 
 namespace IMMRequest.Logic.Core
 {
     public class RequestsLogic : IRequestsLogic
     {
         private readonly IRepository<Request> _requestRepo;
-        private readonly IRepository<Type> _typeRepo;
+        private readonly IRepository<Domain.Type> _typeRepo;
         private readonly IAreaQueries _areaQueries;
 
         public RequestsLogic(
                IRepository<Request> requestRepository,
-               IRepository<Type> typeRepository,
+               IRepository<Domain.Type> typeRepository,
                IAreaQueries areaQueries
             )
         {
@@ -28,19 +30,60 @@ namespace IMMRequest.Logic.Core
             var type = _typeRepo.Get(createRequest.TopicId);
             ValidateTypeNotNull(createRequest, type);
 
-            // si el topic existe aca
-            // traigo la lista de additional fields
-            // validar que los fields tengan tipos correctos
+            if (createRequest.AdditionalFields.Count() > type.AdditionalFields.Count)
+            {
+                throw new InvalidAdditionalFieldForTypeException($"Too many additional fields were sent for type with id {type.Id}");
+            }
+
+            foreach (var additionalField in createRequest.AdditionalFields)
+            {
+                // buscar el corresponding additionalfield del formulario
+                var correspondingField = type.AdditionalFields.FirstOrDefault(field => field.Name == additionalField.Name);
+                if (correspondingField == null)
+                {
+                    throw new NoSuchAdditionalFieldException($"There's no field named {additionalField.Name} for type with id {type.Id})");
+                }
+
+                // validar que los fields tengan tipos correctos
+                switch (correspondingField.FieldType)
+                {
+                    case Domain.Fields.FieldType.Date:
+                        DateTime parseDate;
+                        if (!DateTime.TryParse(additionalField.Value, out parseDate))
+                        {
+                            throw new InvalidFieldValueCastForFieldTypeException($"value '{additionalField.Value}' for field with name {additionalField.Name} cannot be read as a date");
+                        }
+                        break;
+
+                    case Domain.Fields.FieldType.Integer:
+                        int num;
+                        if (!int.TryParse(additionalField.Value, out num))
+                        {
+                            throw new InvalidFieldValueCastForFieldTypeException($"value '{additionalField.Value}' for field with name {additionalField.Name} cannot be read as an integer");
+                        }
+                        break;
+
+                    case Domain.Fields.FieldType.Text:
+                        if (string.IsNullOrEmpty(additionalField.Value) || string.IsNullOrWhiteSpace(additionalField.Value))
+                        {
+                            throw new InvalidFieldValueCastForFieldTypeException($"value for field with name {additionalField.Name} cannot be empty or null");
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
             // validar que los fields esten en rango
             // validar que no falten campos obligatorios
-
-            // Persistir la lista de fields en la base
 
             var request = new Request
             {
                 Citizen = new Citizen { Email = createRequest.Email, Name = createRequest.Name, PhoneNumber = createRequest.Phone },
                 Details = createRequest.Details,
                 Type = type,
+                // Persistir la lista de fields en la base, osea agregarlo a este request
             };
 
             _requestRepo.Add(request);
@@ -70,7 +113,7 @@ namespace IMMRequest.Logic.Core
 
         #region Validation Methods
 
-        private void ValidateTypeNotNull(CreateRequest createRequest, Type type)
+        private void ValidateTypeNotNull(CreateRequest createRequest, Domain.Type type)
         {
             if (type == null)
             {
