@@ -56,17 +56,16 @@ namespace IMMRequest.Domain.Tests
                 str_build.Append(letter);
             }
 
-            Console.WriteLine(str_build.ToString().Length);
             var request = new Request
             {
                 Details = str_build.ToString()
             };
             Assert.AreEqual(str_build.ToString(), request.Details);
         }
-        /*
-         * Test that the detail is more than 2000 characters
+
+        // Test that the detail is more than 2000 characters
         [TestMethod()]
-        [ExpectedException(typeof(DataDomianException))]
+        [ExpectedException(typeof(InvalidDetailsException))]
         public void RequestDetailsMoreTest()
         {
             int length = 2001;
@@ -89,7 +88,7 @@ namespace IMMRequest.Domain.Tests
             {
                 Details = str_build.ToString()
             };
-        }*/
+        }
 
         [TestMethod()]
         public void RequestCitizenTest()

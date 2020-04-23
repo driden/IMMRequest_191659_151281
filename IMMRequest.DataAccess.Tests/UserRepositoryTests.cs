@@ -29,8 +29,8 @@ namespace IMMRequest.DataAccess.Tests
         [TestMethod]
         public void CanGetUsersFromTheDatabase()
         {
-            User admin = new Admin { Email = "admin@admin", Name = "admin" };
-            User citizen = new Citizen { Email = "citizen@citizen", Name = "citizen" };
+            User admin = new Admin { Email = "admin@admin.com", Name = "admin" };
+            User citizen = new Citizen { Email = "citizen@citizen.com", Name = "citizen" };
 
             _context.Set<User>().AddRange(admin, citizen);
             _context.SaveChanges();
@@ -42,8 +42,8 @@ namespace IMMRequest.DataAccess.Tests
         [TestMethod]
         public void CanGetAllUsersFromTheDatabase()
         {
-            User admin = new Admin { Email = "admin@admin", Name = "admin" };
-            User citizen = new Citizen { Email = "citizen@citizen", Name = "citizen" };
+            User admin = new Admin { Email = "admin@admin.com", Name = "admin" };
+            User citizen = new Citizen { Email = "citizen@citizen.com", Name = "citizen" };
 
             _context.Set<User>().AddRange(admin, citizen);
             _context.SaveChanges();
@@ -54,7 +54,7 @@ namespace IMMRequest.DataAccess.Tests
         [TestMethod]
         public void CanModifyAUserInTheDatabase()
         {
-            User admin = new Admin { Email = "admin@admin", Name = "admin" };
+            User admin = new Admin { Email = "admin@admin.com", Name = "admin" };
             _context.Set<User>().Add(admin);
             _context.SaveChanges();
 
@@ -67,8 +67,8 @@ namespace IMMRequest.DataAccess.Tests
         [TestMethod]
         public void CanAddANewUserToTheDatabase()
         {
-            User admin = new Admin { Email = "admin@admin", Name = "admin" };
-            User citizen = new Citizen { Email = "citizen@citizen", Name = "citizen" };
+            User admin = new Admin { Email = "admin@admin.com", Name = "admin" };
+            User citizen = new Citizen { Email = "citizen@citizen.com", Name = "citizen" };
 
             _repository.Add(admin);
             _repository.Add(citizen);
@@ -81,7 +81,7 @@ namespace IMMRequest.DataAccess.Tests
         [TestMethod]
         public void CanDeleteAnUserFromTheDatabase()
         {
-            User admin = new Admin { Email = "admin@admin", Name = "admin" };
+            User admin = new Admin { Email = "admin@admin.com", Name = "admin" };
 
             _context.Set<User>().Add(admin);
             _context.SaveChanges();
