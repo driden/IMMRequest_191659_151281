@@ -36,6 +36,7 @@ namespace IMMRequest.Logic.Tests
                 );
         }
 
+        #region Add Request Tests
         [TestMethod]
         public void CanCreateANewRequest()
         {
@@ -357,7 +358,7 @@ namespace IMMRequest.Logic.Tests
                    new FieldRequest { Name = "text", Value = "some text"}
                 }
             };
-            
+
             var typeInDatabase = NewType();
             typeInDatabase.AdditionalFields = new List<AdditionalField>
             {
@@ -377,56 +378,83 @@ namespace IMMRequest.Logic.Tests
             Assert.AreEqual(textRequestField.Value, "some text");
         }
 
-        //[TestMethod]
-        //public void NewRequestShouldContainAdditionalIntegerFields()
-        //{
-        //    //IList<RequestField> listOfFields = null;
-        //    //_requestRepo.Setup(x => x.Add(It.IsAny<Request>()))
-        //    //    .Callback<Request>(req => { listOfFields = req.FieldValues; })
-        //    //    .Verifiable();
+        [TestMethod]
+        public void NewRequestShouldContainAdditionalIntegerFields()
+        {
+            IList<RequestField> listOfFields = null;
+            _requestRepo.Setup(x => x.Add(It.IsAny<Request>()))
+                .Callback<Request>(req => { listOfFields = req.FieldValues; })
+                .Verifiable();
 
-        //    //var request = new CreateRequest
-        //    //{
-        //    //    AdditionalFields = new List<FieldRequest>
-        //    //    {
-        //    //       new FieldRequest { Name = "numero", Value = "52"},
-        //    //    }
-        //    //};
+            var request = new CreateRequest
+            {
+                Phone = "5555555",
+                Email = "mail@mail.com",
+                Details = "some details",
+                AdditionalFields = new List<FieldRequest>
+                {
+                   new FieldRequest { Name = "num", Value = "5"}
+                }
+            };
 
-        //    //_requestsLogic.Add(request);
+            var typeInDatabase = NewType();
+            typeInDatabase.AdditionalFields = new List<AdditionalField>
+            {
+                new IntegerField
+                {
+                    Name = "num",
+                    IsRequired = true,
+                }
+            };
 
-        //    //Assert.AreEqual(((IntRequestField)listOfFields[1]).Name, "numero");
-        //    //Assert.AreEqual(((DateRequestField)listOfFields[1]).Value, 52);
-        //}
+            _typeRepo.Setup(repo => repo.Get(It.IsAny<int>())).Returns(typeInDatabase);
 
-        //[TestMethod]
-        //public void NewRequestShouldContainAdditionalDateFields()
-        //{
-        //IList<RequestField> listOfFields = null;
-        //_requestRepo.Setup(x => x.Add(It.IsAny<Request>()))
-        //    .Callback<Request>(req => { listOfFields = req.FieldValues; })
-        //    .Verifiable();
+            _requestsLogic.Add(request);
 
-        //var request = new CreateRequest
-        //{
-        //    AdditionalFields = new List<FieldRequest>
-        //    {
-        //       new FieldRequest { Name = "date", Value = "01-12-1998"},
-        //       new FieldRequest { Name = "numero", Value = "52"},
-        //       new FieldRequest { Name = "text", Value = "some text"}
-        //    }
-        //};
+            IntRequestField intRequestField = (IntRequestField)listOfFields[0];
+            Assert.AreEqual(intRequestField.Name, "num");
+            Assert.AreEqual(intRequestField.Value, 5);
+        }
 
-        //_requestsLogic.Add(request);
+        [TestMethod]
+        public void NewRequestShouldContainAdditionalDateFields()
+        {
+            IList<RequestField> listOfFields = null;
+            _requestRepo.Setup(x => x.Add(It.IsAny<Request>()))
+                .Callback<Request>(req => { listOfFields = req.FieldValues; })
+                .Verifiable();
 
-        //Assert.AreEqual(((DateRequestField)listOfFields[2]).Name, "text");
-        //Assert.AreEqual(((DateRequestField)listOfFields[2]).Value, "some text");
-        //}
-        //[TestMethod]
-        //public void CantGetARequestStatusWithANegativeId()
-        //{
-        //    Assert.ThrowsException<InvalidGetRequestStatusException>(() => _requestsLogic.GetRequestStatus(-1));
-        //}
+            var request = new CreateRequest
+            {
+                Phone = "5555555",
+                Email = "mail@mail.com",
+                Details = "some details",
+                AdditionalFields = new List<FieldRequest>
+                {
+                   new FieldRequest { Name = "date", Value = "05/11/1981"}
+                }
+            };
+
+            var typeInDatabase = NewType();
+            typeInDatabase.AdditionalFields = new List<AdditionalField>
+            {
+                new DateField
+                {
+                    Name = "date",
+                    IsRequired = true,
+                }
+            };
+
+            _typeRepo.Setup(repo => repo.Get(It.IsAny<int>())).Returns(typeInDatabase);
+
+            _requestsLogic.Add(request);
+
+            DateRequestField dateRequestField = (DateRequestField)listOfFields[0];
+            Assert.AreEqual(dateRequestField.Name, "date");
+            Assert.AreEqual(dateRequestField.Value, DateTime.Parse("05/11/1981"));
+
+        }
+#endregion Add Request Tests
 
         //[TestMethod]
         //public void CanGetTheRequestStatusWithAValidRequestId()
