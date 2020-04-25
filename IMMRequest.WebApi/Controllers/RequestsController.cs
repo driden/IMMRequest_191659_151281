@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IMMRequest.WebApi.Controllers
 {
+    using System;
     using Domain.Exceptions;
     using Logic.Exceptions;
     using Logic.Tests;
+    using Microsoft.AspNetCore.Http;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -43,13 +45,17 @@ namespace IMMRequest.WebApi.Controllers
             {
                 return BadRequest(ifve.Message);
             }
-            catch (InvalidFieldRangeException nste)
+            catch (InvalidFieldRangeException ifre)
             {
-                return BadRequest(nste.Message);
+                return BadRequest(ifre.Message);
             }
-            catch (LessAdditionalFieldsThanRequiredException nste)
+            catch (LessAdditionalFieldsThanRequiredException ladftre)
             {
-                return BadRequest(nste.Message);
+                return BadRequest(ladftre.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }

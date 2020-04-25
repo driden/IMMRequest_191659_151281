@@ -34,11 +34,15 @@ namespace IMMRequest.DataAccess.Core
 
             // Area Name needs to be unique
             builder.Entity<Area>().HasKey(area => area.Id);
-            //builder.Entity<Area>().HasAlternateKey(area => area.Name);
 
+            // Entities that need to be stored in the database
             builder.Entity<IntegerField>();
             builder.Entity<TextField>();
             builder.Entity<DateField>();
+
+            builder.Entity<IntRequestField>();
+            builder.Entity<TextRequestField>();
+            builder.Entity<DateRequestField>();
 
             // State
             builder.Entity<AcceptedState>();
