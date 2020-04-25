@@ -62,6 +62,7 @@ namespace IMMRequest.WebApi
             services.AddScoped<IDbSeeder, IMMRequestDBSeeder>();
             services.AddScoped<IRepository<Area>, AreaRepository>();
             services.AddScoped<IRepository<Request>, RequestRepository>();
+            services.AddScoped<IAreaQueries, AreaRepository>();
             services.AddScoped<IRepository<Topic>, TopicRepository>();
             services.AddScoped<IRepository<Domain.Type>, TypeRepository>();
             services.AddScoped<IRepository<User>, UserRepository>();
