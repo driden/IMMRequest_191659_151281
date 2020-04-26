@@ -12,13 +12,30 @@ namespace IMMRequest.Domain
     public class IntRequestField: RequestField
     {
         public int Value { get; set; }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
+
     public class TextRequestField: RequestField
     {
         public string Value { get; set; }
+
+        public override string ToString()
+        {
+            return Value;
+        }
     }
+
     public class DateRequestField: RequestField
     {
         public DateTime Value { get; set; }
+
+        public override string ToString()
+        {
+            return Value.ToString("G");
+        }
     }
 }
