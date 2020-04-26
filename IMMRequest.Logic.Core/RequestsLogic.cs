@@ -1,32 +1,31 @@
-using IMMRequest.DataAccess.Interfaces;
-using IMMRequest.Domain;
-using IMMRequest.Domain.Fields;
-using IMMRequest.Logic.Exceptions;
-using IMMRequest.Logic.Interfaces;
-using IMMRequest.Logic.Models;
-using IMMRequest.Logic.Tests;
-using System;
-using System.Linq;
-
 namespace IMMRequest.Logic.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using DataAccess.Interfaces;
+    using Domain;
+    using Domain.Fields;
+    using Exceptions;
+    using Interfaces;
+    using Models;
     using Type = Domain.Type;
 
     public class RequestsLogic : IRequestsLogic
     {
         private readonly IRepository<Request> _requestRepo;
-        private readonly IRepository<Domain.Type> _typeRepo;
+        private readonly IRepository<Type> _typeRepo;
         private readonly IAreaQueries _areaQueries;
 
         public RequestsLogic(
                IRepository<Request> requestRepository,
-               IRepository<Domain.Type> typeRepository,
+               IRepository<Type> typeRepository,
                IAreaQueries areaQueries
             )
         {
-            this._requestRepo = requestRepository;
-            this._typeRepo = typeRepository;
-            this._areaQueries = areaQueries;
+            _requestRepo = requestRepository;
+            _typeRepo = typeRepository;
+            _areaQueries = areaQueries;
         }
 
         public int Add(CreateRequest createRequest)
@@ -57,9 +56,6 @@ namespace IMMRequest.Logic.Core
                         ValidateStringValueNotNullOrEmpty(additionalField);
                         correspondingField.ValidateRange(additionalField.Value);
                         break;
-
-                    default:
-                        break;
                 }
             }
 
@@ -70,7 +66,7 @@ namespace IMMRequest.Logic.Core
                 Citizen = new Citizen { Email = createRequest.Email, Name = createRequest.Name, PhoneNumber = createRequest.Phone },
                 Details = createRequest.Details,
                 Type = type,
-                FieldValues = new System.Collections.Generic.List<RequestField>(),
+                FieldValues = new List<RequestField>(),
             };
 
             AddRequestFieldsToRequest(createRequest, type, request);
@@ -80,13 +76,33 @@ namespace IMMRequest.Logic.Core
             return request.Id;
         }
 
+        public GetStatusRequestResponse GetRequestStatus(int requestId)
+        {
+            ValidateRequestId(requestId);
+
+            var request = _requestRepo.Get(requestId);
+
+            ValidateRequestNotNull(requestId, request);
+
+            //var area = this._areaQueries.FindWithTypeId(request.Type.Id);
+            return new GetStatusRequestResponse
+            {
+                Details = request.Details,
+                RequestState = request.Status.Description,
+                CitizenName = request.Citizen.Name,
+                CitizenPhoneNumber = request.Citizen.PhoneNumber,
+                CitizenEmail = request.Citizen.Email,
+                Fields = request.FieldValues.Select(fv => new FieldRequestModel { Name = fv.Name, Value = fv.ToString() })
+            };
+        }
+
         private void AddRequestFieldsToRequest(CreateRequest createRequest, Type type, Request request)
         {
             var fieldsWithType = type.AdditionalFields.Join(
                 createRequest.AdditionalFields,
                 af => af.Name,
                 crf => crf.Name,
-                (af, crf) => new {Type = af.FieldType, Name = crf.Name, Value = crf.Value}
+                (af, crf) => new { Type = af.FieldType, crf.Name, crf.Value }
             );
 
             // create additional fields list
@@ -94,26 +110,42 @@ namespace IMMRequest.Logic.Core
             {
                 switch (field.Type)
                 {
-                    case Domain.Fields.FieldType.Date:
-                        request.FieldValues.Add(new DateRequestField {Name = field.Name, Value = DateTime.Parse(field.Value)});
+                    case FieldType.Date:
+                        request.FieldValues.Add(new DateRequestField { Name = field.Name, Value = DateTime.Parse(field.Value) });
                         break;
-                    case Domain.Fields.FieldType.Integer:
-                        request.FieldValues.Add(new IntRequestField {Name = field.Name, Value = int.Parse(field.Value)});
+                    case FieldType.Integer:
+                        request.FieldValues.Add(new IntRequestField { Name = field.Name, Value = int.Parse(field.Value) });
                         break;
-                    case Domain.Fields.FieldType.Text:
-                        request.FieldValues.Add(new TextRequestField {Name = field.Name, Value = field.Value});
+                    case FieldType.Text:
+                        request.FieldValues.Add(new TextRequestField { Name = field.Name, Value = field.Value });
                         break;
                 }
             }
         }
 
         #region Validation Methods
+        private void ValidateRequestId(int requestId)
+        {
+            if (requestId <= 0)
+            {
+                throw new InvalidRequestIdException($"id {requestId} is invalid.");
+            }
+        }
+
+        private void ValidateRequestNotNull(int requestId, Request request)
+        {
+            if (request == null)
+            {
+                throw new InvalidRequestIdException($"Request with id {requestId} could not be found.");
+            }
+        }
+
         private void ValidateNoRequiredFieldsAreMissing(CreateRequest createRequest, Type type)
         {
             var requiredFields = type.AdditionalFields.Where(af => af.IsRequired).Select(af => af.Name);
             var providedFields = createRequest.AdditionalFields.Select(x => x.Name);
             var nonProvidedRequiredFields =
-                requiredFields.Except<string>(providedFields, StringComparer.InvariantCultureIgnoreCase);
+                requiredFields.Except(providedFields, StringComparer.InvariantCultureIgnoreCase);
             var providedRequiredFields = nonProvidedRequiredFields as string[] ?? nonProvidedRequiredFields.ToArray();
             if (providedRequiredFields.Any())
             {
@@ -122,7 +154,7 @@ namespace IMMRequest.Logic.Core
             }
         }
 
-        private static void ValidateStringValueNotNullOrEmpty(FieldRequest additionalField)
+        private static void ValidateStringValueNotNullOrEmpty(FieldRequestModel additionalField)
         {
             if (string.IsNullOrEmpty(additionalField.Value) || string.IsNullOrWhiteSpace(additionalField.Value))
             {
@@ -131,7 +163,7 @@ namespace IMMRequest.Logic.Core
             }
         }
 
-        private int TryToParseIntValue(FieldRequest additionalField)
+        private int TryToParseIntValue(FieldRequestModel additionalField)
         {
             if (!int.TryParse(additionalField.Value, out var num))
             {
@@ -142,7 +174,7 @@ namespace IMMRequest.Logic.Core
             return num;
         }
 
-        private DateTime TryToParseDateValue(FieldRequest additionalField)
+        private DateTime TryToParseDateValue(FieldRequestModel additionalField)
         {
             if (!DateTime.TryParse(additionalField.Value, out var parseDate))
             {
@@ -153,7 +185,7 @@ namespace IMMRequest.Logic.Core
             return parseDate;
         }
 
-        private AdditionalField FindFieldTemplateWithName(Type type, FieldRequest additionalField)
+        private AdditionalField FindFieldTemplateWithName(Type type, FieldRequestModel additionalField)
         {
             var correspondingField = type.AdditionalFields.FirstOrDefault(field => field.Name == additionalField.Name);
             if (correspondingField == null)
@@ -174,7 +206,7 @@ namespace IMMRequest.Logic.Core
             }
         }
 
-        private void ValidateTypeNotNull(CreateRequest createRequest, Domain.Type type)
+        private void ValidateTypeNotNull(CreateRequest createRequest, Type type)
         {
             if (type == null)
             {
@@ -183,23 +215,6 @@ namespace IMMRequest.Logic.Core
         }
 
         #endregion Validation Methods
-        //public GetStatusRequestResponse GetRequestStatus(int requestId)
-        //{
-        //    ValidateRequestId(requestId);
 
-        //    var request = this._requestRepo.Get(requestId);
-
-        //    ValidateRequestNotNull(requestId, request);
-
-        //    var area = this._areaQueries.FindWithTypeId()
-        //    return new GetStatusRequestResponse
-        //    {
-        //        Details = request.Details,
-        //        RequestState = request.Status.Description,
-        //        CitizenName = request.Citizen.Name,
-        //        CitizenPhoneNumber = request.Citizen.PhoneNumber,
-        //        CitizenEmail = request.Citizen.Email
-        //    };
-        //}
     }
 }

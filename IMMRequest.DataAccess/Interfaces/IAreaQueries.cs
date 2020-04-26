@@ -1,9 +1,9 @@
-using IMMRequest.Domain;
-
 namespace IMMRequest.DataAccess.Interfaces
 {
+    using Domain;
+
     public interface IAreaQueries
     {
-        Area FindWithTopicId(int typeId);
+        Area FindWithTypeId(int typeId);
     }
 }
