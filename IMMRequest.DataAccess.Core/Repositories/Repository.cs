@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using IMMRequest.DataAccess.Interfaces;
-using Microsoft.EntityFrameworkCore;
-
 namespace IMMRequest.DataAccess.Core.Repositories
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using Interfaces;
+    using Microsoft.EntityFrameworkCore;
+
     public class Repository<T> : IRepository<T> where T : class
     {
         public Repository(DbContext context)

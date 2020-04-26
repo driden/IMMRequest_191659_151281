@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace IMMRequest.Domain.Fields
 {
   public enum FieldType { Integer, Text, Date }
@@ -11,7 +9,7 @@ namespace IMMRequest.Domain.Fields
     public bool IsRequired { get; set; }
     public int TypeId { get; set; }
 
-    public abstract void ValidateRange();
+    public abstract void ValidateRange(object value);
 
     public abstract void AddToRange(IItem item);
   }

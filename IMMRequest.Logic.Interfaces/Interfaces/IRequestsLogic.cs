@@ -1,9 +1,9 @@
-using IMMRequest.Logic.Models;
-
 namespace IMMRequest.Logic.Interfaces
 {
+    using Models;
+
     public interface IRequestsLogic
     {
-        void Add(CreateRequest createRequest);
+        int Add(CreateRequest createRequest);
     }
 }

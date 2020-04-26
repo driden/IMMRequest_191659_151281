@@ -1,13 +1,12 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
-
 namespace IMMRequest.Domain.Fields.Tests
 {
-    [TestClass()]
+    using System.Linq;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    [TestClass]
     public class DateFieldTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void AddToRangeTest()
         {
             var dateField = new DateField();
@@ -16,30 +15,14 @@ namespace IMMRequest.Domain.Fields.Tests
             Assert.AreEqual(1, dateField.Range.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void DateFieldTest()
         {
             var dateField = new DateField();
             Assert.AreEqual(FieldType.Date, dateField.FieldType);
         }
 
-        [TestMethod()]
-        public void ValidateRangeTest()
-        {
-            // TODO Definir validacion
-            try
-            {
-                var dateField = new DateField();
-                dateField.ValidateRange();
-                
-            } catch (Exception ex)
-            {
-
-            }
-        
-        }
-
-        [TestMethod()]
+        [TestMethod]
         public void AddToRangeTest1()
         {
             var dateField = new DateField();
@@ -48,14 +31,14 @@ namespace IMMRequest.Domain.Fields.Tests
             Assert.AreEqual(0, dateField.Range.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void NotRequiredTest()
         {
             var dateField = new DateField();
             Assert.IsFalse(dateField.IsRequired);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void IsRequiredTest()
         {
             var dateField = new DateField
@@ -65,7 +48,7 @@ namespace IMMRequest.Domain.Fields.Tests
             Assert.IsTrue(dateField.IsRequired);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void TypeIdTest()
         {
             var number = 12;

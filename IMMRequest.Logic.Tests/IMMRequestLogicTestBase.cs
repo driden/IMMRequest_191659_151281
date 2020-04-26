@@ -1,11 +1,12 @@
-using IMMRequest.Domain;
-using IMMRequest.Domain.Fields;
-using IMMRequest.Logic.Models;
-using System.Collections.Generic;
-using Type = IMMRequest.Domain.Type;
-
 namespace IMMRequest.Logic.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using Domain;
+    using Domain.Fields;
+    using Models;
+    using Type = Domain.Type;
+
     public class IMMRequestLogicTestBase
     {
         protected Request NewRequest()
@@ -14,6 +15,18 @@ namespace IMMRequest.Logic.Tests
             {
                 Citizen = new Citizen { Email = "citizen@mail.com", Name = "Name", PhoneNumber = "555-5555555" },
                 Details = "Request Details",
+                Type = NewType(),
+                Id = 1
+            };
+        }
+
+        protected List<RequestField> GetSomeAdditionaFields()
+        {
+            return new List<RequestField>
+            {
+                new IntRequestField{ Name = "num", Value = 4},
+                new TextRequestField { Name = "text", Value = "some text"},
+                new DateRequestField { Name = "date", Value = DateTime.Today}
             };
         }
 
@@ -24,15 +37,15 @@ namespace IMMRequest.Logic.Tests
                 Name = "TestAdditionalDateField",
                 Range = new List<DateItem>
                 {
-                    new DateItem { Value = System.DateTime.Today.AddDays(-1) },
-                    new DateItem { Value = System.DateTime.Today.AddDays(1) },
+                    new DateItem { Value = DateTime.Today.AddDays(-1) },
+                    new DateItem { Value = DateTime.Today.AddDays(1) },
                 }
             };
 
             return new Type
             {
                 Name = "TestType",
-                AdditionalFields = new List<AdditionalField>() { dateFieldFechaYHora }
+                AdditionalFields = new List<AdditionalField> { dateFieldFechaYHora }
             };
         }
 
@@ -41,13 +54,13 @@ namespace IMMRequest.Logic.Tests
             return new Topic
             {
                 Name = "TestTopic",
-                Types = new List<Type>() { NewType() }
+                Types = new List<Type> { NewType() }
             };
         }
 
         protected Area NewArea()
         {
-            return new Area()
+            return new Area
             {
                 Id = 1,
                 Name = "TestArea",
@@ -69,5 +82,16 @@ namespace IMMRequest.Logic.Tests
             Phone = "555-555555",
         };
 
-    };
+        protected CreateRequest NewCreateRequestBody()
+        {
+            return new CreateRequest
+            {
+                Email = "test@mail.com",
+                Details = "test details",
+                Name = "test name",
+                Phone = "phone number",
+                AdditionalFields = new List<FieldRequestModel>()
+            };
+        }
+    }
 }

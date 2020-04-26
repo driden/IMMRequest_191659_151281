@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using IMMRequest.DataAccess.Core.Repositories;
-using IMMRequest.Domain;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace IMMRequest.DataAccess.Tests
 {
+    using System.Linq;
+    using Core.Repositories;
+    using Domain;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class UserRepositoryTests : IMMRequestTestBase
     {
@@ -35,8 +32,8 @@ namespace IMMRequest.DataAccess.Tests
             _context.Set<User>().AddRange(admin, citizen);
             _context.SaveChanges();
 
-            Assert.AreEqual(admin, _context.Set<Admin>().First());
-            Assert.AreEqual(citizen, _context.Set<Citizen>().First());
+            Assert.AreEqual(admin, _context.Admins.First());
+            Assert.AreEqual(citizen, _context.Citizens.First());
         }
 
         [TestMethod]
@@ -61,7 +58,7 @@ namespace IMMRequest.DataAccess.Tests
             admin.Name = "foo";
             _repository.Update(admin);
 
-            Assert.AreEqual("foo", _context.Set<Admin>().First().Name);
+            Assert.AreEqual("foo", _context.Admins.First().Name);
         }
 
         [TestMethod]
@@ -74,7 +71,7 @@ namespace IMMRequest.DataAccess.Tests
             _repository.Add(citizen);
 
             Assert.AreEqual(2, _context.Set<User>().Count());
-            Assert.AreEqual(1, _context.Set<Admin>().Count());
+            Assert.AreEqual(1, _context.Admins.Count());
             Assert.AreEqual(1, _context.Set<Citizen>().Count());
         }
 
@@ -86,12 +83,11 @@ namespace IMMRequest.DataAccess.Tests
             _context.Set<User>().Add(admin);
             _context.SaveChanges();
 
-            Assert.AreEqual(1, _context.Set<Admin>().Count());
+            Assert.AreEqual(1, _context.Admins.Count());
             _repository.Remove(admin);
 
-            Assert.AreEqual(0, _context.Set<Admin>().Count());
+            Assert.AreEqual(0, _context.Admins.Count());
             Assert.AreEqual(0, _context.Set<User>().Count());
         }
-
     }
 }

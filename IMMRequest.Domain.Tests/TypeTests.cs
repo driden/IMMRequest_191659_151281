@@ -1,13 +1,13 @@
-using IMMRequest.Domain.Fields;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-
 namespace IMMRequest.Domain.Tests
 {
-    [TestClass()]
+    using System.Collections.Generic;
+    using Fields;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    [TestClass]
     public class TypeTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void TypeTest()
         {
             var type = new Type();
@@ -16,7 +16,7 @@ namespace IMMRequest.Domain.Tests
             Assert.IsNull(type.AdditionalFields);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void TypeNameTest()
         {
             var name = "Type name";
@@ -28,7 +28,7 @@ namespace IMMRequest.Domain.Tests
             Assert.AreSame(name, type.Name);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void TypeAdditionalFieldsTest()
         {
             var additionalFields = new List<AdditionalField>();

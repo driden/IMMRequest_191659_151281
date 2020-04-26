@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
-
 namespace IMMRequest.Domain
 {
+    using System.Collections.Generic;
+
     public class Area
     {
         public int Id { get; set; }
@@ -11,7 +10,7 @@ namespace IMMRequest.Domain
 
         public Area()
         {
-            this.Topics = new List<Topic>();
+            Topics = new List<Topic>();
         }
     }
 }

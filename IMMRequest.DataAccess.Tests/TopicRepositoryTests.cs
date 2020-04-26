@@ -1,10 +1,10 @@
-using System.Linq;
-using IMMRequest.DataAccess.Core.Repositories;
-using IMMRequest.Domain;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace IMMRequest.DataAccess.Tests
 {
+    using System.Linq;
+    using Core.Repositories;
+    using Domain;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class TopicRepositoryTests : IMMRequestTestBase
     {
@@ -28,28 +28,28 @@ namespace IMMRequest.DataAccess.Tests
         {
             _repository.Add(NewTopic());
 
-            Assert.AreEqual("TestTopic", _context.Set<Topic>().First().Name);
-            Assert.AreEqual(1, _context.Set<Topic>().Count());
+            Assert.AreEqual("TestTopic", _context.Topics.First().Name);
+            Assert.AreEqual(1, _context.Topics.Count());
         }
 
         [TestMethod]
         public void CanModifyATopicIntheDatabase()
         {
             var topic = NewTopic();
-            _context.Set<Topic>().Add(topic);
+            _context.Topics.Add(topic);
             _context.SaveChanges();
 
             topic.Name = "NewTopic";
             _repository.Update(topic);
-            Assert.AreEqual("NewTopic", _context.Set<Topic>().First().Name);
-            Assert.AreEqual(1, _context.Set<Topic>().Count());
+            Assert.AreEqual("NewTopic", _context.Topics.First().Name);
+            Assert.AreEqual(1, _context.Topics.Count());
         }
 
         [TestMethod]
         public void CanGetATopicFromtheDatabase()
         {
             var topic = NewTopic();
-            _context.Set<Topic>().Add(topic);
+            _context.Topics.Add(topic);
             _context.SaveChanges();
 
             Assert.AreEqual(topic, _repository.Get(topic.Id));
@@ -58,7 +58,7 @@ namespace IMMRequest.DataAccess.Tests
         [TestMethod]
         public void CanGetAllTopicsFromTheDatabase()
         {
-            _context.Set<Topic>().AddRange(NewTopic(), NewTopic());
+            _context.Topics.AddRange(NewTopic(), NewTopic());
             _context.SaveChanges();
 
             Assert.AreEqual(2, _repository.GetAll().Count());
@@ -68,10 +68,10 @@ namespace IMMRequest.DataAccess.Tests
         public void CanDeleteATopicIntheDatabase()
         {
             var topic = NewTopic();
-            _context.Set<Topic>().Add(topic);
+            _context.Topics.Add(topic);
             _context.SaveChanges();
             _repository.Remove(topic);
-            Assert.AreEqual(0, _context.Set<Topic>().Count());
+            Assert.AreEqual(0, _context.Topics.Count());
         }
     }
 }

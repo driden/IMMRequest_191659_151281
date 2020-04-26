@@ -1,35 +1,38 @@
-using System;
-using System.Collections.Generic;
-
 namespace IMMRequest.Domain.Fields
 {
-  public class TextField : AdditionalField
-  {
-    public virtual IEnumerable<TextItem> Range { get; set; } = new List<TextItem>();
-    public string Value { get; set; } = string.Empty;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Exceptions;
 
-    public void AddToRange(string item)
+    public class TextField : AdditionalField
     {
-      (this.Range as IList<TextItem>).Add(new TextItem { Value = item });
+        public virtual IEnumerable<TextItem> Range { get; set; } = new List<TextItem>();
 
-    }
+        public void AddToRange(string item)
+        {
+            (Range as IList<TextItem>).Add(new TextItem { Value = item });
 
-    public TextField()
-    {
-      this.FieldType = FieldType.Text;
-    }
+        }
 
-    public override void ValidateRange()
-    {
-      throw new NotImplementedException();
-    }
+        public TextField()
+        {
+            FieldType = FieldType.Text;
+        }
 
-    public override void AddToRange(IItem item)
-    {
-      if (item.Type == FieldType.Text)
-      {
-        this.AddToRange(((TextItem)item).Value);
-      }
+        public override void ValidateRange(object value)
+        {
+            if (Range.Any() && !Range.Any(rangeVal => value.ToString().Trim().Equals(rangeVal)))
+            {
+                throw new InvalidFieldRangeException($"text '{value}' is not in range {string.Join(", ", Range.Select(r => r.Value).ToArray())}");
+            }
+        }
+
+        public override void AddToRange(IItem item)
+        {
+            if (item.Type == FieldType.Text)
+            {
+                AddToRange(((TextItem)item).Value);
+            }
+        }
     }
-  }
 }

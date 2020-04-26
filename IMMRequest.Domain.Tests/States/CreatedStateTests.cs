@@ -1,20 +1,20 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using IMMRequest.Domain.Exceptions;
-
 namespace IMMRequest.Domain.States.Tests
 {
-    [TestClass()]
+    using System;
+    using Exceptions;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    [TestClass]
     public class CreatedStateTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void CreatedStateTest()
         {
             CreatedState created = new CreatedState();
             Assert.IsNull(created.Request);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void CreatedStateTest1()
         {
             Request request = new Request();
@@ -23,7 +23,7 @@ namespace IMMRequest.Domain.States.Tests
             Assert.AreEqual(created.Request, request);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void AcceptedTest()
         {
             Request request = new Request();
@@ -39,7 +39,7 @@ namespace IMMRequest.Domain.States.Tests
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void CreatedTest()
         {
             Request request = new Request();
@@ -55,7 +55,7 @@ namespace IMMRequest.Domain.States.Tests
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void DeniedTest()
         {
             Request request = new Request();
@@ -71,7 +71,7 @@ namespace IMMRequest.Domain.States.Tests
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void DoneTest()
         {
             Request request = new Request();
@@ -87,7 +87,7 @@ namespace IMMRequest.Domain.States.Tests
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void InReviewTest()
         {
             Request request = new Request();

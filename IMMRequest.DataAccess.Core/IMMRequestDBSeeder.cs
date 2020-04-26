@@ -1,19 +1,19 @@
-using System.Collections.Generic;
-using System.Linq;
-using IMMRequest.Domain;
-using IMMRequest.Domain.Fields;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-
 namespace IMMRequest.DataAccess.Core
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Domain;
+    using Domain.Fields;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
+
     public class IMMRequestDBSeeder : IDbSeeder
     {
         private readonly IServiceScopeFactory _scopeFactory;
 
         public IMMRequestDBSeeder(IServiceScopeFactory scopeFactory)
         {
-            this._scopeFactory = scopeFactory;
+            _scopeFactory = scopeFactory;
         }
 
         public void Seed()
@@ -35,12 +35,12 @@ namespace IMMRequest.DataAccess.Core
         {
             get
             {
-                return new Area[]
+                return new[]
                 {
                     AreaTransporte,
-                    new Area() { Name = "Espacios publicos y calles"},
-                    new Area() { Name = "Limpieza" },
-                    new Area() { Name = "Saneamiento" }
+                    new Area { Name = "Espacios publicos y calles"},
+                    new Area { Name = "Limpieza" },
+                    new Area { Name = "Saneamiento" }
                 };
             }
         }
@@ -51,20 +51,20 @@ namespace IMMRequest.DataAccess.Core
         {
             get
             {
-                return new Topic[] { AcosoSexual };
+                return new[] { AcosoSexual };
             }
         }
 
 
-        private Domain.Type TaxiAcoso => new Domain.Type
+        private Type TaxiAcoso => new Type
         {
             Name = "Taxi - Acoso",
-            AdditionalFields = new List<AdditionalField>()
+            AdditionalFields = new List<AdditionalField>
             {
                 TextFieldMatricula, DateFieldFechaYHora, IntegerFieldNroMovil
             }
         };
-        private Domain.Type[] SeededTypes => new Domain.Type[] { TaxiAcoso };
+        private Type[] SeededTypes => new[] { TaxiAcoso };
 
 
         private IntegerField IntegerFieldNroMovil => new IntegerField { IsRequired = true, Name = "Nro de Movil" };
@@ -72,14 +72,14 @@ namespace IMMRequest.DataAccess.Core
         {
             get
             {
-                return new IntegerField[] { IntegerFieldNroMovil };
+                return new[] { IntegerFieldNroMovil };
             }
         }
 
         private TextField TextFieldMatricula => new TextField { Name = "Matricula" };
-        private TextField[] SeededAdditionalTextFields { get { return new TextField[] { TextFieldMatricula }; } }
+        private TextField[] SeededAdditionalTextFields { get { return new[] { TextFieldMatricula }; } }
         private DateField DateFieldFechaYHora => new DateField { Name = "Fecha y hora" };
-        private DateField[] SeededAdditionalDateFields { get { return new DateField[] { DateFieldFechaYHora }; } }
+        private DateField[] SeededAdditionalDateFields { get { return new[] { DateFieldFechaYHora }; } }
 
 
         private Admin[] SeededAdmins

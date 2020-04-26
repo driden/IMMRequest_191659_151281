@@ -1,12 +1,11 @@
-using System.Collections.Generic;
-using System.Linq;
-using IMMRequest.DataAccess.Core.Repositories;
-using IMMRequest.Domain;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Type = IMMRequest.Domain.Type;
-
 namespace IMMRequest.DataAccess.Tests
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Core.Repositories;
+    using Domain;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class RequestRepositoryTests : IMMRequestTestBase
     {
@@ -33,8 +32,8 @@ namespace IMMRequest.DataAccess.Tests
 
             _repository.Add(request);
 
-            Assert.AreEqual(1, _context.Set<Request>().Count());
-            Assert.AreEqual(request, _context.Set<Request>().First());
+            Assert.AreEqual(1, _context.Requests.Count());
+            Assert.AreEqual(request, _context.Requests.First());
             Assert.AreEqual(1, _context.Set<Citizen>().Count());
             Assert.AreEqual(1, _context.Set<User>().Count());
         }
@@ -49,8 +48,8 @@ namespace IMMRequest.DataAccess.Tests
             request.Details = "New Details";
             _repository.Update(request);
 
-            Assert.AreEqual(1, _context.Set<Request>().Count());
-            Assert.AreEqual("New Details", _context.Set<Request>().First().Details);
+            Assert.AreEqual(1, _context.Requests.Count());
+            Assert.AreEqual("New Details", _context.Requests.First().Details);
         }
 
         [TestMethod]
@@ -69,7 +68,7 @@ namespace IMMRequest.DataAccess.Tests
         {
             var newRequest = NewRequest();
             newRequest.Citizen.Email = "new@email.com";
-            _context.Set<Request>().AddRange(NewRequest(), newRequest);
+            _context.Requests.AddRange(NewRequest(), newRequest);
             _context.SaveChanges();
 
             Assert.AreEqual(2, _repository.GetAll().Count());
@@ -84,7 +83,7 @@ namespace IMMRequest.DataAccess.Tests
 
             _repository.Remove(request);
 
-            Assert.AreEqual(0, _context.Set<Request>().Count());
+            Assert.AreEqual(0, _context.Requests.Count());
         }
 
         [TestMethod]
@@ -100,7 +99,7 @@ namespace IMMRequest.DataAccess.Tests
             {
                 Citizen = new Citizen { Email = "citizen@mail.com", Name = "Citizen Name" },
                 Details = "new request details",
-                Topic = topic,
+                Type = type,
             };
 
             _context.Add(request);
@@ -108,7 +107,7 @@ namespace IMMRequest.DataAccess.Tests
 
             var requestInDb = _repository.Get(request.Id);
 
-            Assert.IsNotNull(requestInDb.Topic);
+            Assert.IsNotNull(requestInDb.Type);
         }
 
     }

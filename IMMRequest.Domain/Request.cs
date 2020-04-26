@@ -1,13 +1,16 @@
-using IMMRequest.Domain.States;
-using IMMRequest.Domain.Exceptions;
-using System;
-
 namespace IMMRequest.Domain
 {
+    using System.Collections.Generic;
+    using Exceptions;
+    using States;
+
     public class Request
     {
         public int Id { get; set; }
         public virtual State Status { get; set; }
+        public virtual Citizen Citizen { get; set; }
+        public virtual Type Type { get; set; }
+        public virtual List<RequestField> FieldValues { get; set; } = new List<RequestField>();
         private string _details;
         public string Details
         {
@@ -24,9 +27,6 @@ namespace IMMRequest.Domain
                 }
             }
         }
-
-        public virtual Citizen Citizen { get; set; }
-        public virtual Topic Topic { get; set; }
 
         public Request()
         {

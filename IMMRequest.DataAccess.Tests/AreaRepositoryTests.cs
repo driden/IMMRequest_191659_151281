@@ -1,10 +1,10 @@
-using System.Linq;
-using IMMRequest.DataAccess.Core.Repositories;
-using IMMRequest.Domain;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace IMMRequest.DataAccess.Tests
 {
+    using System.Linq;
+    using Core.Repositories;
+    using Domain;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class AreaRepositoryTests : IMMRequestTestBase
     {
@@ -28,9 +28,20 @@ namespace IMMRequest.DataAccess.Tests
         {
             _repository.Add(NewArea());
 
-            Assert.AreEqual(1, _context.Set<Domain.Area>().Count());
-            Assert.AreEqual(1, _context.Set<Domain.Topic>().Count());
-            Assert.AreEqual(1, _context.Set<Domain.Type>().First().AdditionalFields.Count());
+            Assert.AreEqual(1, _context.Set<Area>().Count());
+            Assert.AreEqual(1, _context.Set<Topic>().Count());
+            Assert.AreEqual(1, _context.Set<Type>().First().AdditionalFields.Count());
+        }
+        
+        [TestMethod]
+        public void ATrackedAreaHasAnId()
+        {
+            var area = NewArea();
+            Assert.AreNotEqual(1, area.Id);
+
+            _repository.Add(area);
+
+            Assert.AreEqual(1, area.Id);
         }
 
         [TestMethod]
@@ -69,12 +80,23 @@ namespace IMMRequest.DataAccess.Tests
         public void CanDeleteAnAreaInTheDatabase()
         {
             var area = NewArea();
-            _context.Set<Area>().Add(area);
+            _context.Areas.Add(area);
             _context.SaveChanges();
 
             _repository.Remove(area);
 
             Assert.AreEqual(0, _context.Set<Area>().Count());
+        }
+
+        [TestMethod]
+        public void CanFindTheAreaThatOwnsATypeById()
+        {
+            var area = NewArea();
+            _context.Set<Area>().Add(area);
+            _context.SaveChanges();
+
+            var areaFromType = _repository.FindWithTypeId(_context.Set<Type>().First().Id);
+            Assert.AreEqual(areaFromType.Id,area.Id);
         }
     }
 }

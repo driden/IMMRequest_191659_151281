@@ -1,14 +1,14 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-
-
 namespace IMMRequest.Domain.Tests
 {
-    [TestClass()]
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Type = Domain.Type;
+
+    [TestClass]
     public class TopicTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void TopicTest()
         {
             var topic = new Topic();
@@ -16,7 +16,7 @@ namespace IMMRequest.Domain.Tests
             Assert.IsNull(topic.Types);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void TopicIdTest()
         {
             Random random = new Random();
@@ -28,7 +28,7 @@ namespace IMMRequest.Domain.Tests
             Assert.AreEqual(id, topic.Id);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void TopicNameTest()
         {
             var name = "Topic name";
@@ -39,7 +39,7 @@ namespace IMMRequest.Domain.Tests
             Assert.AreEqual(name, topic.Name);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void TopicTypesTest()
         {
             var types = new List<Type>();
@@ -50,7 +50,7 @@ namespace IMMRequest.Domain.Tests
             Assert.AreEqual(types, topic.Types);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void TopicAreaTest()
         {
             Random random = new Random();

@@ -1,11 +1,11 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace IMMRequest.Domain.Tests
 {
-    [TestClass()]
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    [TestClass]
     public class AdminTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void AdminTest()
         {
             Admin admin = new Admin();
@@ -13,17 +13,17 @@ namespace IMMRequest.Domain.Tests
             Assert.IsNull(admin.Password);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EmptyPasswordTest()
         {
-            Admin admin = new Admin()
+            Admin admin = new Admin
             {
                 Email = "admin@admin.com"
             };
             Assert.IsNull(admin.Password);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void PasswordTest()
         {
             var password = "pass123";
@@ -34,17 +34,17 @@ namespace IMMRequest.Domain.Tests
             Assert.AreEqual(password, admin.Password);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EmptyEmailTest()
         {
-            var admin = new Admin()
+            var admin = new Admin
             {
                 Password = "pass123"
             };
             Assert.IsNull(admin.Email);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EmailTest()
         {
             var email = "admin@admin.com";

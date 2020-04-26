@@ -1,8 +1,8 @@
-using IMMRequest.Domain.Exceptions;
-using System.Text.RegularExpressions;
-
 namespace IMMRequest.Domain
 {
+    using System.Text.RegularExpressions;
+    using Exceptions;
+
     public class User
     {
         public int Id { get; set; }
@@ -42,11 +42,6 @@ namespace IMMRequest.Domain
                     throw new InvalidPhoneNumberException("The phone format is not valid");
                 }
             }
-        }
-
-        public User()
-        {
-
         }
     }
 }
