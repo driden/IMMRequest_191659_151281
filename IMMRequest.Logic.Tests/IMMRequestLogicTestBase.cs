@@ -15,7 +15,8 @@ namespace IMMRequest.Logic.Tests
             {
                 Citizen = new Citizen { Email = "citizen@mail.com", Name = "Name", PhoneNumber = "555-5555555" },
                 Details = "Request Details",
-                Type = NewType()
+                Type = NewType(),
+                Id = 1
             };
         }
 

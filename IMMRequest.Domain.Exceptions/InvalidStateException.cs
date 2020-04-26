@@ -6,16 +6,14 @@ namespace IMMRequest.Domain.Exceptions
     {
         public int RequestId { get; }
 
-        public InvalidStateException() { }
-
         public InvalidStateException(string message)
-            : base(message) { }
+            : this(message, null) { }
 
         public InvalidStateException(string message, Exception inner)
             : base(message, inner) { }
 
         public InvalidStateException(string message, int requestId)
-            : this(message)
+            : this(message, null)
         {
             RequestId = requestId;
         }

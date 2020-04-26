@@ -14,6 +14,8 @@ namespace IMMRequest.Logic.Models
 
         public string CitizenEmail { get; set; }
 
+        public int RequestId { get; set; }
+
         public IEnumerable<FieldRequestModel> Fields { get; set; }
     }
 } 

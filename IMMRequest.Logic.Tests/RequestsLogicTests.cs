@@ -471,6 +471,7 @@ namespace IMMRequest.Logic.Tests
             Assert.AreEqual(request.Citizen.PhoneNumber, requestResponse.CitizenPhoneNumber);
             Assert.AreEqual(request.Details, requestResponse.Details);
             Assert.AreEqual(request.Status.Description, requestResponse.RequestState);
+            Assert.AreEqual(1,requestResponse.RequestId);
             CollectionAssert.AreEqual(
             new List<FieldRequestModel>{
                 new FieldRequestModel { Name = "num", Value = "4"},
@@ -480,14 +481,19 @@ namespace IMMRequest.Logic.Tests
             requestResponse.Fields.ToList());
         }
 
-        //[TestMethod]
-        //public void CantGetARequestStatusWithAnInvalidRequestId()
-        //{
-        //    _requestRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(() => null);
+        [TestMethod]
+        public void CantGetARequestStatusOfANullRequest()
+        {
+            _requestRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(() => null);
 
-        //    var request = NewRequest();
-        //    Assert.ThrowsException<NoSuchRequestException>(() => this._requestsLogic.GetRequestStatus(1));
-        //}
+            Assert.ThrowsException<NoSuchRequestException>(() => this._requestsLogic.GetRequestStatus(1));
+        }
+
+        [TestMethod]
+        public void CantGetARequestStatusWithAnInvalidRequestId()
+        {
+            Assert.ThrowsException<InvalidRequestIdException>(() => this._requestsLogic.GetRequestStatus(-1));
+        }
 
         private void SetUpAddMocks()
         {

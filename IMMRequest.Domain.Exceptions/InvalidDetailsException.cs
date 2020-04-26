@@ -5,10 +5,8 @@ namespace IMMRequest.Domain.Exceptions
     public class InvalidDetailsException : Exception
     {
 
-        public InvalidDetailsException() { }
-
         public InvalidDetailsException(string message)
-            : base(message) { }
+            : this(message,null) { }
 
         public InvalidDetailsException(string message, Exception inner)
             : base(message, inner) { }

@@ -92,7 +92,8 @@ namespace IMMRequest.Logic.Core
                 CitizenName = request.Citizen.Name,
                 CitizenPhoneNumber = request.Citizen.PhoneNumber,
                 CitizenEmail = request.Citizen.Email,
-                Fields = request.FieldValues.Select(fv => new FieldRequestModel { Name = fv.Name, Value = fv.ToString() })
+                Fields = request.FieldValues.Select(fv => new FieldRequestModel { Name = fv.Name, Value = fv.ToString() }),
+                RequestId = request.Id
             };
         }
 
@@ -136,7 +137,7 @@ namespace IMMRequest.Logic.Core
         {
             if (request == null)
             {
-                throw new InvalidRequestIdException($"Request with id {requestId} could not be found.");
+                throw new NoSuchRequestException($"Request with id {requestId} could not be found.");
             }
         }
 
