@@ -4,7 +4,6 @@ namespace IMMRequest.Domain.Exceptions
 
     public class InvalidEmailException : Exception
     {
-
         public InvalidEmailException(string message)
             : this(message,null) { }
 
