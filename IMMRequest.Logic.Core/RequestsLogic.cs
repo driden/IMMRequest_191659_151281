@@ -30,7 +30,7 @@ namespace IMMRequest.Logic.Core
 
         public int Add(CreateRequest createRequest)
         {
-            var type = _typeRepo.Get(createRequest.TopicId);
+            var type = _typeRepo.Get(createRequest.TypeId);
 
             ValidateTypeNotNull(createRequest, type);
 
@@ -211,7 +211,7 @@ namespace IMMRequest.Logic.Core
         {
             if (type == null)
             {
-                throw new NoSuchTopicException($"No topic with id={createRequest.TopicId} exists");
+                throw new NoSuchTopicException($"No topic with id={createRequest.TypeId} exists");
             }
         }
 

@@ -78,7 +78,7 @@ namespace IMMRequest.DataAccess.Tests
         protected IEnumerable<AdditionalField> ExtraFields => new List<AdditionalField>
         {
             new IntegerField { IsRequired = true, Name = "Nro de Movil" },
-             new TextField { Name = "Matricula" }
+            new TextField {  Name = "Matricula" }
         };
     }
 }

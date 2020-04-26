@@ -38,6 +38,10 @@ namespace IMMRequest.DataAccess.Tests
             Assert.AreEqual(1, _context.Types.Count());
             Assert.AreEqual(3, _context.Types.First().AdditionalFields.Count());
             Assert.AreEqual(2, _context.Set<DateItem>().Count());
+
+            var additionalFields = _context.Types.First().AdditionalFields;
+            Assert.AreEqual(1, additionalFields[0].Id);
+            Assert.AreEqual(taxiType.Id, additionalFields[0].TypeId);
         }
 
         [TestMethod]

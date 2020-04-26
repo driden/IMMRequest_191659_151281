@@ -85,6 +85,7 @@ namespace IMMRequest.Logic.Tests
                 }).Verifiable();
 
             _requestsLogic.Add(CreateRequest);
+            Assert.AreEqual(-1,CreateRequest.TypeId);
             Assert.AreEqual(CreateRequest.Email, request.Email);
             Assert.AreEqual(CreateRequest.Name, request.Name);
             Assert.AreEqual(CreateRequest.Phone, request.PhoneNumber);

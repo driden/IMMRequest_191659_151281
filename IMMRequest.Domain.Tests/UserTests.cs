@@ -10,6 +10,7 @@ namespace IMMRequest.Domain.Tests
         {
             var user = new User();
 
+            Assert.AreEqual(default(int), user.Id);
             Assert.AreEqual(null, user.Name);
             Assert.AreEqual(null, user.Email);
             Assert.AreEqual(null, user.PhoneNumber);

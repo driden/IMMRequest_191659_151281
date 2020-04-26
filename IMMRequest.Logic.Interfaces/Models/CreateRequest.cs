@@ -8,7 +8,7 @@ namespace IMMRequest.Logic.Models
         public string Email { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
-        public int TopicId { get; set; } = -1;
+        public int TypeId { get; set; } = -1;
         public IEnumerable<FieldRequestModel> AdditionalFields { get; set; } = new List<FieldRequestModel>();
     }
 }
