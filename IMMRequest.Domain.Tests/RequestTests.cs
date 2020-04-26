@@ -1,8 +1,11 @@
 namespace IMMRequest.Domain.Tests
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using Exceptions;
+    using Fields;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using States;
     using Type = Domain.Type;
@@ -108,6 +111,54 @@ namespace IMMRequest.Domain.Tests
             request.Type = type;
 
             Assert.AreSame(type, request.Type);
+        }
+
+        [TestMethod]
+        public void DateItem()
+        {
+            var dateItem = new DateItem
+            {
+                Id = 1, DateFieldId = 1
+            };
+            Assert.AreEqual(1, dateItem.Id);
+            Assert.AreEqual(1, dateItem.DateFieldId);
+        }
+
+        [TestMethod]
+        public void TextItem()
+        {
+            var textItem = new TextItem
+            {
+                Id = 1, TextFieldId = 1
+            };
+
+            Assert.AreEqual(1, textItem.Id);
+            Assert.AreEqual(1, textItem.TextFieldId);
+        }
+
+        [TestMethod]
+        public void IntItem()
+        {
+            var intItem = new IntegerItem
+            {
+                Id = 1, IntegerFieldId = 1
+            };
+
+            Assert.AreEqual(1, intItem.Id);
+            Assert.AreEqual(1, intItem.IntegerFieldId);
+        }
+
+        [TestMethod]
+        public void RequestHasRequestFields()
+        {
+            var request = new Request
+            {
+                Id = 1, FieldValues = new List<RequestField> {new TextRequestField {Id = 1, requestId = 1}}
+            };
+
+            Assert.AreEqual(1, request.Id);
+            Assert.AreEqual(1, request.FieldValues.First().Id);
+            Assert.AreEqual(1, request.FieldValues.First().requestId);
         }
     }
 
