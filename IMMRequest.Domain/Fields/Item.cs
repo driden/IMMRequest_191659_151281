@@ -1,8 +1,8 @@
-using System;
-
 namespace IMMRequest.Domain.Fields
 {
-  public class DateItem : IItem
+    using System;
+
+    public class DateItem : IItem
   {
     public int Id { get; set; }
     public DateTime Value { get; set; }

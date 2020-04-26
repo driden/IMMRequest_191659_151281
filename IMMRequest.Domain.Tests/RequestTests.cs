@@ -1,22 +1,23 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using IMMRequest.Domain.States;
-using IMMRequest.Domain.Exceptions;
-using System;
-using System.Text;
-
 namespace IMMRequest.Domain.Tests
 {
-    [TestClass()]
+    using System;
+    using System.Text;
+    using Exceptions;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using States;
+    using Type = Domain.Type;
+
+    [TestClass]
     public class RequestTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void RequestTest()
         {
             var request = new Request();
             Assert.AreEqual(typeof(CreatedState), request.Status.GetType());
         }
         
-        [TestMethod()]
+        [TestMethod]
         public void RequestStatusTest()
         {
             var request = new Request();
@@ -25,7 +26,7 @@ namespace IMMRequest.Domain.Tests
             Assert.AreEqual(typeof(AcceptedState), request.Status.GetType());
         }
         
-        [TestMethod()]
+        [TestMethod]
         public void RequestDetailsTest()
         {
             var detail = "this is a test";
@@ -37,7 +38,7 @@ namespace IMMRequest.Domain.Tests
         }
 
        
-        [TestMethod()]
+        [TestMethod]
         public void RequestDetailsLessTest()
         {
             int length = 2000;
@@ -64,7 +65,7 @@ namespace IMMRequest.Domain.Tests
         }
 
         // Test that the detail is more than 2000 characters
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(InvalidDetailsException))]
         public void RequestDetailsMoreTest()
         {
@@ -89,7 +90,7 @@ namespace IMMRequest.Domain.Tests
             };
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void RequestCitizenTest()
         {
             var request = new Request();
@@ -99,7 +100,7 @@ namespace IMMRequest.Domain.Tests
             Assert.AreSame(citizen, request.Citizen);
         }
         
-        [TestMethod()]
+        [TestMethod]
         public void RequestTopicTest()
         {
             var request = new Request();

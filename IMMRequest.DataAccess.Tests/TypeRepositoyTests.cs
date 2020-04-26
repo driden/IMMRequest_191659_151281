@@ -1,11 +1,11 @@
-using System.Linq;
-using IMMRequest.DataAccess.Core.Repositories;
-using IMMRequest.Domain;
-using IMMRequest.Domain.Fields;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace IMMRequest.DataAccess.Tests
 {
+    using System.Linq;
+    using Core.Repositories;
+    using Domain;
+    using Domain.Fields;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class TypeRepositoyTests : IMMRequestTestBase
     {
@@ -35,8 +35,8 @@ namespace IMMRequest.DataAccess.Tests
 
             _repository.Add(taxiType);
 
-            Assert.AreEqual(1, _context.Set<Domain.Type>().Count());
-            Assert.AreEqual(3, _context.Set<Domain.Type>().First().AdditionalFields.Count());
+            Assert.AreEqual(1, _context.Set<Type>().Count());
+            Assert.AreEqual(3, _context.Set<Type>().First().AdditionalFields.Count());
             Assert.AreEqual(2, _context.Set<DateItem>().Count());
         }
 
@@ -52,14 +52,14 @@ namespace IMMRequest.DataAccess.Tests
             _context.Types.Add(taxiType);
             _context.SaveChanges();
 
-            Assert.AreEqual(1, _context.Set<Domain.Type>().Count());
-            Assert.AreEqual(3, _context.Set<Domain.Type>().First().AdditionalFields.Count());
+            Assert.AreEqual(1, _context.Set<Type>().Count());
+            Assert.AreEqual(3, _context.Set<Type>().First().AdditionalFields.Count());
             Assert.AreEqual(2, _context.Set<DateItem>().Count());
 
             _repository.Remove(taxiType);
             _context.SaveChanges();
 
-            Assert.AreEqual(0, _context.Set<Domain.Type>().Count());
+            Assert.AreEqual(0, _context.Set<Type>().Count());
             Assert.AreEqual(0, _context.Set<AdditionalField>().Count());
             Assert.AreEqual(0, _context.Set<DateItem>().Count());
         }
@@ -83,9 +83,9 @@ namespace IMMRequest.DataAccess.Tests
 
             _repository.Update(taxiType);
 
-            Assert.AreEqual(2, _context.Set<Domain.Type>().First().AdditionalFields.Count);
-            Assert.AreEqual("Fecha", _context.Set<Domain.Type>().First().AdditionalFields[0].Name);
-            Assert.AreEqual(1, ((DateField)_context.Set<Domain.Type>().First().AdditionalFields[0]).Range.Count());
+            Assert.AreEqual(2, _context.Set<Type>().First().AdditionalFields.Count);
+            Assert.AreEqual("Fecha", _context.Set<Type>().First().AdditionalFields[0].Name);
+            Assert.AreEqual(1, ((DateField)_context.Set<Type>().First().AdditionalFields[0]).Range.Count());
         }
 
         [TestMethod]
@@ -100,7 +100,7 @@ namespace IMMRequest.DataAccess.Tests
 
             _repository.Update(taxiType);
 
-            Assert.AreEqual("Updated Taxi", _context.Set<Domain.Type>().First().Name);
+            Assert.AreEqual("Updated Taxi", _context.Set<Type>().First().Name);
         }
 
         [TestMethod]

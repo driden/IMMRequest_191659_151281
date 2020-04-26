@@ -1,10 +1,10 @@
-using IMMRequest.Domain;
-using IMMRequest.Domain.Fields;
-using IMMRequest.Domain.States;
-using Microsoft.EntityFrameworkCore;
-
 namespace IMMRequest.DataAccess.Core
 {
+    using Domain;
+    using Domain.Fields;
+    using Domain.States;
+    using Microsoft.EntityFrameworkCore;
+
     public class IMMRequestContext : DbContext
     {
         public IMMRequestContext(DbContextOptions<IMMRequestContext> options) : base(options)

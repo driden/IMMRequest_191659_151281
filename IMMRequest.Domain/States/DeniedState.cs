@@ -1,20 +1,20 @@
-using IMMRequest.Domain.Exceptions;
-using System;
-
 namespace IMMRequest.Domain.States
 {
+    using System;
+    using Exceptions;
+
     public class DeniedState : State
     {
         public Request Request { get; }
 
         public DeniedState()
         {
-            this.Description = "This request has been denied";
+            Description = "This request has been denied";
         }
 
         public DeniedState(Request request) : this()
         {
-            this.Request = request;
+            Request = request;
         }
 
         public override void Accepted()

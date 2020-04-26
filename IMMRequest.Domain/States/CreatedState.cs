@@ -1,16 +1,15 @@
-using IMMRequest.Domain.Exceptions;
-using System;
-
-
 namespace IMMRequest.Domain.States
 {
+    using System;
+    using Exceptions;
+
     public class CreatedState : State
     {
         public Request Request { get; }
 
         public CreatedState()
         {
-            this.Description = "This request has been created";
+            Description = "This request has been created";
 
         }
 
@@ -41,8 +40,8 @@ namespace IMMRequest.Domain.States
         public override void InReview()
         {
             // The request changes the status to be reviewed
-            Request.Status = new InReviewState(this.Request);
-            Console.WriteLine("The request " + this.Request.Id + " change to In Review");
+            Request.Status = new InReviewState(Request);
+            Console.WriteLine("The request " + Request.Id + " change to In Review");
         }
     }
 }

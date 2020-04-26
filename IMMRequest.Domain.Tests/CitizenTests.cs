@@ -1,12 +1,12 @@
-using IMMRequest.Domain.Exceptions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace IMMRequest.Domain.Tests
 {
-    [TestClass()]
+    using Exceptions;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    [TestClass]
     public class CitizenTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void CitizenTest()
         {
             var citizen = new Citizen();
@@ -15,7 +15,7 @@ namespace IMMRequest.Domain.Tests
             Assert.IsNull(citizen.PhoneNumber);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void CitizenNameTest()
         {
             var name = "Name Citizen";
@@ -26,7 +26,7 @@ namespace IMMRequest.Domain.Tests
             Assert.AreEqual(name, citizen.Name);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void CitizenValidEmailTest()
         {
             var email = "citizen@citizen.com";
@@ -37,7 +37,7 @@ namespace IMMRequest.Domain.Tests
             Assert.AreEqual(email, citizen.Email);
         }
 
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(InvalidEmailException))]
         public void CitizenInvalidEmailTest()
         {
@@ -49,7 +49,7 @@ namespace IMMRequest.Domain.Tests
             Assert.AreEqual(email, citizen.Email);
         }
 
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(InvalidPhoneNumberException))]
         public void CitizenInvalidPhoneTest()
         {
@@ -61,7 +61,7 @@ namespace IMMRequest.Domain.Tests
             Assert.AreEqual(phone, citizen.PhoneNumber);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void CitizenValidPhoneTest()
         {
             var phone = "+(598)899-980-878";

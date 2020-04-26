@@ -1,20 +1,20 @@
-using IMMRequest.DataAccess.Interfaces;
-using IMMRequest.Domain;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-
 namespace IMMRequest.DataAccess.Core.Repositories
 {
+    using System.Linq;
+    using Domain;
+    using Interfaces;
+    using Microsoft.EntityFrameworkCore;
+
     public class AreaRepository : Repository<Area>, IAreaQueries
     {
         public AreaRepository(DbContext context) : base(context) { }
 
-        public Area FindWithTopicId(int topicId)
+        public Area FindWithTypeId(int typeId)
         {
-            return FirstOrDefault(area =>
-                area.Topics.Any(
-                    topic => topic.Id == topicId)
-                );
+            var type = Context.Set<Type>().Find(typeId);
+            var topic = Context.Set<Topic>().Find(type.TopicId);
+            var area = GetAll().FirstOrDefault(area => area.Id == topic.AreaId);
+            return area;
         }
     }
 }

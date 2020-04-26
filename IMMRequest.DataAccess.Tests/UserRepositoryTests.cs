@@ -1,10 +1,10 @@
-using System.Linq;
-using IMMRequest.DataAccess.Core.Repositories;
-using IMMRequest.Domain;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace IMMRequest.DataAccess.Tests
 {
+    using System.Linq;
+    using Core.Repositories;
+    using Domain;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class UserRepositoryTests : IMMRequestTestBase
     {

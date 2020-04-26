@@ -1,11 +1,11 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace IMMRequest.Domain.Tests
 {
-    [TestClass()]
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    [TestClass]
     public class UserTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void UserTest()
         {
             var user = new User();

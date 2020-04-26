@@ -1,10 +1,10 @@
-using System.Linq;
-using IMMRequest.DataAccess.Core.Repositories;
-using IMMRequest.Domain;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace IMMRequest.DataAccess.Tests
 {
+    using System.Linq;
+    using Core.Repositories;
+    using Domain;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class AreaRepositoryTests : IMMRequestTestBase
     {
@@ -28,9 +28,9 @@ namespace IMMRequest.DataAccess.Tests
         {
             _repository.Add(NewArea());
 
-            Assert.AreEqual(1, _context.Set<Domain.Area>().Count());
-            Assert.AreEqual(1, _context.Set<Domain.Topic>().Count());
-            Assert.AreEqual(1, _context.Set<Domain.Type>().First().AdditionalFields.Count());
+            Assert.AreEqual(1, _context.Set<Area>().Count());
+            Assert.AreEqual(1, _context.Set<Topic>().Count());
+            Assert.AreEqual(1, _context.Set<Type>().First().AdditionalFields.Count());
         }
 
         [TestMethod]

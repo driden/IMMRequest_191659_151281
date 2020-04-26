@@ -1,9 +1,9 @@
-using IMMRequest.Domain.States;
-using IMMRequest.Domain.Exceptions;
-using System.Collections.Generic;
-
 namespace IMMRequest.Domain
 {
+    using System.Collections.Generic;
+    using Exceptions;
+    using States;
+
     public class Request
     {
         public int Id { get; set; }

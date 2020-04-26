@@ -1,13 +1,14 @@
-using System.Collections.Generic;
-using IMMRequest.DataAccess.Core;
-using IMMRequest.Domain;
-using IMMRequest.Domain.Fields;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Type = IMMRequest.Domain.Type;
-
 namespace IMMRequest.DataAccess.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using Core;
+    using Domain;
+    using Domain.Fields;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Type = Domain.Type;
+
     [TestClass]
     public class IMMRequestTestBase
     {
@@ -42,15 +43,15 @@ namespace IMMRequest.DataAccess.Tests
                 Name = "TestAdditionalDateField",
                 Range = new List<DateItem>
                 {
-                    new DateItem { Value = System.DateTime.Today.AddDays(-1) },
-                    new DateItem { Value = System.DateTime.Today.AddDays(1) },
+                    new DateItem { Value = DateTime.Today.AddDays(-1) },
+                    new DateItem { Value = DateTime.Today.AddDays(1) },
                 }
             };
 
             return new Type
             {
                 Name = "TestType",
-                AdditionalFields = new List<AdditionalField>() { dateFieldFechaYHora }
+                AdditionalFields = new List<AdditionalField> { dateFieldFechaYHora }
             };
 
 
@@ -61,13 +62,13 @@ namespace IMMRequest.DataAccess.Tests
             return new Topic
             {
                 Name = "TestTopic",
-                Types = new List<Type>() { NewType() }
+                Types = new List<Type> { NewType() }
             };
         }
 
         protected Area NewArea()
         {
-            return new Area()
+            return new Area
             {
                 Name = "TestArea",
                 Topics = new List<Topic> { NewTopic() }
@@ -79,6 +80,6 @@ namespace IMMRequest.DataAccess.Tests
             new IntegerField { IsRequired = true, Name = "Nro de Movil" },
              new TextField { Name = "Matricula" }
         };
-    };
+    }
 }
 

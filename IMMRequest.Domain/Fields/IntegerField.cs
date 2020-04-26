@@ -1,23 +1,22 @@
-using IMMRequest.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace IMMRequest.Domain.Fields
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Exceptions;
+
     public class IntegerField : AdditionalField
     {
         public virtual IEnumerable<IntegerItem> Range { get; set; } = new List<IntegerItem>();
 
         public void AddToRange(int item)
         {
-            (this.Range as IList<IntegerItem>).Add(new IntegerItem { Value = item });
+            (Range as IList<IntegerItem>).Add(new IntegerItem { Value = item });
         }
 
         public IntegerField()
         {
-            this.FieldType = FieldType.Integer;
-           this.IsRequired = false;
+            FieldType = FieldType.Integer;
+           IsRequired = false;
         }
 
         public override void ValidateRange(object value)
@@ -26,21 +25,20 @@ namespace IMMRequest.Domain.Fields
             {
                 throw new InvalidFieldRangeException("Integer fields can have 0 or 2 items");
             }
-            else
+
+            int val = (int)value;
+            if (Range.Count() == 2)
             {
-                int val = (int)value;
-                if (Range.Count() == 2)
+                int first = Range.First().Value;
+                int second = Range.Skip(1).First().Value;
+                if (first >= second)
                 {
-                    int first = Range.First().Value;
-                    int second = Range.Skip(1).First().Value;
-                    if (first >= second)
-                    {
-                        throw new InvalidFieldRangeException("Integer fields in range should be in ascending order");
-                    }
-                    else if (first > val || val > second)
-                    {
-                        throw new InvalidFieldRangeException($"Integer value {val} is not in range [{first},{second}]");
-                    }
+                    throw new InvalidFieldRangeException("Integer fields in range should be in ascending order");
+                }
+
+                if (first > val || val > second)
+                {
+                    throw new InvalidFieldRangeException($"Integer value {val} is not in range [{first},{second}]");
                 }
             }
         }
@@ -49,7 +47,7 @@ namespace IMMRequest.Domain.Fields
         {
             if (item.Type == FieldType.Integer)
             {
-                this.AddToRange(((IntegerItem)item).Value);
+                AddToRange(((IntegerItem)item).Value);
             }
         }
     }

@@ -1,9 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace IMMRequest.Domain.Exceptions
 {
+    using System;
+
     public class InvalidEmailException : Exception
     {
         public InvalidEmailException() { }

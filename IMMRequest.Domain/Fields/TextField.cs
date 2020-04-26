@@ -1,23 +1,22 @@
-using IMMRequest.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace IMMRequest.Domain.Fields
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Exceptions;
+
     public class TextField : AdditionalField
     {
         public virtual IEnumerable<TextItem> Range { get; set; } = new List<TextItem>();
 
         public void AddToRange(string item)
         {
-            (this.Range as IList<TextItem>).Add(new TextItem { Value = item });
+            (Range as IList<TextItem>).Add(new TextItem { Value = item });
 
         }
 
         public TextField()
         {
-            this.FieldType = FieldType.Text;
+            FieldType = FieldType.Text;
         }
 
         public override void ValidateRange(object value)
@@ -32,7 +31,7 @@ namespace IMMRequest.Domain.Fields
         {
             if (item.Type == FieldType.Text)
             {
-                this.AddToRange(((TextItem)item).Value);
+                AddToRange(((TextItem)item).Value);
             }
         }
     }

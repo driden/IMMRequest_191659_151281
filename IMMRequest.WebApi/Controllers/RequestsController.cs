@@ -1,15 +1,12 @@
-using System.Collections.Generic;
-using IMMRequest.Logic.Interfaces;
-using IMMRequest.Logic.Models;
-using Microsoft.AspNetCore.Mvc;
-
 namespace IMMRequest.WebApi.Controllers
 {
     using System;
     using Domain.Exceptions;
     using Logic.Exceptions;
-    using Logic.Tests;
+    using Logic.Interfaces;
+    using Logic.Models;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -18,7 +15,7 @@ namespace IMMRequest.WebApi.Controllers
         private readonly IRequestsLogic _requestsLogic;
         public RequestsController(IRequestsLogic requestsLogic)
         {
-            this._requestsLogic = requestsLogic;
+            _requestsLogic = requestsLogic;
         }
 
         [HttpPost]

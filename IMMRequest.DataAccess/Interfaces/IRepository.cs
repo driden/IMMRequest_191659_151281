@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-
 namespace IMMRequest.DataAccess.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq.Expressions;
+
     public interface IRepository<T> where T : class
     {
         void Add(T entity);

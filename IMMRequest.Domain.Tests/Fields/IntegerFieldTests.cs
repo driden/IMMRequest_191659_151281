@@ -1,13 +1,12 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
-
 namespace IMMRequest.Domain.Fields.Tests
 {
-    [TestClass()]
+    using System.Linq;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    [TestClass]
     public class IntegerFieldTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void AddToRangeTest()
         {
             var integerField = new IntegerField();
@@ -16,14 +15,14 @@ namespace IMMRequest.Domain.Fields.Tests
             Assert.AreEqual(1, integerField.Range.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void IntegerFieldTest()
         {
             var integerField = new IntegerField();
             Assert.AreEqual(FieldType.Integer, integerField.FieldType);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void AddToRangeTest1()
         {
             var integerField = new IntegerField();
@@ -32,7 +31,7 @@ namespace IMMRequest.Domain.Fields.Tests
             Assert.AreEqual(0, integerField.Range.Count());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void IsRequiredTest()
         {
             var integerField = new IntegerField
@@ -42,7 +41,7 @@ namespace IMMRequest.Domain.Fields.Tests
             Assert.IsTrue(integerField.IsRequired);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void TypeIdTest()
         {
             var number = 12;

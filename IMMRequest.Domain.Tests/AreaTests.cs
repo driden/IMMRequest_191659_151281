@@ -1,11 +1,11 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace IMMRequest.Domain.Tests
 {
-    [TestClass()]
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    [TestClass]
     public class AreaTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void AreaTest()
         {
             var area = new Area();
@@ -13,7 +13,7 @@ namespace IMMRequest.Domain.Tests
             Assert.IsNotNull(area.Topics);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void NameAreaTest()
         {
             string name = "Name Area";

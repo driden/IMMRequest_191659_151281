@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace IMMRequest.Domain.Fields
 {
   public enum FieldType { Integer, Text, Date }

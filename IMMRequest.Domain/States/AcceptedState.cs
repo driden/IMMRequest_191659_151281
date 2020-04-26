@@ -1,20 +1,20 @@
-using IMMRequest.Domain.Exceptions;
-using System;
-
 namespace IMMRequest.Domain.States
 {
+    using System;
+    using Exceptions;
+
     public class AcceptedState : State
     {
         public Request Request { get; }
 
         public AcceptedState()
         {
-            this.Description = "This request has been accepted";
+            Description = "This request has been accepted";
         }
 
         public AcceptedState(Request request) : this()
         {
-            this.Request = request;
+            Request = request;
         }
         public override void Accepted()
         {

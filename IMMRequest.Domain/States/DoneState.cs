@@ -1,15 +1,15 @@
-using IMMRequest.Domain.Exceptions;
-using System;
-
 namespace IMMRequest.Domain.States
 {
+    using System;
+    using Exceptions;
+
     public class DoneState : State
     {
         public Request Request { get; }
 
         public DoneState()
         {
-            this.Description = "This request is currently done";
+            Description = "This request is currently done";
         }
 
         public DoneState(Request Request) : this()
@@ -20,8 +20,8 @@ namespace IMMRequest.Domain.States
         public override void Accepted()
         {
             // The request changes the status to be accepted
-            this.Request.Status = new AcceptedState(this.Request);
-            Console.WriteLine("The request " + this.Request.Id + " change to accepted");
+            Request.Status = new AcceptedState(Request);
+            Console.WriteLine("The request " + Request.Id + " change to accepted");
         }
 
         public override void Created()
@@ -32,8 +32,8 @@ namespace IMMRequest.Domain.States
         public override void Denied()
         {
             // The request changes the status to be denied
-            this.Request.Status = new DeniedState(this.Request);
-            Console.WriteLine("The request " + this.Request.Id + " change to denied");
+            Request.Status = new DeniedState(Request);
+            Console.WriteLine("The request " + Request.Id + " change to denied");
         }
 
         public override void Done()

@@ -1,23 +1,23 @@
-using IMMRequest.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace IMMRequest.Domain.Fields
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Exceptions;
+
     public class DateField : AdditionalField
     {
         public virtual IEnumerable<DateItem> Range { get; set; } = new List<DateItem>();
 
         public void AddToRange(DateTime item)
         {
-            (this.Range as IList<DateItem>).Add(new DateItem { Value = item });
+            (Range as IList<DateItem>).Add(new DateItem { Value = item });
         }
 
         public DateField()
         {
-            this.FieldType = FieldType.Date;
-            this.IsRequired = false;
+            FieldType = FieldType.Date;
+            IsRequired = false;
         }
 
         public override void ValidateRange(object value)
@@ -26,21 +26,20 @@ namespace IMMRequest.Domain.Fields
             {
                 throw new InvalidFieldRangeException("Integer fields can have 0 or 2 items");
             }
-            else
+
+            if (Range.Count() == 2)
             {
-                if (Range.Count() == 2)
+                DateTime val = (DateTime)value;
+                DateTime first = Range.First().Value;
+                DateTime second = Range.Skip(1).First().Value;
+                if (first >= second)
                 {
-                    DateTime val = (DateTime)value;
-                    DateTime first = Range.First().Value;
-                    DateTime second = Range.Skip(1).First().Value;
-                    if (first >= second)
-                    {
-                        throw new InvalidFieldRangeException("Date fields in range should be in ascending order");
-                    }
-                    else if (first > val || val > second)
-                    {
-                        throw new InvalidFieldRangeException($"Date value {ToDateString(val)} is not in range [{ToDateString(first)},{ToDateString(second)}]");
-                    }
+                    throw new InvalidFieldRangeException("Date fields in range should be in ascending order");
+                }
+
+                if (first > val || val > second)
+                {
+                    throw new InvalidFieldRangeException($"Date value {ToDateString(val)} is not in range [{ToDateString(first)},{ToDateString(second)}]");
                 }
             }
         }
@@ -49,7 +48,7 @@ namespace IMMRequest.Domain.Fields
         {
             if (item.Type == FieldType.Date)
             {
-                this.AddToRange(((DateItem)item).Value);
+                AddToRange(((DateItem)item).Value);
             }
         }
 

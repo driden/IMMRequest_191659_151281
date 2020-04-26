@@ -1,8 +1,8 @@
-using System;
-using System.Runtime.Serialization;
-
 namespace IMMRequest.Domain.Exceptions
 {
+    using System;
+    using System.Runtime.Serialization;
+
     [Serializable]
     public class InvalidFieldRangeException : Exception
     {

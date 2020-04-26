@@ -1,7 +1,7 @@
-using System;
-
 namespace IMMRequest.Domain.Exceptions
 {
+    using System;
+
     public class InvalidStateException : Exception
     {
         public int RequestId { get; }
@@ -17,7 +17,7 @@ namespace IMMRequest.Domain.Exceptions
         public InvalidStateException(string message, int requestId)
             : this(message)
         {
-            this.RequestId = requestId;
+            RequestId = requestId;
         }
     }
 }

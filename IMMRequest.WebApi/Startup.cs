@@ -1,25 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
-using IMMRequest.DataAccess.Core;
-using IMMRequest.DataAccess.Interfaces;
-using IMMRequest.Domain;
-using IMMRequest.DataAccess.Core.Repositories;
-using IMMRequest.Logic.Core;
-using IMMRequest.Logic.Interfaces;
-
 namespace IMMRequest.WebApi
 {
+    using DataAccess.Core;
+    using DataAccess.Core.Repositories;
+    using DataAccess.Interfaces;
+    using Domain;
+    using Logic.Core;
+    using Logic.Interfaces;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.OpenApi.Models;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -55,7 +49,7 @@ namespace IMMRequest.WebApi
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1",
-                    new Microsoft.OpenApi.Models.OpenApiInfo { Title = "IMM Request API", Version = "v1" });
+                    new OpenApiInfo { Title = "IMM Request API", Version = "v1" });
             });
 
             // Database Injections
@@ -64,7 +58,7 @@ namespace IMMRequest.WebApi
             services.AddScoped<IRepository<Request>, RequestRepository>();
             services.AddScoped<IAreaQueries, AreaRepository>();
             services.AddScoped<IRepository<Topic>, TopicRepository>();
-            services.AddScoped<IRepository<Domain.Type>, TypeRepository>();
+            services.AddScoped<IRepository<Type>, TypeRepository>();
             services.AddScoped<IRepository<User>, UserRepository>();
 
             // Logic Injection

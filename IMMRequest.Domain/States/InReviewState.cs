@@ -1,15 +1,15 @@
-using IMMRequest.Domain.Exceptions;
-using System;
-
 namespace IMMRequest.Domain.States
 {
+    using System;
+    using Exceptions;
+
     public class InReviewState : State
     {
         public Request Request { get; }
 
         public InReviewState()
         {
-            this.Description = "This request is currently in-review";
+            Description = "This request is currently in-review";
         }
 
         public InReviewState(Request Request) : this()
@@ -20,22 +20,22 @@ namespace IMMRequest.Domain.States
         public override void Accepted()
         {
             // The request changes the status to be accepted
-            this.Request.Status = new AcceptedState(this.Request);
-            Console.WriteLine("The request " + this.Request.Id + " change to Accepted");
+            Request.Status = new AcceptedState(Request);
+            Console.WriteLine("The request " + Request.Id + " change to Accepted");
         }
 
         public override void Created()
         {
             // The request changes the status to be created
-            this.Request.Status = new CreatedState(this.Request);
-            Console.WriteLine("The request " + this.Request.Id + " change to Created");
+            Request.Status = new CreatedState(Request);
+            Console.WriteLine("The request " + Request.Id + " change to Created");
         }
 
         public override void Denied()
         {
             // The request changes the status to be denied
-            this.Request.Status = new DeniedState(this.Request);
-            Console.WriteLine("The request " + this.Request.Id + " change to Denied");
+            Request.Status = new DeniedState(Request);
+            Console.WriteLine("The request " + Request.Id + " change to Denied");
         }
 
         public override void Done()
