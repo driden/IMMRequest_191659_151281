@@ -32,6 +32,17 @@ namespace IMMRequest.DataAccess.Tests
             Assert.AreEqual(1, _context.Set<Topic>().Count());
             Assert.AreEqual(1, _context.Set<Type>().First().AdditionalFields.Count());
         }
+        
+        [TestMethod]
+        public void ATrackedAreaHasAnId()
+        {
+            var area = NewArea();
+            Assert.AreNotEqual(1, area.Id);
+
+            _repository.Add(area);
+
+            Assert.AreEqual(1, area.Id);
+        }
 
         [TestMethod]
         public void CanGetAnAreaFromTheDatabase()
@@ -75,6 +86,17 @@ namespace IMMRequest.DataAccess.Tests
             _repository.Remove(area);
 
             Assert.AreEqual(0, _context.Set<Area>().Count());
+        }
+
+        [TestMethod]
+        public void CanFindTheAreaThatOwnsATypeById()
+        {
+            var area = NewArea();
+            _context.Set<Area>().Add(area);
+            _context.SaveChanges();
+
+            var areaFromType = _repository.FindWithTypeId(_context.Set<Type>().First().Id);
+            Assert.AreEqual(areaFromType.Id,area.Id);
         }
     }
 }
