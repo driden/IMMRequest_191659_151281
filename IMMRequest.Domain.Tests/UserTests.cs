@@ -15,5 +15,6 @@ namespace IMMRequest.Domain.Tests
             Assert.AreEqual(null, user.Email);
             Assert.AreEqual(null, user.PhoneNumber);
         }
+
     }
 }
