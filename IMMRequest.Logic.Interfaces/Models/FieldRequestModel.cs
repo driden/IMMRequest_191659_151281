@@ -7,7 +7,7 @@ namespace IMMRequest.Logic.Models
 
         public override bool Equals(object? obj)
         {
-            return obj is FieldRequestModel fr && fr.Name == Name && fr.Value == Value;
+            return obj is FieldRequestModel frm && frm.Name == Name && frm.Value == Value;
         }
     }
 }
