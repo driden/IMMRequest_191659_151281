@@ -1,24 +1,25 @@
-using IMMRequest.Logic.Core;
-using IMMRequest.Logic.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using IMMRequest.DataAccess.Interfaces;
-using IMMRequest.Domain;
-using Moq;
-using IMMRequest.Logic.Exceptions;
-using System.Collections.Generic;
-using System.Linq;
-using IMMRequest.Domain.Fields;
-using IMMRequest.Domain.Exceptions;
-using System;
-
 namespace IMMRequest.Logic.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Core;
+    using DataAccess.Interfaces;
+    using Domain;
+    using Domain.Exceptions;
+    using Domain.Fields;
+    using Exceptions;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Models;
+    using Moq;
+    using Type = Domain.Type;
+
     [TestClass]
     public class RequestsLogicTests : IMMRequestLogicTestBase
     {
         private RequestsLogic _requestsLogic;
         private Mock<IRepository<Request>> _requestRepo;
-        private Mock<IRepository<Domain.Type>> _typeRepo;
+        private Mock<IRepository<Type>> _typeRepo;
         private Mock<IRepository<User>> _userRepo;
         private Mock<IAreaQueries> _areaQueries;
 
@@ -26,7 +27,7 @@ namespace IMMRequest.Logic.Tests
         public void SetUp()
         {
             _requestRepo = new Mock<IRepository<Request>>(MockBehavior.Strict);
-            _typeRepo = new Mock<IRepository<Domain.Type>>(MockBehavior.Strict);
+            _typeRepo = new Mock<IRepository<Type>>(MockBehavior.Strict);
             _userRepo = new Mock<IRepository<User>>(MockBehavior.Strict);
             _areaQueries = new Mock<IAreaQueries>(MockBehavior.Strict);
             _requestsLogic = new RequestsLogic(
@@ -73,7 +74,7 @@ namespace IMMRequest.Logic.Tests
             SetUpAddMocks();
             User request = null;
             _requestRepo.Setup(userRepo => userRepo.Add(It.IsAny<Request>()))
-                .Callback<Request>((req) =>
+                .Callback<Request>(req =>
                 {
                     request = new Citizen
                     {
@@ -97,9 +98,9 @@ namespace IMMRequest.Logic.Tests
 
             var request = new CreateRequest
             {
-                AdditionalFields = new List<FieldRequest>
+                AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequest { Name = "text", Value = "some text"}
+                   new FieldRequestModel { Name = "text", Value = "some text"}
                 }
             };
 
@@ -117,9 +118,9 @@ namespace IMMRequest.Logic.Tests
 
             var request = new CreateRequest
             {
-                AdditionalFields = new List<FieldRequest>
+                AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequest { Name = "text", Value = "some text"}
+                   new FieldRequestModel { Name = "text", Value = "some text"}
                 }
             };
 
@@ -136,9 +137,9 @@ namespace IMMRequest.Logic.Tests
 
             var request = new CreateRequest
             {
-                AdditionalFields = new List<FieldRequest>
+                AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequest { Name = "number", Value = "some text"}
+                   new FieldRequestModel { Name = "number", Value = "some text"}
                 }
             };
 
@@ -155,9 +156,9 @@ namespace IMMRequest.Logic.Tests
 
             var request = new CreateRequest
             {
-                AdditionalFields = new List<FieldRequest>
+                AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequest { Name = "date", Value = "some text"}
+                   new FieldRequestModel { Name = "date", Value = "some text"}
                 }
             };
 
@@ -174,9 +175,9 @@ namespace IMMRequest.Logic.Tests
 
             var request = new CreateRequest
             {
-                AdditionalFields = new List<FieldRequest>
+                AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequest { Name = "text", Value = ""}
+                   new FieldRequestModel { Name = "text", Value = ""}
                 }
             };
 
@@ -193,9 +194,9 @@ namespace IMMRequest.Logic.Tests
 
             var request = new CreateRequest
             {
-                AdditionalFields = new List<FieldRequest>
+                AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequest { Name = "text", Value = "  "}
+                   new FieldRequestModel { Name = "text", Value = "  "}
                 }
             };
 
@@ -230,8 +231,8 @@ namespace IMMRequest.Logic.Tests
             _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = CreateRequest;
-            var requestFields = new List<FieldRequest> { new FieldRequest { Name = "number", Value = "-1" } };
-            requestFields.Add(new FieldRequest { Name = "text", Value = "some text" });
+            var requestFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "number", Value = "-1" } };
+            requestFields.Add(new FieldRequestModel { Name = "text", Value = "some text" });
 
 
             Assert.ThrowsException<LessAdditionalFieldsThanRequiredException>(() => _requestsLogic.Add(CreateRequest));
@@ -251,8 +252,8 @@ namespace IMMRequest.Logic.Tests
             _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = CreateRequest;
-            var requestFields = new List<FieldRequest> { new FieldRequest { Name = "number", Value = "-1" } };
-            requestFields.Add(new FieldRequest { Name = "text", Value = "some text" });
+            var requestFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "number", Value = "-1" } };
+            requestFields.Add(new FieldRequestModel { Name = "text", Value = "some text" });
             request.AdditionalFields = requestFields;
 
             _requestRepo.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
@@ -281,7 +282,7 @@ namespace IMMRequest.Logic.Tests
             _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = CreateRequest;
-            request.AdditionalFields = new List<FieldRequest> { new FieldRequest { Name = "number", Value = "-1" } };
+            request.AdditionalFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "number", Value = "-1" } };
 
             _requestRepo.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
             Assert.ThrowsException<InvalidFieldRangeException>(() => _requestsLogic.Add(request));
@@ -307,7 +308,7 @@ namespace IMMRequest.Logic.Tests
             _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = CreateRequest;
-            request.AdditionalFields = new List<FieldRequest> { new FieldRequest { Name = "text", Value = "-1" } };
+            request.AdditionalFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "text", Value = "-1" } };
 
             _requestRepo.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
             Assert.ThrowsException<InvalidFieldRangeException>(() => _requestsLogic.Add(request));
@@ -334,7 +335,7 @@ namespace IMMRequest.Logic.Tests
             _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = CreateRequest;
-            request.AdditionalFields = new List<FieldRequest> { new FieldRequest { Name = "date", Value = "01/04/1994" } };
+            request.AdditionalFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "date", Value = "01/04/1994" } };
 
             _requestRepo.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
             Assert.ThrowsException<InvalidFieldRangeException>(() => _requestsLogic.Add(request));
@@ -353,9 +354,9 @@ namespace IMMRequest.Logic.Tests
                 Phone = "5555555",
                 Email = "mail@mail.com",
                 Details = "some details",
-                AdditionalFields = new List<FieldRequest>
+                AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequest { Name = "text", Value = "some text"}
+                   new FieldRequestModel { Name = "text", Value = "some text"}
                 }
             };
 
@@ -391,9 +392,9 @@ namespace IMMRequest.Logic.Tests
                 Phone = "5555555",
                 Email = "mail@mail.com",
                 Details = "some details",
-                AdditionalFields = new List<FieldRequest>
+                AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequest { Name = "num", Value = "5"}
+                   new FieldRequestModel { Name = "num", Value = "5"}
                 }
             };
 
@@ -429,9 +430,9 @@ namespace IMMRequest.Logic.Tests
                 Phone = "5555555",
                 Email = "mail@mail.com",
                 Details = "some details",
-                AdditionalFields = new List<FieldRequest>
+                AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequest { Name = "date", Value = "05/11/1981"}
+                   new FieldRequestModel { Name = "date", Value = "05/11/1981"}
                 }
             };
 
@@ -454,22 +455,30 @@ namespace IMMRequest.Logic.Tests
             Assert.AreEqual(dateRequestField.Value, DateTime.Parse("05/11/1981"));
 
         }
-#endregion Add Request Tests
+        #endregion Add Request Tests
 
-        //[TestMethod]
-        //public void CanGetTheRequestStatusWithAValidRequestId()
-        //{
-        //    var request = NewRequest();
-        //    _requestRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(request);
+        [TestMethod]
+        public void CanGetTheRequestStatusWithAValidRequestId()
+        {
+            var request = NewRequest();
+            request.FieldValues = GetSomeAdditionaFields();
 
-        //    var requestResponse = this._requestsLogic.GetRequestStatus(1);
+            _requestRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(request);
+            var requestResponse = _requestsLogic.GetRequestStatus(1);
 
-        //    Assert.AreEqual(request.Citizen.Email, requestResponse.CitizenEmail);
-        //    Assert.AreEqual(request.Citizen.Name, requestResponse.CitizenName);
-        //    Assert.AreEqual(request.Citizen.PhoneNumber, requestResponse.CitizenPhoneNumber);
-        //    Assert.AreEqual(request.Details, requestResponse.Details);
-        //    Assert.AreEqual(request.Status.Description, requestResponse.RequestState);
-        //}
+            Assert.AreEqual(request.Citizen.Email, requestResponse.CitizenEmail);
+            Assert.AreEqual(request.Citizen.Name, requestResponse.CitizenName);
+            Assert.AreEqual(request.Citizen.PhoneNumber, requestResponse.CitizenPhoneNumber);
+            Assert.AreEqual(request.Details, requestResponse.Details);
+            Assert.AreEqual(request.Status.Description, requestResponse.RequestState);
+            CollectionAssert.AreEqual(
+            new List<FieldRequestModel>{
+                new FieldRequestModel { Name = "num", Value = "4"},
+                new FieldRequestModel { Name = "text", Value = "some text"},
+                new FieldRequestModel { Name = "date", Value = DateTime.Today.ToString("G")}
+            },
+            requestResponse.Fields.ToList());
+        }
 
         //[TestMethod]
         //public void CantGetARequestStatusWithAnInvalidRequestId()
