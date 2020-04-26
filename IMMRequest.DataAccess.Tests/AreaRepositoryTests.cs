@@ -80,7 +80,7 @@ namespace IMMRequest.DataAccess.Tests
         public void CanDeleteAnAreaInTheDatabase()
         {
             var area = NewArea();
-            _context.Set<Area>().Add(area);
+            _context.Areas.Add(area);
             _context.SaveChanges();
 
             _repository.Remove(area);
