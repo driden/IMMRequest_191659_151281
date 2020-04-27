@@ -352,6 +352,7 @@ namespace IMMRequest.Logic.Tests
 
             var request = new CreateRequest
             {
+                Name = "Name Request",
                 Phone = "5555555",
                 Email = "mail@mail.com",
                 Details = "some details",
@@ -390,6 +391,7 @@ namespace IMMRequest.Logic.Tests
 
             var request = new CreateRequest
             {
+                Name = "Name Request",
                 Phone = "5555555",
                 Email = "mail@mail.com",
                 Details = "some details",
@@ -428,6 +430,7 @@ namespace IMMRequest.Logic.Tests
 
             var request = new CreateRequest
             {
+                Name = "Name Request",
                 Phone = "5555555",
                 Email = "mail@mail.com",
                 Details = "some details",

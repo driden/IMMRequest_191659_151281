@@ -2,6 +2,7 @@ namespace IMMRequest.Domain.Tests
 {
     using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
 
     [TestClass]
     public class CitizenTests
@@ -70,6 +71,44 @@ namespace IMMRequest.Domain.Tests
                 PhoneNumber = phone
             };
             Assert.AreEqual(phone, citizen.PhoneNumber);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidNameFormatException))]
+        public void CitizenEmptyNameTest()
+        {
+            var name = "";
+            var citizen = new Citizen
+            {
+                Name = name
+            };
+            Assert.AreEqual(name, citizen.Name);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidNameFormatException))]
+        public void CitizenLessThanThreeCharNameTest()
+        {
+            var name = "f0";
+            var citizen = new Citizen
+            {
+                Name = name
+            };
+            Assert.AreEqual(name, citizen.Name);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidNameFormatException))]
+        public void CitizenMoreNameTest()
+        {
+            // More than 50 characters
+            Random random = new Random();
+            var name = random.Next(51).ToString();
+            var citizen = new Citizen
+            {
+                Name = name
+            };
+            Assert.AreEqual(name, citizen.Name);
         }
     }
 }
