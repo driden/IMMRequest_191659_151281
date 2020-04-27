@@ -1,5 +1,8 @@
 namespace IMMRequest.WebApi
 {
+    using System;
+    using System.IO;
+    using System.Reflection;
     using DataAccess.Core;
     using DataAccess.Core.Repositories;
     using DataAccess.Interfaces;
@@ -13,6 +16,7 @@ namespace IMMRequest.WebApi
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
+    using Type = Domain.Type;
 
     public class Startup
     {
@@ -50,6 +54,10 @@ namespace IMMRequest.WebApi
             {
                 options.SwaggerDoc("v1",
                     new OpenApiInfo { Title = "IMM Request API", Version = "v1" });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
             });
 
             // Database Injections
@@ -87,7 +95,10 @@ namespace IMMRequest.WebApi
             app.UseSwaggerUI(conf =>
             {
                 conf.SwaggerEndpoint("/swagger/v1/swagger.json", "IMM Request API");
+                conf.RoutePrefix = "swagger";
             });
+
+            app.UseCors("CorsPolicy");
 
             var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
             using (var scope = scopeFactory.CreateScope())

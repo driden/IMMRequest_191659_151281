@@ -9,6 +9,7 @@ namespace IMMRequest.Logic.Tests
     using Domain.Exceptions;
     using Domain.Fields;
     using Exceptions;
+    using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Models;
     using Moq;
@@ -85,7 +86,7 @@ namespace IMMRequest.Logic.Tests
                 }).Verifiable();
 
             _requestsLogic.Add(CreateRequest);
-            Assert.AreEqual(-1,CreateRequest.TypeId);
+            Assert.AreEqual(-1, CreateRequest.TypeId);
             Assert.AreEqual(CreateRequest.Email, request.Email);
             Assert.AreEqual(CreateRequest.Name, request.Name);
             Assert.AreEqual(CreateRequest.Phone, request.PhoneNumber);
@@ -475,7 +476,7 @@ namespace IMMRequest.Logic.Tests
             Assert.AreEqual(request.Citizen.PhoneNumber, requestResponse.CitizenPhoneNumber);
             Assert.AreEqual(request.Details, requestResponse.Details);
             Assert.AreEqual(request.Status.Description, requestResponse.RequestState);
-            Assert.AreEqual(1,requestResponse.RequestId);
+            Assert.AreEqual(1, requestResponse.RequestId);
             CollectionAssert.AreEqual(
             new List<FieldRequestModel>{
                 new FieldRequestModel { Name = "num", Value = "4"},
@@ -497,6 +498,23 @@ namespace IMMRequest.Logic.Tests
         public void CantGetARequestStatusWithAnInvalidRequestId()
         {
             Assert.ThrowsException<InvalidRequestIdException>(() => this._requestsLogic.GetRequestStatus(-1));
+        }
+
+        [TestMethod]
+        public void CanGetAllRequests()
+        {
+            var request = NewRequest();
+            _requestRepo.Setup(x => x.GetAll()).Returns(new [] { request});
+
+            var allRequests = _requestsLogic.GetAllRequests().ToList();
+
+            Assert.AreEqual(1, allRequests.Count);
+
+            var first = allRequests.First();
+            Assert.AreEqual(request.Status.Description, first.Status);
+            Assert.AreEqual(request.Citizen.Email, first.RequestedBy);
+            Assert.AreEqual(request.Id, first.RequestId);
+            Assert.AreEqual(request.Details, first.Details);
         }
 
         private void SetUpAddMocks()

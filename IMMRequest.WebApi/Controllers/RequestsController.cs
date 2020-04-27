@@ -1,6 +1,7 @@
 namespace IMMRequest.WebApi.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using Domain.Exceptions;
     using Logic.Exceptions;
     using Logic.Interfaces;
@@ -18,6 +19,13 @@ namespace IMMRequest.WebApi.Controllers
             _requestsLogic = requestsLogic;
         }
 
+        /// <summary>
+        /// Creates a new request in the system 
+        /// </summary>
+        /// <param name="request">request body</param>
+        /// <response code="200">Request created</response>
+        /// <response code="400">There's something wrong with the request body</response>
+        /// <response code="500">Something is wrong with the server</response>
         [HttpPost]
         public ActionResult CreateRequest([FromBody] CreateRequest request)
         {
@@ -55,5 +63,19 @@ namespace IMMRequest.WebApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<GetAllRequestsStatusResponse>),200)]
+        public ObjectResult GetAll()
+        {
+            try
+            {
+                return new ObjectResult(_requestsLogic.GetAllRequests());
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
-} 
+}
