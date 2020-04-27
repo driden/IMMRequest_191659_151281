@@ -28,5 +28,8 @@
     <ProjectReference Include="..\IMMRequest.Logic.Interfaces\IMMRequest.Logic.csproj" />
   </ItemGroup>
 
-
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
 </Project>

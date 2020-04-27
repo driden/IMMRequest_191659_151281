@@ -97,6 +97,17 @@ namespace IMMRequest.Logic.Core
             };
         }
 
+        public IEnumerable<GetAllRequestsStatusResponse> GetAllRequests()
+        {
+            return _requestRepo.GetAll().Select(req => new GetAllRequestsStatusResponse
+            {
+                Details = req.Details,
+                RequestId = req.Id,
+                RequestedBy = req.Citizen.Email,
+                Status = req.Status.Description
+            });
+        }
+
         private void AddRequestFieldsToRequest(CreateRequest createRequest, Type type, Request request)
         {
             var fieldsWithType = type.AdditionalFields.Join(
