@@ -47,5 +47,7 @@ namespace IMMRequest.Domain.States
         {
             throw new InvalidStateException("ERROR: the application is already under review");
         }
+
+        public override string ToString() => "InReview";
     }
 }

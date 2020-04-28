@@ -45,5 +45,7 @@ namespace IMMRequest.Domain.States
         {
             throw new InvalidStateException("ERROR: The request is already done. Opcions are: Accepted/Denied");
         }
+
+        public override string ToString() => "Done";
     }
 }

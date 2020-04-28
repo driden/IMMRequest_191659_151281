@@ -43,5 +43,6 @@ namespace IMMRequest.Domain.States
             Request.Status = new InReviewState(Request);
             Console.WriteLine("The request " + Request.Id + " change to In Review");
         }
+        public override string ToString() => "Created";
     }
 }

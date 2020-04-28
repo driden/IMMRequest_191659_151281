@@ -45,5 +45,7 @@ namespace IMMRequest.Domain.States
             Request.Status = new InReviewState(Request);
             Console.WriteLine("The request " + Request.Id + " change to In review");
         }
+
+        public override string ToString() => "Denied";
     }
 }
