@@ -4,8 +4,6 @@ namespace IMMRequest.Domain.States
 
     public class DeniedState : State
     {
-        public virtual Request Request { get; set; }
-
         public DeniedState()
         {
             Description = "This request has been denied";

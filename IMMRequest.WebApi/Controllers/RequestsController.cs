@@ -94,7 +94,6 @@ namespace IMMRequest.WebApi.Controllers
         /// <response code="500">Something is wrong with the server</response>
         [HttpPut]
         [Route("{id}")]
-        [ProducesResponseType(typeof(IEnumerable<GetAllRequestsStatusResponse>), 200)]
         public ActionResult UpdateStatus(int id, [FromBody]UpdateStateRequest updateStateRequest)
         {
             try

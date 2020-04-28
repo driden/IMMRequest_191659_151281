@@ -4,8 +4,6 @@ namespace IMMRequest.Domain.States
 
     public class InReviewState : State
     {
-        public virtual Request Request { get; set; }
-
         public InReviewState()
         {
             Description = "This request is currently in-review";

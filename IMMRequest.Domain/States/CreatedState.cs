@@ -4,8 +4,6 @@ namespace IMMRequest.Domain.States
 
     public class CreatedState : State
     {
-        public virtual Request Request { get; set; }
-
         public CreatedState()
         {
             Description = "This request has been created";

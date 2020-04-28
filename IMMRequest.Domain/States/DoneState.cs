@@ -4,8 +4,6 @@ namespace IMMRequest.Domain.States
 
     public class DoneState : State
     {
-        public virtual Request Request { get; set; }
-
         public DoneState()
         {
             Description = "This request is currently done";

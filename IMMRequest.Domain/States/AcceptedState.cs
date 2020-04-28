@@ -4,8 +4,6 @@ namespace IMMRequest.Domain.States
 
     public class AcceptedState : State
     {
-        public virtual Request Request { get; set; }
-
         public AcceptedState()
         {
             Description = "This request has been accepted";
