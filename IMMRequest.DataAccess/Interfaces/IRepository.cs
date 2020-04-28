@@ -8,9 +8,12 @@ namespace IMMRequest.DataAccess.Interfaces
     {
         void Add(T entity);
         T Get(int id);
+        T Get(Func<T, bool> predicate);
         T FirstOrDefault(Expression<Func<T, bool>> predicate);
         IEnumerable<T> GetAll();
         void Remove(T entity);
         void Update(T entity);
+        void SaveChanges();
+        bool Exist(Func<T, bool> predicate);
     }
 }

@@ -1,3 +1,5 @@
+using System;
+
 namespace IMMRequest.Logic.Models
 {
     public class FieldRequestModel
@@ -10,6 +12,11 @@ namespace IMMRequest.Logic.Models
 #pragma warning restore 659
         {
             return obj is FieldRequestModel frm && frm.Name == Name && frm.Value == Value;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Name, Value);
         }
     }
 }

@@ -71,6 +71,9 @@ namespace IMMRequest.WebApi
 
             // Logic Injection
             services.AddScoped<IRequestsLogic, RequestsLogic>();
+
+            // Authorization
+            services.AddScoped <ISessionLogic, SessionLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
