@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace IMMRequest.WebApi.Filters
 {
-    public class AuthenticationFilters : Attribute, IActionFilter
+    public class AuthenticationFilter : Attribute, IActionFilter
     {
         public void OnActionExecuting(ActionExecutingContext context)
         {
@@ -38,7 +38,7 @@ namespace IMMRequest.WebApi.Filters
         private void VerifyToken(ActionExecutingContext context, Guid token)
         {
             var session = this.GetSessionLogic(context);
-            if(!session.IsValidToken(token))
+            if(!session.IsValidToken(token, context.HttpContext.Request.Headers["username"]))
             {
                 context.Result = new ContentResult()
                 {
@@ -51,7 +51,7 @@ namespace IMMRequest.WebApi.Filters
                 context.ActionArguments.Add("userLoggedId", userLoginId);
             }
         }
-
+        
         private ISessionLogic GetSessionLogic(ActionExecutingContext context)
         {
             return context.HttpContext.RequestServices.GetService(typeof(ISessionLogic)) as ISessionLogic;

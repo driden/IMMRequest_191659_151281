@@ -5,6 +5,6 @@ namespace IMMRequest.DataAccess
 {
     public interface IAdminQueries
     {
-        bool Exist(Func<Admin, bool> predicate);
+        bool Exists(Func<Admin, bool> predicate);
     }
 }

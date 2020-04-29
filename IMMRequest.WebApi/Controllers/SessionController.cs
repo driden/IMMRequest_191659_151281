@@ -9,25 +9,25 @@ namespace IMMRequest.WebApi.Controllers
     [Route("api/[sessions]")]
     public class SessionController : ControllerBase
     {
-        private readonly ISessionLogic sessionLogic;
+        private readonly ISessionLogic _sessionLogic;
 
-        public SessionController(ISessionLogic _sessionLogic)
+        public SessionController(ISessionLogic sessionLogic)
         {
-            this.sessionLogic = _sessionLogic;
+            this._sessionLogic = sessionLogic;
         }
 
         [HttpPost]
-        public IActionResult Login([FromBody]ModelAdminLogin _adminLogin)
+        public IActionResult Login([FromBody]ModelAdminLogin adminLogin)
         {
             try
             {
-                return Ok(this.sessionLogic.Login(_adminLogin.Email, _adminLogin.Password));
+                return Ok(this._sessionLogic.Login(adminLogin.Email, adminLogin.Password));
             }
             catch(Exception)
             {
                 return BadRequest("Error credentials");
             }
-            
+
         }
     }
 }
