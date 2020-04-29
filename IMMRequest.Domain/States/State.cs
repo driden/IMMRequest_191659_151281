@@ -5,6 +5,8 @@ namespace IMMRequest.Domain.States
     {
         public int RequestId { get; set; }
 
+        public virtual Request Request { get; set; }
+
         public int Id { get; set; }
 
         public string Description { get; protected set; }

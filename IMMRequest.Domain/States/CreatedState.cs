@@ -1,16 +1,12 @@
 namespace IMMRequest.Domain.States
 {
-    using System;
     using Exceptions;
 
     public class CreatedState : State
     {
-        public Request Request { get; }
-
         public CreatedState()
         {
             Description = "This request has been created";
-
         }
 
         public CreatedState(Request Request) : this()
@@ -19,29 +15,29 @@ namespace IMMRequest.Domain.States
         }
         public override void Accepted()
         {
-            throw new InvalidStateException("ERROR: The request is not created");
+            throw new InvalidStateException("can't update a created request to 'Accepted', possible options are: InReview");
         }
 
         public override void Created()
         {
-            throw new InvalidStateException("ERROR: The request is not created");
+            throw new InvalidStateException("can't update a created request to 'Created', possible options are: InReview");
         }
 
         public override void Denied()
         {
-            throw new InvalidStateException("ERROR: The request is not created");
+            throw new InvalidStateException("can't update a created request to 'Denied', possible options are: InReview");
         }
 
         public override void Done()
         {
-            throw new InvalidStateException("ERROR: The request is not created");
+            throw new InvalidStateException("can't update a created request to 'Done', possible options are: InReview");
         }
 
         public override void InReview()
         {
-            // The request changes the status to be reviewed
             Request.Status = new InReviewState(Request);
-            Console.WriteLine("The request " + Request.Id + " change to In Review");
         }
+
+        public override string ToString() => "Created";
     }
 }
