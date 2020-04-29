@@ -20,7 +20,7 @@ namespace IMMRequest.WebApi.Controllers
         }
 
         /// <summary>
-        /// Creates a new request in the system 
+        /// Creates a new request in the system
         /// </summary>
         /// <param name="request">request body</param>
         /// <response code="200">Request created</response>
@@ -84,5 +84,44 @@ namespace IMMRequest.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates the State of a request
+        /// </summary>
+        /// <param name="id">The id of the request to update</param>
+        /// <param name="updateStateRequest">The state to which the request should be updated to</param>
+        /// <response code="200">Request updated</response>
+        /// <response code="400">There's something wrong with the request body</response>
+        /// <response code="404">A request with the given Id could not be found</response>
+        /// <response code="500">Something is wrong with the server</response>
+        [HttpPut]
+        [Route("{id}")]
+        public ActionResult UpdateStatus(int id, [FromBody]UpdateStateRequest updateStateRequest)
+        {
+            try
+            {
+                _requestsLogic.UpdateRequestStatus(id, updateStateRequest.NewState);
+                return new OkResult();
+            }
+            catch (InvalidStateNameException ex)
+            {
+                return BadRequest(new ErrorResponse(ex.Message));
+            }
+            catch (InvalidRequestIdException ex)
+            {
+                return BadRequest(new ErrorResponse(ex.Message));
+            }
+            catch (NoSuchRequestException ex)
+            {
+                return NotFound(new ErrorResponse(ex.Message));
+            }
+            catch (InvalidStateException ex)
+            {
+                return BadRequest(new ErrorResponse(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
+            }
+        }
     }
 }

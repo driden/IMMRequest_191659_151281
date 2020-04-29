@@ -108,6 +108,41 @@ namespace IMMRequest.Logic.Core
             });
         }
 
+        public void UpdateRequestStatus(int requestId, string newState)
+        {
+            var validStates = new[] { "Created", "InReview", "Denied", "Accepted", "Done" };
+
+            if (!validStates.Contains(newState, StringComparer.OrdinalIgnoreCase))
+            {
+                throw new InvalidStateNameException($"state '{newState}' is not a valid state.");
+            }
+
+            ValidateRequestId(requestId);
+            var request = _requestRepo.Get(requestId);
+            ValidateRequestNotNull(requestId, request);
+
+            switch (newState.ToLower())
+            {
+                case "created":
+                    request.Status.Created();
+                    break;
+                case "inreview":
+                    request.Status.InReview();
+                    break;
+                case "denied":
+                    request.Status.Denied();
+                    break;
+                case "accepted":
+                    request.Status.Accepted();
+                    break;
+                case "done":
+                    request.Status.Done();
+                    break;
+            }
+
+            _requestRepo.Update(request);
+        }
+
         private void AddRequestFieldsToRequest(CreateRequest createRequest, Type type, Request request)
         {
             var fieldsWithType = type.AdditionalFields.Join(

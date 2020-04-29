@@ -8,6 +8,7 @@ namespace IMMRequest.Logic.Tests
     using Domain;
     using Domain.Exceptions;
     using Domain.Fields;
+    using Domain.States;
     using Exceptions;
     using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -504,7 +505,7 @@ namespace IMMRequest.Logic.Tests
         public void CanGetAllRequests()
         {
             var request = NewRequest();
-            _requestRepo.Setup(x => x.GetAll()).Returns(new [] { request});
+            _requestRepo.Setup(x => x.GetAll()).Returns(new[] { request });
 
             var allRequests = _requestsLogic.GetAllRequests().ToList();
 
@@ -515,6 +516,113 @@ namespace IMMRequest.Logic.Tests
             Assert.AreEqual(request.Citizen.Email, first.RequestedBy);
             Assert.AreEqual(request.Id, first.RequestId);
             Assert.AreEqual(request.Details, first.Details);
+        }
+
+        [TestMethod]
+        public void CantUpdateARequestToAnEmptyState()
+        {
+            Assert.ThrowsException<InvalidStateNameException>(() => _requestsLogic.UpdateRequestStatus(1, string.Empty));
+        }
+
+        [TestMethod]
+        public void CantUpdateARequestToANullState()
+        {
+            Assert.ThrowsException<InvalidStateNameException>(() => _requestsLogic.UpdateRequestStatus(1, null));
+        }
+
+        [TestMethod]
+        public void CantUpdateARequestToAWhiteSpaceState()
+        {
+            Assert.ThrowsException<InvalidStateNameException>(() => _requestsLogic.UpdateRequestStatus(1, "  "));
+        }
+
+        [TestMethod]
+        public void CantUpdateARequestToANonExistentState()
+        {
+            Assert.ThrowsException<InvalidStateNameException>(() => _requestsLogic.UpdateRequestStatus(1, "state"));
+        }
+
+        [TestMethod]
+        public void CantUpdateARequestWithAnInvalidId()
+        {
+            Assert.ThrowsException<InvalidRequestIdException>(() => _requestsLogic.UpdateRequestStatus(-1, "Accepted"));
+        }
+
+        [TestMethod]
+        public void CantUpdateANonExistentRequest()
+        {
+            _requestRepo.Setup(x => x.Get(1)).Returns<Request>(null);
+
+            Assert.ThrowsException<NoSuchRequestException>(() => _requestsLogic.UpdateRequestStatus(1, "Accepted"));
+        }
+
+        [TestMethod]
+        public void CanUpdateARequestFromCreatedToInReview()
+        {
+            var req = NewRequest();
+            _requestRepo.Setup(x => x.Get(1)).Returns(req);
+            _requestRepo.Setup(x => x.Update(req)).Verifiable();
+
+            _requestsLogic.UpdateRequestStatus(1, "InReview");
+
+            Assert.AreEqual("InReview", req.Status.ToString());
+            _requestRepo.Verify(repo => repo.Update(req), Times.Exactly(1));
+        }
+
+        [TestMethod]
+        public void CanUpdateARequestFromInReviewToAccepted()
+        {
+            var req = NewRequest();
+            req.Status = new InReviewState(req);
+            _requestRepo.Setup(x => x.Get(1)).Returns(req);
+            _requestRepo.Setup(x => x.Update(req)).Verifiable();
+
+            _requestsLogic.UpdateRequestStatus(1, "Accepted");
+
+            Assert.AreEqual("Accepted", req.Status.ToString());
+            _requestRepo.Verify(repo => repo.Update(req), Times.Exactly(1));
+        }
+
+        [TestMethod]
+        public void CanUpdateARequestFromInReviewToDenied()
+        {
+            var req = NewRequest();
+            req.Status = new InReviewState(req);
+            _requestRepo.Setup(x => x.Get(1)).Returns(req);
+            _requestRepo.Setup(x => x.Update(req)).Verifiable();
+
+            _requestsLogic.UpdateRequestStatus(1, "Denied");
+
+            Assert.AreEqual("Denied", req.Status.ToString());
+            _requestRepo.Verify(repo => repo.Update(req), Times.Exactly(1));
+        }
+
+        [TestMethod]
+        public void CanUpdateARequestFromAcceptedToDone()
+        {
+            var req = NewRequest();
+            req.Status = new AcceptedState(req);
+            _requestRepo.Setup(x => x.Get(1)).Returns(req);
+            _requestRepo.Setup(x => x.Update(req)).Verifiable();
+
+            _requestsLogic.UpdateRequestStatus(1, "Done");
+
+            Assert.AreEqual("Done", req.Status.ToString());
+            _requestRepo.Verify(repo => repo.Update(req), Times.Exactly(1));
+        }
+
+        [TestMethod]
+        public void CanUpdateARequestFromDeniedToDone()
+        {
+            var req = NewRequest();
+            req.Status = new DeniedState(req);
+            _requestRepo.Setup(x => x.Get(1)).Returns(req);
+            _requestRepo.Setup(x => x.Update(req)).Verifiable();
+
+            _requestsLogic.UpdateRequestStatus(1, "Done");
+
+            Assert.AreEqual("Done", req.Status.ToString());
+            _requestRepo.Verify(repo => repo.Update(req), Times.Exactly(1));
         }
 
         private void SetUpAddMocks()
