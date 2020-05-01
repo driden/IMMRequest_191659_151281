@@ -49,5 +49,7 @@ namespace IMMRequest.DataAccess.Core.Repositories
         {
             return Context.Set<T>().FirstOrDefault(predicate);
         }
+
+        public bool Exists(Func<T, bool> predicate) => Context.Set<T>().Where(predicate).Any();
     }
 }

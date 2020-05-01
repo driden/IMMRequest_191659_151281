@@ -28,6 +28,9 @@
     <ProjectReference Include="..\IMMRequest.Logic.Interfaces\IMMRequest.Logic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Filters\" />
+  </ItemGroup>
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>

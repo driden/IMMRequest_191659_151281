@@ -10,8 +10,11 @@ namespace IMMRequest.Domain.States.Tests
         [TestMethod]
         public void InReviewStateTest()
         {
-            InReviewState done = new InReviewState();
-            Assert.IsNull(done.Request);
+            InReviewState inReview = new InReviewState();
+
+            Assert.AreEqual(default(int), inReview.Id);
+            Assert.AreEqual(default(int), inReview.RequestId);
+            Assert.IsNull(inReview.Request);
         }
 
         [TestMethod]

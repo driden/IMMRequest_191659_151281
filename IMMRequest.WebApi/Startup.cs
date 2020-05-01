@@ -68,9 +68,13 @@ namespace IMMRequest.WebApi
             services.AddScoped<IRepository<Topic>, TopicRepository>();
             services.AddScoped<IRepository<Type>, TypeRepository>();
             services.AddScoped<IRepository<User>, UserRepository>();
+            services.AddScoped<IRepository<Admin>, AdminRepository>();
 
             // Logic Injection
             services.AddScoped<IRequestsLogic, RequestsLogic>();
+
+            // Authorization
+            services.AddScoped<ISessionLogic, SessionLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

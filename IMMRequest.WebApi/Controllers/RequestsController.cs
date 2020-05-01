@@ -20,7 +20,7 @@ namespace IMMRequest.WebApi.Controllers
         }
 
         /// <summary>
-        /// Creates a new request in the system 
+        /// Creates a new request in the system
         /// </summary>
         /// <param name="request">request body</param>
         /// <response code="200">Request created</response>
@@ -71,6 +71,7 @@ namespace IMMRequest.WebApi.Controllers
         /// <returns>A json object with a list of all requests in the system</returns>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<GetAllRequestsStatusResponse>), 200)]
+        [Filters.AuthenticationFilter]
         public ObjectResult GetAll()
         {
             try

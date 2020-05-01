@@ -352,3 +352,7 @@ MigrationBackup/
 
 # Database context diagram
 *.dgml
+
+# Rider
+.idea/
+*.yml

@@ -11,6 +11,9 @@ namespace IMMRequest.Domain.States.Tests
         public void DeniedStateTest()
         {
             DeniedState denied = new DeniedState();
+
+            Assert.AreEqual(default(int), denied.Id);
+            Assert.AreEqual(default(int), denied.RequestId);
             Assert.IsNull(denied.Request);
         }
 
