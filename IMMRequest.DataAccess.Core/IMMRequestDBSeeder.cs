@@ -55,7 +55,6 @@ namespace IMMRequest.DataAccess.Core
             }
         }
 
-
         private Type TaxiAcoso => new Type
         {
             Name = "Taxi - Acoso",
@@ -81,10 +80,15 @@ namespace IMMRequest.DataAccess.Core
         private DateField DateFieldFechaYHora => new DateField { Name = "Fecha y hora" };
         private DateField[] SeededAdditionalDateFields { get { return new[] { DateFieldFechaYHora }; } }
 
-
         private Admin[] SeededAdmins
         {
-            get { return new Admin[] { }; }
+            get
+            {
+                return new []
+                {
+                    new Admin { Name = "Espacios publicos y calles"}
+                };
+            }
         }
 
         private Citizen[] SeededCitizens

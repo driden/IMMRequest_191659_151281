@@ -11,6 +11,9 @@ namespace IMMRequest.Domain.States.Tests
         public void DoneStateTest()
         {
             DoneState done = new DoneState();
+
+            Assert.AreEqual(default(int), done.Id);
+            Assert.AreEqual(default(int), done.RequestId);
             Assert.IsNull(done.Request);
         }
 

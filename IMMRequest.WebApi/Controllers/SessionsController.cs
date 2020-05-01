@@ -1,6 +1,6 @@
 using System;
 using IMMRequest.Logic.Interfaces;
-using IMMRequest.WebApi.Models;
+using IMMRequest.Logic.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMMRequest.WebApi.Controllers
@@ -27,7 +27,6 @@ namespace IMMRequest.WebApi.Controllers
             {
                 return BadRequest("Error credentials");
             }
-
         }
     }
 }

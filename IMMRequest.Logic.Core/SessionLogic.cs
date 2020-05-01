@@ -18,7 +18,8 @@ namespace IMMRequest.Logic.Core
         {
             try
             {
-                var admin = this._adminRepository.FirstOrDefault(a => a.Email.Equals(userName) && a.Password.Equals(password));
+                var admin = this._adminRepository.FirstOrDefault(a => a.Email.Equals(userName)
+                                                                      && a.Password.Equals(password));
                 if (admin.Token == null || admin.Token == Guid.Empty)
                 {
                     admin.Token = Guid.NewGuid();
