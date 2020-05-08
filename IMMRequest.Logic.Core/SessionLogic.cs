@@ -5,6 +5,9 @@ using IMMRequest.Logic.Interfaces;
 
 namespace IMMRequest.Logic.Core
 {
+    using Domain.Exceptions;
+    using Exceptions;
+
     public class SessionLogic : ISessionLogic
     {
         private readonly IRepository<Admin> _adminRepository;
@@ -16,22 +19,19 @@ namespace IMMRequest.Logic.Core
 
         public Guid Login(string userName, string password)
         {
-            try
+            var admin = this._adminRepository.FirstOrDefault(a => a.Email.Equals(userName)
+                                                                  && a.Password.Equals(password));
+            if (admin != null && admin.Token == Guid.Empty)
             {
-                var admin = this._adminRepository.FirstOrDefault(a => a.Email.Equals(userName)
-                                                                      && a.Password.Equals(password));
-                if (admin.Token == null || admin.Token == Guid.Empty)
-                {
-                    admin.Token = Guid.NewGuid();
-                    this._adminRepository.Update(admin);
-                }
+                admin.Token = Guid.NewGuid();
+                this._adminRepository.Update(admin);
+            }
+            else if (admin is null)
+            {
+                throw new NoSuchAdministrator("Invalid Credentials");
+            }
 
-                return admin.Token;
-            }
-            catch (NullReferenceException)
-            {
-                throw new NullReferenceException("Invalid credentials");
-            }
+            return admin.Token;
         }
 
         public bool IsValidToken(Guid token, string username)

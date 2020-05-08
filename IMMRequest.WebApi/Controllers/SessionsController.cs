@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IMMRequest.WebApi.Controllers
 {
+    using Domain.Exceptions;
+    using Logic.Exceptions;
+
     [ApiController]
     [Route("api/[controller]")]
     public class SessionsController : ControllerBase
@@ -21,11 +24,15 @@ namespace IMMRequest.WebApi.Controllers
         {
             try
             {
-                return Ok(this._sessionLogic.Login(adminLogin.Email, adminLogin.Password));
+                return Ok(new { Token = this._sessionLogic.Login(adminLogin.Email, adminLogin.Password) });
             }
-            catch(Exception)
+            catch (NoSuchAdministrator noSuchAdministrator)
             {
-                return BadRequest("Error credentials");
+                return BadRequest(new ErrorResponse(noSuchAdministrator.Message));
+            }
+            catch (Exception)
+            {
+                return BadRequest(new ErrorResponse("An error occurred while logging you in, please try again"));
             }
         }
     }
