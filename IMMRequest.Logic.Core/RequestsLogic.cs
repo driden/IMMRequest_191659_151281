@@ -257,7 +257,7 @@ namespace IMMRequest.Logic.Core
         {
             if (type == null)
             {
-                throw new NoSuchTopicException($"No topic with id={createRequest.TypeId} exists");
+                throw new NoSuchTypeException($"No type with id={createRequest.TypeId} exists");
             }
         }
 

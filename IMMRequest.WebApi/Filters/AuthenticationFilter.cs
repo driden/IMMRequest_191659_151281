@@ -5,18 +5,17 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace IMMRequest.WebApi.Filters
 {
+    using Logic.Models;
+
     public class AuthenticationFilter : Attribute, IActionFilter
     {
         public void OnActionExecuting(ActionExecutingContext context)
         {
             string headerToken = context.HttpContext.Request.Headers["Authorization"];
 
-            if(headerToken is null)
+            if (headerToken is null)
             {
-                context.Result = new ContentResult()
-                {
-                    Content = "Token is requeried"
-                };
+                context.Result = new BadRequestObjectResult(new ErrorResponse("Token is required"));
             }
             else
             {
@@ -25,12 +24,9 @@ namespace IMMRequest.WebApi.Filters
                     Guid token = Guid.Parse(headerToken);
                     this.VerifyToken(context, token);
                 }
-                catch(FormatException)
+                catch (FormatException)
                 {
-                    context.Result = new ContentResult()
-                    {
-                        Content = "Token bad format"
-                    };
+                    context.Result = new BadRequestObjectResult(new ErrorResponse("Token is required"));
                 }
             }
         }
@@ -38,12 +34,9 @@ namespace IMMRequest.WebApi.Filters
         private void VerifyToken(ActionExecutingContext context, Guid token)
         {
             var session = this.GetSessionLogic(context);
-            if(!session.IsValidToken(token, context.HttpContext.Request.Headers["username"]))
+            if (!session.IsValidToken(token, context.HttpContext.Request.Headers["username"]))
             {
-                context.Result = new ContentResult()
-                {
-                    Content = "Invalid token"
-                };
+                context.Result = new BadRequestObjectResult(new ErrorResponse("Invalid Token"));
             }
             else
             {
@@ -51,7 +44,7 @@ namespace IMMRequest.WebApi.Filters
                 context.ActionArguments.Add("userLoggedId", userLoginId);
             }
         }
-        
+
         private ISessionLogic GetSessionLogic(ActionExecutingContext context)
         {
             return context.HttpContext.RequestServices.GetService(typeof(ISessionLogic)) as ISessionLogic;
@@ -59,7 +52,7 @@ namespace IMMRequest.WebApi.Filters
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-           // Nothing for now
+            // Nothing for now
         }
     }
 }

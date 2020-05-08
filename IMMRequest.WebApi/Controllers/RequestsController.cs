@@ -33,35 +33,35 @@ namespace IMMRequest.WebApi.Controllers
             try
             {
                 var requestId = _requestsLogic.Add(request);
-                return new OkObjectResult($"request created with id {requestId}");
+                return new OkObjectResult(new { Id = requestId, Text = $"request created with id {requestId}" });
             }
-            catch (NoSuchTopicException nste)
+            catch (NoSuchTypeException nste)
             {
-                return BadRequest(nste.Message);
+                return BadRequest(new ErrorResponse(nste.Message));
             }
             catch (InvalidAdditionalFieldForTypeException iaf)
             {
-                return BadRequest(iaf.Message);
+                return BadRequest(new ErrorResponse(iaf.Message));
             }
             catch (NoSuchAdditionalFieldException nsaf)
             {
-                return NotFound(nsaf.Message);
+                return NotFound(new ErrorResponse(nsaf.Message));
             }
             catch (InvalidFieldValueCastForFieldTypeException ifve)
             {
-                return BadRequest(ifve.Message);
+                return BadRequest(new ErrorResponse(ifve.Message));
             }
             catch (InvalidFieldRangeException ifre)
             {
-                return BadRequest(ifre.Message);
+                return BadRequest(new ErrorResponse(ifre.Message));
             }
             catch (LessAdditionalFieldsThanRequiredException ladftre)
             {
-                return BadRequest(ladftre.Message);
+                return BadRequest(new ErrorResponse(ladftre.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
             }
         }
 
@@ -80,7 +80,7 @@ namespace IMMRequest.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
             }
         }
 
@@ -95,6 +95,7 @@ namespace IMMRequest.WebApi.Controllers
         /// <response code="500">Something is wrong with the server</response>
         [HttpPut]
         [Route("{id}")]
+        [Filters.AuthenticationFilter]
         public ActionResult UpdateStatus(int id, [FromBody]UpdateStateRequest updateStateRequest)
         {
             try
