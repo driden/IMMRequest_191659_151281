@@ -1,11 +1,13 @@
 namespace IMMRequest.DataAccess.Core
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Domain;
     using Domain.Fields;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
+    using Type = Domain.Type;
 
     public class IMMRequestDBSeeder : IDbSeeder
     {
@@ -25,7 +27,6 @@ namespace IMMRequest.DataAccess.Core
             if (!context.Set<Area>().Any())
             {
                 context.Set<Area>().AddRange(SeededAreas);
-                context.Set<Citizen>().AddRange(SeededCitizens);
                 context.Set<Admin>().AddRange(SeededAdmins);
                 context.SaveChanges();
             }
@@ -66,34 +67,29 @@ namespace IMMRequest.DataAccess.Core
         private Type[] SeededTypes => new[] { TaxiAcoso };
 
 
-        private IntegerField IntegerFieldNroMovil => new IntegerField { IsRequired = true, Name = "Nro de Movil" };
-        private IntegerField[] SeededAdditionalIntegerFields
-        {
-            get
-            {
-                return new[] { IntegerFieldNroMovil };
-            }
-        }
+        private IntegerField IntegerFieldNroMovil => new IntegerField { IsRequired = true, Name = "Nro de Movil", Range = new List<IntegerItem> { new IntegerItem { Value = 0 }, new IntegerItem { Value = 99999999 } } };
 
         private TextField TextFieldMatricula => new TextField { Name = "Matricula" };
-        private TextField[] SeededAdditionalTextFields { get { return new[] { TextFieldMatricula }; } }
-        private DateField DateFieldFechaYHora => new DateField { Name = "Fecha y hora" };
-        private DateField[] SeededAdditionalDateFields { get { return new[] { DateFieldFechaYHora }; } }
+
+        private DateField DateFieldFechaYHora => new DateField
+        {
+            Name = "Fecha y hora",
+            Range = new List<DateItem>
+            {
+                new DateItem { Value = DateTime.Today.AddYears(-10) },
+                new DateItem { Value = DateTime.Today.AddYears(10) }
+            }
+        };
 
         private Admin[] SeededAdmins
         {
             get
             {
-                return new []
+                return new[]
                 {
-                    new Admin { Name = "Espacios publicos y calles"}
+                    new Admin { Name = "Admin Foo" , Email = "admin@foo.com", Password = "pass", Token = new Guid()}
                 };
             }
-        }
-
-        private Citizen[] SeededCitizens
-        {
-            get { return new Citizen[] { }; }
         }
     }
 
