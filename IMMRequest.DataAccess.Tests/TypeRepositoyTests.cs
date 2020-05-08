@@ -63,9 +63,11 @@ namespace IMMRequest.DataAccess.Tests
             _repository.Remove(taxiType);
             _context.SaveChanges();
 
-            Assert.AreEqual(0, _context.Types.Count());
-            Assert.AreEqual(0, _context.Set<AdditionalField>().Count());
-            Assert.AreEqual(0, _context.Set<DateItem>().Count());
+            Assert.AreEqual(1, _context.Types.Count());
+            Assert.AreEqual(3, _context.Set<AdditionalField>().Count());
+            Assert.AreEqual(2, _context.Set<DateItem>().Count());
+            var typeInDb = _context.Types.FirstOrDefault();
+            Assert.IsFalse(typeInDb != null && typeInDb.IsActive);
         }
 
         [TestMethod]

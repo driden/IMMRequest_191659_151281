@@ -8,5 +8,11 @@ namespace IMMRequest.DataAccess.Core.Repositories
         public TypeRepository(DbContext context) : base(context)
         {
         }
+
+        public override void Remove(Type entity)
+        {
+            entity.IsActive = false;
+            base.Update(entity);
+        }
     }
 }

@@ -39,7 +39,7 @@ namespace IMMRequest.DataAccess.Core.Repositories
             Context.SaveChanges();
         }
 
-        public void Remove(T entity)
+        public virtual void Remove(T entity)
         {
             Context.Remove(entity);
             Context.SaveChanges();

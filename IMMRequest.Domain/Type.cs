@@ -9,5 +9,6 @@ namespace IMMRequest.Domain
         public int TopicId { get; set; }
         public string Name { get; set; }
         public virtual IList<AdditionalField> AdditionalFields { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }
