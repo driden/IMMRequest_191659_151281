@@ -85,6 +85,33 @@ namespace IMMRequest.WebApi.Controllers
         }
 
         /// <summary>
+        /// Gets a request details
+        /// </summary>
+        /// <returns>A json object with the details of the request</returns>
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<GetAllRequestsStatusResponse>), 200)]
+        [Route("{id}")]
+        public ObjectResult GetOne(int id)
+        {
+            try
+            {
+                return new ObjectResult(_requestsLogic.GetRequestStatus(id));
+            }
+            catch (InvalidRequestIdException invalidRequestId)
+            {
+                return BadRequest(new ErrorResponse(invalidRequestId.Message));
+            }
+            catch (NoSuchRequestException noSuchRequest)
+            {
+                return BadRequest(new ErrorResponse(noSuchRequest.Message));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
+            }
+        }
+
+        /// <summary>
         /// Updates the State of a request
         /// </summary>
         /// <param name="id">The id of the request to update</param>
