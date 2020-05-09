@@ -6,11 +6,9 @@ namespace IMMRequest.Logic.Tests
     using Core;
     using DataAccess.Interfaces;
     using Domain;
-    using Domain.Exceptions;
-    using Domain.Fields;
     using Domain.States;
     using Exceptions;
-    using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
+    using Exceptions.CreateTopic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Models;
     using Moq;
@@ -74,7 +72,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CantGetARequestStatusWithAnInvalidRequestId()
         {
-            Assert.ThrowsException<InvalidRequestIdException>(() => this._requestsLogic.GetRequestStatus(-1));
+            Assert.ThrowsException<InvalidTopicIdException>(() => this._requestsLogic.GetRequestStatus(-1));
         }
 
         [TestMethod]
@@ -121,7 +119,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CantUpdateARequestWithAnInvalidId()
         {
-            Assert.ThrowsException<InvalidRequestIdException>(() => _requestsLogic.UpdateRequestStatus(-1, "Accepted"));
+            Assert.ThrowsException<InvalidTopicIdException>(() => _requestsLogic.UpdateRequestStatus(-1, "Accepted"));
         }
 
         [TestMethod]

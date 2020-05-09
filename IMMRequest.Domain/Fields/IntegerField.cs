@@ -16,17 +16,32 @@ namespace IMMRequest.Domain.Fields
         public IntegerField()
         {
             FieldType = FieldType.Integer;
-           IsRequired = false;
+            IsRequired = false;
         }
 
         public override void ValidateRange(object value)
+        {
+            ValidateRangeIsCorrect();
+            int val = (int)value;
+            if (Range.Count() == 2)
+            {
+                int first = Range.First().Value;
+                int second = Range.Skip(1).First().Value;
+
+                if (first > val || val > second)
+                {
+                    throw new InvalidFieldRangeException($"Integer value {val} is not in range [{first},{second}]");
+                }
+            }
+        }
+
+        public override void ValidateRangeIsCorrect()
         {
             if (Range.Count() != 0 && Range.Count() != 2)
             {
                 throw new InvalidFieldRangeException("Integer fields can have 0 or 2 items");
             }
 
-            int val = (int)value;
             if (Range.Count() == 2)
             {
                 int first = Range.First().Value;
@@ -34,11 +49,6 @@ namespace IMMRequest.Domain.Fields
                 if (first >= second)
                 {
                     throw new InvalidFieldRangeException("Integer fields in range should be in ascending order");
-                }
-
-                if (first > val || val > second)
-                {
-                    throw new InvalidFieldRangeException($"Integer value {val} is not in range [{first},{second}]");
                 }
             }
         }

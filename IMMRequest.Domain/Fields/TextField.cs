@@ -21,9 +21,18 @@ namespace IMMRequest.Domain.Fields
 
         public override void ValidateRange(object value)
         {
+            ValidateRangeIsCorrect();
             if (Range.Any() && !Range.Any(rangeVal => value.ToString().Trim().Equals(rangeVal)))
             {
                 throw new InvalidFieldRangeException($"text '{value}' is not in range {string.Join(", ", Range.Select(r => r.Value).ToArray())}");
+            }
+        }
+
+        public override void ValidateRangeIsCorrect()
+        {
+            if (Range.Any(x => string.IsNullOrWhiteSpace(x.Value)))
+            {
+                throw new InvalidFieldRangeException("At least one of your types range is an empty string");
             }
         }
 

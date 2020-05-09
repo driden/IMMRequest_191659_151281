@@ -7,6 +7,7 @@ namespace IMMRequest.Logic.Core
     using Domain;
     using Domain.Fields;
     using Exceptions;
+    using Exceptions.CreateTopic;
     using Interfaces;
     using Models;
     using Type = Domain.Type;
@@ -175,7 +176,7 @@ namespace IMMRequest.Logic.Core
         {
             if (requestId <= 0)
             {
-                throw new InvalidRequestIdException($"id {requestId} is invalid.");
+                throw new InvalidTopicIdException($"id {requestId} is invalid.");
             }
         }
 

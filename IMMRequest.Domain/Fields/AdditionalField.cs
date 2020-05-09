@@ -10,6 +10,7 @@ namespace IMMRequest.Domain.Fields
     public int TypeId { get; set; }
 
     public abstract void ValidateRange(object value);
+    public abstract void ValidateRangeIsCorrect();
 
     public abstract void AddToRange(IItem item);
   }

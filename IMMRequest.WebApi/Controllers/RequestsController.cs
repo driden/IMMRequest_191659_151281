@@ -4,6 +4,7 @@ namespace IMMRequest.WebApi.Controllers
     using System.Collections.Generic;
     using Domain.Exceptions;
     using Logic.Exceptions;
+    using Logic.Exceptions.CreateTopic;
     using Logic.Interfaces;
     using Logic.Models;
     using Microsoft.AspNetCore.Http;
@@ -97,7 +98,7 @@ namespace IMMRequest.WebApi.Controllers
             {
                 return new ObjectResult(_requestsLogic.GetRequestStatus(id));
             }
-            catch (InvalidRequestIdException invalidRequestId)
+            catch (InvalidTopicIdException invalidRequestId)
             {
                 return BadRequest(new ErrorResponse(invalidRequestId.Message));
             }
@@ -134,7 +135,7 @@ namespace IMMRequest.WebApi.Controllers
             {
                 return BadRequest(new ErrorResponse(ex.Message));
             }
-            catch (InvalidRequestIdException ex)
+            catch (InvalidTopicIdException ex)
             {
                 return BadRequest(new ErrorResponse(ex.Message));
             }

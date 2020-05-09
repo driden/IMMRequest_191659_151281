@@ -22,6 +22,22 @@ namespace IMMRequest.Domain.Fields
 
         public override void ValidateRange(object value)
         {
+            ValidateRangeIsCorrect();
+            if (Range.Count() == 2)
+            {
+                DateTime val = (DateTime)value;
+                DateTime first = Range.First().Value;
+                DateTime second = Range.Skip(1).First().Value;
+
+                if (first > val || val > second)
+                {
+                    throw new InvalidFieldRangeException($"Date value {ToDateString(val)} is not in range [{ToDateString(first)},{ToDateString(second)}]");
+                }
+            }
+        }
+
+        public override void ValidateRangeIsCorrect()
+        {
             if (Range.Count() != 0 && Range.Count() != 2)
             {
                 throw new InvalidFieldRangeException("Integer fields can have 0 or 2 items");
@@ -29,17 +45,11 @@ namespace IMMRequest.Domain.Fields
 
             if (Range.Count() == 2)
             {
-                DateTime val = (DateTime)value;
                 DateTime first = Range.First().Value;
                 DateTime second = Range.Skip(1).First().Value;
                 if (first >= second)
                 {
                     throw new InvalidFieldRangeException("Date fields in range should be in ascending order");
-                }
-
-                if (first > val || val > second)
-                {
-                    throw new InvalidFieldRangeException($"Date value {ToDateString(val)} is not in range [{ToDateString(first)},{ToDateString(second)}]");
                 }
             }
         }
