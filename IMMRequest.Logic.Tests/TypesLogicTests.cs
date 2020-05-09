@@ -7,6 +7,7 @@ namespace IMMRequest.Logic.Tests
     using Domain.Exceptions;
     using Exceptions;
     using Exceptions.CreateTopic;
+    using Exceptions.RemoveType;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Models;
     using Moq;
@@ -26,6 +27,7 @@ namespace IMMRequest.Logic.Tests
             _typesLogic = new TypesLogic(_topicsMock.Object, _typesMock.Object);
         }
 
+        #region Add Type
         [TestMethod]
         public void CantCreateTypeWithNegativeTopicId()
         {
@@ -213,5 +215,44 @@ namespace IMMRequest.Logic.Tests
 
             _typesMock.Verify(f => f.Add(It.IsAny<Type>()), Times.Once());
         }
+        #endregion Add Type
+
+        #region Remove Type
+
+        [TestMethod]
+        public void DeletingATypeWithNegativeIdThrowsException()
+        {
+            Assert.ThrowsException<InvalidTypeIdException>(() => _typesLogic.Remove(-1));
+        }
+
+        [TestMethod]
+        public void DeletingANonExistingTypeThrowsException()
+        {
+            _typesMock.Setup(m => m.Get(It.IsAny<int>())).Returns<Type>(null);
+            Assert.ThrowsException<NoSuchTypeException>(() => _typesLogic.Remove(1));
+        }
+
+        [TestMethod]
+        public void DeletingADisabledTypeThrowsException()
+        {
+            _typesMock
+                .Setup(m => m.Get(It.IsAny<int>()))
+                .Returns(() => new Type { IsActive = false });
+            Assert.ThrowsException<NoSuchTypeException>(() => _typesLogic.Remove(1));
+        }
+
+        [TestMethod]
+        public void CanDeleteAnExistingType()
+        {
+            _typesMock
+                .Setup(m => m.Get(It.IsAny<int>()))
+                .Returns(() => new Type { Id = 1, IsActive = true });
+
+            _typesMock.Setup(m => m.Remove(It.IsAny<Type>())).Verifiable();
+            _typesLogic.Remove(1);
+
+            _typesMock.Verify(m => m.Remove(It.IsAny<Type>()), Times.Once());
+        }
+        #endregion
     }
 }

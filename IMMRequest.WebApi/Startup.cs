@@ -69,9 +69,11 @@ namespace IMMRequest.WebApi
             services.AddScoped<IRepository<Type>, TypeRepository>();
             services.AddScoped<IRepository<User>, UserRepository>();
             services.AddScoped<IRepository<Admin>, AdminRepository>();
+            services.AddScoped<IRepository<Type>, TypeRepository>();
 
             // Logic Injection
             services.AddScoped<IRequestsLogic, RequestsLogic>();
+            services.AddScoped<ITypesLogic, TypesLogic>();
 
             // Authorization
             services.AddScoped<ISessionLogic, SessionLogic>();

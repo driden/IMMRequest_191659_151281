@@ -5,6 +5,6 @@ namespace IMMRequest.Logic.Interfaces
     public interface ITypesLogic
     {
         void Remove(int id);
-        void Add(CreateTypeRequest createTypeRequest);
+        int Add(CreateTypeRequest createTypeRequest);
     }
 }

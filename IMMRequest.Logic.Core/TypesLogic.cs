@@ -10,6 +10,7 @@ namespace IMMRequest.Logic.Core
     using Domain.Fields;
     using Exceptions;
     using Exceptions.CreateTopic;
+    using Exceptions.RemoveType;
     using Interfaces;
     using Models;
 
@@ -28,10 +29,14 @@ namespace IMMRequest.Logic.Core
 
         public void Remove(int id)
         {
-            throw new NotImplementedException();
+            ValidateTypeIdNumber(id);
+            var typeInDb = _typesRepository.Get(id);
+            ValidateTypeCanBeDeleted(id, typeInDb);
+
+            _typesRepository.Remove(typeInDb);
         }
 
-        public void Add(CreateTypeRequest createTypeRequest)
+        public int Add(CreateTypeRequest createTypeRequest)
         {
             ValidateTopicIdNumber(createTypeRequest.TopicId);
             ValidateAdditionalFieldsType(createTypeRequest);
@@ -63,7 +68,7 @@ namespace IMMRequest.Logic.Core
                             Name = additionalField.Name,
                         };
 
-                        dateField.Range = dateRangeValues.Select(rangeValue => new DateItem { Value = rangeValue });
+                        dateField.Range = dateRangeValues.Select(rangeValue => new DateItem { Value = rangeValue }).ToList();
                         dateField.ValidateRangeIsCorrect();
                         newType.AdditionalFields.Add(dateField);
                         break;
@@ -78,7 +83,7 @@ namespace IMMRequest.Logic.Core
                             Name = additionalField.Name,
                         };
 
-                        intField.Range = intRangeValues.Select(rangeValue => new IntegerItem { Value = rangeValue });
+                        intField.Range = intRangeValues.Select(rangeValue => new IntegerItem { Value = rangeValue }).ToList();
                         intField.ValidateRangeIsCorrect();
                         newType.AdditionalFields.Add(intField);
                         break;
@@ -93,7 +98,7 @@ namespace IMMRequest.Logic.Core
                             Name = additionalField.Name,
                         };
 
-                        textField.Range = textRangeValues.Select(rangeValue => new TextItem { Value = rangeValue });
+                        textField.Range = textRangeValues.Select(rangeValue => new TextItem { Value = rangeValue }).ToList();
                         textField.ValidateRangeIsCorrect();
                         newType.AdditionalFields.Add(textField);
                         break;
@@ -101,6 +106,8 @@ namespace IMMRequest.Logic.Core
             }
 
             _typesRepository.Add(newType);
+
+            return newType.Id;
         }
 
         #region Utilities
@@ -140,6 +147,23 @@ namespace IMMRequest.Logic.Core
 
 
         #region Validations
+
+        public void ValidateTypeCanBeDeleted(int id, Type type)
+        {
+            if (type == null || !type.IsActive)
+            {
+                throw new NoSuchTypeException($"No type with id exists {id}");
+            }
+        }
+
+        public void ValidateTypeIdNumber(int typeId)
+        {
+            if (typeId < 1)
+            {
+                throw new InvalidTypeIdException($"typeId \"{typeId}\" is invalid.");
+            }
+        }
+
         public void ValidateTopicIdNumber(int topicId)
         {
             if (topicId < 1)
