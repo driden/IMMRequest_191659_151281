@@ -161,7 +161,7 @@ namespace IMMRequest.Logic.Tests
         }
 
         [TestMethod]
-        public void CanAddANewType()
+        public void CanAddANewTypeWithTextAdditionalField()
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newType" };
             createRequest.AdditionalFields.Add(
@@ -169,6 +169,42 @@ namespace IMMRequest.Logic.Tests
                 {
                     FieldType = "text",
                     Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "blah" } }
+                });
+
+            _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
+            _typesMock.Setup(repo => repo.Add(It.IsAny<Type>())).Verifiable();
+            _typesLogic.Add(createRequest);
+
+            _typesMock.Verify(f => f.Add(It.IsAny<Type>()), Times.Once());
+        }
+
+        [TestMethod]
+        public void CanAddANewTypeWithDateAdditionalField()
+        {
+            var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newType" };
+            createRequest.AdditionalFields.Add(
+                new NewTypeAdditionalField
+                {
+                    FieldType = "int",
+                    Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "5" }, new FieldRequestModel { Value = "6" } }
+                });
+
+            _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
+            _typesMock.Setup(repo => repo.Add(It.IsAny<Type>())).Verifiable();
+            _typesLogic.Add(createRequest);
+
+            _typesMock.Verify(f => f.Add(It.IsAny<Type>()), Times.Once());
+        }
+
+        [TestMethod]
+        public void CanAddANewTypeWithIntegerAdditionalField()
+        {
+            var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newType" };
+            createRequest.AdditionalFields.Add(
+                new NewTypeAdditionalField
+                {
+                    FieldType = "date",
+                    Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "15/6/2020" }, new FieldRequestModel { Value = "16/6/2020" } }
                 });
 
             _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
