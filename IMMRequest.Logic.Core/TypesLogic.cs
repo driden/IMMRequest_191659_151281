@@ -15,10 +15,14 @@ namespace IMMRequest.Logic.Core
     public class TypesLogic : ITypesLogic
     {
         private readonly IRepository<Topic> _topicsRepository;
+        private readonly IRepository<Type> _typesRepository;
 
-        public TypesLogic(IRepository<Topic> topicsRepository)
+        public TypesLogic(
+            IRepository<Topic> topicsRepository,
+            IRepository<Type> typesRepository)
         {
             this._topicsRepository = topicsRepository;
+            this._typesRepository = typesRepository;
         }
 
         public void Remove(int id)
@@ -60,6 +64,7 @@ namespace IMMRequest.Logic.Core
 
                         dateField.Range = dateRangeValues.Select(rangeValue => new DateItem { Value = rangeValue });
                         dateField.ValidateRangeIsCorrect();
+                        newType.AdditionalFields.Add(dateField);
                         break;
 
                     case FieldType.Integer:
@@ -74,6 +79,7 @@ namespace IMMRequest.Logic.Core
 
                         intField.Range = intRangeValues.Select(rangeValue => new IntegerItem { Value = rangeValue });
                         intField.ValidateRangeIsCorrect();
+                        newType.AdditionalFields.Add(intField);
                         break;
 
                     case FieldType.Text:
@@ -88,9 +94,12 @@ namespace IMMRequest.Logic.Core
 
                         textField.Range = textRangeValues.Select(rangeValue => new TextItem { Value = rangeValue });
                         textField.ValidateRangeIsCorrect();
+                        newType.AdditionalFields.Add(textField);
                         break;
                 }
             }
+
+            _typesRepository.Add(newType);
         }
 
         #region Utilities
