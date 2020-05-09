@@ -53,6 +53,15 @@ namespace IMMRequest.Logic.Core
             return admin.Id;
         }
 
+        public void Remove(int adminId)
+        {
+            ValidateAdminId(adminId);
+            var storedAdmin = _adminRepository.Get(adminId);
+            ValidateExistingAdmin(storedAdmin);
+
+            _adminRepository.Remove(storedAdmin);
+        }
+
         private void UpdateAdminFields(Admin oldAdmin, Admin updatedAdmin)
         {
             oldAdmin.Password = updatedAdmin.Password;
@@ -67,7 +76,7 @@ namespace IMMRequest.Logic.Core
         {
             if (storedAdmin is null)
             {
-                throw new InvalidIdException("Admin with given Id couln't be found");
+                throw new InvalidIdException("Admin with given Id couldn't be found");
             }
         }
 

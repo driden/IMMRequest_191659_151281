@@ -300,5 +300,32 @@ namespace IMMRequest.Logic.Tests
             Assert.AreEqual("5555555", updatedAdmin.PhoneNumber);
         }
 
+        [TestMethod]
+        public void CantRemoveAnAdminUsingANegativeId()
+        {
+            Assert.ThrowsException<InvalidIdException>(() => _logic.Remove(-1));
+        }
+
+        [TestMethod]
+        public void CantRemoveAnAdminThatDoesNotExist()
+        {
+            mockedRepo.Setup(m => m.Get(10)).Returns<Admin>(null);
+            Assert.ThrowsException<InvalidIdException>(() => _logic.Remove(10));
+        }
+
+        [TestMethod]
+        public void CanDeleteAnAdmin()
+        {
+            var adminToDelete = new Admin { Id = 10 };
+            Admin deletedAdmin = null;
+            mockedRepo.Setup(m => m.Get(10)).Returns(adminToDelete);
+            mockedRepo.Setup(m => m.Remove(adminToDelete)).Callback<Admin>(cb => deletedAdmin = cb).Verifiable();
+
+            _logic.Remove(10);
+
+            mockedRepo.Verify();
+            Assert.AreEqual(10, deletedAdmin.Id);
+
+        }
     }
 }
