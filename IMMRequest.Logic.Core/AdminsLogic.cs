@@ -1,13 +1,16 @@
 namespace IMMRequest.Logic.Core
 {
     using System;
+    using System.Collections.Generic;
     using DataAccess.Interfaces;
     using Domain;
     using Domain.Exceptions;
     using Exceptions.RemoveType;
     using Models;
+    using Interfaces;
 
-    public class AdminsLogic
+
+    public class AdminsLogic : IAdminsLogic
     {
         private readonly IRepository<Admin> _adminRepository;
 
@@ -31,7 +34,7 @@ namespace IMMRequest.Logic.Core
             return admin.Id;
         }
 
-        public int Update(int adminId, CreateAdminRequest request)
+        public void Update(int adminId, CreateAdminRequest request)
         {
             ValidateAdminId(adminId);
             var admin = new Admin
@@ -49,8 +52,11 @@ namespace IMMRequest.Logic.Core
 
             UpdateAdminFields(storedAdmin, admin);
             _adminRepository.Update(storedAdmin);
+        }
 
-            return admin.Id;
+        public IEnumerable<Admin> GetAll()
+        {
+            return _adminRepository.GetAll();
         }
 
         public void Remove(int adminId)
@@ -84,7 +90,7 @@ namespace IMMRequest.Logic.Core
         {
             if (!ExistsAdminWithEmail(email)) return;
             var emailOwner =
-                _adminRepository.FirstOrDefault(f => f.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+                _adminRepository.FirstOrDefault(f => f.Email.Equals(email));
             if (emailOwner.Id != adminId)
             {
                 throw new InvalidEmailException("Cant use an email that's registered.");
@@ -109,7 +115,7 @@ namespace IMMRequest.Logic.Core
 
         private bool ExistsAdminWithEmail(string email)
         {
-            return _adminRepository.Exists(a => email.Equals(a.Email, StringComparison.OrdinalIgnoreCase));
+            return _adminRepository.Exists(a => a.Email.Equals(email));
         }
         #endregion
 

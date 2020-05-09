@@ -1,6 +1,8 @@
 namespace IMMRequest.Logic.Tests
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Linq.Expressions;
     using Core;
     using DataAccess.Interfaces;
@@ -92,7 +94,7 @@ namespace IMMRequest.Logic.Tests
             };
 
             mockedRepo
-                .Setup(m => m.Exists(It.IsAny<Func<Admin, bool>>()))
+                .Setup(m => m.Exists(It.IsAny<Expression<Func<Admin, bool>>>()))
                 .Returns(true);
 
             Assert.ThrowsException<InvalidEmailException>(() => _logic.Add(request));
@@ -110,7 +112,7 @@ namespace IMMRequest.Logic.Tests
             };
 
             mockedRepo
-                .Setup(m => m.Exists(It.IsAny<Func<Admin, bool>>()))
+                .Setup(m => m.Exists(It.IsAny<Expression<Func<Admin, bool>>>()))
                 .Returns(false);
             mockedRepo.Setup(m => m.Add(It.IsAny<Admin>())).Verifiable();
             _logic.Add(request);
@@ -136,7 +138,7 @@ namespace IMMRequest.Logic.Tests
             };
 
             mockedRepo
-                .Setup(m => m.Exists(It.IsAny<Func<Admin, bool>>()))
+                .Setup(m => m.Exists(It.IsAny<Expression<Func<Admin, bool>>>()))
                 .Returns(true);
 
             mockedRepo
@@ -157,7 +159,7 @@ namespace IMMRequest.Logic.Tests
             };
 
             mockedRepo
-                .Setup(m => m.Exists(It.IsAny<Func<Admin, bool>>()))
+                .Setup(m => m.Exists(It.IsAny<Expression<Func<Admin, bool>>>()))
                 .Returns(true);
 
             mockedRepo
@@ -186,7 +188,7 @@ namespace IMMRequest.Logic.Tests
             };
 
             mockedRepo
-                .Setup(m => m.Exists(It.IsAny<Func<Admin, bool>>()))
+                .Setup(m => m.Exists(It.IsAny<Expression<Func<Admin, bool>>>()))
                 .Returns(true);
 
             mockedRepo
@@ -211,7 +213,7 @@ namespace IMMRequest.Logic.Tests
             };
 
             mockedRepo
-                .Setup(m => m.Exists(It.IsAny<Func<Admin, bool>>()))
+                .Setup(m => m.Exists(It.IsAny<Expression<Func<Admin, bool>>>()))
                 .Returns(true);
 
             mockedRepo
@@ -240,7 +242,7 @@ namespace IMMRequest.Logic.Tests
             };
 
             mockedRepo
-                .Setup(m => m.Exists(It.IsAny<Func<Admin, bool>>()))
+                .Setup(m => m.Exists(It.IsAny<Expression<Func<Admin, bool>>>()))
                 .Returns(true);
 
             mockedRepo
@@ -276,7 +278,7 @@ namespace IMMRequest.Logic.Tests
             };
 
             mockedRepo
-                .Setup(m => m.Exists(It.IsAny<Func<Admin, bool>>()))
+                .Setup(m => m.Exists(It.IsAny<Expression<Func<Admin, bool>>>()))
                 .Returns(false);
 
             mockedRepo
@@ -325,7 +327,13 @@ namespace IMMRequest.Logic.Tests
 
             mockedRepo.Verify();
             Assert.AreEqual(10, deletedAdmin.Id);
+        }
 
+        [TestMethod]
+        public void CanGetAll()
+        {
+            mockedRepo.Setup(m => m.GetAll()).Returns(new List<Admin> { new Admin { Id = 1 } });
+            Assert.AreEqual(1, _logic.GetAll().First().Id);
         }
     }
 }

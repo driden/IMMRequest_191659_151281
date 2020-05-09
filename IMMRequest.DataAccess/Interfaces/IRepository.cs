@@ -12,6 +12,6 @@ namespace IMMRequest.DataAccess.Interfaces
         IEnumerable<T> GetAll();
         void Remove(T entity);
         void Update(T entity);
-        bool Exists(Func<T, bool> predicate);
+        bool Exists(Expression<Func<T, bool>> predicate);
     }
 }
