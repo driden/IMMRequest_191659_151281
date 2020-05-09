@@ -127,5 +127,35 @@ namespace IMMRequest.Logic.Tests
             _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1});
             Assert.ThrowsException<InvalidFieldRangeException>(() => _typesLogic.Add(createRequest));
         }
+
+        [TestMethod]
+        public void AnAdditionalFieldWithWrongDataTypeShouldThrowException()
+        {
+            var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newTopic" };
+            createRequest.AdditionalFields.Add(
+                new NewTypeAdditionalField
+                {
+                    FieldType = "int",
+                    Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "blah" }, new FieldRequestModel { Value = string.Empty} }
+                });
+
+            _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1});
+            Assert.ThrowsException<InvalidFieldValueCastForFieldTypeException>(() => _typesLogic.Add(createRequest));
+        }
+
+        [TestMethod]
+        public void AnAdditionalFieldWithWrongDateTypeShouldThrowException()
+        {
+            var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newTopic" };
+            createRequest.AdditionalFields.Add(
+                new NewTypeAdditionalField
+                {
+                    FieldType = "date",
+                    Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "blah" }, new FieldRequestModel { Value = string.Empty} }
+                });
+
+            _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1});
+            Assert.ThrowsException<InvalidFieldValueCastForFieldTypeException>(() => _typesLogic.Add(createRequest));
+        }
     }
 }
