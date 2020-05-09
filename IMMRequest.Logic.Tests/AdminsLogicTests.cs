@@ -263,5 +263,42 @@ namespace IMMRequest.Logic.Tests
             Assert.AreEqual("a name", updatedAdmin.Name);
             Assert.AreEqual("5555555", updatedAdmin.PhoneNumber);
         }
+
+        [TestMethod]
+        public void AdminUsesANewEmail()
+        {
+            var request = new CreateAdminRequest
+            {
+                Email = "some@mail.com",
+                Password = "password",
+                Name = "a name",
+                PhoneNumber = "5555555"
+            };
+
+            mockedRepo
+                .Setup(m => m.Exists(It.IsAny<Func<Admin, bool>>()))
+                .Returns(false);
+
+            mockedRepo
+                .Setup(m => m.FirstOrDefault(It.IsAny<Expression<Func<Admin, bool>>>()))
+                .Returns(new Admin { Id = 1 });
+            mockedRepo
+                .Setup(m => m.Get(1))
+                .Returns(new Admin { Id = 1 });
+
+            Admin updatedAdmin = null;
+            mockedRepo
+                .Setup(m => m.Update(It.IsAny<Admin>()))
+                .Callback<Admin>(s => updatedAdmin = s)
+                .Verifiable();
+
+            _logic.Update(1, request);
+
+            Assert.AreEqual("some@mail.com", updatedAdmin.Email);
+            Assert.AreEqual("password", updatedAdmin.Password);
+            Assert.AreEqual("a name", updatedAdmin.Name);
+            Assert.AreEqual("5555555", updatedAdmin.PhoneNumber);
+        }
+
     }
 }
