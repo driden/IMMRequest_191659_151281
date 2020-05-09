@@ -222,7 +222,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void DeletingATypeWithNegativeIdThrowsException()
         {
-            Assert.ThrowsException<InvalidTypeIdException>(() => _typesLogic.Remove(-1));
+            Assert.ThrowsException<InvalidIdException>(() => _typesLogic.Remove(-1));
         }
 
         [TestMethod]
