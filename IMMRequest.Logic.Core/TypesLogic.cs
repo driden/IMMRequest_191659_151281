@@ -3,6 +3,7 @@ using System;
 namespace IMMRequest.Logic.Core
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using DataAccess.Interfaces;
     using Domain;
@@ -116,7 +117,7 @@ namespace IMMRequest.Logic.Core
 
         private DateTime TryToParseDateValue(string dateValue)
         {
-            if (!DateTime.TryParse(dateValue, out var parseDate))
+            if (!DateTime.TryParse(dateValue, new CultureInfo("es-ES"), DateTimeStyles.None, out var parseDate))
             {
                 throw new InvalidFieldValueCastForFieldTypeException(
                     $"value '{dateValue}' for field cannot be read as a date");
