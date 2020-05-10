@@ -13,6 +13,10 @@ namespace IMMRequest.Domain
             get => _name;
             set
             {   // Validate name format, not null and more 3 caracters
+                if (value == null)
+                {
+                    throw new InvalidNameFormatException("Please type a name");
+                }
                 if(Regex.Match(value, @"^[\w\d_-][\s\w\d]{2,50}$").Success)
                 {
                     _name = value;
@@ -30,7 +34,11 @@ namespace IMMRequest.Domain
             get => _email;
             set
             {   // Validate email format
-                if (Regex.Match(value, @"^[^@]+@[^@]+\.[a-zA-Z]{2,}$").Success)
+                if (value == null)
+                {
+                    throw new InvalidEmailException("Please type an email");
+                }
+                else if (Regex.Match(value, @"^[^@]+@[^@]+\.[a-zA-Z]{2,}$").Success)
                 {
                     _email = value;
                 }
@@ -47,6 +55,10 @@ namespace IMMRequest.Domain
             get => _phoneNumber;
             set
             {
+                if (value == null)
+                {
+                    throw new InvalidPhoneNumberException("Please provide a phone number");
+                }
                 // The phone can have characters such as " - ", "+", "(", ")", (among others),
                 // in addition to numeric characters.
                 // There is no maximum length.
