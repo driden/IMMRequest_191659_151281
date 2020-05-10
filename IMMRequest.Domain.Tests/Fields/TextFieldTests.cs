@@ -19,6 +19,8 @@ namespace IMMRequest.Domain.Fields.Tests
         public void TextFieldTest()
         {
             var textField = new TextField();
+
+            Assert.AreEqual(default(int), textField.Id);
             Assert.AreEqual(FieldType.Text, textField.FieldType);
         }
 
