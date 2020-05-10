@@ -4,8 +4,8 @@ namespace IMMRequest.Domain.Tests
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Domain.Fields;
     using Exceptions;
-    using Fields;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using States;
     using Type = Domain.Type;

@@ -1,6 +1,9 @@
-namespace IMMRequest.Domain.Fields.Tests
+namespace IMMRequest.Domain.Tests.Fields
 {
+    using System;
     using System.Linq;
+    using Domain.Fields;
+    using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -19,6 +22,15 @@ namespace IMMRequest.Domain.Fields.Tests
         public void DateFieldTest()
         {
             var dateField = new DateField();
+
+            Assert.AreEqual(default(int), dateField.Id);
+            Assert.AreEqual(FieldType.Date, dateField.FieldType);
+        }
+
+        [TestMethod]
+        public void DateFieldIsAdditionalField()
+        {
+            AdditionalField dateField = new DateField();
 
             Assert.AreEqual(default(int), dateField.Id);
             Assert.AreEqual(FieldType.Date, dateField.FieldType);
@@ -59,6 +71,47 @@ namespace IMMRequest.Domain.Fields.Tests
                 TypeId = number
             };
             Assert.AreEqual(number, dateField.TypeId);
+        }
+
+        [TestMethod]
+        public void BadFormRangesThrowException()
+        {
+            var dateField = new DateField();
+            var lowRange = new DateItem { Id = 1, Value = DateTime.Now };
+            var midRange = new DateItem { Id = 2, Value = DateTime.Now };
+            var highRange = new DateItem {Id = 2, Value = DateTime.Now};
+
+            dateField.AddToRange(lowRange);
+            dateField.AddToRange(midRange);
+            dateField.AddToRange(highRange);
+
+            Assert.ThrowsException<InvalidFieldRangeException>(() => dateField.ValidateRangeIsCorrect());
+        }
+
+        [TestMethod]
+        public void LoweThanInitialRangeThrowsException()
+        {
+            var dateField = new DateField();
+            var lowRange = new DateItem { Id = 1, Value = DateTime.Now.AddDays(-1) };
+            var midRange = new DateItem { Id = 2, Value = DateTime.Now };
+
+            dateField.AddToRange(lowRange);
+            dateField.AddToRange(midRange);
+
+            Assert.ThrowsException<InvalidFieldRangeException>(() => dateField.ValidateRange(DateTime.Now.AddDays(-2)));
+        }
+
+        [TestMethod]
+        public void HigherThanEndRangeThrowsException()
+        {
+            var dateField = new DateField();
+            var lowRange = new DateItem { Id = 1, Value = DateTime.Now };
+            var midRange = new DateItem { Id = 2, Value = DateTime.Now.AddDays(1)};
+
+            dateField.AddToRange(lowRange);
+            dateField.AddToRange(midRange);
+
+            Assert.ThrowsException<InvalidFieldRangeException>(() => dateField.ValidateRange(DateTime.Now.AddDays(2)));
         }
     }
 }
