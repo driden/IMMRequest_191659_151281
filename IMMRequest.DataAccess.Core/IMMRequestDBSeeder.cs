@@ -2,6 +2,7 @@ namespace IMMRequest.DataAccess.Core
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Domain;
     using Domain.Fields;
@@ -9,6 +10,7 @@ namespace IMMRequest.DataAccess.Core
     using Microsoft.Extensions.DependencyInjection;
     using Type = Domain.Type;
 
+    [ExcludeFromCodeCoverage]
     public class IMMRequestDBSeeder : IDbSeeder
     {
         private readonly IServiceScopeFactory _scopeFactory;
