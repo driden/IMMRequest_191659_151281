@@ -176,7 +176,7 @@ namespace IMMRequest.Logic.Core
         {
             if (requestId <= 0)
             {
-                throw new InvalidTopicIdException($"id {requestId} is invalid.");
+                throw new InvalidRequestIdException($"id {requestId} is invalid.");
             }
         }
 

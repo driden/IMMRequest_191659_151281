@@ -30,7 +30,7 @@ namespace IMMRequest.DataAccess.Core
             builder.Entity<Request>().Property(req => req.Details).HasMaxLength(2000);
 
             // User email needs to be unique
-            builder.Entity<User>().HasAlternateKey(user => user.Email);
+            //builder.Entity<User>().HasAlternateKey(user => user.Email);
 
             // Area Name needs to be unique
             builder.Entity<Area>().HasKey(area => area.Id);

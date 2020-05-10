@@ -89,7 +89,7 @@ namespace IMMRequest.WebApi.Controllers
                 _typesLogic.Remove(id);
                 return Ok();
             }
-            catch (InvalidTypeIdException invalidTypeIdException)
+            catch (InvalidIdException invalidTypeIdException)
             {
                 return BadRequest(new ErrorResponse(invalidTypeIdException.Message));
             }

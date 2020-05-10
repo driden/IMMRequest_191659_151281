@@ -160,7 +160,7 @@ namespace IMMRequest.Logic.Core
         {
             if (typeId < 1)
             {
-                throw new InvalidTypeIdException($"typeId \"{typeId}\" is invalid.");
+                throw new InvalidIdException($"typeId \"{typeId}\" is invalid.");
             }
         }
 
