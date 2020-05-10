@@ -29,9 +29,6 @@ namespace IMMRequest.DataAccess.Core
             // Request can only have a max length of 2000
             builder.Entity<Request>().Property(req => req.Details).HasMaxLength(2000);
 
-            // User email needs to be unique
-            //builder.Entity<User>().HasAlternateKey(user => user.Email);
-
             // Area Name needs to be unique
             builder.Entity<Area>().HasKey(area => area.Id);
 
