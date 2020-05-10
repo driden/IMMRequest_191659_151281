@@ -1,6 +1,7 @@
 namespace IMMRequest.Logic.Tests
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Core;
     using DataAccess.Interfaces;
     using Domain;
@@ -215,6 +216,31 @@ namespace IMMRequest.Logic.Tests
 
             _typesMock.Verify(f => f.Add(It.IsAny<Type>()), Times.Once());
         }
+
+        [TestMethod]
+        public void CanAddANewTypeWithAdditionalFieldsAndNoRange()
+        {
+            var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newType" };
+            createRequest.AdditionalFields.Add(
+                new NewTypeAdditionalField
+                {
+                    Name ="fieldName",
+                    IsRequired = true,
+                    FieldType = "text",
+                    Range = new List<FieldRequestModel>()
+                });
+
+            _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
+            Type typeBeingAdded = null;
+            _typesMock.Setup(repo => repo.Add(It.IsAny<Type>())).Callback<Type>(type => typeBeingAdded = type);
+
+            _typesLogic.Add(createRequest);
+            var additionalField = typeBeingAdded.AdditionalFields.First();
+            
+            Assert.AreEqual("fieldName", additionalField.Name);
+            Assert.AreEqual(true, additionalField.IsRequired);
+        }
+
         #endregion Add Type
 
         #region Remove Type

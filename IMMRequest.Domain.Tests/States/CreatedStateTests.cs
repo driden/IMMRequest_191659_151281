@@ -10,11 +10,12 @@ namespace IMMRequest.Domain.States.Tests
         [TestMethod]
         public void CreatedStateTest()
         {
-            CreatedState created = new CreatedState();
+            State created = new CreatedState();
 
             Assert.AreEqual(default(int), created.Id);
             Assert.AreEqual(default(int), created.RequestId);
             Assert.IsNull(created.Request);
+            Assert.AreEqual("Created", created.ToString());
         }
 
         [TestMethod]

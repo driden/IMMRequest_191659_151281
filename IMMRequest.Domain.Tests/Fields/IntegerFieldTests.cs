@@ -1,6 +1,7 @@
 namespace IMMRequest.Domain.Fields.Tests
 {
     using System.Linq;
+    using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -53,5 +54,49 @@ namespace IMMRequest.Domain.Fields.Tests
             };
             Assert.AreEqual(number, integerField.TypeId);
         }
+
+        [TestMethod]
+        public void BadFormRangesThrowException()
+        {
+            var integerField = new IntegerField();
+            var lowRange = new IntegerItem { Id = 1, Value = 5 };
+            var midRange = new IntegerItem { Id = 2, Value = 3 };
+            var highRange = new IntegerItem { Id = 2, Value = 3 };
+
+            integerField.AddToRange(lowRange);
+            integerField.AddToRange(midRange);
+            integerField.AddToRange(highRange);
+
+            Assert.ThrowsException<InvalidFieldRangeException>(() => integerField.ValidateRangeIsCorrect());
+        }
+
+        [TestMethod]
+        public void LoweThanInitialRangeThrowsException()
+        {
+            var integerField = new IntegerField();
+            var lowRange = new IntegerItem {Id = 1, Value = 3};
+            var midRange = new IntegerItem {Id = 2, Value = 5};
+
+            integerField.AddToRange(lowRange);
+            integerField.AddToRange(midRange);
+
+            Assert.ThrowsException<InvalidFieldRangeException>(() => integerField.ValidateRange(2));
+        }
+
+
+        [TestMethod]
+        public void HigherThanEndRangeThrowsException()
+        {
+            var integerField = new IntegerField();
+            var lowRange = new IntegerItem {Id = 1, Value = 3};
+            var midRange = new IntegerItem {Id = 2, Value = 5};
+
+            integerField.AddToRange(lowRange);
+            integerField.AddToRange(midRange);
+
+            Assert.ThrowsException<InvalidFieldRangeException>(() => integerField.ValidateRange(6));
+        }
+
+
     }
 }

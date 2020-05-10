@@ -10,7 +10,7 @@ namespace IMMRequest.Domain.States.Tests
         [TestMethod]
         public void DoneStateTest()
         {
-            DoneState done = new DoneState();
+            State done = new DoneState();
 
             Assert.AreEqual(default(int), done.Id);
             Assert.AreEqual(default(int), done.RequestId);

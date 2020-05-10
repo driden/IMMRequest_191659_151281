@@ -3,7 +3,7 @@ using System;
 namespace IMMRequest.Domain.Tests
 {
     using System.Collections.Generic;
-    using Fields;
+    using Domain.Fields;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

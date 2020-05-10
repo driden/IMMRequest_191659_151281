@@ -10,8 +10,6 @@ namespace IMMRequest.Logic.Tests
     using Domain.Fields;
     using Domain.States;
     using Exceptions;
-    using Exceptions.CreateTopic;
-    using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Models;
     using Moq;
@@ -462,6 +460,24 @@ namespace IMMRequest.Logic.Tests
             Assert.AreEqual(dateRequestField.Value, DateTime.Parse("05/11/1981"));
 
         }
+
+        [TestMethod]
+        public void NewRequestTypeIdShouldBeProvidedByUser()
+        {
+            var request = new CreateRequest
+            {
+                Name = "Name Request",
+                Phone = "5555555",
+                Email = "mail@mail.com",
+                Details = "some details",
+                AdditionalFields = new List<FieldRequestModel>
+                {
+                   new FieldRequestModel { Name = "date", Value = "05/11/1981"}
+                }
+            };
+
+            Assert.AreEqual(-1, request.TypeId);
+        }
         #endregion Add Request Tests
 
         [TestMethod]
@@ -624,6 +640,13 @@ namespace IMMRequest.Logic.Tests
 
             Assert.AreEqual("Done", req.Status.ToString());
             _requestRepo.Verify(repo => repo.Update(req), Times.Exactly(1));
+        }
+
+        [TestMethod]
+        public void CanSendAnErrorMessageToTheUser()
+        {
+            var error = new ErrorResponse("msg");
+            Assert.AreEqual("msg", error.Error);
         }
 
         private void SetUpAddMocks()

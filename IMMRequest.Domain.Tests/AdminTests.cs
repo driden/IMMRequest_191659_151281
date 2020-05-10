@@ -11,6 +11,7 @@ namespace IMMRequest.Domain.Tests
             Admin admin = new Admin();
             Assert.IsNull(admin.Email);
             Assert.IsNull(admin.Password);
+            Assert.AreEqual(default(System.Guid), admin.Token);
         }
 
         [TestMethod]
