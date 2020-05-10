@@ -5,6 +5,7 @@ namespace IMMRequest.Logic.Tests
     using Core;
     using DataAccess.Interfaces;
     using Domain;
+    using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Models;
     using Moq;
@@ -38,6 +39,17 @@ namespace IMMRequest.Logic.Tests
             _sessionLogic.Login(loginInfo);
             Assert.AreEqual(1, updatedAdmin.Id);
 
+        }
+
+        [TestMethod]
+        public void NoAdministratorWithCredentialsThrowsException()
+        {
+            var loginInfo = new ModelAdminLogin { Email = "email@mail.com", Password = "password" };
+            mockedAdminRepo
+                .Setup(m => m.FirstOrDefault(It.IsAny<Expression<Func<Admin, bool>>>()))
+                .Returns<Admin>(null);
+
+            Assert.ThrowsException<NoSuchAdministrator>(() => _sessionLogic.Login(loginInfo));
         }
     }
 }
