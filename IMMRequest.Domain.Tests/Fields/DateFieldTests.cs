@@ -19,7 +19,6 @@ namespace IMMRequest.Domain.Fields.Tests
         public void DateFieldTest()
         {
             var dateField = new DateField();
-            Assert.AreEqual(default(int), dateField.Id);
             Assert.AreEqual(FieldType.Date, dateField.FieldType);
         }
 

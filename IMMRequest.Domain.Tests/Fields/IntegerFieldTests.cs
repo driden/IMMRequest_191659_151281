@@ -19,8 +19,6 @@ namespace IMMRequest.Domain.Fields.Tests
         public void IntegerFieldTest()
         {
             var integerField = new IntegerField();
-
-            Assert.AreEqual(default(int), integerField.Id);
             Assert.AreEqual(FieldType.Integer, integerField.FieldType);
         }
 

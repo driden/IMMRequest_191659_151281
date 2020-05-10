@@ -75,16 +75,6 @@ namespace IMMRequest.DataAccess.Tests
             };
         }
 
-        protected Admin NewAdmin()
-        {
-            return new Admin
-            {
-                Name = "TestAdmin",
-                Email = "foo@admin.com",
-                Password = "Pass"
-            };
-        }
-
         protected IEnumerable<AdditionalField> ExtraFields => new List<AdditionalField>
         {
             new IntegerField { IsRequired = true, Name = "Nro de Movil" },
