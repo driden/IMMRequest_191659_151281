@@ -10,7 +10,7 @@ namespace IMMRequest.Domain.States.Tests
         [TestMethod]
         public void DeniedStateTest()
         {
-            DeniedState denied = new DeniedState();
+            State denied = new DeniedState();
 
             Assert.AreEqual(default(int), denied.Id);
             Assert.AreEqual(default(int), denied.RequestId);

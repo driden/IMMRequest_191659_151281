@@ -7,6 +7,7 @@ namespace IMMRequest.Logic.Core
 {
     using Domain.Exceptions;
     using Exceptions;
+    using Models;
 
     public class SessionLogic : ISessionLogic
     {
@@ -17,8 +18,11 @@ namespace IMMRequest.Logic.Core
             this._adminRepository = adminRepository;
         }
 
-        public Guid Login(string userName, string password)
+        public Guid Login(ModelAdminLogin loginInfo)
         {
+            var userName = loginInfo.Email;
+            var password = loginInfo.Password;
+
             var admin = this._adminRepository.FirstOrDefault(a => a.Email.Equals(userName)
                                                                   && a.Password.Equals(password));
             if (admin != null && admin.Token == Guid.Empty)

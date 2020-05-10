@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IMMRequest.WebApi.Controllers
 {
-    using Domain.Exceptions;
     using Logic.Exceptions;
 
     [ApiController]
@@ -24,7 +23,7 @@ namespace IMMRequest.WebApi.Controllers
         {
             try
             {
-                return Ok(new { Token = this._sessionLogic.Login(adminLogin.Email, adminLogin.Password) });
+                return Ok(new { Token = this._sessionLogic.Login(adminLogin) });
             }
             catch (NoSuchAdministrator noSuchAdministrator)
             {

@@ -626,6 +626,13 @@ namespace IMMRequest.Logic.Tests
             _requestRepo.Verify(repo => repo.Update(req), Times.Exactly(1));
         }
 
+        [TestMethod]
+        public void CanSendAnErrorMessageToTheUser()
+        {
+            var error = new ErrorResponse("msg");
+            Assert.AreEqual("msg", error.Error);
+        }
+
         private void SetUpAddMocks()
         {
             _requestRepo.Setup(x => x.Add(It.IsAny<Request>())).Verifiable();

@@ -10,8 +10,8 @@ namespace IMMRequest.Domain.States.Tests
         [TestMethod]
         public void AcceptedStateTest()
         {
-            AcceptedState accepted = new AcceptedState();
-
+            State accepted = new AcceptedState();
+            
             Assert.AreEqual(default(int), accepted.Id);
             Assert.AreEqual(default(int), accepted.RequestId);
             Assert.IsNull(accepted.Request);
