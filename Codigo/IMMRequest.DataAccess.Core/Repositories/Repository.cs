@@ -16,7 +16,7 @@ namespace IMMRequest.DataAccess.Core.Repositories
 
         protected DbContext Context { get; set; }
 
-        public void Add(T entity)
+        public virtual void Add(T entity)
         {
             Context.Set<T>().Add(entity);
             Context.SaveChanges();

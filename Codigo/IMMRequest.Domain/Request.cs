@@ -17,9 +17,13 @@ namespace IMMRequest.Domain
             get => _details;
             set
             {
-                if ((value.Length < 2001))
+                if (value != null && (value.Length < 2001))
                 {
                     _details = value;
+                }
+                else if (value is null)
+                {
+                    throw new InvalidDetailsException("Please input some details.");
                 }
                 else
                 {

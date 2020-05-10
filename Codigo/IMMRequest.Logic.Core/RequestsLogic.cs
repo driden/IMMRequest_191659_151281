@@ -153,6 +153,17 @@ namespace IMMRequest.Logic.Core
                 (af, crf) => new { Type = af.FieldType, crf.Name, crf.Value }
             );
 
+            var repeatedNames = fieldsWithType
+                .GroupBy(f => f.Name)
+                .Where(group => group.Count() > 1)
+                .Select(f => f.Key)
+                .ToList();
+
+            if (repeatedNames.Any())
+            {
+                throw new InvalidAdditionalFieldForTypeException($"The entered field names({string.Join(',', repeatedNames)}) are repeated.");
+            }
+
             // create additional fields list
             foreach (var field in fieldsWithType)
             {
