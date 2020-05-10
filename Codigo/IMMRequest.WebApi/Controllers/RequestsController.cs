@@ -34,7 +34,7 @@ namespace IMMRequest.WebApi.Controllers
             try
             {
                 var requestId = _requestsLogic.Add(request);
-                return new OkObjectResult(new { Id = requestId, Text = $"request created with id {requestId}" });
+                return new OkObjectResult(new {Id = requestId, Text = $"request created with id {requestId}"});
             }
             catch (NoSuchTypeException nste)
             {
@@ -59,6 +59,22 @@ namespace IMMRequest.WebApi.Controllers
             catch (LessAdditionalFieldsThanRequiredException ladftre)
             {
                 return BadRequest(new ErrorResponse(ladftre.Message));
+            }
+            catch (InvalidDetailsException exception)
+            {
+                return BadRequest(new ErrorResponse(exception.Message));
+            }
+            catch (InvalidNameFormatException exception)
+            {
+                return BadRequest(new ErrorResponse(exception.Message));
+            }
+            catch (InvalidEmailException exception)
+            {
+                return BadRequest(new ErrorResponse(exception.Message));
+            }
+            catch (InvalidPhoneNumberException exception)
+            {
+                return BadRequest(new ErrorResponse(exception.Message));
             }
             catch (Exception ex)
             {
