@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IMMRequest.WebApi</name>
+    </assembly>
+    <members>
+        <member name="M:IMMRequest.WebApi.Controllers.RequestsController.CreateRequest(IMMRequest.Logic.Models.CreateRequest)">
+            <summary>
+            Creates a new request in the system
+            </summary>
+            <param name="request">request body</param>
+            <response code="200">Request created</response>
+            <response code="400">There's something wrong with the request body</response>
+            <response code="404">A field name could not be found</response>
+            <response code="500">Something is wrong with the server</response>
+        </member>
+        <member name="M:IMMRequest.WebApi.Controllers.RequestsController.GetAll">
+            <summary>
+            Gets a list of all the status in the system
+            </summary>
+            <returns>A json object with a list of all requests in the system</returns>
+        </member>
+        <member name="M:IMMRequest.WebApi.Controllers.RequestsController.GetOne(System.Int32)">
+            <summary>
+            Gets a request details
+            </summary>
+            <returns>A json object with the details of the request</returns>
+        </member>
+        <member name="M:IMMRequest.WebApi.Controllers.RequestsController.UpdateStatus(System.Int32,IMMRequest.Logic.Models.UpdateStateRequest)">
+            <summary>
+            Updates the State of a request
+            </summary>
+            <param name="id">The id of the request to update</param>
+            <param name="updateStateRequest">The state to which the request should be updated to</param>
+            <response code="200">Request updated</response>
+            <response code="400">There's something wrong with the request body</response>
+            <response code="404">A request with the given Id could not be found</response>
+            <response code="500">Something is wrong with the server</response>
+        </member>
+        <member name="M:IMMRequest.WebApi.Controllers.TypesController.AddType(IMMRequest.Logic.Models.CreateTypeRequest)">
+            <summary>
+            Creates a new type in the system
+            </summary>
+            <param name="request">request body</param>
+            <response code="200">Type created</response>
+            <response code="400">There's something wrong with the request body</response>
+            <response code="500">Something is wrong with the server</response>
+        </member>
+        <member name="M:IMMRequest.WebApi.Controllers.TypesController.DeleteType(System.Int32)">
+            <summary>
+            Creates a new type in the system
+            </summary>
+            <param name="id">Type id</param>
+            <response code="200">Type created</response>
+            <response code="400">There's something wrong with the request body</response>
+            <response code="500">Something is wrong with the server</response>
+        </member>
+    </members>
+</doc>
