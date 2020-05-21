@@ -64,8 +64,8 @@ namespace IMMRequest.Logic.Tests
         public void AnInvalidTypeAdditionalFieldShouldThrowExceptionEvenIfOneIsValid()
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, AdditionalFields = new List<NewTypeAdditionalField>() };
-            createRequest.AdditionalFields.Add(new NewTypeAdditionalField { FieldType = "text" });
-            createRequest.AdditionalFields.Add(new NewTypeAdditionalField { FieldType = "invalid" });
+            createRequest.AdditionalFields.Add(new NewTypeAdditionalField { Name = "foo", FieldType = "text" });
+            createRequest.AdditionalFields.Add(new NewTypeAdditionalField { Name = "bar", FieldType = "invalid" });
 
             Assert.ThrowsException<InvalidFieldTypeException>(() => _typesLogic.Add(createRequest));
         }
@@ -80,12 +80,34 @@ namespace IMMRequest.Logic.Tests
         }
 
         [TestMethod]
-        public void ATopicWithAnExistingNameShouldThrowException()
+        public void ATopicWithAnExistingTypeNameShouldThrowException()
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, Name = "name" };
-            _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name" });
+            _topicsMock
+                .Setup(repo => repo.Get(1))
+                .Returns(new Topic
+                {
+                    Name = "topic",
+                    Types = new List<Type> { new Type { Name = "name" } }
+                });
 
             Assert.ThrowsException<ExistingTypeNameException>(() => _typesLogic.Add(createRequest));
+        }
+
+        [TestMethod]
+        public void CantAddATypeWithMultipleAdditionalFieldsNameTheSame()
+        {
+            var createRequest = new CreateTypeRequest
+            {
+                TopicId = 1,
+                AdditionalFields = new List<NewTypeAdditionalField>
+                {
+                    new NewTypeAdditionalField { Name = "foo", FieldType = "text"},
+                    new NewTypeAdditionalField { Name = "foo", FieldType = "int"}
+                }
+            };
+
+            Assert.ThrowsException<InvalidAdditionalFieldForTypeException>(() => _typesLogic.Add(createRequest));
         }
 
         [TestMethod]
@@ -224,7 +246,7 @@ namespace IMMRequest.Logic.Tests
             createRequest.AdditionalFields.Add(
                 new NewTypeAdditionalField
                 {
-                    Name ="fieldName",
+                    Name = "fieldName",
                     IsRequired = true,
                     FieldType = "text",
                     Range = new List<FieldRequestModel>()
@@ -236,7 +258,7 @@ namespace IMMRequest.Logic.Tests
 
             _typesLogic.Add(createRequest);
             var additionalField = typeBeingAdded.AdditionalFields.First();
-            
+
             Assert.AreEqual("fieldName", additionalField.Name);
             Assert.AreEqual(true, additionalField.IsRequired);
         }
