@@ -4,10 +4,10 @@ namespace IMMRequest.Logic.Core
 {
     using System.Collections.Generic;
     using System.Globalization;
-    using System.IO.Pipes;
     using System.Linq;
     using DataAccess.Interfaces;
     using Domain;
+    using Domain.Exceptions;
     using Domain.Fields;
     using Exceptions;
     using Exceptions.CreateTopic;
@@ -195,6 +195,11 @@ namespace IMMRequest.Logic.Core
         private void ValidateAdditionalFieldsNames(CreateTypeRequest createTypeRequest)
         {
             var names = createTypeRequest.AdditionalFields.Select(af => af.Name).ToList();
+
+            if (names.Any(name => string.IsNullOrWhiteSpace(name)))
+            {
+                throw new InvalidNameForAdditionalFieldException("Cannot provide an empty additional field name");
+            }
             var repeated = names
                 .GroupBy(x => x)
                 .Where(group => group.Count() > 1)

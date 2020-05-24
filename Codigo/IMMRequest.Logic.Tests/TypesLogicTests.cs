@@ -46,7 +46,7 @@ namespace IMMRequest.Logic.Tests
         public void AnInvalidTypeAdditionalFieldShouldThrowException()
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, AdditionalFields = new List<NewTypeAdditionalField>() };
-            createRequest.AdditionalFields.Add(new NewTypeAdditionalField { FieldType = "invalid" });
+            createRequest.AdditionalFields.Add(new NewTypeAdditionalField { FieldType = "invalid", Name = "name" });
 
             Assert.ThrowsException<InvalidFieldTypeException>(() => _typesLogic.Add(createRequest));
         }
@@ -55,7 +55,7 @@ namespace IMMRequest.Logic.Tests
         public void AnEmptyTypeAdditionalFieldShouldThrowExceptionEvenIfOneIsValid()
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, AdditionalFields = new List<NewTypeAdditionalField>() };
-            createRequest.AdditionalFields.Add(new NewTypeAdditionalField { FieldType = string.Empty });
+            createRequest.AdditionalFields.Add(new NewTypeAdditionalField { FieldType = string.Empty, Name = "name" });
 
             Assert.ThrowsException<InvalidFieldTypeException>(() => _typesLogic.Add(createRequest));
         }
@@ -110,19 +110,19 @@ namespace IMMRequest.Logic.Tests
             Assert.ThrowsException<InvalidAdditionalFieldForTypeException>(() => _typesLogic.Add(createRequest));
         }
 
-[TestMethod]
-        public void AFieldWithNoNameSepcifiedShouldThrowException()
+        [TestMethod]
+        public void AFieldWithNoNameSpecifiedShouldThrowException()
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newTopic" };
             createRequest.AdditionalFields.Add(
                 new NewTypeAdditionalField
                 {
                     FieldType = "int",
-                    Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "6" }, new FieldRequestModel { Value = "5" } }
+                    Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "0" }, new FieldRequestModel { Value = "5" } }
                 });
 
             _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
-            Assert.ThrowsException<InvalidFieldRangeException>(() => _typesLogic.Add(createRequest));
+            Assert.ThrowsException<InvalidNameForAdditionalFieldException>(() => _typesLogic.Add(createRequest));
         }
         [TestMethod]
         public void AFieldWithAnInvalidIntRangeShouldThrowException()
@@ -131,6 +131,7 @@ namespace IMMRequest.Logic.Tests
             createRequest.AdditionalFields.Add(
                 new NewTypeAdditionalField
                 {
+                    Name = "additionalFieldName",
                     FieldType = "int",
                     Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "6" }, new FieldRequestModel { Value = "5" } }
                 });
@@ -146,6 +147,7 @@ namespace IMMRequest.Logic.Tests
             createRequest.AdditionalFields.Add(
                 new NewTypeAdditionalField
                 {
+                    Name = "additionalFieldName",
                     FieldType = "date",
                     Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "09/05/2020" }, new FieldRequestModel { Value = "08/05/2020" } }
                 });
@@ -161,6 +163,7 @@ namespace IMMRequest.Logic.Tests
             createRequest.AdditionalFields.Add(
                 new NewTypeAdditionalField
                 {
+                    Name = "additionalFieldName",
                     FieldType = "text",
                     Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "blah" }, new FieldRequestModel { Value = string.Empty } }
                 });
@@ -176,6 +179,7 @@ namespace IMMRequest.Logic.Tests
             createRequest.AdditionalFields.Add(
                 new NewTypeAdditionalField
                 {
+                    Name = "additionalFieldName",
                     FieldType = "int",
                     Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "blah" }, new FieldRequestModel { Value = string.Empty } }
                 });
@@ -192,6 +196,7 @@ namespace IMMRequest.Logic.Tests
                 new NewTypeAdditionalField
                 {
                     FieldType = "date",
+                    Name = "additionalFieldName",
                     Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "blah" }, new FieldRequestModel { Value = string.Empty } }
                 });
 
@@ -206,6 +211,7 @@ namespace IMMRequest.Logic.Tests
             createRequest.AdditionalFields.Add(
                 new NewTypeAdditionalField
                 {
+                    Name = "additionalFieldName",
                     FieldType = "text",
                     Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "blah" } }
                 });
@@ -224,6 +230,7 @@ namespace IMMRequest.Logic.Tests
             createRequest.AdditionalFields.Add(
                 new NewTypeAdditionalField
                 {
+                    Name = "additionalFieldName",
                     FieldType = "int",
                     Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "5" }, new FieldRequestModel { Value = "6" } }
                 });
@@ -242,6 +249,7 @@ namespace IMMRequest.Logic.Tests
             createRequest.AdditionalFields.Add(
                 new NewTypeAdditionalField
                 {
+                    Name = "additionalFieldName",
                     FieldType = "date",
                     Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "15/6/2020" }, new FieldRequestModel { Value = "16/6/2020" } }
                 });
