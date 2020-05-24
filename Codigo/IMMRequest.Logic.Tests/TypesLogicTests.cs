@@ -110,6 +110,20 @@ namespace IMMRequest.Logic.Tests
             Assert.ThrowsException<InvalidAdditionalFieldForTypeException>(() => _typesLogic.Add(createRequest));
         }
 
+[TestMethod]
+        public void AFieldWithNoNameSepcifiedShouldThrowException()
+        {
+            var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newTopic" };
+            createRequest.AdditionalFields.Add(
+                new NewTypeAdditionalField
+                {
+                    FieldType = "int",
+                    Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "6" }, new FieldRequestModel { Value = "5" } }
+                });
+
+            _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
+            Assert.ThrowsException<InvalidFieldRangeException>(() => _typesLogic.Add(createRequest));
+        }
         [TestMethod]
         public void AFieldWithAnInvalidIntRangeShouldThrowException()
         {
