@@ -153,13 +153,17 @@ namespace IMMRequest.WebApi.Controllers
             }
             catch (InvalidTopicIdException ex)
             {
-                return BadRequest(new ErrorResponse(ex.Message));
+                return NotFound(new ErrorResponse(ex.Message));
             }
             catch (NoSuchRequestException ex)
             {
                 return NotFound(new ErrorResponse(ex.Message));
             }
             catch (InvalidStateException ex)
+            {
+                return BadRequest(new ErrorResponse(ex.Message));
+            }
+            catch (InvalidRequestIdException ex)
             {
                 return BadRequest(new ErrorResponse(ex.Message));
             }

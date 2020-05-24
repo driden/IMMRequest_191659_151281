@@ -207,7 +207,7 @@ namespace IMMRequest.Logic.Core
 
             if (repeated.Any())
             {
-                throw new InvalidAdditionalFieldForTypeException($"Some of the additional field names are repeated {string.Join(',', repeated)}");
+                throw new InvalidAdditionalFieldForTypeException($"Some of the additional field names are repeated \"{string.Join(',', repeated)}\"");
             }
         }
 
