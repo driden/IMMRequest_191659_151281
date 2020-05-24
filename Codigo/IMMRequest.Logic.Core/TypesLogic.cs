@@ -7,6 +7,7 @@ namespace IMMRequest.Logic.Core
     using System.Linq;
     using DataAccess.Interfaces;
     using Domain;
+    using Domain.Exceptions;
     using Domain.Fields;
     using Exceptions;
     using Exceptions.CreateTopic;
@@ -39,10 +40,11 @@ namespace IMMRequest.Logic.Core
         public int Add(CreateTypeRequest createTypeRequest)
         {
             ValidateTopicIdNumber(createTypeRequest.TopicId);
+            ValidateAdditionalFieldsNames(createTypeRequest);
             ValidateAdditionalFieldsType(createTypeRequest);
             var topic = this._topicsRepository.Get(createTypeRequest.TopicId);
             ValidateTopic(createTypeRequest.TopicId, topic);
-            ValidateTopicName(createTypeRequest, topic);
+            ValidateTypeName(createTypeRequest, topic);
 
             var newType = new Type
             {
@@ -109,7 +111,6 @@ namespace IMMRequest.Logic.Core
 
             return newType.Id;
         }
-
         #region Utilities
         private int TryToParseIntValue(string intValue)
         {
@@ -191,14 +192,34 @@ namespace IMMRequest.Logic.Core
             }
         }
 
-        private void ValidateTopicName(CreateTypeRequest createTypeRequest, Topic topic)
+        private void ValidateAdditionalFieldsNames(CreateTypeRequest createTypeRequest)
+        {
+            var names = createTypeRequest.AdditionalFields.Select(af => af.Name).ToList();
+
+            if (names.Any(name => string.IsNullOrWhiteSpace(name)))
+            {
+                throw new InvalidNameForAdditionalFieldException("Cannot provide an empty additional field name");
+            }
+            var repeated = names
+                .GroupBy(x => x)
+                .Where(group => group.Count() > 1)
+                .Select(x => x.Key).ToList();
+
+            if (repeated.Any())
+            {
+                throw new InvalidAdditionalFieldForTypeException($"Some of the additional field names are repeated \"{string.Join(',', repeated)}\"");
+            }
+        }
+
+        private void ValidateTypeName(CreateTypeRequest createTypeRequest, Topic topic)
         {
             if (string.IsNullOrWhiteSpace(createTypeRequest.Name))
             {
                 throw new EmptyTypeNameException("Provided type Name cannot be empty.");
             }
 
-            if (createTypeRequest.Name == topic.Name)
+            var existingTypeNames = topic.Types?.Select(type => type.Name);
+            if (existingTypeNames != null && existingTypeNames.Contains(createTypeRequest.Name))
             {
                 throw new ExistingTypeNameException(
                     $"Name \"{createTypeRequest.Name}\" is already taken, pick another one.");

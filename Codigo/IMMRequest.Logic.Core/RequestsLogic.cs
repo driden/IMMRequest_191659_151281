@@ -7,7 +7,6 @@ namespace IMMRequest.Logic.Core
     using Domain;
     using Domain.Fields;
     using Exceptions;
-    using Exceptions.CreateTopic;
     using Interfaces;
     using Models;
     using Type = Domain.Type;

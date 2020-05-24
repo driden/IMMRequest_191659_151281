@@ -36,7 +36,7 @@ namespace IMMRequest.WebApi.Controllers
             try
             {
                 var typeId = _typesLogic.Add(request);
-                return new OkObjectResult(new { Id = typeId, Text = $"Type created with id {typeId}" });
+                return new OkObjectResult(new {Id = typeId, Text = $"Type created with id {typeId}"});
             }
             catch (InvalidTopicIdException invalidTopicIdException)
             {
@@ -65,6 +65,14 @@ namespace IMMRequest.WebApi.Controllers
             catch (InvalidFieldRangeException invalidFieldRangeException)
             {
                 return BadRequest(new ErrorResponse(invalidFieldRangeException.Message));
+            }
+            catch (InvalidNameForAdditionalFieldException invalidNameForAdditionalField)
+            {
+                return BadRequest(new ErrorResponse(invalidNameForAdditionalField.Message));
+            }
+            catch (InvalidAdditionalFieldForTypeException exception)
+            {
+                return BadRequest(new ErrorResponse(exception.Message));
             }
             catch (Exception ex)
             {

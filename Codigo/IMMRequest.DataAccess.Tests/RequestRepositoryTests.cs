@@ -110,5 +110,80 @@ namespace IMMRequest.DataAccess.Tests
             Assert.IsNotNull(requestInDb.Type);
         }
 
+        [TestMethod]
+        public void CanSetAUsersRequestToAnAlreadyExistingUser()
+        {
+            var type = NewType();
+            var topic = NewTopic();
+            var area = NewArea();
+            area.Topics = new List<Topic> { topic };
+            topic.Types = new List<Type> { type };
+
+            var citizen = new Citizen { Email = "citizen@mail.com", Name = "Citizen Name" };
+            _context.Citizens.Add(citizen);
+            _context.SaveChanges();
+
+            var request = new Request
+            {
+                Citizen = new Citizen { Email = "citizen@mail.com", Name = "Citizen Name" },
+                Details = "new request details",
+                Type = type,
+            };
+
+            _repository.Add(request);
+
+            var requestInDb = _repository.Get(request.Id);
+
+            Assert.AreSame(citizen, requestInDb.Citizen);
+        }
+
+        [TestMethod]
+        public void CanGetTheFirstRequestThatHasAFulfillsAPredicate()
+        {
+            var type = NewType();
+            var topic = NewTopic();
+            var area = NewArea();
+            area.Topics = new List<Topic> { topic };
+            topic.Types = new List<Type> { type };
+
+            _context.Add(new Request
+            {
+                Citizen = new Citizen { Email = "citizen@mail.com", Name = "Citizen Name" },
+                Details = "request details",
+                Type = type,
+            });
+
+            _context.Add(new Request
+            {
+                Citizen = new Citizen { Email = "citizen@mail.com", Name = "Citizen Name" },
+                Details = "new request details",
+                Type = type,
+            });
+            _context.SaveChanges();
+
+            Assert.AreEqual("new request details", _repository.FirstOrDefault(r => r.Id == 2).Details);
+        }
+
+        [TestMethod]
+        public void CanCheckARequestExists()
+        {
+            var type = NewType();
+            var topic = NewTopic();
+            var area = NewArea();
+            area.Topics = new List<Topic> { topic };
+            topic.Types = new List<Type> { type };
+
+            _context.Add(new Request
+            {
+                Citizen = new Citizen { Email = "citizen@mail.com", Name = "Citizen Name" },
+                Details = "request details",
+                Type = type,
+            });
+
+            _context.SaveChanges();
+
+            Assert.IsTrue(_repository.Exists(r => r.Id == 1));
+        }
+
     }
 }
