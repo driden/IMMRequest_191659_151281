@@ -10,6 +10,7 @@ namespace IMMRequest.DataAccess.Interfaces
         T Get(int id);
         T FirstOrDefault(Expression<Func<T, bool>> predicate);
         IEnumerable<T> GetAll();
+        IEnumerable<T> GetAllByCondition(Func<T, bool> predicate);
         void Remove(T entity);
         void Update(T entity);
         bool Exists(Expression<Func<T, bool>> predicate);
