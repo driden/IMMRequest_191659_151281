@@ -16,14 +16,14 @@ namespace IMMRequest.Logic.Core
             this._repository = repository;
         }
 
-        public IEnumerable<TopicModel> GetAllTopics()
+        public IEnumerable<TopicModel> GetAllTopics(int areaId)
         {
-            var all = _repository.GetAll();
-            return all.Select(Crear);
+            var all = _repository.GetAll().Where(topic => topic.AreaId == areaId);
+            return all.Select(CreateModel);
 
         }
 
-        private TopicModel Crear(Topic topic)
+        private TopicModel CreateModel(Topic topic)
         {
             var model =
               new TopicModel
