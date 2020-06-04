@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace IMMRequest.Logic.Tests
 {
@@ -8,7 +6,7 @@ namespace IMMRequest.Logic.Tests
     using Core;
     using DataAccess.Interfaces;
     using Domain.Fields;
-    using IMMRequest.Domain;
+    using Domain;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Models.Topic;
     using Moq;

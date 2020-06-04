@@ -5,9 +5,10 @@ namespace IMMRequest.Logic.Core
     using System.Linq;
     using DataAccess.Interfaces;
     using Domain;
+    using Interfaces;
     using Models.Topic;
 
-    public class TopicsLogic
+    public class TopicsLogic : ITopicsLogic
     {
         private readonly IRepository<Topic> _repository = null;
 

@@ -11,7 +11,9 @@ namespace IMMRequest.Logic.Tests
     using Exceptions.RemoveType;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Models;
+    using Models.Type;
     using Moq;
+    using AdditionalFieldModel = Models.AdditionalFieldModel;
 
     [TestClass]
     public class TypesLogicTests
@@ -45,8 +47,8 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void AnInvalidTypeAdditionalFieldShouldThrowException()
         {
-            var createRequest = new CreateTypeRequest { TopicId = 1, AdditionalFields = new List<NewTypeAdditionalField>() };
-            createRequest.AdditionalFields.Add(new NewTypeAdditionalField { FieldType = "invalid", Name = "name" });
+            var createRequest = new CreateTypeRequest { TopicId = 1, AdditionalFields = new List<AdditionalFieldModel>() };
+            createRequest.AdditionalFields.Add(new AdditionalFieldModel { FieldType = "invalid", Name = "name" });
 
             Assert.ThrowsException<InvalidFieldTypeException>(() => _typesLogic.Add(createRequest));
         }
@@ -54,8 +56,8 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void AnEmptyTypeAdditionalFieldShouldThrowExceptionEvenIfOneIsValid()
         {
-            var createRequest = new CreateTypeRequest { TopicId = 1, AdditionalFields = new List<NewTypeAdditionalField>() };
-            createRequest.AdditionalFields.Add(new NewTypeAdditionalField { FieldType = string.Empty, Name = "name" });
+            var createRequest = new CreateTypeRequest { TopicId = 1, AdditionalFields = new List<AdditionalFieldModel>() };
+            createRequest.AdditionalFields.Add(new AdditionalFieldModel { FieldType = string.Empty, Name = "name" });
 
             Assert.ThrowsException<InvalidFieldTypeException>(() => _typesLogic.Add(createRequest));
         }
@@ -63,9 +65,9 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void AnInvalidTypeAdditionalFieldShouldThrowExceptionEvenIfOneIsValid()
         {
-            var createRequest = new CreateTypeRequest { TopicId = 1, AdditionalFields = new List<NewTypeAdditionalField>() };
-            createRequest.AdditionalFields.Add(new NewTypeAdditionalField { Name = "foo", FieldType = "text" });
-            createRequest.AdditionalFields.Add(new NewTypeAdditionalField { Name = "bar", FieldType = "invalid" });
+            var createRequest = new CreateTypeRequest { TopicId = 1, AdditionalFields = new List<AdditionalFieldModel>() };
+            createRequest.AdditionalFields.Add(new AdditionalFieldModel { Name = "foo", FieldType = "text" });
+            createRequest.AdditionalFields.Add(new AdditionalFieldModel { Name = "bar", FieldType = "invalid" });
 
             Assert.ThrowsException<InvalidFieldTypeException>(() => _typesLogic.Add(createRequest));
         }
@@ -100,10 +102,10 @@ namespace IMMRequest.Logic.Tests
             var createRequest = new CreateTypeRequest
             {
                 TopicId = 1,
-                AdditionalFields = new List<NewTypeAdditionalField>
+                AdditionalFields = new List<AdditionalFieldModel>
                 {
-                    new NewTypeAdditionalField { Name = "foo", FieldType = "text"},
-                    new NewTypeAdditionalField { Name = "foo", FieldType = "int"}
+                    new AdditionalFieldModel { Name = "foo", FieldType = "text"},
+                    new AdditionalFieldModel { Name = "foo", FieldType = "int"}
                 }
             };
 
@@ -115,7 +117,7 @@ namespace IMMRequest.Logic.Tests
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newTopic" };
             createRequest.AdditionalFields.Add(
-                new NewTypeAdditionalField
+                new AdditionalFieldModel
                 {
                     FieldType = "int",
                     Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "0" }, new FieldRequestModel { Value = "5" } }
@@ -129,7 +131,7 @@ namespace IMMRequest.Logic.Tests
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newTopic" };
             createRequest.AdditionalFields.Add(
-                new NewTypeAdditionalField
+                new AdditionalFieldModel
                 {
                     Name = "additionalFieldName",
                     FieldType = "int",
@@ -145,7 +147,7 @@ namespace IMMRequest.Logic.Tests
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newTopic" };
             createRequest.AdditionalFields.Add(
-                new NewTypeAdditionalField
+                new AdditionalFieldModel
                 {
                     Name = "additionalFieldName",
                     FieldType = "date",
@@ -161,7 +163,7 @@ namespace IMMRequest.Logic.Tests
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newTopic" };
             createRequest.AdditionalFields.Add(
-                new NewTypeAdditionalField
+                new AdditionalFieldModel
                 {
                     Name = "additionalFieldName",
                     FieldType = "text",
@@ -177,7 +179,7 @@ namespace IMMRequest.Logic.Tests
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newTopic" };
             createRequest.AdditionalFields.Add(
-                new NewTypeAdditionalField
+                new AdditionalFieldModel
                 {
                     Name = "additionalFieldName",
                     FieldType = "int",
@@ -193,7 +195,7 @@ namespace IMMRequest.Logic.Tests
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newTopic" };
             createRequest.AdditionalFields.Add(
-                new NewTypeAdditionalField
+                new AdditionalFieldModel
                 {
                     FieldType = "date",
                     Name = "additionalFieldName",
@@ -209,7 +211,7 @@ namespace IMMRequest.Logic.Tests
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newType" };
             createRequest.AdditionalFields.Add(
-                new NewTypeAdditionalField
+                new AdditionalFieldModel
                 {
                     Name = "additionalFieldName",
                     FieldType = "text",
@@ -228,7 +230,7 @@ namespace IMMRequest.Logic.Tests
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newType" };
             createRequest.AdditionalFields.Add(
-                new NewTypeAdditionalField
+                new AdditionalFieldModel
                 {
                     Name = "additionalFieldName",
                     FieldType = "int",
@@ -247,7 +249,7 @@ namespace IMMRequest.Logic.Tests
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newType" };
             createRequest.AdditionalFields.Add(
-                new NewTypeAdditionalField
+                new AdditionalFieldModel
                 {
                     Name = "additionalFieldName",
                     FieldType = "date",
@@ -266,7 +268,7 @@ namespace IMMRequest.Logic.Tests
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newType" };
             createRequest.AdditionalFields.Add(
-                new NewTypeAdditionalField
+                new AdditionalFieldModel
                 {
                     Name = "fieldName",
                     IsRequired = true,
@@ -322,6 +324,17 @@ namespace IMMRequest.Logic.Tests
             _typesLogic.Remove(1);
 
             _typesMock.Verify(m => m.Remove(It.IsAny<Type>()), Times.Once());
+        }
+        #endregion
+
+        #region GetAllTypes
+
+        [TestMethod]
+        public void GetAllShouldCallTheDatabase()
+        {
+            _typesMock.Setup(repo => repo.GetAll()).Returns<IList<TypeModel>>(null).Verifiable();
+            _typesLogic.GetAll(1);
+            _typesMock.Verify(mock => mock.GetAll(), Times.Once());
         }
         #endregion
     }

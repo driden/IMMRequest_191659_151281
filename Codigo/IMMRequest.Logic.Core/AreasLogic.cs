@@ -1,15 +1,14 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace IMMRequest.Logic.Core
 {
     using System.Linq;
     using DataAccess.Interfaces;
     using Domain;
+    using Interfaces;
     using Models.Area;
 
-    public class AreasLogic
+    public class AreasLogic : IAreasLogic
     {
         private readonly IRepository<Area> _repository;
 

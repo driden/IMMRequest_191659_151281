@@ -8,6 +8,10 @@ namespace IMMRequest.Domain.Fields
     public DateTime Value { get; set; }
     public int DateFieldId { get; set; }
     public FieldType Type => FieldType.Date;
+    public override string ToString()
+    {
+        return Value.ToString("dd-MM-yyyy");
+    }
   }
 
   public class TextItem : IItem
