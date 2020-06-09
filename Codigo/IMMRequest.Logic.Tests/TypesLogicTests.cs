@@ -1,11 +1,13 @@
 namespace IMMRequest.Logic.Tests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Core;
     using DataAccess.Interfaces;
     using Domain;
     using Domain.Exceptions;
+    using Domain.Fields;
     using Exceptions;
     using Exceptions.CreateTopic;
     using Exceptions.RemoveType;
@@ -14,6 +16,7 @@ namespace IMMRequest.Logic.Tests
     using Models.Type;
     using Moq;
     using AdditionalFieldModel = Models.AdditionalFieldModel;
+    using Type = Domain.Type;
 
     [TestClass]
     public class TypesLogicTests
@@ -335,6 +338,286 @@ namespace IMMRequest.Logic.Tests
             _typesMock.Setup(repo => repo.GetAll()).Returns<IList<TypeModel>>(null).Verifiable();
             _typesLogic.GetAll(1);
             _typesMock.Verify(mock => mock.GetAll(), Times.Once());
+        }
+
+        [TestMethod]
+        public void GetAllShouldListOnlyActiveTypes()
+        {
+            _typesMock.Setup(repo => repo.GetAll())
+                .Returns(new List<Type>
+                {
+                    new Type { Name = "Active", IsActive = true, TopicId = 1},
+                    new Type { Name = "Inactive", IsActive = false, TopicId = 1}
+                })
+                .Verifiable();
+
+            var availableTypes = _typesLogic.GetAll(1).ToArray();
+            Assert.AreEqual(1, availableTypes.Length);
+            Assert.AreEqual("Active", availableTypes.FirstOrDefault()?.Name);
+
+            _typesMock.Verify(mock => mock.GetAll(), Times.Once());
+        }
+
+        [TestMethod]
+        public void GetAllShouldGetAllTheAdditionalFields()
+        {
+            var typeInDb = new Type
+            {
+                Name = "Type",
+                Id = 2,
+                AdditionalFields = new List<AdditionalField>{
+                    new IntegerField
+                        {
+                            Id = 1,
+                            IsRequired = true,
+                            Name = "Int Field",
+                            Range = new List<IntegerItem>
+                            {
+                                new IntegerItem {Id = 1, IntegerFieldId = 1, Value = 1}
+                            }
+                        },
+                    new DateField
+                        {
+                            Id = 2,
+                            IsRequired = true,
+                            Name = "Date Field",
+                            Range = new List<DateItem>
+                            {
+                                new DateItem {Id = 2, DateFieldId = 2, Value = DateTime.Now}
+                            }
+                        },
+                    new TextField
+                        {
+                            Id = 3,
+                            IsRequired = true,
+                            Name = "Text Field",
+                            Range = new List<TextItem>
+                            {
+                                new TextItem {Id = 3, TextFieldId = 3, Value = "this is some text"}
+                            }
+
+                        }
+                    },
+                IsActive = true,
+                TopicId = 1
+            };
+
+            _typesMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb }).Verifiable();
+
+            var allTypes = _typesLogic.GetAll(1).ToArray();
+
+            Assert.AreEqual(3, allTypes.First().AdditionalFields.Count);
+        }
+
+        [TestMethod]
+        public void AnAdditionalIntegerFieldShouldHaveACorrespondingTypeName()
+        {
+            var typeInDb = new Type
+            {
+                Name = "Type",
+                Id = 2,
+                AdditionalFields = new List<AdditionalField>{
+                    new IntegerField
+                        {
+                            Id = 1,
+                            IsRequired = true,
+                            Name = "Int Field",
+                            Range = new List<IntegerItem>
+                            {
+                                new IntegerItem {Id = 1, IntegerFieldId = 1, Value = 1}
+                            }
+                        }
+                },
+                IsActive = true,
+                TopicId = 1
+            };
+            _typesMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb }).Verifiable();
+
+            var type = _typesLogic.GetAll(1).FirstOrDefault();
+            Assert.AreEqual("integer", type?.AdditionalFields[0].FieldType);
+
+            _typesMock.Verify(mock => mock.GetAll(), Times.Once());
+        }
+
+        [TestMethod]
+        public void AnAdditionalTextFieldShouldHaveACorrespondingTypeName()
+        {
+            var typeInDb = new Type
+            {
+                Name = "Type",
+                Id = 2,
+                AdditionalFields = new List<AdditionalField>{
+                    new TextField
+                        {
+                            Id = 3,
+                            IsRequired = true,
+                            Name = "Text Field",
+                            Range = new List<TextItem>
+                            {
+                                new TextItem {Id = 3, TextFieldId = 3, Value = "this is some text"}
+                            }
+                        }
+                },
+                IsActive = true,
+                TopicId = 1
+            };
+
+            _typesMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb }).Verifiable();
+
+            var type = _typesLogic.GetAll(1).FirstOrDefault();
+            Assert.AreEqual("text", type?.AdditionalFields[0].FieldType);
+
+            _typesMock.Verify(mock => mock.GetAll(), Times.Once());
+        }
+
+        [TestMethod]
+        public void AnAdditionalDateFieldShouldHaveACorrespondingTypeName()
+        {
+            var typeInDb = new Type
+            {
+                Name = "Type",
+                Id = 2,
+                AdditionalFields = new List<AdditionalField>{
+                    new DateField
+                        {
+                            Id = 2,
+                            IsRequired = true,
+                            Name = "Date Field",
+                            Range = new List<DateItem>
+                            {
+                                new DateItem {Id = 2, DateFieldId = 2, Value = DateTime.Now}
+                            }
+                        },
+                },
+                IsActive = true,
+                TopicId = 1
+            };
+
+            _typesMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb }).Verifiable();
+
+            var type = _typesLogic.GetAll(1).FirstOrDefault();
+            Assert.AreEqual("date", type?.AdditionalFields[0].FieldType);
+
+            _typesMock.Verify(mock => mock.GetAll(), Times.Once());
+        }
+
+        [TestMethod]
+        public void AnAdditionalIntegerFieldShouldHaveACorrespondingRangeValue()
+        {
+            var typeInDb = new Type
+            {
+                Name = "Type",
+                Id = 2,
+                AdditionalFields = new List<AdditionalField>{
+                    new IntegerField
+                        {
+                            Id = 1,
+                            IsRequired = true,
+                            Name = "Int Field",
+                            Range = new List<IntegerItem>
+                            {
+                                new IntegerItem {Id = 1, IntegerFieldId = 1, Value = 1}
+                            }
+                        }
+                },
+                IsActive = true,
+                TopicId = 1
+            };
+            _typesMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb });
+
+            var type = _typesLogic.GetAll(1).FirstOrDefault();
+            var range = type?.AdditionalFields[0].Range.ToArray();
+
+            Assert.AreEqual("1", range?.First());
+        }
+
+        [TestMethod]
+        public void AnAdditionalDateFieldShouldHaveACorrespondingRangeValue()
+        {
+            var now = DateTime.Now;
+            var typeInDb = new Type
+            {
+                Name = "Type",
+                Id = 2,
+                AdditionalFields = new List<AdditionalField>{
+                    new DateField
+                        {
+                            Id = 2,
+                            IsRequired = true,
+                            Name = "Date Field",
+                            Range = new List<DateItem>
+                            {
+                                new DateItem {Id = 2, DateFieldId = 2, Value = now }
+                            }
+                        },
+                },
+                IsActive = true,
+                TopicId = 1
+            };
+            _typesMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb });
+
+            var type = _typesLogic.GetAll(1).FirstOrDefault();
+            var range = type?.AdditionalFields[0].Range.ToArray();
+
+            Assert.AreEqual(now.ToString("dd-MM-yyyy"), range?.First());
+        }
+
+        [TestMethod]
+        public void AnAdditionalTextFieldShouldHaveACorrespondingRangeValue()
+        {
+            var typeInDb = new Type
+            {
+                Name = "Type",
+                Id = 2,
+                AdditionalFields = new List<AdditionalField>
+                {
+                    new TextField
+                    { Id = 3,
+                        IsRequired = true,
+                        Name = "Text Field",
+                        Range = new List<TextItem>
+                        {
+                            new TextItem {Id = 3, TextFieldId = 3, Value = "this is some text"}
+                        }
+
+                    }
+                },
+                IsActive = true,
+                TopicId = 1
+            };
+            _typesMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb });
+
+            var type = _typesLogic.GetAll(1).FirstOrDefault();
+            var range = type?.AdditionalFields[0].Range.ToArray();
+
+            Assert.AreEqual("this is some text", range?.First());
+        }
+
+        [TestMethod]
+        public void GetAllShouldGetTypesFromAGivenTopic()
+        {
+            _typesMock.Setup(repo => repo.GetAll()).Returns(new List<Type>
+            {
+                new Type
+                {
+                    Name = "Type",
+                    Id = 2,
+                    IsActive = true,
+                    TopicId = 1
+                },
+                new Type
+                {
+                    Name = "Type2",
+                    Id = 3,
+                    IsActive = true,
+                    TopicId = 2
+                }
+            });
+
+            var types =_typesLogic.GetAll(2).ToArray();
+
+            Assert.AreEqual(1, types.Length);
+            Assert.AreEqual(3, types.First().Id);
         }
         #endregion
     }

@@ -116,6 +116,7 @@ namespace IMMRequest.Logic.Core
         {
             var allTypes = _typesRepository.GetAll();
             return allTypes?
+                .Where(type => type.IsActive && type.TopicId == topicId)
                 .Select(type => new TypeModel
                 {
                     Name = type.Name,
