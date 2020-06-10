@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using IMMRequest.Logic.Models;
-
 namespace IMMRequest.Logic.Interfaces
 {
+    using System.Collections.Generic;
+    using IMMRequest.Domain;
+    
     public interface IReportsLogic
     {
-        IEnumerable<GetAllRequestsByMail> ReportsRequestByMail(string mail);
+        IEnumerable<Request> GetRequestByMail(string mail);
     }
 }

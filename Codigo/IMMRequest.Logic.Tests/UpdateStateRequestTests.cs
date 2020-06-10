@@ -7,8 +7,6 @@ namespace IMMRequest.Logic.Tests
     [TestClass]
     public class UpdateStateRequestTests
     {
-        private UpdateStateRequest updateStateRequest;
-
         [TestMethod]
         public void NewStateTest()
         {

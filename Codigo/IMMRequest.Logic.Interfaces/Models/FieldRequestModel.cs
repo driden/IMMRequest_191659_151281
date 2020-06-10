@@ -1,5 +1,3 @@
-using System;
-
 namespace IMMRequest.Logic.Models
 {
     public class FieldRequestModel

@@ -1,13 +1,13 @@
-using System;
-using System.Collections.Generic;
-using IMMRequest.Logic.Exceptions;
-using IMMRequest.Logic.Interfaces;
-using IMMRequest.Logic.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
 namespace IMMRequest.WebApi.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using IMMRequest.Logic.Exceptions;
+    using IMMRequest.Logic.Interfaces;
+    using IMMRequest.Logic.Models;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    
     [ApiController]
     [Route("api/[controller]")]
     public class ReportController : ControllerBase
@@ -24,13 +24,13 @@ namespace IMMRequest.WebApi.Controllers
         /// </summary>
         /// <returns>A json object with the details of the request</returns>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<GetAllRequestsByMail>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<ModelRequest>), 200)]
         [Route("{id}")]
         public ObjectResult GetAllRequestByMail(string mail)
         {
             try
             {
-                return new ObjectResult(_reportsLogic.ReportsRequestByMail(mail));
+                return new ObjectResult(_reportsLogic.GetRequestByMail(mail));
             }
             catch (NoSuchRequestException noSuchRequest)
             {
