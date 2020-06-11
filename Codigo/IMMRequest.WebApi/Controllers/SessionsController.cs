@@ -1,11 +1,11 @@
-using System;
-using IMMRequest.Logic.Interfaces;
-using IMMRequest.Logic.Models;
-using Microsoft.AspNetCore.Mvc;
-
 namespace IMMRequest.WebApi.Controllers
 {
+    using System;
+    using Microsoft.AspNetCore.Mvc;
+    using Logic.Interfaces;
     using Logic.Exceptions;
+    using Logic.Models.Admin;
+    using Logic.Models.Error;
 
     [ApiController]
     [Route("api/[controller]")]
@@ -19,7 +19,7 @@ namespace IMMRequest.WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login([FromBody]ModelAdminLogin adminLogin)
+        public IActionResult Login([FromBody]AdminLoginModel adminLogin)
         {
             try
             {
@@ -27,11 +27,11 @@ namespace IMMRequest.WebApi.Controllers
             }
             catch (NoSuchAdministrator noSuchAdministrator)
             {
-                return BadRequest(new ErrorResponse(noSuchAdministrator.Message));
+                return BadRequest(new ErrorModel(noSuchAdministrator.Message));
             }
             catch (Exception)
             {
-                return BadRequest(new ErrorResponse("An error occurred while logging you in, please try again"));
+                return BadRequest(new ErrorModel("An error occurred while logging you in, please try again"));
             }
         }
     }

@@ -1,9 +1,8 @@
-using System;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
 namespace IMMRequest.WebApi.Controllers
 {
+    using System;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
     using Domain.Exceptions;
     using Logic.Exceptions;
@@ -11,6 +10,7 @@ namespace IMMRequest.WebApi.Controllers
     using Logic.Exceptions.RemoveType;
     using Logic.Interfaces;
     using Logic.Models;
+    using Logic.Models.Error;
     using Logic.Models.Type;
 
     [Route("api/[controller]")]
@@ -42,43 +42,43 @@ namespace IMMRequest.WebApi.Controllers
             }
             catch (InvalidTopicIdException invalidTopicIdException)
             {
-                return BadRequest(new ErrorResponse(invalidTopicIdException.Message));
+                return BadRequest(new ErrorModel(invalidTopicIdException.Message));
             }
             catch (InvalidFieldTypeException invalidFieldTypeException)
             {
-                return BadRequest(new ErrorResponse(invalidFieldTypeException.Message));
+                return BadRequest(new ErrorModel(invalidFieldTypeException.Message));
             }
             catch (NoSuchTopicException suchTopicException)
             {
-                return BadRequest(new ErrorResponse(suchTopicException.Message));
+                return BadRequest(new ErrorModel(suchTopicException.Message));
             }
             catch (EmptyTypeNameException emptyTypeNameException)
             {
-                return BadRequest(new ErrorResponse(emptyTypeNameException.Message));
+                return BadRequest(new ErrorModel(emptyTypeNameException.Message));
             }
             catch (ExistingTypeNameException existingTypeNameException)
             {
-                return BadRequest(new ErrorResponse(existingTypeNameException.Message));
+                return BadRequest(new ErrorModel(existingTypeNameException.Message));
             }
             catch (InvalidFieldValueCastForFieldTypeException invalidFieldValueCastForFieldTypeException)
             {
-                return BadRequest(new ErrorResponse(invalidFieldValueCastForFieldTypeException.Message));
+                return BadRequest(new ErrorModel(invalidFieldValueCastForFieldTypeException.Message));
             }
             catch (InvalidFieldRangeException invalidFieldRangeException)
             {
-                return BadRequest(new ErrorResponse(invalidFieldRangeException.Message));
+                return BadRequest(new ErrorModel(invalidFieldRangeException.Message));
             }
             catch (InvalidNameForAdditionalFieldException invalidNameForAdditionalField)
             {
-                return BadRequest(new ErrorResponse(invalidNameForAdditionalField.Message));
+                return BadRequest(new ErrorModel(invalidNameForAdditionalField.Message));
             }
             catch (InvalidAdditionalFieldForTypeException exception)
             {
-                return BadRequest(new ErrorResponse(exception.Message));
+                return BadRequest(new ErrorModel(exception.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
             }
         }
 
@@ -102,15 +102,15 @@ namespace IMMRequest.WebApi.Controllers
             }
             catch (InvalidIdException invalidTypeIdException)
             {
-                return BadRequest(new ErrorResponse(invalidTypeIdException.Message));
+                return BadRequest(new ErrorModel(invalidTypeIdException.Message));
             }
             catch (NoSuchTypeException noSuchTypeException)
             {
-                return BadRequest(new ErrorResponse(noSuchTypeException.Message));
+                return BadRequest(new ErrorModel(noSuchTypeException.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
             }
         }
 

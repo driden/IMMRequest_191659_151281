@@ -4,8 +4,8 @@ namespace IMMRequest.WebApi.Controllers
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Mvc;
     using Logic.Interfaces;
-    using Logic.Models;
     using Logic.Models.Area;
+    using Logic.Models.Error;
     using Microsoft.AspNetCore.Http;
 
     [Route("api/areas")]
@@ -28,7 +28,7 @@ namespace IMMRequest.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
             }
         }
     }

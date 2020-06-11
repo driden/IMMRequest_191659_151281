@@ -8,7 +8,7 @@ namespace IMMRequest.Logic.Core
     using Domain.Fields;
     using Exceptions;
     using Interfaces;
-    using Models;
+    using Models.Request;
     using Type = Domain.Type;
 
     public class RequestsLogic : IRequestsLogic
@@ -73,7 +73,7 @@ namespace IMMRequest.Logic.Core
             return request.Id;
         }
 
-        public GetStatusRequestResponse GetRequestStatus(int requestId)
+        public RequestModel GetRequestStatus(int requestId)
         {
             ValidateRequestId(requestId);
 
@@ -82,7 +82,7 @@ namespace IMMRequest.Logic.Core
             ValidateRequestNotNull(requestId, request);
 
             //var area = this._areaQueries.FindWithTypeId(request.Type.Id);
-            return new GetStatusRequestResponse
+            return new RequestModel
             {
                 Details = request.Details,
                 RequestState = request.Status.Description,

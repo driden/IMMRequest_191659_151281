@@ -1,4 +1,4 @@
-namespace IMMRequest.Logic.Models
+namespace IMMRequest.Logic.Models.Request
 {
     using System.Collections.Generic;
 

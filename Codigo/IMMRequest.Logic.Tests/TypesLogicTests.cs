@@ -12,10 +12,9 @@ namespace IMMRequest.Logic.Tests
     using Exceptions.CreateTopic;
     using Exceptions.RemoveType;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Models;
+    using Models.Request;
     using Models.Type;
     using Moq;
-    using AdditionalFieldModel = Models.AdditionalFieldModel;
     using Type = Domain.Type;
 
     [TestClass]

@@ -1,7 +1,8 @@
-using System.Collections.Generic;
-
-namespace IMMRequest.Logic.Models
+namespace IMMRequest.Logic.Models.Type
 {
+    using System.Collections.Generic;
+    using Request;
+
     public class CreateTypeRequest
     {
         public string Name { get; set; }
@@ -14,7 +15,7 @@ namespace IMMRequest.Logic.Models
         public string Name { get; set; }
         public string FieldType { get; set; }
         public bool IsRequired { get; set; }
-        
+
         public IEnumerable<FieldRequestModel> Range { get; set; }
     }
 }

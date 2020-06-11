@@ -1,11 +1,11 @@
-using System;
 namespace IMMRequest.Logic.Interfaces
 {
-    using Models;
+    using System;
+    using Models.Admin;
 
     public interface ISessionLogic
     {
-        Guid Login(ModelAdminLogin loginInfo);
+        Guid Login(AdminLoginModel loginInfo);
         bool IsValidToken(Guid token, string username);
     }
 }

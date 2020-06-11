@@ -6,7 +6,8 @@ namespace IMMRequest.WebApi.Controllers
     using Logic.Exceptions;
     using Logic.Exceptions.CreateTopic;
     using Logic.Interfaces;
-    using Logic.Models;
+    using Logic.Models.Error;
+    using Logic.Models.Request;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
@@ -38,47 +39,47 @@ namespace IMMRequest.WebApi.Controllers
             }
             catch (NoSuchTypeException nste)
             {
-                return BadRequest(new ErrorResponse(nste.Message));
+                return BadRequest(new ErrorModel(nste.Message));
             }
             catch (InvalidAdditionalFieldForTypeException iaf)
             {
-                return BadRequest(new ErrorResponse(iaf.Message));
+                return BadRequest(new ErrorModel(iaf.Message));
             }
             catch (NoSuchAdditionalFieldException nsaf)
             {
-                return NotFound(new ErrorResponse(nsaf.Message));
+                return NotFound(new ErrorModel(nsaf.Message));
             }
             catch (InvalidFieldValueCastForFieldTypeException ifve)
             {
-                return BadRequest(new ErrorResponse(ifve.Message));
+                return BadRequest(new ErrorModel(ifve.Message));
             }
             catch (InvalidFieldRangeException ifre)
             {
-                return BadRequest(new ErrorResponse(ifre.Message));
+                return BadRequest(new ErrorModel(ifre.Message));
             }
             catch (LessAdditionalFieldsThanRequiredException ladftre)
             {
-                return BadRequest(new ErrorResponse(ladftre.Message));
+                return BadRequest(new ErrorModel(ladftre.Message));
             }
             catch (InvalidDetailsException exception)
             {
-                return BadRequest(new ErrorResponse(exception.Message));
+                return BadRequest(new ErrorModel(exception.Message));
             }
             catch (InvalidNameFormatException exception)
             {
-                return BadRequest(new ErrorResponse(exception.Message));
+                return BadRequest(new ErrorModel(exception.Message));
             }
             catch (InvalidEmailException exception)
             {
-                return BadRequest(new ErrorResponse(exception.Message));
+                return BadRequest(new ErrorModel(exception.Message));
             }
             catch (InvalidPhoneNumberException exception)
             {
-                return BadRequest(new ErrorResponse(exception.Message));
+                return BadRequest(new ErrorModel(exception.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
             }
         }
 
@@ -97,7 +98,7 @@ namespace IMMRequest.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
             }
         }
 
@@ -116,15 +117,15 @@ namespace IMMRequest.WebApi.Controllers
             }
             catch (InvalidTopicIdException invalidRequestId)
             {
-                return BadRequest(new ErrorResponse(invalidRequestId.Message));
+                return BadRequest(new ErrorModel(invalidRequestId.Message));
             }
             catch (NoSuchRequestException noSuchRequest)
             {
-                return BadRequest(new ErrorResponse(noSuchRequest.Message));
+                return BadRequest(new ErrorModel(noSuchRequest.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
             }
         }
 
@@ -140,7 +141,7 @@ namespace IMMRequest.WebApi.Controllers
         [HttpPut]
         [Route("{id}")]
         [Filters.AuthorizationFilter]
-        public ActionResult UpdateStatus(int id, [FromBody]UpdateStateRequest updateStateRequest)
+        public ActionResult UpdateStatus(int id, [FromBody]UpdateStateModel updateStateRequest)
         {
             try
             {
@@ -149,27 +150,27 @@ namespace IMMRequest.WebApi.Controllers
             }
             catch (InvalidStateNameException ex)
             {
-                return BadRequest(new ErrorResponse(ex.Message));
+                return BadRequest(new ErrorModel(ex.Message));
             }
             catch (InvalidTopicIdException ex)
             {
-                return NotFound(new ErrorResponse(ex.Message));
+                return NotFound(new ErrorModel(ex.Message));
             }
             catch (NoSuchRequestException ex)
             {
-                return NotFound(new ErrorResponse(ex.Message));
+                return NotFound(new ErrorModel(ex.Message));
             }
             catch (InvalidStateException ex)
             {
-                return BadRequest(new ErrorResponse(ex.Message));
+                return BadRequest(new ErrorModel(ex.Message));
             }
             catch (InvalidRequestIdException ex)
             {
-                return BadRequest(new ErrorResponse(ex.Message));
+                return BadRequest(new ErrorModel(ex.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
             }
         }
     }

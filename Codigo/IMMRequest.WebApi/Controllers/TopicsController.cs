@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
 namespace IMMRequest.WebApi.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
     using Logic.Interfaces;
-    using Logic.Models;
+    using Logic.Models.Error;
     using Logic.Models.Topic;
 
     [Route("api/[controller]")]
@@ -36,7 +33,7 @@ namespace IMMRequest.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
             }
         }
     }

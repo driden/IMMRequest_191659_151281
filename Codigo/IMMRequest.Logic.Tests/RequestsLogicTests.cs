@@ -11,7 +11,8 @@ namespace IMMRequest.Logic.Tests
     using Domain.States;
     using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Models;
+    using Models.Error;
+    using Models.Request;
     using Moq;
     using Type = Domain.Type;
 
@@ -642,7 +643,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CanSendAnErrorMessageToTheUser()
         {
-            var error = new ErrorResponse("msg");
+            var error = new ErrorModel("msg");
             Assert.AreEqual("msg", error.Error);
         }
 
