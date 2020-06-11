@@ -5,6 +5,6 @@ namespace IMMRequest.Logic.Interfaces
 
     public interface ITopicsLogic
     {
-        IEnumerable<TopicModel> GetAllTopics(int areaId);
+        IEnumerable<TopicModel> GetAll(int areaId);
     }
 }

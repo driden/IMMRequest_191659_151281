@@ -59,7 +59,7 @@ namespace IMMRequest.Logic.Tests
                     Types = new List<int> { 1 }
                 };
 
-            var actual = _topicsLogic.GetAllTopics(1).FirstOrDefault();
+            var actual = _topicsLogic.GetAll(1).FirstOrDefault();
 
             Assert.AreEqual(expected.Name, actual.Name);
             Assert.AreEqual(expected.AreaId, actual.AreaId);

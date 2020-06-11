@@ -17,7 +17,7 @@ namespace IMMRequest.Logic.Core
             this._repository = repository;
         }
 
-        public IEnumerable<TopicModel> GetAllTopics(int areaId)
+        public IEnumerable<TopicModel> GetAll(int areaId)
         {
             var all = _repository.GetAll().Where(topic => topic.AreaId == areaId);
             return all.Select(CreateModel);
