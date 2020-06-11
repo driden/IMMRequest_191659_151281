@@ -2,10 +2,9 @@ namespace IMMRequest.DataAccess.Core.Repositories
 {
     using System.Linq;
     using Domain;
-    using Interfaces;
     using Microsoft.EntityFrameworkCore;
 
-    public class AreaRepository : Repository<Area>, IAreaQueries
+    public class AreaRepository : Repository<Area>
     {
         public AreaRepository(DbContext context) : base(context) { }
 
@@ -13,8 +12,7 @@ namespace IMMRequest.DataAccess.Core.Repositories
         {
             var type = Context.Set<Type>().Find(typeId);
             var topic = Context.Set<Topic>().Find(type.TopicId);
-            var area = GetAll().FirstOrDefault(area => area.Id == topic.AreaId);
-            return area;
+            return GetAll().FirstOrDefault(area => area.Id == topic.AreaId);
         }
     }
 }

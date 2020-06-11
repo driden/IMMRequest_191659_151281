@@ -15,17 +15,14 @@ namespace IMMRequest.Logic.Core
     {
         private readonly IRepository<Request> _requestRepo;
         private readonly IRepository<Type> _typeRepo;
-        private readonly IAreaQueries _areaQueries;
 
         public RequestsLogic(
                IRepository<Request> requestRepository,
-               IRepository<Type> typeRepository,
-               IAreaQueries areaQueries
+               IRepository<Type> typeRepository
             )
         {
             _requestRepo = requestRepository;
             _typeRepo = typeRepository;
-            _areaQueries = areaQueries;
         }
 
         public int Add(CreateRequest createRequest)

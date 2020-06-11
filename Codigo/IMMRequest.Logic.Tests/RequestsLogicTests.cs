@@ -22,7 +22,6 @@ namespace IMMRequest.Logic.Tests
         private Mock<IRepository<Request>> _requestRepo;
         private Mock<IRepository<Type>> _typeRepo;
         private Mock<IRepository<User>> _userRepo;
-        private Mock<IAreaQueries> _areaQueries;
 
         [TestInitialize]
         public void SetUp()
@@ -30,11 +29,9 @@ namespace IMMRequest.Logic.Tests
             _requestRepo = new Mock<IRepository<Request>>(MockBehavior.Strict);
             _typeRepo = new Mock<IRepository<Type>>(MockBehavior.Strict);
             _userRepo = new Mock<IRepository<User>>(MockBehavior.Strict);
-            _areaQueries = new Mock<IAreaQueries>(MockBehavior.Strict);
             _requestsLogic = new RequestsLogic(
                 _requestRepo.Object,
-                _typeRepo.Object,
-                _areaQueries.Object
+                _typeRepo.Object
                 );
         }
 
