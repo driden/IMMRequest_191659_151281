@@ -6,10 +6,10 @@ namespace IMMRequest.Logic.Models
     {
         public string Name { get; set; }
         public int TopicId { get; set; }
-        public virtual IList<NewTypeAdditionalField> AdditionalFields { get; set; } = new List<NewTypeAdditionalField>();
+        public virtual IList<AdditionalFieldModel> AdditionalFields { get; set; } = new List<AdditionalFieldModel>();
     }
 
-    public class NewTypeAdditionalField
+    public class AdditionalFieldModel
     {
         public string Name { get; set; }
         public string FieldType { get; set; }

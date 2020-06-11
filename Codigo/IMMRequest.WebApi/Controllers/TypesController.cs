@@ -4,16 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IMMRequest.WebApi.Controllers
 {
+    using System.Collections.Generic;
     using Domain.Exceptions;
     using Logic.Exceptions;
     using Logic.Exceptions.CreateTopic;
     using Logic.Exceptions.RemoveType;
     using Logic.Interfaces;
     using Logic.Models;
+    using Logic.Models.Type;
 
     [Route("api/[controller]")]
     [ApiController]
-    [Filters.AuthenticationFilter]
     public class TypesController : ControllerBase
     {
         private readonly ITypesLogic _typesLogic;
@@ -31,12 +32,13 @@ namespace IMMRequest.WebApi.Controllers
         /// <response code="400">There's something wrong with the request body</response>
         /// <response code="500">Something is wrong with the server</response>
         [HttpPost]
+        [Filters.AuthenticationFilter]
         public ActionResult AddType([FromBody] CreateTypeRequest request)
         {
             try
             {
                 var typeId = _typesLogic.Add(request);
-                return new OkObjectResult(new {Id = typeId, Text = $"Type created with id {typeId}"});
+                return new OkObjectResult(new { Id = typeId, Text = $"Type created with id {typeId}" });
             }
             catch (InvalidTopicIdException invalidTopicIdException)
             {
@@ -88,6 +90,7 @@ namespace IMMRequest.WebApi.Controllers
         /// <response code="400">There's something wrong with the request body</response>
         /// <response code="500">Something is wrong with the server</response>
         [HttpDelete]
+        [Filters.AuthenticationFilter]
         [Route("{id}")]
         public ActionResult DeleteType(int id)
         {
@@ -109,6 +112,18 @@ namespace IMMRequest.WebApi.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
             }
+        }
+
+        /// <summary>
+        /// Lists all the types for a given topic.
+        /// </summary>
+        /// <param name="topicId">the topic Id for which their type should be listed</param>
+        /// <returns>Returns the list of types in a topic</returns>
+        [HttpGet]
+        [Route("{topicId}")]
+        public IEnumerable<TypeModel> GetAll(int topicId)
+        {
+            return _typesLogic.GetAll(topicId);
         }
     }
 }

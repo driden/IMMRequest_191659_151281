@@ -75,6 +75,9 @@ namespace IMMRequest.WebApi
             services.AddScoped<IRequestsLogic, RequestsLogic>();
             services.AddScoped<ITypesLogic, TypesLogic>();
             services.AddScoped<IAdminsLogic, AdminsLogic>();
+            services.AddScoped<IAreasLogic, AreasLogic>();
+            services.AddScoped<ITopicsLogic, TopicsLogic>();
+            services.AddScoped<ITypesLogic, TypesLogic>();
 
             // Authorization
             services.AddScoped<ISessionLogic, SessionLogic>();

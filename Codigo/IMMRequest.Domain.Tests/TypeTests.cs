@@ -16,7 +16,7 @@ namespace IMMRequest.Domain.Tests
 
             Assert.AreEqual(default(int), type.Id);
             Assert.IsNull(type.Name);
-            Assert.IsNull(type.AdditionalFields);
+            Assert.IsNotNull(type.AdditionalFields);
         }
 
         [TestMethod]

@@ -7,13 +7,13 @@ namespace IMMRequest.Logic.Core
     using System.Linq;
     using DataAccess.Interfaces;
     using Domain;
-    using Domain.Exceptions;
     using Domain.Fields;
     using Exceptions;
     using Exceptions.CreateTopic;
     using Exceptions.RemoveType;
     using Interfaces;
     using Models;
+    using Models.Type;
 
     public class TypesLogic : ITypesLogic
     {
@@ -111,6 +111,38 @@ namespace IMMRequest.Logic.Core
 
             return newType.Id;
         }
+
+        public IEnumerable<TypeModel> GetAll(int topicId)
+        {
+            var allTypes = _typesRepository.GetAll();
+            return allTypes?
+                .Where(type => type.IsActive && type.TopicId == topicId)
+                .Select(type => new TypeModel
+                {
+                    Name = type.Name,
+                    Id = type.Id,
+                    IsActive = type.IsActive,
+                    TopicId = type.TopicId,
+                    AdditionalFields = type.AdditionalFields
+                        .Select(additionalField => new Models.Type.AdditionalFieldModel
+                        {
+                            Name = additionalField.Name,
+                            Id = additionalField.Id,
+                            FieldType = additionalField.FieldType == FieldType.Integer
+                                ? "integer"
+                                : additionalField.FieldType == FieldType.Date
+                                    ? "date"
+                                    : "text",
+                            IsRequired = additionalField.IsRequired,
+                            Range = additionalField.FieldType == FieldType.Integer ? ((IntegerField)additionalField).Range.Select(intItem => intItem.Value.ToString())
+                                : additionalField.FieldType == FieldType.Date
+                                    ? ((DateField)additionalField).Range.Select(dateItem => dateItem.ToString())
+                                    : ((TextField)additionalField).Range.Select(textItem=> textItem.Value)
+                        })
+                        .ToList()
+                });
+        }
+
         #region Utilities
         private int TryToParseIntValue(string intValue)
         {
@@ -145,7 +177,6 @@ namespace IMMRequest.Logic.Core
         }
 
         #endregion Utilities
-
 
         #region Validations
 
@@ -196,7 +227,7 @@ namespace IMMRequest.Logic.Core
         {
             var names = createTypeRequest.AdditionalFields.Select(af => af.Name).ToList();
 
-            if (names.Any(name => string.IsNullOrWhiteSpace(name)))
+            if (names.Any(string.IsNullOrWhiteSpace))
             {
                 throw new InvalidNameForAdditionalFieldException("Cannot provide an empty additional field name");
             }
