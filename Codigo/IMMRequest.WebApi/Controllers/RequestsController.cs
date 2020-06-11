@@ -87,7 +87,7 @@ namespace IMMRequest.WebApi.Controllers
         /// </summary>
         /// <returns>A json object with a list of all requests in the system</returns>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<GetAllRequestsStatusResponse>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<RequestStatusModel>), 200)]
         [Filters.AuthenticationFilter]
         public ObjectResult GetAll()
         {
@@ -106,7 +106,7 @@ namespace IMMRequest.WebApi.Controllers
         /// </summary>
         /// <returns>A json object with the details of the request</returns>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<GetAllRequestsStatusResponse>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<RequestStatusModel>), 200)]
         [Route("{id}")]
         public ObjectResult GetOne(int id)
         {

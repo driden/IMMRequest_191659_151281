@@ -94,9 +94,9 @@ namespace IMMRequest.Logic.Core
             };
         }
 
-        public IEnumerable<GetAllRequestsStatusResponse> GetAllRequests()
+        public IEnumerable<RequestStatusModel> GetAllRequests()
         {
-            return _requestRepo.GetAll().Select(req => new GetAllRequestsStatusResponse
+            return _requestRepo.GetAll().Select(req => new RequestStatusModel
             {
                 Details = req.Details,
                 RequestId = req.Id,

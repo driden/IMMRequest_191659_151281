@@ -6,7 +6,7 @@ namespace IMMRequest.Logic.Interfaces
     public interface IRequestsLogic
     {
         int Add(CreateRequest createRequest);
-        IEnumerable<GetAllRequestsStatusResponse> GetAllRequests();
+        IEnumerable<RequestStatusModel> GetAllRequests();
         GetStatusRequestResponse GetRequestStatus(int requestId);
         void UpdateRequestStatus(int requestId, string newState);
     }
