@@ -13,7 +13,7 @@ namespace IMMRequest.WebApi.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    [Filters.AuthenticationFilter]
+    [Filters.AuthorizationFilter]
     public class AdminsController : ControllerBase
     {
         private readonly IAdminsLogic _adminsLogic;

@@ -32,7 +32,7 @@ namespace IMMRequest.WebApi.Controllers
         /// <response code="400">There's something wrong with the request body</response>
         /// <response code="500">Something is wrong with the server</response>
         [HttpPost]
-        [Filters.AuthenticationFilter]
+        [Filters.AuthorizationFilter]
         public ActionResult AddType([FromBody] CreateTypeRequest request)
         {
             try
@@ -90,7 +90,7 @@ namespace IMMRequest.WebApi.Controllers
         /// <response code="400">There's something wrong with the request body</response>
         /// <response code="500">Something is wrong with the server</response>
         [HttpDelete]
-        [Filters.AuthenticationFilter]
+        [Filters.AuthorizationFilter]
         [Route("{id}")]
         public ActionResult DeleteType(int id)
         {

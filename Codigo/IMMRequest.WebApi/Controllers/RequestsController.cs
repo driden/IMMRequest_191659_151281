@@ -88,7 +88,7 @@ namespace IMMRequest.WebApi.Controllers
         /// <returns>A json object with a list of all requests in the system</returns>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<RequestStatusModel>), 200)]
-        [Filters.AuthenticationFilter]
+        [Filters.AuthorizationFilter]
         public ObjectResult GetAll()
         {
             try
@@ -139,7 +139,7 @@ namespace IMMRequest.WebApi.Controllers
         /// <response code="500">Something is wrong with the server</response>
         [HttpPut]
         [Route("{id}")]
-        [Filters.AuthenticationFilter]
+        [Filters.AuthorizationFilter]
         public ActionResult UpdateStatus(int id, [FromBody]UpdateStateRequest updateStateRequest)
         {
             try
