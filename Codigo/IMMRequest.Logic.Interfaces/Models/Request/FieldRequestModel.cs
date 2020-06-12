@@ -1,6 +1,4 @@
-using System;
-
-namespace IMMRequest.Logic.Models
+namespace IMMRequest.Logic.Models.Request
 {
     public class FieldRequestModel
     {

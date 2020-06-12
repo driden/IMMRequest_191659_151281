@@ -1,19 +1,19 @@
-using System;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
 namespace IMMRequest.WebApi.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using Domain.Exceptions;
+    using Filters;
     using Logic.Exceptions;
     using Logic.Exceptions.CreateTopic;
     using Logic.Exceptions.RemoveType;
     using Logic.Interfaces;
-    using Logic.Models;
+    using Logic.Models.Error;
     using Logic.Models.Type;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
 
-    [Route("api/[controller]")]
+    [Route("api/types")]
     [ApiController]
     public class TypesController : ControllerBase
     {
@@ -25,76 +25,75 @@ namespace IMMRequest.WebApi.Controllers
         }
 
         /// <summary>
-        /// Creates a new type in the system
+        ///     Creates a new type in the system
         /// </summary>
         /// <param name="request">request body</param>
         /// <response code="200">Type created</response>
         /// <response code="400">There's something wrong with the request body</response>
         /// <response code="500">Something is wrong with the server</response>
         [HttpPost]
-        [Filters.AuthenticationFilter]
+        [AuthorizationFilter]
         public ActionResult AddType([FromBody] CreateTypeRequest request)
         {
             try
             {
                 var typeId = _typesLogic.Add(request);
-                return new OkObjectResult(new { Id = typeId, Text = $"Type created with id {typeId}" });
+                return new OkObjectResult(new {Id = typeId, Text = $"Type created with id {typeId}"});
             }
             catch (InvalidTopicIdException invalidTopicIdException)
             {
-                return BadRequest(new ErrorResponse(invalidTopicIdException.Message));
+                return BadRequest(new ErrorModel(invalidTopicIdException.Message));
             }
             catch (InvalidFieldTypeException invalidFieldTypeException)
             {
-                return BadRequest(new ErrorResponse(invalidFieldTypeException.Message));
+                return BadRequest(new ErrorModel(invalidFieldTypeException.Message));
             }
             catch (NoSuchTopicException suchTopicException)
             {
-                return BadRequest(new ErrorResponse(suchTopicException.Message));
+                return BadRequest(new ErrorModel(suchTopicException.Message));
             }
             catch (EmptyTypeNameException emptyTypeNameException)
             {
-                return BadRequest(new ErrorResponse(emptyTypeNameException.Message));
+                return BadRequest(new ErrorModel(emptyTypeNameException.Message));
             }
             catch (ExistingTypeNameException existingTypeNameException)
             {
-                return BadRequest(new ErrorResponse(existingTypeNameException.Message));
+                return BadRequest(new ErrorModel(existingTypeNameException.Message));
             }
             catch (InvalidFieldValueCastForFieldTypeException invalidFieldValueCastForFieldTypeException)
             {
-                return BadRequest(new ErrorResponse(invalidFieldValueCastForFieldTypeException.Message));
+                return BadRequest(new ErrorModel(invalidFieldValueCastForFieldTypeException.Message));
             }
             catch (InvalidFieldRangeException invalidFieldRangeException)
             {
-                return BadRequest(new ErrorResponse(invalidFieldRangeException.Message));
+                return BadRequest(new ErrorModel(invalidFieldRangeException.Message));
             }
             catch (InvalidNameForAdditionalFieldException invalidNameForAdditionalField)
             {
-                return BadRequest(new ErrorResponse(invalidNameForAdditionalField.Message));
+                return BadRequest(new ErrorModel(invalidNameForAdditionalField.Message));
             }
             catch (InvalidAdditionalFieldForTypeException exception)
             {
-                return BadRequest(new ErrorResponse(exception.Message));
+                return BadRequest(new ErrorModel(exception.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
             }
         }
 
         /// <summary>
-        /// Creates a new type in the system
+        ///     Creates a new type in the system
         /// </summary>
         /// <param name="id">Type id</param>
         /// <response code="200">Type created</response>
         /// <response code="400">There's something wrong with the request body</response>
         /// <response code="500">Something is wrong with the server</response>
         [HttpDelete]
-        [Filters.AuthenticationFilter]
+        [AuthorizationFilter]
         [Route("{id}")]
         public ActionResult DeleteType(int id)
         {
-
             try
             {
                 _typesLogic.Remove(id);
@@ -102,20 +101,20 @@ namespace IMMRequest.WebApi.Controllers
             }
             catch (InvalidIdException invalidTypeIdException)
             {
-                return BadRequest(new ErrorResponse(invalidTypeIdException.Message));
+                return BadRequest(new ErrorModel(invalidTypeIdException.Message));
             }
             catch (NoSuchTypeException noSuchTypeException)
             {
-                return BadRequest(new ErrorResponse(noSuchTypeException.Message));
+                return BadRequest(new ErrorModel(noSuchTypeException.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
             }
         }
 
         /// <summary>
-        /// Lists all the types for a given topic.
+        ///     Lists all the types for a given topic.
         /// </summary>
         /// <param name="topicId">the topic Id for which their type should be listed</param>
         /// <returns>Returns the list of types in a topic</returns>

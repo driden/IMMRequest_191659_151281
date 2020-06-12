@@ -7,7 +7,7 @@ namespace IMMRequest.Logic.Tests
     using Domain;
     using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Models;
+    using Models.Admin;
     using Moq;
 
     [TestClass]
@@ -26,7 +26,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CanSendLoginInformationToLoginMethod()
         {
-            var loginInfo = new ModelAdminLogin { Email = "email@mail.com", Password = "password" };
+            var loginInfo = new AdminLoginModel { Email = "email@mail.com", Password = "password" };
             mockedAdminRepo
                 .Setup(m => m.FirstOrDefault(It.IsAny<Expression<Func<Admin, bool>>>()))
                 .Returns(new Admin { Id = 1 });
@@ -44,7 +44,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void NoAdministratorWithCredentialsThrowsException()
         {
-            var loginInfo = new ModelAdminLogin { Email = "email@mail.com", Password = "password" };
+            var loginInfo = new AdminLoginModel { Email = "email@mail.com", Password = "password" };
             mockedAdminRepo
                 .Setup(m => m.FirstOrDefault(It.IsAny<Expression<Func<Admin, bool>>>()))
                 .Returns<Admin>(null);

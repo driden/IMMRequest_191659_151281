@@ -1,6 +1,6 @@
-namespace IMMRequest.Logic.Models
+namespace IMMRequest.Logic.Models.Request
 {
-    public class GetAllRequestsStatusResponse
+    public class RequestStatusModel
     {
         public int RequestId { get; set; }
 

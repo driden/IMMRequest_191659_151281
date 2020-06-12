@@ -10,7 +10,7 @@ namespace IMMRequest.Logic.Tests
     using Domain.Exceptions;
     using Exceptions.RemoveType;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Models;
+    using Models.Admin;
     using Moq;
 
     [TestClass]
@@ -29,7 +29,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CantAddAdminWithoutName()
         {
-            var request = new CreateAdminRequest
+            var request = new AdminModel
             {
                 Email = "some@mail.com",
                 Password = "pass",
@@ -43,7 +43,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CantAddAdminWithoutEmail()
         {
-            var request = new CreateAdminRequest
+            var request = new AdminModel
             {
                 Email = string.Empty,
                 Password = "pass",
@@ -57,7 +57,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CantAddAdminWithoutPhone()
         {
-            var request = new CreateAdminRequest
+            var request = new AdminModel
             {
                 Email = "some@mail.com",
                 Password = "pass",
@@ -71,7 +71,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CantAddAdminWithoutPassword()
         {
-            var request = new CreateAdminRequest
+            var request = new AdminModel
             {
                 Email = "some@mail.com",
                 Password = string.Empty,
@@ -85,7 +85,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CantAddARepeatedEmail()
         {
-            var request = new CreateAdminRequest
+            var request = new AdminModel
             {
                 Email = "some@mail.com",
                 Password = "password",
@@ -103,7 +103,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CanAddAnAdmin()
         {
-            var request = new CreateAdminRequest
+            var request = new AdminModel
             {
                 Email = "some@mail.com",
                 Password = "password",
@@ -123,13 +123,13 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CantUpdateAnAdminWithANegativeId()
         {
-            Assert.ThrowsException<InvalidIdException>(() => _logic.Update(-1, new CreateAdminRequest()));
+            Assert.ThrowsException<InvalidIdException>(() => _logic.Update(-1, new AdminModel()));
         }
 
         [TestMethod]
         public void CantUpdateAnAdminWithAnEmailThatIsBeingUsed()
         {
-            var request = new CreateAdminRequest
+            var request = new AdminModel
             {
                 Email = "some@mail.com",
                 Password = "password",
@@ -150,7 +150,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CanStillUseTheSameEmailWhenUpdating()
         {
-            var request = new CreateAdminRequest
+            var request = new AdminModel
             {
                 Email = "some@mail.com",
                 Password = "password",
@@ -179,7 +179,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CantUpdateIfAdminIsIsNotValid()
         {
-            var request = new CreateAdminRequest
+            var request = new AdminModel
             {
                 Email = "some@mail.com",
                 Password = "password",
@@ -204,7 +204,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CanUpdateAnAdmin()
         {
-            var request = new CreateAdminRequest
+            var request = new AdminModel
             {
                 Email = "some@mail.com",
                 Password = "password",
@@ -233,7 +233,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void AdminDataGetsUpdated()
         {
-            var request = new CreateAdminRequest
+            var request = new AdminModel
             {
                 Email = "some@mail.com",
                 Password = "password",
@@ -269,7 +269,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void AdminUsesANewEmail()
         {
-            var request = new CreateAdminRequest
+            var request = new AdminModel
             {
                 Email = "some@mail.com",
                 Password = "password",

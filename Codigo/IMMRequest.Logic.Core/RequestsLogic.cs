@@ -8,24 +8,21 @@ namespace IMMRequest.Logic.Core
     using Domain.Fields;
     using Exceptions;
     using Interfaces;
-    using Models;
+    using Models.Request;
     using Type = Domain.Type;
 
     public class RequestsLogic : IRequestsLogic
     {
         private readonly IRepository<Request> _requestRepo;
         private readonly IRepository<Type> _typeRepo;
-        private readonly IAreaQueries _areaQueries;
 
         public RequestsLogic(
                IRepository<Request> requestRepository,
-               IRepository<Type> typeRepository,
-               IAreaQueries areaQueries
+               IRepository<Type> typeRepository
             )
         {
             _requestRepo = requestRepository;
             _typeRepo = typeRepository;
-            _areaQueries = areaQueries;
         }
 
         public int Add(CreateRequest createRequest)
@@ -76,7 +73,7 @@ namespace IMMRequest.Logic.Core
             return request.Id;
         }
 
-        public GetStatusRequestResponse GetRequestStatus(int requestId)
+        public RequestModel GetRequestStatus(int requestId)
         {
             ValidateRequestId(requestId);
 
@@ -85,7 +82,7 @@ namespace IMMRequest.Logic.Core
             ValidateRequestNotNull(requestId, request);
 
             //var area = this._areaQueries.FindWithTypeId(request.Type.Id);
-            return new GetStatusRequestResponse
+            return new RequestModel
             {
                 Details = request.Details,
                 RequestState = request.Status.Description,
@@ -97,9 +94,9 @@ namespace IMMRequest.Logic.Core
             };
         }
 
-        public IEnumerable<GetAllRequestsStatusResponse> GetAllRequests()
+        public IEnumerable<RequestStatusModel> GetAllRequests()
         {
-            return _requestRepo.GetAll().Select(req => new GetAllRequestsStatusResponse
+            return _requestRepo.GetAll().Select(req => new RequestStatusModel
             {
                 Details = req.Details,
                 RequestId = req.Id,

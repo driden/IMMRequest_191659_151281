@@ -11,7 +11,8 @@ namespace IMMRequest.Logic.Tests
     using Domain.States;
     using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Models;
+    using Models.Error;
+    using Models.Request;
     using Moq;
     using Type = Domain.Type;
 
@@ -22,7 +23,6 @@ namespace IMMRequest.Logic.Tests
         private Mock<IRepository<Request>> _requestRepo;
         private Mock<IRepository<Type>> _typeRepo;
         private Mock<IRepository<User>> _userRepo;
-        private Mock<IAreaQueries> _areaQueries;
 
         [TestInitialize]
         public void SetUp()
@@ -30,11 +30,9 @@ namespace IMMRequest.Logic.Tests
             _requestRepo = new Mock<IRepository<Request>>(MockBehavior.Strict);
             _typeRepo = new Mock<IRepository<Type>>(MockBehavior.Strict);
             _userRepo = new Mock<IRepository<User>>(MockBehavior.Strict);
-            _areaQueries = new Mock<IAreaQueries>(MockBehavior.Strict);
             _requestsLogic = new RequestsLogic(
                 _requestRepo.Object,
-                _typeRepo.Object,
-                _areaQueries.Object
+                _typeRepo.Object
                 );
         }
 
@@ -43,7 +41,7 @@ namespace IMMRequest.Logic.Tests
         public void CanCreateANewRequest()
         {
             SetUpAddMocks();
-            _requestsLogic.Add(CreateRequest);
+            _requestsLogic.Add(base.CreateRequest);
 
             _requestRepo.Verify(mock => mock.Add(It.IsAny<Request>()));
         }
@@ -254,8 +252,12 @@ namespace IMMRequest.Logic.Tests
             _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = CreateRequest;
-            var requestFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "number", Value = "-1" } };
-            requestFields.Add(new FieldRequestModel { Name = "text", Value = "some text" });
+            var requestFields = new List<FieldRequestModel>
+            {
+                new FieldRequestModel {Name = "number", Value = "-1"},
+                new FieldRequestModel {Name = "text", Value = "some text"}
+            };
+
             request.AdditionalFields = requestFields;
 
             _requestRepo.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
@@ -645,7 +647,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CanSendAnErrorMessageToTheUser()
         {
-            var error = new ErrorResponse("msg");
+            var error = new ErrorModel("msg");
             Assert.AreEqual("msg", error.Error);
         }
 

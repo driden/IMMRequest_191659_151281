@@ -62,7 +62,7 @@ namespace IMMRequest.Logic.Core
                 {
                     case FieldType.Date:
                         var range = additionalField.Range.ToList();
-                        var dateRangeValues = range.Select(x => TryToParseDateValue(x.Value));
+                        var dateRangeValues = range.Select(TryToParseDateValue);
                         var dateField = new DateField
                         {
                             FieldType = FieldType.Date,
@@ -77,7 +77,7 @@ namespace IMMRequest.Logic.Core
 
                     case FieldType.Integer:
                         var intRange = additionalField.Range.ToList();
-                        var intRangeValues = intRange.Select(x => TryToParseIntValue(x.Value));
+                        var intRangeValues = intRange.Select(TryToParseIntValue);
                         var intField = new IntegerField
                         {
                             FieldType = FieldType.Date,
@@ -92,7 +92,6 @@ namespace IMMRequest.Logic.Core
 
                     case FieldType.Text:
                         var textRange = additionalField.Range.ToList();
-                        var textRangeValues = textRange.Select(x => x.Value);
                         var textField = new TextField
                         {
                             FieldType = FieldType.Date,
@@ -100,7 +99,7 @@ namespace IMMRequest.Logic.Core
                             Name = additionalField.Name,
                         };
 
-                        textField.Range = textRangeValues.Select(rangeValue => new TextItem { Value = rangeValue }).ToList();
+                        textField.Range = textRange.Select(rangeValue => new TextItem { Value = rangeValue }).ToList();
                         textField.ValidateRangeIsCorrect();
                         newType.AdditionalFields.Add(textField);
                         break;
