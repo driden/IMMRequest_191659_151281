@@ -15,11 +15,13 @@ namespace IMMRequest.Logic.Tests
     public class ReportsLogicTests
     {
         private ReportsLogic _reportsLogic;
-        
         private Mock<IRepository<Request>> _mockedRequestRepo;
-        
+        private Mock<IRepository<Type>> _typeRepo;
+        private Mock<IRepository<User>> _userRepo;
+        private Mock<IAreaQueries> _areaQueries;
+
         [TestInitialize]
-        public void SetUpClass()
+        public void SetUp()
         {
             _mockedRequestRepo = new Mock<IRepository<Request>>(MockBehavior.Strict);
             
@@ -29,10 +31,13 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CanGetReportsRequestByMail()
         {
-            string mail = "citizen@mail.com";
-            var request = NewRequest();
-            _mockedRequestRepo.Setup(x => x.GetAll()).Returns(new[] { request });
+            const string mail = "citizen@mail.com";
+            var request = NewRequest(mail);
             
+            _mockedRequestRepo
+                .Setup(r => r.GetAllByCondition(It.IsAny<Func<Request, bool>>()))
+                .Returns(new [] { request});
+
             var allRequests = _reportsLogic.GetRequestByMail(mail).ToList();
 
             Assert.AreEqual(1, allRequests.Count);
@@ -41,11 +46,11 @@ namespace IMMRequest.Logic.Tests
             Assert.AreEqual(mail, first.Citizen.Email);
         }
 
-        private Request NewRequest()
+        private Request NewRequest(string mail)
         {
             return new Request
             {
-                Citizen = new Citizen { Email = "citizen@mail.com", Name = "Name", PhoneNumber = "555-5555555" },
+                Citizen = new Citizen { Email = mail, Name = "Name", PhoneNumber = "555-5555555" },
                 Details = "Request Details",
                 Type = NewType(),
                 Id = 1

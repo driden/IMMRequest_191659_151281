@@ -1,6 +1,6 @@
 namespace IMMRequest.Logic.Models
 {
-    public class ModelRequest
+    public class RequestModel
     {
         public int RequestId { get; set; }
         public string Citizen { get; set; }

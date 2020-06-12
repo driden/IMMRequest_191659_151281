@@ -20,8 +20,9 @@ namespace IMMRequest.Logic.Core
         {
             ValidateStringValueNotNullOrEmpty(mail);
 
-            IEnumerable<Request> requests = _requestRepo.GetAllByCondition(req => req.Citizen.Name.Equals(mail));
-
+            var requests = _requestRepo
+                .GetAllByCondition(req => (req.Citizen != null) && (req.Citizen.Email.Equals(mail)));
+            
             // _requestRepo.GetAllByCondition(req => req.Citizen.Name == mail);
             //_requestRepo.GetAllByCondition(req => req.Citizen.Exists(c => c.Name == mail)).Select(req => new GetAllRequestsByMail(req));
 

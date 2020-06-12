@@ -24,8 +24,8 @@ namespace IMMRequest.WebApi.Controllers
         /// </summary>
         /// <returns>A json object with the details of the request</returns>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<ModelRequest>), 200)]
-        [Route("{id}")]
+        [ProducesResponseType(typeof(IEnumerable<RequestModel>), 200)]
+        [Route("{mail}")]
         public ObjectResult GetAllRequestByMail(string mail)
         {
             try
