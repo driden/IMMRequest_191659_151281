@@ -41,7 +41,7 @@ namespace IMMRequest.Logic.Tests
         public void CanCreateANewRequest()
         {
             SetUpAddMocks();
-            _requestsLogic.Add(CreateRequest);
+            _requestsLogic.Add(base.CreateRequest);
 
             _requestRepo.Verify(mock => mock.Add(It.IsAny<Request>()));
         }
@@ -252,8 +252,12 @@ namespace IMMRequest.Logic.Tests
             _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = CreateRequest;
-            var requestFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "number", Value = "-1" } };
-            requestFields.Add(new FieldRequestModel { Name = "text", Value = "some text" });
+            var requestFields = new List<FieldRequestModel>
+            {
+                new FieldRequestModel {Name = "number", Value = "-1"},
+                new FieldRequestModel {Name = "text", Value = "some text"}
+            };
+
             request.AdditionalFields = requestFields;
 
             _requestRepo.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();

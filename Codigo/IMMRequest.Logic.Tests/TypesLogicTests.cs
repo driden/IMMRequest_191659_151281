@@ -122,7 +122,7 @@ namespace IMMRequest.Logic.Tests
                 new AdditionalFieldModel
                 {
                     FieldType = "int",
-                    Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "0" }, new FieldRequestModel { Value = "5" } }
+                    Range = new List<string> { "0", "5" }
                 });
 
             _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
@@ -137,7 +137,7 @@ namespace IMMRequest.Logic.Tests
                 {
                     Name = "additionalFieldName",
                     FieldType = "int",
-                    Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "6" }, new FieldRequestModel { Value = "5" } }
+                    Range = new List<string> { "6", "5" }
                 });
 
             _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
@@ -153,7 +153,7 @@ namespace IMMRequest.Logic.Tests
                 {
                     Name = "additionalFieldName",
                     FieldType = "date",
-                    Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "09/05/2020" }, new FieldRequestModel { Value = "08/05/2020" } }
+                    Range = new List<string> { "09/05/2020", "08/05/2020" }
                 });
 
             _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
@@ -169,7 +169,7 @@ namespace IMMRequest.Logic.Tests
                 {
                     Name = "additionalFieldName",
                     FieldType = "text",
-                    Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "blah" }, new FieldRequestModel { Value = string.Empty } }
+                    Range = new List<string> { "blah", string.Empty }
                 });
 
             _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
@@ -185,7 +185,7 @@ namespace IMMRequest.Logic.Tests
                 {
                     Name = "additionalFieldName",
                     FieldType = "int",
-                    Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "blah" }, new FieldRequestModel { Value = string.Empty } }
+                    Range = new List<string> { "blah", string.Empty }
                 });
 
             _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
@@ -201,7 +201,7 @@ namespace IMMRequest.Logic.Tests
                 {
                     FieldType = "date",
                     Name = "additionalFieldName",
-                    Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "blah" }, new FieldRequestModel { Value = string.Empty } }
+                    Range = new List<string> { "blah", string.Empty }
                 });
 
             _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
@@ -217,7 +217,7 @@ namespace IMMRequest.Logic.Tests
                 {
                     Name = "additionalFieldName",
                     FieldType = "text",
-                    Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "blah" } }
+                    Range = new List<string> { "blah" }
                 });
 
             _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
@@ -236,7 +236,7 @@ namespace IMMRequest.Logic.Tests
                 {
                     Name = "additionalFieldName",
                     FieldType = "int",
-                    Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "5" }, new FieldRequestModel { Value = "6" } }
+                    Range = new List<string> { "5", "6" }
                 });
 
             _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
@@ -255,7 +255,7 @@ namespace IMMRequest.Logic.Tests
                 {
                     Name = "additionalFieldName",
                     FieldType = "date",
-                    Range = new List<FieldRequestModel> { new FieldRequestModel { Value = "15/6/2020" }, new FieldRequestModel { Value = "16/6/2020" } }
+                    Range = new List<string> { "15/6/2020", "16/6/2020" }
                 });
 
             _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
@@ -275,7 +275,7 @@ namespace IMMRequest.Logic.Tests
                     Name = "fieldName",
                     IsRequired = true,
                     FieldType = "text",
-                    Range = new List<FieldRequestModel>()
+                    Range = new List<string>()
                 });
 
             _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
@@ -613,7 +613,7 @@ namespace IMMRequest.Logic.Tests
                 }
             });
 
-            var types =_typesLogic.GetAll(2).ToArray();
+            var types = _typesLogic.GetAll(2).ToArray();
 
             Assert.AreEqual(1, types.Length);
             Assert.AreEqual(3, types.First().Id);
