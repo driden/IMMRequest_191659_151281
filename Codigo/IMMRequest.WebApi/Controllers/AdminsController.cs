@@ -1,18 +1,19 @@
 namespace IMMRequest.WebApi.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
     using Domain;
     using Domain.Exceptions;
+    using Filters;
     using Logic.Exceptions.RemoveType;
     using Logic.Interfaces;
     using Logic.Models.Admin;
     using Logic.Models.Error;
+    using Microsoft.AspNetCore.Mvc;
 
-    [Route("api/[controller]")]
+    [Route("api/admins")]
     [ApiController]
-    [Filters.AuthorizationFilter]
+    [AuthorizationFilter]
     public class AdminsController : ControllerBase
     {
         private readonly IAdminsLogic _adminsLogic;
@@ -63,7 +64,7 @@ namespace IMMRequest.WebApi.Controllers
         {
             try
             {
-                return Ok(new { Id = _adminsLogic.Add(addRequest) });
+                return Ok(new {Id = _adminsLogic.Add(addRequest)});
             }
             catch (InvalidNameFormatException invalidNameFormatException)
             {
@@ -109,6 +110,5 @@ namespace IMMRequest.WebApi.Controllers
                 return BadRequest(new ErrorModel(exception.Message));
             }
         }
-
     }
 }

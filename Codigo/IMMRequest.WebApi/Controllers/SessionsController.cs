@@ -1,29 +1,29 @@
 namespace IMMRequest.WebApi.Controllers
 {
     using System;
-    using Microsoft.AspNetCore.Mvc;
-    using Logic.Interfaces;
     using Logic.Exceptions;
+    using Logic.Interfaces;
     using Logic.Models.Admin;
     using Logic.Models.Error;
+    using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/sessions")]
     public class SessionsController : ControllerBase
     {
         private readonly ISessionLogic _sessionLogic;
 
         public SessionsController(ISessionLogic sessionLogic)
         {
-            this._sessionLogic = sessionLogic;
+            _sessionLogic = sessionLogic;
         }
 
         [HttpPost]
-        public IActionResult Login([FromBody]AdminLoginModel adminLogin)
+        public IActionResult Login([FromBody] AdminLoginModel adminLogin)
         {
             try
             {
-                return Ok(new { Token = this._sessionLogic.Login(adminLogin) });
+                return Ok(new {Token = _sessionLogic.Login(adminLogin)});
             }
             catch (NoSuchAdministrator noSuchAdministrator)
             {

@@ -3,6 +3,7 @@ namespace IMMRequest.WebApi.Controllers
     using System;
     using System.Collections.Generic;
     using Domain.Exceptions;
+    using Filters;
     using Logic.Exceptions;
     using Logic.Exceptions.CreateTopic;
     using Logic.Interfaces;
@@ -11,18 +12,19 @@ namespace IMMRequest.WebApi.Controllers
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
-    [Route("api/[controller]")]
+    [Route("api/requests")]
     [ApiController]
     public class RequestsController : ControllerBase
     {
         private readonly IRequestsLogic _requestsLogic;
+
         public RequestsController(IRequestsLogic requestsLogic)
         {
             _requestsLogic = requestsLogic;
         }
 
         /// <summary>
-        /// Creates a new request in the system
+        ///     Creates a new request in the system
         /// </summary>
         /// <param name="request">request body</param>
         /// <response code="200">Request created</response>
@@ -84,12 +86,12 @@ namespace IMMRequest.WebApi.Controllers
         }
 
         /// <summary>
-        /// Gets a list of all the status in the system
+        ///     Gets a list of all the status in the system
         /// </summary>
         /// <returns>A json object with a list of all requests in the system</returns>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<RequestStatusModel>), 200)]
-        [Filters.AuthorizationFilter]
+        [AuthorizationFilter]
         public ObjectResult GetAll()
         {
             try
@@ -103,7 +105,7 @@ namespace IMMRequest.WebApi.Controllers
         }
 
         /// <summary>
-        /// Gets a request details
+        ///     Gets a request details
         /// </summary>
         /// <returns>A json object with the details of the request</returns>
         [HttpGet]
@@ -130,7 +132,7 @@ namespace IMMRequest.WebApi.Controllers
         }
 
         /// <summary>
-        /// Updates the State of a request
+        ///     Updates the State of a request
         /// </summary>
         /// <param name="id">The id of the request to update</param>
         /// <param name="updateStateRequest">The state to which the request should be updated to</param>
@@ -140,8 +142,8 @@ namespace IMMRequest.WebApi.Controllers
         /// <response code="500">Something is wrong with the server</response>
         [HttpPut]
         [Route("{id}")]
-        [Filters.AuthorizationFilter]
-        public ActionResult UpdateStatus(int id, [FromBody]UpdateStateModel updateStateRequest)
+        [AuthorizationFilter]
+        public ActionResult UpdateStatus(int id, [FromBody] UpdateStateModel updateStateRequest)
         {
             try
             {

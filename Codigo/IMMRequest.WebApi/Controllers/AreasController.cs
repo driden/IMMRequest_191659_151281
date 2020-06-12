@@ -2,11 +2,11 @@ namespace IMMRequest.WebApi.Controllers
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.AspNetCore.Mvc;
     using Logic.Interfaces;
     using Logic.Models.Area;
     using Logic.Models.Error;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
 
     [Route("api/areas")]
     [ApiController]
