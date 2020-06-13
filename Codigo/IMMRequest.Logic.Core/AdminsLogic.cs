@@ -1,13 +1,12 @@
 namespace IMMRequest.Logic.Core
 {
-    using System;
     using System.Collections.Generic;
     using DataAccess.Interfaces;
     using Domain;
     using Domain.Exceptions;
     using Exceptions.RemoveType;
-    using Models;
     using Interfaces;
+    using Models.Admin;
 
 
     public class AdminsLogic : IAdminsLogic
@@ -19,7 +18,7 @@ namespace IMMRequest.Logic.Core
             _adminRepository = adminRepository;
         }
 
-        public int Add(CreateAdminRequest request)
+        public int Add(AdminModel request)
         {
             var admin = new Admin
             {
@@ -34,7 +33,7 @@ namespace IMMRequest.Logic.Core
             return admin.Id;
         }
 
-        public void Update(int adminId, CreateAdminRequest request)
+        public void Update(int adminId, AdminModel request)
         {
             ValidateAdminId(adminId);
             var admin = new Admin

@@ -1,6 +1,6 @@
-namespace IMMRequest.Logic.Models
+namespace IMMRequest.Logic.Models.Admin
 {
-    public class ModelAdminLogin
+    public class AdminLoginModel
     {
         public string Email { get; set; }
         public string Password { get; set; }

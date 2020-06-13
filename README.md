@@ -17,14 +17,18 @@ POST /api/requests
 ```
 Retuns a 200 if everything was ok
 ### TODO
-* [ ] Make it return the Id of the newly created Request for tracking
+* [x] Make it return the Id of the newly created Request for tracking
 * Return 400 si
-    * [ ] detalles tiene mas de 2000 caracteres
-    * [ ] email no tien formate correcto
-    * [ ] phone no acepta caracteres espaciales o no tiene numeros
-    * [ ] nombre vacio
+    * [x] detalles tiene mas de 2000 caracteres
+    * [x] email no tien formate correcto
+    * [x] phone no acepta caracteres espaciales o no tiene numeros
+    * [x] nombre vacio
     * [ ] Arreglar bug cuando se repite el email en una request y da una excepción de key duplicada.
-
+* [ ] weapi: Agregar iexception filter
+* [ ] GetAllRequestStatusResponse: referirse a Data Response
+* [ ] Los modelos: comenzar con la palabra Model...
+* [ ] Nombres de paquetes: refactor, singular
+* [ ] IAdminQueries: arreglar paquete
 
 # Docker command
 docker run \

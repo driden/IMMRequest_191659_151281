@@ -1,7 +1,6 @@
-using System;
-
 namespace IMMRequest.Logic.Core
 {
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
@@ -12,37 +11,39 @@ namespace IMMRequest.Logic.Core
     using Exceptions.CreateTopic;
     using Exceptions.RemoveType;
     using Interfaces;
-    using Models;
+    using Models.Type;
+    using Type = Domain.Type;
 
     public class TypesLogic : ITypesLogic
     {
-        private readonly IRepository<Topic> _topicsRepository;
-        private readonly IRepository<Type> _typesRepository;
+        private readonly IRepository<Topic> _topicRepository;
+        private readonly IRepository<Type> _typeRepository;
 
         public TypesLogic(
-            IRepository<Topic> topicsRepository,
-            IRepository<Type> typesRepository)
+            IRepository<Topic> topicRepository,
+            IRepository<Type> typeRepository)
         {
-            this._topicsRepository = topicsRepository;
-            this._typesRepository = typesRepository;
+            this._topicRepository = topicRepository;
+            this._typeRepository = typeRepository;
         }
 
         public void Remove(int id)
         {
             ValidateTypeIdNumber(id);
-            var typeInDb = _typesRepository.Get(id);
+            var typeInDb = _typeRepository.Get(id);
             ValidateTypeCanBeDeleted(id, typeInDb);
 
-            _typesRepository.Remove(typeInDb);
+            _typeRepository.Remove(typeInDb);
         }
 
         public int Add(CreateTypeRequest createTypeRequest)
         {
             ValidateTopicIdNumber(createTypeRequest.TopicId);
+            ValidateAdditionalFieldsNames(createTypeRequest);
             ValidateAdditionalFieldsType(createTypeRequest);
-            var topic = this._topicsRepository.Get(createTypeRequest.TopicId);
+            var topic = this._topicRepository.Get(createTypeRequest.TopicId);
             ValidateTopic(createTypeRequest.TopicId, topic);
-            ValidateTopicName(createTypeRequest, topic);
+            ValidateTypeName(createTypeRequest, topic);
 
             var newType = new Type
             {
@@ -60,7 +61,7 @@ namespace IMMRequest.Logic.Core
                 {
                     case FieldType.Date:
                         var range = additionalField.Range.ToList();
-                        var dateRangeValues = range.Select(x => TryToParseDateValue(x.Value));
+                        var dateRangeValues = range.Select(TryToParseDateValue);
                         var dateField = new DateField
                         {
                             FieldType = FieldType.Date,
@@ -75,7 +76,7 @@ namespace IMMRequest.Logic.Core
 
                     case FieldType.Integer:
                         var intRange = additionalField.Range.ToList();
-                        var intRangeValues = intRange.Select(x => TryToParseIntValue(x.Value));
+                        var intRangeValues = intRange.Select(TryToParseIntValue);
                         var intField = new IntegerField
                         {
                             FieldType = FieldType.Date,
@@ -90,7 +91,6 @@ namespace IMMRequest.Logic.Core
 
                     case FieldType.Text:
                         var textRange = additionalField.Range.ToList();
-                        var textRangeValues = textRange.Select(x => x.Value);
                         var textField = new TextField
                         {
                             FieldType = FieldType.Date,
@@ -98,16 +98,47 @@ namespace IMMRequest.Logic.Core
                             Name = additionalField.Name,
                         };
 
-                        textField.Range = textRangeValues.Select(rangeValue => new TextItem { Value = rangeValue }).ToList();
+                        textField.Range = textRange.Select(rangeValue => new TextItem { Value = rangeValue }).ToList();
                         textField.ValidateRangeIsCorrect();
                         newType.AdditionalFields.Add(textField);
                         break;
                 }
             }
 
-            _typesRepository.Add(newType);
+            _typeRepository.Add(newType);
 
             return newType.Id;
+        }
+
+        public IEnumerable<TypeModel> GetAll(int topicId)
+        {
+            var allTypes = _typeRepository.GetAll();
+            return allTypes?
+                .Where(type => type.IsActive && type.TopicId == topicId)
+                .Select(type => new TypeModel
+                {
+                    Name = type.Name,
+                    Id = type.Id,
+                    IsActive = type.IsActive,
+                    TopicId = type.TopicId,
+                    AdditionalFields = type.AdditionalFields
+                        .Select(additionalField => new Models.Type.AdditionalFieldModel
+                        {
+                            Name = additionalField.Name,
+                            Id = additionalField.Id,
+                            FieldType = additionalField.FieldType == FieldType.Integer
+                                ? "integer"
+                                : additionalField.FieldType == FieldType.Date
+                                    ? "date"
+                                    : "text",
+                            IsRequired = additionalField.IsRequired,
+                            Range = additionalField.FieldType == FieldType.Integer ? ((IntegerField)additionalField).Range.Select(intItem => intItem.Value.ToString())
+                                : additionalField.FieldType == FieldType.Date
+                                    ? ((DateField)additionalField).Range.Select(dateItem => dateItem.ToString())
+                                    : ((TextField)additionalField).Range.Select(textItem => textItem.Value)
+                        })
+                        .ToList()
+                });
         }
 
         #region Utilities
@@ -144,7 +175,6 @@ namespace IMMRequest.Logic.Core
         }
 
         #endregion Utilities
-
 
         #region Validations
 
@@ -191,14 +221,34 @@ namespace IMMRequest.Logic.Core
             }
         }
 
-        private void ValidateTopicName(CreateTypeRequest createTypeRequest, Topic topic)
+        private void ValidateAdditionalFieldsNames(CreateTypeRequest createTypeRequest)
+        {
+            var names = createTypeRequest.AdditionalFields.Select(af => af.Name).ToList();
+
+            if (names.Any(string.IsNullOrWhiteSpace))
+            {
+                throw new InvalidNameForAdditionalFieldException("Cannot provide an empty additional field name");
+            }
+            var repeated = names
+                .GroupBy(x => x)
+                .Where(group => group.Count() > 1)
+                .Select(x => x.Key).ToList();
+
+            if (repeated.Any())
+            {
+                throw new InvalidAdditionalFieldForTypeException($"Some of the additional field names are repeated \"{string.Join(',', repeated)}\"");
+            }
+        }
+
+        private void ValidateTypeName(CreateTypeRequest createTypeRequest, Topic topic)
         {
             if (string.IsNullOrWhiteSpace(createTypeRequest.Name))
             {
                 throw new EmptyTypeNameException("Provided type Name cannot be empty.");
             }
 
-            if (createTypeRequest.Name == topic.Name)
+            var existingTypeNames = topic.Types?.Select(type => type.Name);
+            if (existingTypeNames != null && existingTypeNames.Contains(createTypeRequest.Name))
             {
                 throw new ExistingTypeNameException(
                     $"Name \"{createTypeRequest.Name}\" is already taken, pick another one.");

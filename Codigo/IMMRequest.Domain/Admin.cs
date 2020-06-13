@@ -1,7 +1,6 @@
-using System;
-
 namespace IMMRequest.Domain
 {
+    using System;
     using Exceptions;
 
     public class Admin : User

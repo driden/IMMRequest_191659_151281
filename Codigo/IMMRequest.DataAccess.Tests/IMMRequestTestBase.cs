@@ -2,11 +2,11 @@ namespace IMMRequest.DataAccess.Tests
 {
     using System;
     using System.Collections.Generic;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Core;
     using Domain;
     using Domain.Fields;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Type = Domain.Type;
 
     [TestClass]

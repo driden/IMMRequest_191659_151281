@@ -1,9 +1,9 @@
-using System;
-
 namespace IMMRequest.Domain.Exceptions
 {
-    public class InvalidPasswordException: Exception
+    using System;
+
+    public class InvalidPasswordException : Exception
     {
-        public InvalidPasswordException(string error): base(error) { }
+        public InvalidPasswordException(string error) : base(error) { }
     }
 }

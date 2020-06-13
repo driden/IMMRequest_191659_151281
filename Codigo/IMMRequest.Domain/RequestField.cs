@@ -1,7 +1,7 @@
-using System;
-
 namespace IMMRequest.Domain
 {
+    using System;
+
     public class RequestField
     {
         public int Id { get; set; }
@@ -9,7 +9,7 @@ namespace IMMRequest.Domain
         public string Name { get; set; }
     }
 
-    public class IntRequestField: RequestField
+    public class IntRequestField : RequestField
     {
         public int Value { get; set; }
 
@@ -19,7 +19,7 @@ namespace IMMRequest.Domain
         }
     }
 
-    public class TextRequestField: RequestField
+    public class TextRequestField : RequestField
     {
         public string Value { get; set; }
 
@@ -29,7 +29,7 @@ namespace IMMRequest.Domain
         }
     }
 
-    public class DateRequestField: RequestField
+    public class DateRequestField : RequestField
     {
         public DateTime Value { get; set; }
 

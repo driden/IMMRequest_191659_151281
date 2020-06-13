@@ -1,19 +1,19 @@
-using Microsoft.AspNetCore.Mvc;
-
 namespace IMMRequest.WebApi.Controllers
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq.Expressions;
     using Domain;
     using Domain.Exceptions;
+    using Filters;
     using Logic.Exceptions.RemoveType;
     using Logic.Interfaces;
-    using Logic.Models;
+    using Logic.Models.Admin;
+    using Logic.Models.Error;
+    using Microsoft.AspNetCore.Mvc;
 
-    [Route("api/[controller]")]
+    [Route("api/admins")]
     [ApiController]
-    [Filters.AuthenticationFilter]
+    [AuthorizationFilter]
     public class AdminsController : ControllerBase
     {
         private readonly IAdminsLogic _adminsLogic;
@@ -32,63 +32,63 @@ namespace IMMRequest.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ErrorResponse(ex.Message));
+                return StatusCode(500, new ErrorModel(ex.Message));
             }
         }
 
         [HttpPut]
         [Route("{id}")]
-        public ActionResult Update(int id, [FromBody] CreateAdminRequest modifyRequest)
+        public ActionResult Update(int id, [FromBody] AdminModel modifyRequest)
         {
             try
             {
                 _adminsLogic.Update(id, modifyRequest);
-                return Ok();
+                return NoContent();
             }
             catch (InvalidIdException invalidIdException)
             {
-                return BadRequest(new ErrorResponse(invalidIdException.Message));
+                return BadRequest(new ErrorModel(invalidIdException.Message));
             }
             catch (InvalidEmailException invalidEmailException)
             {
-                return BadRequest(new ErrorResponse(invalidEmailException.Message));
+                return BadRequest(new ErrorModel(invalidEmailException.Message));
             }
             catch (Exception exception)
             {
-                return BadRequest(new ErrorResponse(exception.Message));
+                return StatusCode(500, new ErrorModel(exception.Message));
             }
         }
 
         [HttpPost]
-        public ActionResult Add([FromBody] CreateAdminRequest addRequest)
+        public ActionResult Add([FromBody] AdminModel addRequest)
         {
             try
             {
-                return Ok(new { Id = _adminsLogic.Add(addRequest) });
+                return Ok(new {Id = _adminsLogic.Add(addRequest)});
             }
             catch (InvalidNameFormatException invalidNameFormatException)
             {
-                return BadRequest(new ErrorResponse(invalidNameFormatException.Message));
+                return BadRequest(new ErrorModel(invalidNameFormatException.Message));
             }
             catch (InvalidEmailException emailException)
             {
-                return BadRequest(new ErrorResponse(emailException.Message));
+                return BadRequest(new ErrorModel(emailException.Message));
             }
             catch (InvalidPhoneNumberException exception)
             {
-                return BadRequest(new ErrorResponse(exception.Message));
+                return BadRequest(new ErrorModel(exception.Message));
             }
             catch (InvalidPasswordException exception)
             {
-                return BadRequest(new ErrorResponse(exception.Message));
+                return BadRequest(new ErrorModel(exception.Message));
             }
             catch (InvalidIdException exception)
             {
-                return BadRequest(new ErrorResponse(exception.Message));
+                return BadRequest(new ErrorModel(exception.Message));
             }
             catch (Exception exception)
             {
-                return BadRequest(new ErrorResponse(exception.Message));
+                return StatusCode(500, new ErrorModel(exception.Message));
             }
         }
 
@@ -103,13 +103,12 @@ namespace IMMRequest.WebApi.Controllers
             }
             catch (InvalidIdException invalidIdException)
             {
-                return BadRequest(new ErrorResponse(invalidIdException.Message));
+                return BadRequest(new ErrorModel(invalidIdException.Message));
             }
             catch (Exception exception)
             {
-                return BadRequest(new ErrorResponse(exception.Message));
+                return BadRequest(new ErrorModel(exception.Message));
             }
         }
-
     }
 }

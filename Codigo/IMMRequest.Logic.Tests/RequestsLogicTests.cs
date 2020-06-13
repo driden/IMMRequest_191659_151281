@@ -11,7 +11,8 @@ namespace IMMRequest.Logic.Tests
     using Domain.States;
     using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Models;
+    using Models.Error;
+    using Models.Request;
     using Moq;
     using Type = Domain.Type;
 
@@ -19,22 +20,19 @@ namespace IMMRequest.Logic.Tests
     public class RequestsLogicTests : IMMRequestLogicTestBase
     {
         private RequestsLogic _requestsLogic;
-        private Mock<IRepository<Request>> _requestRepo;
-        private Mock<IRepository<Type>> _typeRepo;
-        private Mock<IRepository<User>> _userRepo;
-        private Mock<IAreaQueries> _areaQueries;
+        private Mock<IRepository<Request>> _requestRepositoryMock;
+        private Mock<IRepository<Type>> _typeRepositoryMock;
+        private Mock<IRepository<User>> _userRepositoryMock;
 
         [TestInitialize]
         public void SetUp()
         {
-            _requestRepo = new Mock<IRepository<Request>>(MockBehavior.Strict);
-            _typeRepo = new Mock<IRepository<Type>>(MockBehavior.Strict);
-            _userRepo = new Mock<IRepository<User>>(MockBehavior.Strict);
-            _areaQueries = new Mock<IAreaQueries>(MockBehavior.Strict);
+            _requestRepositoryMock = new Mock<IRepository<Request>>(MockBehavior.Strict);
+            _typeRepositoryMock = new Mock<IRepository<Type>>(MockBehavior.Strict);
+            _userRepositoryMock = new Mock<IRepository<User>>(MockBehavior.Strict);
             _requestsLogic = new RequestsLogic(
-                _requestRepo.Object,
-                _typeRepo.Object,
-                _areaQueries.Object
+                _requestRepositoryMock.Object,
+                _typeRepositoryMock.Object
                 );
         }
 
@@ -43,9 +41,9 @@ namespace IMMRequest.Logic.Tests
         public void CanCreateANewRequest()
         {
             SetUpAddMocks();
-            _requestsLogic.Add(CreateRequest);
+            _requestsLogic.Add(base.CreateRequest);
 
-            _requestRepo.Verify(mock => mock.Add(It.IsAny<Request>()));
+            _requestRepositoryMock.Verify(mock => mock.Add(It.IsAny<Request>()));
         }
 
         [TestMethod]
@@ -54,19 +52,19 @@ namespace IMMRequest.Logic.Tests
             SetUpAddMocks();
             _requestsLogic.Add(CreateRequest);
 
-            _typeRepo.Verify(tr => tr.Get(-1), Times.Once());
-            _requestRepo.Verify(rr => rr.Add(It.IsAny<Request>()), Times.Once());
+            _typeRepositoryMock.Verify(tr => tr.Get(-1), Times.Once());
+            _requestRepositoryMock.Verify(rr => rr.Add(It.IsAny<Request>()), Times.Once());
         }
 
         [TestMethod]
         public void NewRequestShouldThrowAnExceptionIfTypeIdDoesNotExist()
         {
-            _requestRepo.Setup(x => x.Add(It.IsAny<Request>())).Verifiable();
-            _typeRepo.Setup(x => x.Get(It.IsAny<int>()))
+            _requestRepositoryMock.Setup(x => x.Add(It.IsAny<Request>())).Verifiable();
+            _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>()))
                 .Returns<Topic>(null)
                 .Verifiable();
             Assert.ThrowsException<NoSuchTypeException>(() => { _requestsLogic.Add(CreateRequest); });
-            _requestRepo.Verify(reqRepo => reqRepo.Add(It.IsAny<Request>()), Times.Never());
+            _requestRepositoryMock.Verify(reqRepo => reqRepo.Add(It.IsAny<Request>()), Times.Never());
         }
 
         [TestMethod]
@@ -74,7 +72,7 @@ namespace IMMRequest.Logic.Tests
         {
             SetUpAddMocks();
             User request = null;
-            _requestRepo.Setup(userRepo => userRepo.Add(It.IsAny<Request>()))
+            _requestRepositoryMock.Setup(userRepo => userRepo.Add(It.IsAny<Request>()))
                 .Callback<Request>(req =>
                 {
                     request = new Citizen
@@ -106,7 +104,7 @@ namespace IMMRequest.Logic.Tests
                 }
             };
 
-            _typeRepo.Setup(repo => repo.Get(It.IsAny<int>())).Returns(typeInDatabase);
+            _typeRepositoryMock.Setup(repo => repo.Get(It.IsAny<int>())).Returns(typeInDatabase);
             _ = Assert.ThrowsException<InvalidAdditionalFieldForTypeException>(() => _requestsLogic.Add(request));
         }
 
@@ -116,7 +114,7 @@ namespace IMMRequest.Logic.Tests
             var typeInDatabase = NewType();
             typeInDatabase.AdditionalFields = new List<AdditionalField> { new IntegerField { Name = "number" } };
 
-            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+            _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = new CreateRequest
             {
@@ -135,7 +133,7 @@ namespace IMMRequest.Logic.Tests
             var typeInDatabase = NewType();
             typeInDatabase.AdditionalFields = new List<AdditionalField> { new IntegerField { Name = "number" } };
 
-            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+            _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = new CreateRequest
             {
@@ -154,7 +152,7 @@ namespace IMMRequest.Logic.Tests
             var typeInDatabase = NewType();
             typeInDatabase.AdditionalFields = new List<AdditionalField> { new DateField { Name = "date" } };
 
-            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+            _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = new CreateRequest
             {
@@ -173,7 +171,7 @@ namespace IMMRequest.Logic.Tests
             var typeInDatabase = NewType();
             typeInDatabase.AdditionalFields = new List<AdditionalField> { new TextField { Name = "text" } };
 
-            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+            _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = new CreateRequest
             {
@@ -192,7 +190,7 @@ namespace IMMRequest.Logic.Tests
             var typeInDatabase = NewType();
             typeInDatabase.AdditionalFields = new List<AdditionalField> { new TextField { Name = "text" } };
 
-            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+            _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = new CreateRequest
             {
@@ -214,7 +212,7 @@ namespace IMMRequest.Logic.Tests
                 new TextField { Name = "text", IsRequired = true }
             };
 
-            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+            _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             Assert.ThrowsException<LessAdditionalFieldsThanRequiredException>(() => _requestsLogic.Add(CreateRequest));
         }
@@ -230,7 +228,7 @@ namespace IMMRequest.Logic.Tests
                 new DateField { Name = "date", IsRequired = false }
             };
 
-            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+            _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = CreateRequest;
             var requestFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "number", Value = "-1" } };
@@ -251,16 +249,20 @@ namespace IMMRequest.Logic.Tests
                 new DateField { Name = "date", IsRequired = false }
             };
 
-            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+            _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = CreateRequest;
-            var requestFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "number", Value = "-1" } };
-            requestFields.Add(new FieldRequestModel { Name = "text", Value = "some text" });
+            var requestFields = new List<FieldRequestModel>
+            {
+                new FieldRequestModel {Name = "number", Value = "-1"},
+                new FieldRequestModel {Name = "text", Value = "some text"}
+            };
+
             request.AdditionalFields = requestFields;
 
-            _requestRepo.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
+            _requestRepositoryMock.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
             _requestsLogic.Add(request);
-            _requestRepo.Verify(reqRepo => reqRepo.Add(It.IsAny<Request>()), Times.Once());
+            _requestRepositoryMock.Verify(reqRepo => reqRepo.Add(It.IsAny<Request>()), Times.Once());
         }
 
         [TestMethod]
@@ -281,12 +283,12 @@ namespace IMMRequest.Logic.Tests
                 }
             };
 
-            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+            _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = CreateRequest;
             request.AdditionalFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "number", Value = "-1" } };
 
-            _requestRepo.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
+            _requestRepositoryMock.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
             Assert.ThrowsException<InvalidFieldRangeException>(() => _requestsLogic.Add(request));
         }
 
@@ -307,12 +309,12 @@ namespace IMMRequest.Logic.Tests
                 }
             };
 
-            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+            _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = CreateRequest;
             request.AdditionalFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "text", Value = "-1" } };
 
-            _requestRepo.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
+            _requestRepositoryMock.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
             Assert.ThrowsException<InvalidFieldRangeException>(() => _requestsLogic.Add(request));
         }
 
@@ -334,12 +336,12 @@ namespace IMMRequest.Logic.Tests
                 }
             };
 
-            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+            _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = CreateRequest;
             request.AdditionalFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "date", Value = "01/04/1994" } };
 
-            _requestRepo.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
+            _requestRepositoryMock.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
             Assert.ThrowsException<InvalidFieldRangeException>(() => _requestsLogic.Add(request));
         }
 
@@ -347,7 +349,7 @@ namespace IMMRequest.Logic.Tests
         public void NewRequestShouldContainAdditionalTextFields()
         {
             IList<RequestField> listOfFields = null;
-            _requestRepo.Setup(x => x.Add(It.IsAny<Request>()))
+            _requestRepositoryMock.Setup(x => x.Add(It.IsAny<Request>()))
                 .Callback<Request>(req => { listOfFields = req.FieldValues; })
                 .Verifiable();
 
@@ -373,7 +375,7 @@ namespace IMMRequest.Logic.Tests
                 }
             };
 
-            _typeRepo.Setup(repo => repo.Get(It.IsAny<int>())).Returns(typeInDatabase);
+            _typeRepositoryMock.Setup(repo => repo.Get(It.IsAny<int>())).Returns(typeInDatabase);
 
             _requestsLogic.Add(request);
 
@@ -386,7 +388,7 @@ namespace IMMRequest.Logic.Tests
         public void NewRequestShouldContainAdditionalIntegerFields()
         {
             IList<RequestField> listOfFields = null;
-            _requestRepo.Setup(x => x.Add(It.IsAny<Request>()))
+            _requestRepositoryMock.Setup(x => x.Add(It.IsAny<Request>()))
                 .Callback<Request>(req => { listOfFields = req.FieldValues; })
                 .Verifiable();
 
@@ -412,7 +414,7 @@ namespace IMMRequest.Logic.Tests
                 }
             };
 
-            _typeRepo.Setup(repo => repo.Get(It.IsAny<int>())).Returns(typeInDatabase);
+            _typeRepositoryMock.Setup(repo => repo.Get(It.IsAny<int>())).Returns(typeInDatabase);
 
             _requestsLogic.Add(request);
 
@@ -425,7 +427,7 @@ namespace IMMRequest.Logic.Tests
         public void NewRequestShouldContainAdditionalDateFields()
         {
             IList<RequestField> listOfFields = null;
-            _requestRepo.Setup(x => x.Add(It.IsAny<Request>()))
+            _requestRepositoryMock.Setup(x => x.Add(It.IsAny<Request>()))
                 .Callback<Request>(req => { listOfFields = req.FieldValues; })
                 .Verifiable();
 
@@ -451,7 +453,7 @@ namespace IMMRequest.Logic.Tests
                 }
             };
 
-            _typeRepo.Setup(repo => repo.Get(It.IsAny<int>())).Returns(typeInDatabase);
+            _typeRepositoryMock.Setup(repo => repo.Get(It.IsAny<int>())).Returns(typeInDatabase);
 
             _requestsLogic.Add(request);
 
@@ -484,9 +486,9 @@ namespace IMMRequest.Logic.Tests
         public void CanGetTheRequestStatusWithAValidRequestId()
         {
             var request = NewRequest();
-            request.FieldValues = GetSomeAdditionaFields();
+            request.FieldValues = GetSomeAdditionalFields();
 
-            _requestRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(request);
+            _requestRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(request);
             var requestResponse = _requestsLogic.GetRequestStatus(1);
 
             Assert.AreEqual(request.Citizen.Email, requestResponse.CitizenEmail);
@@ -507,7 +509,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CantGetARequestStatusOfANullRequest()
         {
-            _requestRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(() => null);
+            _requestRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(() => null);
 
             Assert.ThrowsException<NoSuchRequestException>(() => this._requestsLogic.GetRequestStatus(1));
         }
@@ -522,7 +524,7 @@ namespace IMMRequest.Logic.Tests
         public void CanGetAllRequests()
         {
             var request = NewRequest();
-            _requestRepo.Setup(x => x.GetAll()).Returns(new[] { request });
+            _requestRepositoryMock.Setup(x => x.GetAll()).Returns(new[] { request });
 
             var allRequests = _requestsLogic.GetAllRequests().ToList();
 
@@ -568,7 +570,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CantUpdateANonExistentRequest()
         {
-            _requestRepo.Setup(x => x.Get(1)).Returns<Request>(null);
+            _requestRepositoryMock.Setup(x => x.Get(1)).Returns<Request>(null);
 
             Assert.ThrowsException<NoSuchRequestException>(() => _requestsLogic.UpdateRequestStatus(1, "Accepted"));
         }
@@ -577,13 +579,13 @@ namespace IMMRequest.Logic.Tests
         public void CanUpdateARequestFromCreatedToInReview()
         {
             var req = NewRequest();
-            _requestRepo.Setup(x => x.Get(1)).Returns(req);
-            _requestRepo.Setup(x => x.Update(req)).Verifiable();
+            _requestRepositoryMock.Setup(x => x.Get(1)).Returns(req);
+            _requestRepositoryMock.Setup(x => x.Update(req)).Verifiable();
 
             _requestsLogic.UpdateRequestStatus(1, "InReview");
 
             Assert.AreEqual("InReview", req.Status.ToString());
-            _requestRepo.Verify(repo => repo.Update(req), Times.Exactly(1));
+            _requestRepositoryMock.Verify(repo => repo.Update(req), Times.Exactly(1));
         }
 
         [TestMethod]
@@ -591,13 +593,13 @@ namespace IMMRequest.Logic.Tests
         {
             var req = NewRequest();
             req.Status = new InReviewState(req);
-            _requestRepo.Setup(x => x.Get(1)).Returns(req);
-            _requestRepo.Setup(x => x.Update(req)).Verifiable();
+            _requestRepositoryMock.Setup(x => x.Get(1)).Returns(req);
+            _requestRepositoryMock.Setup(x => x.Update(req)).Verifiable();
 
             _requestsLogic.UpdateRequestStatus(1, "Accepted");
 
             Assert.AreEqual("Accepted", req.Status.ToString());
-            _requestRepo.Verify(repo => repo.Update(req), Times.Exactly(1));
+            _requestRepositoryMock.Verify(repo => repo.Update(req), Times.Exactly(1));
         }
 
         [TestMethod]
@@ -605,13 +607,13 @@ namespace IMMRequest.Logic.Tests
         {
             var req = NewRequest();
             req.Status = new InReviewState(req);
-            _requestRepo.Setup(x => x.Get(1)).Returns(req);
-            _requestRepo.Setup(x => x.Update(req)).Verifiable();
+            _requestRepositoryMock.Setup(x => x.Get(1)).Returns(req);
+            _requestRepositoryMock.Setup(x => x.Update(req)).Verifiable();
 
             _requestsLogic.UpdateRequestStatus(1, "Denied");
 
             Assert.AreEqual("Denied", req.Status.ToString());
-            _requestRepo.Verify(repo => repo.Update(req), Times.Exactly(1));
+            _requestRepositoryMock.Verify(repo => repo.Update(req), Times.Exactly(1));
         }
 
         [TestMethod]
@@ -619,13 +621,13 @@ namespace IMMRequest.Logic.Tests
         {
             var req = NewRequest();
             req.Status = new AcceptedState(req);
-            _requestRepo.Setup(x => x.Get(1)).Returns(req);
-            _requestRepo.Setup(x => x.Update(req)).Verifiable();
+            _requestRepositoryMock.Setup(x => x.Get(1)).Returns(req);
+            _requestRepositoryMock.Setup(x => x.Update(req)).Verifiable();
 
             _requestsLogic.UpdateRequestStatus(1, "Done");
 
             Assert.AreEqual("Done", req.Status.ToString());
-            _requestRepo.Verify(repo => repo.Update(req), Times.Exactly(1));
+            _requestRepositoryMock.Verify(repo => repo.Update(req), Times.Exactly(1));
         }
 
         [TestMethod]
@@ -633,26 +635,26 @@ namespace IMMRequest.Logic.Tests
         {
             var req = NewRequest();
             req.Status = new DeniedState(req);
-            _requestRepo.Setup(x => x.Get(1)).Returns(req);
-            _requestRepo.Setup(x => x.Update(req)).Verifiable();
+            _requestRepositoryMock.Setup(x => x.Get(1)).Returns(req);
+            _requestRepositoryMock.Setup(x => x.Update(req)).Verifiable();
 
             _requestsLogic.UpdateRequestStatus(1, "Done");
 
             Assert.AreEqual("Done", req.Status.ToString());
-            _requestRepo.Verify(repo => repo.Update(req), Times.Exactly(1));
+            _requestRepositoryMock.Verify(repo => repo.Update(req), Times.Exactly(1));
         }
 
         [TestMethod]
         public void CanSendAnErrorMessageToTheUser()
         {
-            var error = new ErrorResponse("msg");
+            var error = new ErrorModel("msg");
             Assert.AreEqual("msg", error.Error);
         }
 
         private void SetUpAddMocks()
         {
-            _requestRepo.Setup(x => x.Add(It.IsAny<Request>())).Verifiable();
-            _typeRepo.Setup(x => x.Get(It.IsAny<int>())).Returns(NewType()).Verifiable();
+            _requestRepositoryMock.Setup(x => x.Add(It.IsAny<Request>())).Verifiable();
+            _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(NewType()).Verifiable();
         }
     }
 }

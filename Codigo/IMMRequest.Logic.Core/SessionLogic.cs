@@ -1,13 +1,11 @@
-using System;
-using IMMRequest.DataAccess.Interfaces;
-using IMMRequest.Domain;
-using IMMRequest.Logic.Interfaces;
-
 namespace IMMRequest.Logic.Core
 {
-    using Domain.Exceptions;
+    using System;
+    using DataAccess.Interfaces;
+    using Domain;
+    using Interfaces;
     using Exceptions;
-    using Models;
+    using Models.Admin;
 
     public class SessionLogic : ISessionLogic
     {
@@ -18,7 +16,7 @@ namespace IMMRequest.Logic.Core
             this._adminRepository = adminRepository;
         }
 
-        public Guid Login(ModelAdminLogin loginInfo)
+        public Guid Login(AdminLoginModel loginInfo)
         {
             var userName = loginInfo.Email;
             var password = loginInfo.Password;

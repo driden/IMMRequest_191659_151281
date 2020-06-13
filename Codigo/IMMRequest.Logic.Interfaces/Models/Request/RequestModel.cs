@@ -1,8 +1,8 @@
-namespace IMMRequest.Logic.Models
+namespace IMMRequest.Logic.Models.Request
 {
     using System.Collections.Generic;
 
-    public class GetStatusRequestResponse
+    public class RequestModel
     {
         public string Details  { get; set; }
 

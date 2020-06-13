@@ -4,7 +4,7 @@ namespace IMMRequest.Logic.Tests
     using System.Collections.Generic;
     using Domain;
     using Domain.Fields;
-    using Models;
+    using Models.Request;
     using Type = Domain.Type;
 
     public class IMMRequestLogicTestBase
@@ -20,7 +20,7 @@ namespace IMMRequest.Logic.Tests
             };
         }
 
-        protected List<RequestField> GetSomeAdditionaFields()
+        protected List<RequestField> GetSomeAdditionalFields()
         {
             return new List<RequestField>
             {
