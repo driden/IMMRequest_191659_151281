@@ -1,9 +1,9 @@
 namespace IMMRequest.DataAccess.Tests
 {
     using System.Linq;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Core.Repositories;
     using Domain;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class AreaRepositoryTests : IMMRequestTestBase

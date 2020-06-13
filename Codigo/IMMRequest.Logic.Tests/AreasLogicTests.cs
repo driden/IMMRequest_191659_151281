@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-
 namespace IMMRequest.Logic.Tests
 {
+    using System.Collections.Generic;
     using System.Linq;
     using Core;
     using DataAccess.Interfaces;
@@ -13,27 +12,27 @@ namespace IMMRequest.Logic.Tests
     public class AreasLogicTests
     {
         private AreasLogic _areasLogic;
-        private Mock<IRepository<Area>> _mockedRepo;
+        private Mock<IRepository<Area>> _areaRepositoryMock;
 
         [TestInitialize]
         public void SetUp()
         {
-            _mockedRepo = new Mock<IRepository<Area>>(MockBehavior.Strict);
-            _areasLogic = new AreasLogic(_mockedRepo.Object);
+            _areaRepositoryMock = new Mock<IRepository<Area>>(MockBehavior.Strict);
+            _areasLogic = new AreasLogic(_areaRepositoryMock.Object);
         }
 
         [TestMethod]
         public void ItShouldUserTheAreaRepository()
         {
-            _mockedRepo.Setup(m => m.GetAll()).Returns(new List<Area>()).Verifiable();
+            _areaRepositoryMock.Setup(m => m.GetAll()).Returns(new List<Area>()).Verifiable();
             _areasLogic.GetAll();
-            _mockedRepo.Verify(m => m.GetAll(), Times.Once());
+            _areaRepositoryMock.Verify(m => m.GetAll(), Times.Once());
         }
 
         [TestMethod]
         public void ItShouldListAreasAsModels()
         {
-            _mockedRepo
+            _areaRepositoryMock
                 .Setup(m => m.GetAll())
                 .Returns(new List<Area>
                 {

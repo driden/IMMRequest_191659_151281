@@ -1,7 +1,6 @@
 namespace IMMRequest.Logic.Models.Type
 {
     using System.Collections.Generic;
-    using Request;
 
     public class CreateTypeRequest
     {

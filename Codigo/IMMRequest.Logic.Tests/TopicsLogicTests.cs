@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-
 namespace IMMRequest.Logic.Tests
 {
+    using System.Collections.Generic;
     using System.Linq;
     using Core;
     using DataAccess.Interfaces;
@@ -14,20 +13,20 @@ namespace IMMRequest.Logic.Tests
     [TestClass]
     public class TopicsLogicTests
     {
-        private Mock<IRepository<Topic>> _mockedRepository;
+        private Mock<IRepository<Topic>> _topicRepositoryMock;
         private TopicsLogic _topicsLogic;
 
         [TestInitialize]
         public void SetUp()
         {
-            _mockedRepository = new Mock<IRepository<Topic>>(MockBehavior.Strict);
-            _topicsLogic = new TopicsLogic(_mockedRepository.Object);
+            _topicRepositoryMock = new Mock<IRepository<Topic>>(MockBehavior.Strict);
+            _topicsLogic = new TopicsLogic(_topicRepositoryMock.Object);
         }
 
         [TestMethod]
         public void CanGetAllTheTopicsInTheDatabase()
         {
-            _mockedRepository
+            _topicRepositoryMock
                 .Setup(m => m.GetAll())
                 .Returns(
                     new List<Topic>

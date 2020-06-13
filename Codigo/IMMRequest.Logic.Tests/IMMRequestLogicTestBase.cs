@@ -20,7 +20,7 @@ namespace IMMRequest.Logic.Tests
             };
         }
 
-        protected List<RequestField> GetSomeAdditionaFields()
+        protected List<RequestField> GetSomeAdditionalFields()
         {
             return new List<RequestField>
             {

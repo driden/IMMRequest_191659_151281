@@ -12,7 +12,6 @@ namespace IMMRequest.Logic.Tests
     using Exceptions.CreateTopic;
     using Exceptions.RemoveType;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Models.Request;
     using Models.Type;
     using Moq;
     using Type = Domain.Type;
@@ -20,16 +19,16 @@ namespace IMMRequest.Logic.Tests
     [TestClass]
     public class TypesLogicTests
     {
-        private Mock<IRepository<Topic>> _topicsMock;
-        private Mock<IRepository<Type>> _typesMock;
+        private Mock<IRepository<Topic>> _topicsRepositoryMock;
+        private Mock<IRepository<Type>> _typesRepositoryMock;
         private TypesLogic _typesLogic;
 
         [TestInitialize]
         public void SetUp()
         {
-            _topicsMock = new Mock<IRepository<Topic>>(MockBehavior.Strict);
-            _typesMock = new Mock<IRepository<Type>>(MockBehavior.Strict);
-            _typesLogic = new TypesLogic(_topicsMock.Object, _typesMock.Object);
+            _topicsRepositoryMock = new Mock<IRepository<Topic>>(MockBehavior.Strict);
+            _typesRepositoryMock = new Mock<IRepository<Type>>(MockBehavior.Strict);
+            _typesLogic = new TypesLogic(_topicsRepositoryMock.Object, _typesRepositoryMock.Object);
         }
 
         #region Add Type
@@ -42,7 +41,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CantCreateTypeWithANonExistingTopic()
         {
-            _topicsMock.Setup(repo => repo.Get(It.IsAny<int>())).Returns<Topic>(null);
+            _topicsRepositoryMock.Setup(repo => repo.Get(It.IsAny<int>())).Returns<Topic>(null);
             Assert.ThrowsException<NoSuchTopicException>(() => _typesLogic.Add(new CreateTypeRequest { TopicId = 1 }));
         }
 
@@ -78,7 +77,7 @@ namespace IMMRequest.Logic.Tests
         public void ATopicWithAnEmptyNameShouldThrowException()
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, Name = string.Empty };
-            _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name" });
+            _topicsRepositoryMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name" });
 
             Assert.ThrowsException<EmptyTypeNameException>(() => _typesLogic.Add(createRequest));
         }
@@ -87,7 +86,7 @@ namespace IMMRequest.Logic.Tests
         public void ATopicWithAnExistingTypeNameShouldThrowException()
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, Name = "name" };
-            _topicsMock
+            _topicsRepositoryMock
                 .Setup(repo => repo.Get(1))
                 .Returns(new Topic
                 {
@@ -125,7 +124,7 @@ namespace IMMRequest.Logic.Tests
                     Range = new List<string> { "0", "5" }
                 });
 
-            _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
+            _topicsRepositoryMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
             Assert.ThrowsException<InvalidNameForAdditionalFieldException>(() => _typesLogic.Add(createRequest));
         }
         [TestMethod]
@@ -140,7 +139,7 @@ namespace IMMRequest.Logic.Tests
                     Range = new List<string> { "6", "5" }
                 });
 
-            _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
+            _topicsRepositoryMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
             Assert.ThrowsException<InvalidFieldRangeException>(() => _typesLogic.Add(createRequest));
         }
 
@@ -156,7 +155,7 @@ namespace IMMRequest.Logic.Tests
                     Range = new List<string> { "09/05/2020", "08/05/2020" }
                 });
 
-            _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
+            _topicsRepositoryMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
             Assert.ThrowsException<InvalidFieldRangeException>(() => _typesLogic.Add(createRequest));
         }
 
@@ -172,7 +171,7 @@ namespace IMMRequest.Logic.Tests
                     Range = new List<string> { "blah", string.Empty }
                 });
 
-            _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
+            _topicsRepositoryMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
             Assert.ThrowsException<InvalidFieldRangeException>(() => _typesLogic.Add(createRequest));
         }
 
@@ -188,7 +187,7 @@ namespace IMMRequest.Logic.Tests
                     Range = new List<string> { "blah", string.Empty }
                 });
 
-            _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
+            _topicsRepositoryMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
             Assert.ThrowsException<InvalidFieldValueCastForFieldTypeException>(() => _typesLogic.Add(createRequest));
         }
 
@@ -204,7 +203,7 @@ namespace IMMRequest.Logic.Tests
                     Range = new List<string> { "blah", string.Empty }
                 });
 
-            _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
+            _topicsRepositoryMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
             Assert.ThrowsException<InvalidFieldValueCastForFieldTypeException>(() => _typesLogic.Add(createRequest));
         }
 
@@ -220,11 +219,11 @@ namespace IMMRequest.Logic.Tests
                     Range = new List<string> { "blah" }
                 });
 
-            _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
-            _typesMock.Setup(repo => repo.Add(It.IsAny<Type>())).Verifiable();
+            _topicsRepositoryMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
+            _typesRepositoryMock.Setup(repo => repo.Add(It.IsAny<Type>())).Verifiable();
             _typesLogic.Add(createRequest);
 
-            _typesMock.Verify(f => f.Add(It.IsAny<Type>()), Times.Once());
+            _typesRepositoryMock.Verify(f => f.Add(It.IsAny<Type>()), Times.Once());
         }
 
         [TestMethod]
@@ -239,11 +238,11 @@ namespace IMMRequest.Logic.Tests
                     Range = new List<string> { "5", "6" }
                 });
 
-            _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
-            _typesMock.Setup(repo => repo.Add(It.IsAny<Type>())).Verifiable();
+            _topicsRepositoryMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
+            _typesRepositoryMock.Setup(repo => repo.Add(It.IsAny<Type>())).Verifiable();
             _typesLogic.Add(createRequest);
 
-            _typesMock.Verify(f => f.Add(It.IsAny<Type>()), Times.Once());
+            _typesRepositoryMock.Verify(f => f.Add(It.IsAny<Type>()), Times.Once());
         }
 
         [TestMethod]
@@ -258,11 +257,11 @@ namespace IMMRequest.Logic.Tests
                     Range = new List<string> { "15/6/2020", "16/6/2020" }
                 });
 
-            _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
-            _typesMock.Setup(repo => repo.Add(It.IsAny<Type>())).Verifiable();
+            _topicsRepositoryMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
+            _typesRepositoryMock.Setup(repo => repo.Add(It.IsAny<Type>())).Verifiable();
             _typesLogic.Add(createRequest);
 
-            _typesMock.Verify(f => f.Add(It.IsAny<Type>()), Times.Once());
+            _typesRepositoryMock.Verify(f => f.Add(It.IsAny<Type>()), Times.Once());
         }
 
         [TestMethod]
@@ -278,9 +277,9 @@ namespace IMMRequest.Logic.Tests
                     Range = new List<string>()
                 });
 
-            _topicsMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
+            _topicsRepositoryMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
             Type typeBeingAdded = null;
-            _typesMock.Setup(repo => repo.Add(It.IsAny<Type>())).Callback<Type>(type => typeBeingAdded = type);
+            _typesRepositoryMock.Setup(repo => repo.Add(It.IsAny<Type>())).Callback<Type>(type => typeBeingAdded = type);
 
             _typesLogic.Add(createRequest);
             var additionalField = typeBeingAdded.AdditionalFields.First();
@@ -302,14 +301,14 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void DeletingANonExistingTypeThrowsException()
         {
-            _typesMock.Setup(m => m.Get(It.IsAny<int>())).Returns<Type>(null);
+            _typesRepositoryMock.Setup(m => m.Get(It.IsAny<int>())).Returns<Type>(null);
             Assert.ThrowsException<NoSuchTypeException>(() => _typesLogic.Remove(1));
         }
 
         [TestMethod]
         public void DeletingADisabledTypeThrowsException()
         {
-            _typesMock
+            _typesRepositoryMock
                 .Setup(m => m.Get(It.IsAny<int>()))
                 .Returns(() => new Type { IsActive = false });
             Assert.ThrowsException<NoSuchTypeException>(() => _typesLogic.Remove(1));
@@ -318,14 +317,14 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CanDeleteAnExistingType()
         {
-            _typesMock
+            _typesRepositoryMock
                 .Setup(m => m.Get(It.IsAny<int>()))
                 .Returns(() => new Type { Id = 1, IsActive = true });
 
-            _typesMock.Setup(m => m.Remove(It.IsAny<Type>())).Verifiable();
+            _typesRepositoryMock.Setup(m => m.Remove(It.IsAny<Type>())).Verifiable();
             _typesLogic.Remove(1);
 
-            _typesMock.Verify(m => m.Remove(It.IsAny<Type>()), Times.Once());
+            _typesRepositoryMock.Verify(m => m.Remove(It.IsAny<Type>()), Times.Once());
         }
         #endregion
 
@@ -334,15 +333,15 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void GetAllShouldCallTheDatabase()
         {
-            _typesMock.Setup(repo => repo.GetAll()).Returns<IList<TypeModel>>(null).Verifiable();
+            _typesRepositoryMock.Setup(repo => repo.GetAll()).Returns<IList<TypeModel>>(null).Verifiable();
             _typesLogic.GetAll(1);
-            _typesMock.Verify(mock => mock.GetAll(), Times.Once());
+            _typesRepositoryMock.Verify(mock => mock.GetAll(), Times.Once());
         }
 
         [TestMethod]
         public void GetAllShouldListOnlyActiveTypes()
         {
-            _typesMock.Setup(repo => repo.GetAll())
+            _typesRepositoryMock.Setup(repo => repo.GetAll())
                 .Returns(new List<Type>
                 {
                     new Type { Name = "Active", IsActive = true, TopicId = 1},
@@ -354,7 +353,7 @@ namespace IMMRequest.Logic.Tests
             Assert.AreEqual(1, availableTypes.Length);
             Assert.AreEqual("Active", availableTypes.FirstOrDefault()?.Name);
 
-            _typesMock.Verify(mock => mock.GetAll(), Times.Once());
+            _typesRepositoryMock.Verify(mock => mock.GetAll(), Times.Once());
         }
 
         [TestMethod]
@@ -401,7 +400,7 @@ namespace IMMRequest.Logic.Tests
                 TopicId = 1
             };
 
-            _typesMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb }).Verifiable();
+            _typesRepositoryMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb }).Verifiable();
 
             var allTypes = _typesLogic.GetAll(1).ToArray();
 
@@ -430,12 +429,12 @@ namespace IMMRequest.Logic.Tests
                 IsActive = true,
                 TopicId = 1
             };
-            _typesMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb }).Verifiable();
+            _typesRepositoryMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb }).Verifiable();
 
             var type = _typesLogic.GetAll(1).FirstOrDefault();
             Assert.AreEqual("integer", type?.AdditionalFields[0].FieldType);
 
-            _typesMock.Verify(mock => mock.GetAll(), Times.Once());
+            _typesRepositoryMock.Verify(mock => mock.GetAll(), Times.Once());
         }
 
         [TestMethod]
@@ -461,12 +460,12 @@ namespace IMMRequest.Logic.Tests
                 TopicId = 1
             };
 
-            _typesMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb }).Verifiable();
+            _typesRepositoryMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb }).Verifiable();
 
             var type = _typesLogic.GetAll(1).FirstOrDefault();
             Assert.AreEqual("text", type?.AdditionalFields[0].FieldType);
 
-            _typesMock.Verify(mock => mock.GetAll(), Times.Once());
+            _typesRepositoryMock.Verify(mock => mock.GetAll(), Times.Once());
         }
 
         [TestMethod]
@@ -492,12 +491,12 @@ namespace IMMRequest.Logic.Tests
                 TopicId = 1
             };
 
-            _typesMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb }).Verifiable();
+            _typesRepositoryMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb }).Verifiable();
 
             var type = _typesLogic.GetAll(1).FirstOrDefault();
             Assert.AreEqual("date", type?.AdditionalFields[0].FieldType);
 
-            _typesMock.Verify(mock => mock.GetAll(), Times.Once());
+            _typesRepositoryMock.Verify(mock => mock.GetAll(), Times.Once());
         }
 
         [TestMethod]
@@ -522,7 +521,7 @@ namespace IMMRequest.Logic.Tests
                 IsActive = true,
                 TopicId = 1
             };
-            _typesMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb });
+            _typesRepositoryMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb });
 
             var type = _typesLogic.GetAll(1).FirstOrDefault();
             var range = type?.AdditionalFields[0].Range.ToArray();
@@ -553,7 +552,7 @@ namespace IMMRequest.Logic.Tests
                 IsActive = true,
                 TopicId = 1
             };
-            _typesMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb });
+            _typesRepositoryMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb });
 
             var type = _typesLogic.GetAll(1).FirstOrDefault();
             var range = type?.AdditionalFields[0].Range.ToArray();
@@ -584,7 +583,7 @@ namespace IMMRequest.Logic.Tests
                 IsActive = true,
                 TopicId = 1
             };
-            _typesMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb });
+            _typesRepositoryMock.Setup(repo => repo.GetAll()).Returns(new List<Type> { typeInDb });
 
             var type = _typesLogic.GetAll(1).FirstOrDefault();
             var range = type?.AdditionalFields[0].Range.ToArray();
@@ -595,7 +594,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void GetAllShouldGetTypesFromAGivenTopic()
         {
-            _typesMock.Setup(repo => repo.GetAll()).Returns(new List<Type>
+            _typesRepositoryMock.Setup(repo => repo.GetAll()).Returns(new List<Type>
             {
                 new Type
                 {

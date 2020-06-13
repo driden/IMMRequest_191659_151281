@@ -13,26 +13,26 @@ namespace IMMRequest.Logic.Tests
     [TestClass]
     public class SessionsLogicTests
     {
-        private Mock<IRepository<Admin>> mockedAdminRepo;
+        private Mock<IRepository<Admin>> _adminRepositoryMock;
         private SessionLogic _sessionLogic;
 
         [TestInitialize]
         public void SetUp()
         {
-            mockedAdminRepo = new Mock<IRepository<Admin>>(MockBehavior.Strict);
-            _sessionLogic = new SessionLogic(mockedAdminRepo.Object);
+            _adminRepositoryMock = new Mock<IRepository<Admin>>(MockBehavior.Strict);
+            _sessionLogic = new SessionLogic(_adminRepositoryMock.Object);
         }
 
         [TestMethod]
         public void CanSendLoginInformationToLoginMethod()
         {
             var loginInfo = new AdminLoginModel { Email = "email@mail.com", Password = "password" };
-            mockedAdminRepo
+            _adminRepositoryMock
                 .Setup(m => m.FirstOrDefault(It.IsAny<Expression<Func<Admin, bool>>>()))
                 .Returns(new Admin { Id = 1 });
 
             Admin updatedAdmin = null;
-            mockedAdminRepo
+            _adminRepositoryMock
                 .Setup(m => m.Update(It.IsAny<Admin>()))
                 .Callback<Admin>(admin => updatedAdmin = admin);
 
@@ -45,7 +45,7 @@ namespace IMMRequest.Logic.Tests
         public void NoAdministratorWithCredentialsThrowsException()
         {
             var loginInfo = new AdminLoginModel { Email = "email@mail.com", Password = "password" };
-            mockedAdminRepo
+            _adminRepositoryMock
                 .Setup(m => m.FirstOrDefault(It.IsAny<Expression<Func<Admin, bool>>>()))
                 .Returns<Admin>(null);
 

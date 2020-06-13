@@ -43,7 +43,7 @@ namespace IMMRequest.WebApi.Controllers
             try
             {
                 _adminsLogic.Update(id, modifyRequest);
-                return Ok();
+                return NoContent();
             }
             catch (InvalidIdException invalidIdException)
             {
@@ -55,7 +55,7 @@ namespace IMMRequest.WebApi.Controllers
             }
             catch (Exception exception)
             {
-                return BadRequest(new ErrorModel(exception.Message));
+                return StatusCode(500, new ErrorModel(exception.Message));
             }
         }
 
@@ -88,7 +88,7 @@ namespace IMMRequest.WebApi.Controllers
             }
             catch (Exception exception)
             {
-                return BadRequest(new ErrorModel(exception.Message));
+                return StatusCode(500, new ErrorModel(exception.Message));
             }
         }
 

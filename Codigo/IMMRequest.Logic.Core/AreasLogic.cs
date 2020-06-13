@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-
 namespace IMMRequest.Logic.Core
 {
+    using System.Collections.Generic;
     using System.Linq;
     using DataAccess.Interfaces;
     using Domain;
@@ -10,16 +9,16 @@ namespace IMMRequest.Logic.Core
 
     public class AreasLogic : IAreasLogic
     {
-        private readonly IRepository<Area> _repository;
+        private readonly IRepository<Area> _areaRepository;
 
-        public AreasLogic(IRepository<Area> areaRepository)
+        public AreasLogic(IRepository<Area> areaAreaRepository)
         {
-            this._repository = areaRepository;
+            this._areaRepository = areaAreaRepository;
         }
 
         public IEnumerable<AreaModel> GetAll()
         {
-            return _repository
+            return _areaRepository
                 .GetAll()
                 .Select(area =>
                     new AreaModel
