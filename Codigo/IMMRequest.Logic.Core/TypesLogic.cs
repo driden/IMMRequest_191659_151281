@@ -1,7 +1,6 @@
-using System;
-
 namespace IMMRequest.Logic.Core
 {
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
@@ -136,7 +135,7 @@ namespace IMMRequest.Logic.Core
                             Range = additionalField.FieldType == FieldType.Integer ? ((IntegerField)additionalField).Range.Select(intItem => intItem.Value.ToString())
                                 : additionalField.FieldType == FieldType.Date
                                     ? ((DateField)additionalField).Range.Select(dateItem => dateItem.ToString())
-                                    : ((TextField)additionalField).Range.Select(textItem=> textItem.Value)
+                                    : ((TextField)additionalField).Range.Select(textItem => textItem.Value)
                         })
                         .ToList()
                 });

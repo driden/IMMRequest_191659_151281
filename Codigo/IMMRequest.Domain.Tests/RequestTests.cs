@@ -5,9 +5,9 @@ namespace IMMRequest.Domain.Tests
     using System.Linq;
     using System.Text;
     using Domain.Fields;
+    using Domain.States;
     using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using States;
     using Type = Domain.Type;
 
     [TestClass]

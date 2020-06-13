@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-
 namespace IMMRequest.Logic.Models.Type
 {
+    using System.Collections.Generic;
+
     public class TypeModel
     {
         public int Id { get; set; }

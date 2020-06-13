@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-
 namespace IMMRequest.Logic.Models.Topic
 {
+    using System.Collections.Generic;
+
     public class TopicModel
     {
         public int Id { get; set; }

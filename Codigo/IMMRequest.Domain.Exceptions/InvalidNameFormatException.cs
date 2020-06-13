@@ -1,7 +1,7 @@
-using System;
-
 namespace IMMRequest.Domain.Exceptions
 {
+    using System;
+
     public class InvalidNameFormatException : Exception
     {
         public InvalidNameFormatException(string message)

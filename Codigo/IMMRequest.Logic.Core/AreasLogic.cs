@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-
 namespace IMMRequest.Logic.Core
 {
+    using System.Collections.Generic;
     using System.Linq;
     using DataAccess.Interfaces;
     using Domain;
