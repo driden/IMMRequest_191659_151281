@@ -16,24 +16,24 @@ namespace IMMRequest.Logic.Core
 
     public class TypesLogic : ITypesLogic
     {
-        private readonly IRepository<Topic> _topicsRepository;
-        private readonly IRepository<Type> _typesRepository;
+        private readonly IRepository<Topic> _topicRepository;
+        private readonly IRepository<Type> _typeRepository;
 
         public TypesLogic(
-            IRepository<Topic> topicsRepository,
-            IRepository<Type> typesRepository)
+            IRepository<Topic> topicRepository,
+            IRepository<Type> typeRepository)
         {
-            this._topicsRepository = topicsRepository;
-            this._typesRepository = typesRepository;
+            this._topicRepository = topicRepository;
+            this._typeRepository = typeRepository;
         }
 
         public void Remove(int id)
         {
             ValidateTypeIdNumber(id);
-            var typeInDb = _typesRepository.Get(id);
+            var typeInDb = _typeRepository.Get(id);
             ValidateTypeCanBeDeleted(id, typeInDb);
 
-            _typesRepository.Remove(typeInDb);
+            _typeRepository.Remove(typeInDb);
         }
 
         public int Add(CreateTypeRequest createTypeRequest)
@@ -41,7 +41,7 @@ namespace IMMRequest.Logic.Core
             ValidateTopicIdNumber(createTypeRequest.TopicId);
             ValidateAdditionalFieldsNames(createTypeRequest);
             ValidateAdditionalFieldsType(createTypeRequest);
-            var topic = this._topicsRepository.Get(createTypeRequest.TopicId);
+            var topic = this._topicRepository.Get(createTypeRequest.TopicId);
             ValidateTopic(createTypeRequest.TopicId, topic);
             ValidateTypeName(createTypeRequest, topic);
 
@@ -105,14 +105,14 @@ namespace IMMRequest.Logic.Core
                 }
             }
 
-            _typesRepository.Add(newType);
+            _typeRepository.Add(newType);
 
             return newType.Id;
         }
 
         public IEnumerable<TypeModel> GetAll(int topicId)
         {
-            var allTypes = _typesRepository.GetAll();
+            var allTypes = _typeRepository.GetAll();
             return allTypes?
                 .Where(type => type.IsActive && type.TopicId == topicId)
                 .Select(type => new TypeModel

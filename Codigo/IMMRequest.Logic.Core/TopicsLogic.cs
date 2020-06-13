@@ -9,16 +9,16 @@ namespace IMMRequest.Logic.Core
 
     public class TopicsLogic : ITopicsLogic
     {
-        private readonly IRepository<Topic> _repository = null;
+        private readonly IRepository<Topic> _topicRepository = null;
 
-        public TopicsLogic(IRepository<Topic> repository)
+        public TopicsLogic(IRepository<Topic> topicRepository)
         {
-            this._repository = repository;
+            this._topicRepository = topicRepository;
         }
 
         public IEnumerable<TopicModel> GetAll(int areaId)
         {
-            var all = _repository.GetAll().Where(topic => topic.AreaId == areaId);
+            var all = _topicRepository.GetAll().Where(topic => topic.AreaId == areaId);
             return all.Select(CreateModel);
 
         }

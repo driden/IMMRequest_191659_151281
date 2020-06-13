@@ -13,21 +13,21 @@ namespace IMMRequest.Logic.Core
 
     public class RequestsLogic : IRequestsLogic
     {
-        private readonly IRepository<Request> _requestRepo;
-        private readonly IRepository<Type> _typeRepo;
+        private readonly IRepository<Request> _requestRepository;
+        private readonly IRepository<Type> _typeRepository;
 
         public RequestsLogic(
                IRepository<Request> requestRepository,
                IRepository<Type> typeRepository
             )
         {
-            _requestRepo = requestRepository;
-            _typeRepo = typeRepository;
+            _requestRepository = requestRepository;
+            _typeRepository = typeRepository;
         }
 
         public int Add(CreateRequest createRequest)
         {
-            var type = _typeRepo.Get(createRequest.TypeId);
+            var type = _typeRepository.Get(createRequest.TypeId);
 
             ValidateTypeNotNull(createRequest, type);
 
@@ -68,7 +68,7 @@ namespace IMMRequest.Logic.Core
 
             AddRequestFieldsToRequest(createRequest, type, request);
 
-            _requestRepo.Add(request);
+            _requestRepository.Add(request);
 
             return request.Id;
         }
@@ -77,7 +77,7 @@ namespace IMMRequest.Logic.Core
         {
             ValidateRequestId(requestId);
 
-            var request = _requestRepo.Get(requestId);
+            var request = _requestRepository.Get(requestId);
 
             ValidateRequestNotNull(requestId, request);
 
@@ -96,7 +96,7 @@ namespace IMMRequest.Logic.Core
 
         public IEnumerable<RequestStatusModel> GetAllRequests()
         {
-            return _requestRepo.GetAll().Select(req => new RequestStatusModel
+            return _requestRepository.GetAll().Select(req => new RequestStatusModel
             {
                 Details = req.Details,
                 RequestId = req.Id,
@@ -115,7 +115,7 @@ namespace IMMRequest.Logic.Core
             }
 
             ValidateRequestId(requestId);
-            var request = _requestRepo.Get(requestId);
+            var request = _requestRepository.Get(requestId);
             ValidateRequestNotNull(requestId, request);
 
             switch (newState.ToLower())
@@ -137,7 +137,7 @@ namespace IMMRequest.Logic.Core
                     break;
             }
 
-            _requestRepo.Update(request);
+            _requestRepository.Update(request);
         }
 
         private void AddRequestFieldsToRequest(CreateRequest createRequest, Type type, Request request)
