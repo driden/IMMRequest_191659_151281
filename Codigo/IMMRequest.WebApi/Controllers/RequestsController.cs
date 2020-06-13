@@ -27,7 +27,7 @@ namespace IMMRequest.WebApi.Controllers
         ///     Creates a new request in the system
         /// </summary>
         /// <param name="request">request body</param>
-        /// <response code="200">Request created</response>
+        /// <response code="201">Request created</response>
         /// <response code="400">There's something wrong with the request body</response>
         /// <response code="404">A field name could not be found</response>
         /// <response code="500">Something is wrong with the server</response>
@@ -113,7 +113,7 @@ namespace IMMRequest.WebApi.Controllers
         /// <returns>A json object with the details of the request</returns>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<RequestStatusModel>), 200)]
-        [Route("{id}")]
+        [Route("{id}", Name = "GetOne")]
         public ActionResult<RequestModel> GetOne(int id)
         {
             try
