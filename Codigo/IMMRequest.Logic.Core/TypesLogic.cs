@@ -11,8 +11,8 @@ namespace IMMRequest.Logic.Core
     using Exceptions.CreateTopic;
     using Exceptions.RemoveType;
     using Interfaces;
-    using Models;
     using Models.Type;
+    using Type = Domain.Type;
 
     public class TypesLogic : ITypesLogic
     {

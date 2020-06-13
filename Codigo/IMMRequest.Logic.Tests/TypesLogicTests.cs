@@ -12,7 +12,6 @@ namespace IMMRequest.Logic.Tests
     using Exceptions.CreateTopic;
     using Exceptions.RemoveType;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Models.Request;
     using Models.Type;
     using Moq;
     using Type = Domain.Type;

@@ -37,7 +37,10 @@ namespace IMMRequest.WebApi.Controllers
             try
             {
                 var requestId = _requestsLogic.Add(request);
-                return new OkObjectResult(new {Id = requestId, Text = $"request created with id {requestId}"});
+                return CreatedAtRoute(
+                    nameof(GetOne),
+                    new { Id = requestId },
+                    new { Id = requestId, Text = $"request created with id {requestId}" });
             }
             catch (NoSuchTypeException nste)
             {
@@ -92,11 +95,11 @@ namespace IMMRequest.WebApi.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<RequestStatusModel>), 200)]
         [AuthorizationFilter]
-        public ObjectResult GetAll()
+        public ActionResult<IEnumerable<RequestStatusModel>> GetAll()
         {
             try
             {
-                return new ObjectResult(_requestsLogic.GetAllRequests());
+                return Ok(_requestsLogic.GetAllRequests());
             }
             catch (Exception ex)
             {
@@ -111,11 +114,11 @@ namespace IMMRequest.WebApi.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<RequestStatusModel>), 200)]
         [Route("{id}")]
-        public ObjectResult GetOne(int id)
+        public ActionResult<RequestModel> GetOne(int id)
         {
             try
             {
-                return new ObjectResult(_requestsLogic.GetRequestStatus(id));
+                return Ok(_requestsLogic.GetRequestStatus(id));
             }
             catch (InvalidTopicIdException invalidRequestId)
             {
@@ -148,7 +151,7 @@ namespace IMMRequest.WebApi.Controllers
             try
             {
                 _requestsLogic.UpdateRequestStatus(id, updateStateRequest.NewState);
-                return new OkResult();
+                return NoContent();
             }
             catch (InvalidStateNameException ex)
             {
