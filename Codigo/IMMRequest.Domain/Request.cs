@@ -36,6 +36,7 @@ namespace IMMRequest.Domain
 
         public Request()
         {
+            CreationDateTime = DateTime.Now;
             Status = new CreatedState(this);
         }
     }
