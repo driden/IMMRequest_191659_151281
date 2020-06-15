@@ -9,6 +9,7 @@ namespace IMMRequest.Logic.Core
     using Exceptions;
     using Interfaces;
     using Models.Request;
+    using Models.State;
     using Type = Domain.Type;
 
     public class RequestsLogic : IRequestsLogic
@@ -25,15 +26,15 @@ namespace IMMRequest.Logic.Core
             _typeRepository = typeRepository;
         }
 
-        public int Add(CreateRequest createRequest)
+        public int Add(CreateRequestModel createRequestModel)
         {
-            var type = _typeRepository.Get(createRequest.TypeId);
+            var type = _typeRepository.Get(createRequestModel.TypeId);
 
-            ValidateTypeNotNull(createRequest, type);
+            ValidateTypeNotNull(createRequestModel, type);
 
-            ValidateRequestFieldCount(createRequest, type);
+            ValidateRequestFieldCount(createRequestModel, type);
 
-            foreach (var additionalField in createRequest.AdditionalFields)
+            foreach (var additionalField in createRequestModel.AdditionalFields)
             {
                 var correspondingField = FindFieldTemplateWithName(type, additionalField);
 
@@ -56,17 +57,17 @@ namespace IMMRequest.Logic.Core
                 }
             }
 
-            ValidateNoRequiredFieldsAreMissing(createRequest, type);
+            ValidateNoRequiredFieldsAreMissing(createRequestModel, type);
 
             var request = new Request
             {
-                Citizen = new Citizen { Email = createRequest.Email, Name = createRequest.Name, PhoneNumber = createRequest.Phone },
-                Details = createRequest.Details,
+                Citizen = new Citizen { Email = createRequestModel.Email, Name = createRequestModel.Name, PhoneNumber = createRequestModel.Phone },
+                Details = createRequestModel.Details,
                 Type = type,
                 FieldValues = new List<RequestField>(),
             };
 
-            AddRequestFieldsToRequest(createRequest, type, request);
+            AddRequestFieldsToRequest(createRequestModel, type, request);
 
             _requestRepository.Add(request);
 
@@ -140,10 +141,10 @@ namespace IMMRequest.Logic.Core
             _requestRepository.Update(request);
         }
 
-        private void AddRequestFieldsToRequest(CreateRequest createRequest, Type type, Request request)
+        private void AddRequestFieldsToRequest(CreateRequestModel createRequestModel, Type type, Request request)
         {
             var fieldsWithType = type.AdditionalFields.Join(
-                createRequest.AdditionalFields,
+                createRequestModel.AdditionalFields,
                 af => af.Name,
                 crf => crf.Name,
                 (af, crf) => new { Type = af.FieldType, crf.Name, crf.Value }
@@ -178,6 +179,37 @@ namespace IMMRequest.Logic.Core
             }
         }
 
+        public IEnumerable<StateReportModel> GetRequestByMail(string mail)
+        {
+            ValidateStringValueNotNullOrEmpty(mail);
+
+            var requests = _requestRepository
+                .GetAllByCondition(req => (req.Citizen.Email.Equals(mail)));
+
+            var result = new StateReportModel
+            {
+
+            };
+            
+            
+            /*   
+               var repeatedNames = fieldsWithType
+                   .GroupBy(f => f.Name)
+                   .Where(group => group.Count() > 1)
+                   .Select(f => f.Key)
+                   .ToList();
+           */
+            // _requestRepo.GetAllByCondition(req => req.Citizen.Name == mail);
+            //_requestRepo.GetAllByCondition(req => req.Citizen.Exists(c => c.Name == mail)).Select(req => new GetAllRequestsByMail(req));
+
+
+            // coniditions.GroupBy(c => typeof(c.State)))
+            //    .Where(condiciones)
+            //    .Select(g => new { Tipo = g.Key, Cantidad = g.Count() ... };
+
+            return null;
+        }
+        
         #region Validation Methods
         private void ValidateRequestId(int requestId)
         {
@@ -195,10 +227,10 @@ namespace IMMRequest.Logic.Core
             }
         }
 
-        private void ValidateNoRequiredFieldsAreMissing(CreateRequest createRequest, Type type)
+        private void ValidateNoRequiredFieldsAreMissing(CreateRequestModel createRequestModel, Type type)
         {
             var requiredFields = type.AdditionalFields.Where(af => af.IsRequired).Select(af => af.Name);
-            var providedFields = createRequest.AdditionalFields.Select(x => x.Name);
+            var providedFields = createRequestModel.AdditionalFields.Select(x => x.Name);
             var nonProvidedRequiredFields =
                 requiredFields.Except(providedFields, StringComparer.InvariantCultureIgnoreCase);
             var providedRequiredFields = nonProvidedRequiredFields as string[] ?? nonProvidedRequiredFields.ToArray();
@@ -252,20 +284,29 @@ namespace IMMRequest.Logic.Core
             return correspondingField;
         }
 
-        private void ValidateRequestFieldCount(CreateRequest createRequest, Type type)
+        private void ValidateRequestFieldCount(CreateRequestModel createRequestModel, Type type)
         {
-            if (createRequest.AdditionalFields.Count() > type.AdditionalFields.Count)
+            if (createRequestModel.AdditionalFields.Count() > type.AdditionalFields.Count)
             {
                 throw new InvalidAdditionalFieldForTypeException(
                     $"Too many additional fields were sent for type with id {type.Id}");
             }
         }
 
-        private void ValidateTypeNotNull(CreateRequest createRequest, Type type)
+        private void ValidateTypeNotNull(CreateRequestModel createRequestModel, Type type)
         {
             if (type == null)
             {
-                throw new NoSuchTypeException($"No type with id={createRequest.TypeId} exists");
+                throw new NoSuchTypeException($"No type with id={createRequestModel.TypeId} exists");
+            }
+        }
+
+        private static void ValidateStringValueNotNullOrEmpty(string value)
+        {
+            if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
+            {
+                throw new InvalidMailFormatException(
+                    "value for mail cannot be empty or null");
             }
         }
 

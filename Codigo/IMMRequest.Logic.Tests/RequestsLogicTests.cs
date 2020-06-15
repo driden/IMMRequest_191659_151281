@@ -41,7 +41,7 @@ namespace IMMRequest.Logic.Tests
         public void CanCreateANewRequest()
         {
             SetUpAddMocks();
-            _requestsLogic.Add(base.CreateRequest);
+            _requestsLogic.Add(base.CreateRequestModel);
 
             _requestRepositoryMock.Verify(mock => mock.Add(It.IsAny<Request>()));
         }
@@ -50,7 +50,7 @@ namespace IMMRequest.Logic.Tests
         public void NewRequestShouldHaveAnExistingTypeAssociated()
         {
             SetUpAddMocks();
-            _requestsLogic.Add(CreateRequest);
+            _requestsLogic.Add(CreateRequestModel);
 
             _typeRepositoryMock.Verify(tr => tr.Get(-1), Times.Once());
             _requestRepositoryMock.Verify(rr => rr.Add(It.IsAny<Request>()), Times.Once());
@@ -63,7 +63,7 @@ namespace IMMRequest.Logic.Tests
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>()))
                 .Returns<Topic>(null)
                 .Verifiable();
-            Assert.ThrowsException<NoSuchTypeException>(() => { _requestsLogic.Add(CreateRequest); });
+            Assert.ThrowsException<NoSuchTypeException>(() => { _requestsLogic.Add(CreateRequestModel); });
             _requestRepositoryMock.Verify(reqRepo => reqRepo.Add(It.IsAny<Request>()), Times.Never());
         }
 
@@ -83,11 +83,11 @@ namespace IMMRequest.Logic.Tests
                     };
                 }).Verifiable();
 
-            _requestsLogic.Add(CreateRequest);
-            Assert.AreEqual(-1, CreateRequest.TypeId);
-            Assert.AreEqual(CreateRequest.Email, request.Email);
-            Assert.AreEqual(CreateRequest.Name, request.Name);
-            Assert.AreEqual(CreateRequest.Phone, request.PhoneNumber);
+            _requestsLogic.Add(CreateRequestModel);
+            Assert.AreEqual(-1, CreateRequestModel.TypeId);
+            Assert.AreEqual(CreateRequestModel.Email, request.Email);
+            Assert.AreEqual(CreateRequestModel.Name, request.Name);
+            Assert.AreEqual(CreateRequestModel.Phone, request.PhoneNumber);
         }
 
         [TestMethod]
@@ -96,7 +96,7 @@ namespace IMMRequest.Logic.Tests
             var typeInDatabase = NewType();
             typeInDatabase.AdditionalFields = new List<AdditionalField>();
 
-            var request = new CreateRequest
+            var request = new CreateRequestModel
             {
                 AdditionalFields = new List<FieldRequestModel>
                 {
@@ -116,7 +116,7 @@ namespace IMMRequest.Logic.Tests
 
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
-            var request = new CreateRequest
+            var request = new CreateRequestModel
             {
                 AdditionalFields = new List<FieldRequestModel>
                 {
@@ -135,7 +135,7 @@ namespace IMMRequest.Logic.Tests
 
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
-            var request = new CreateRequest
+            var request = new CreateRequestModel
             {
                 AdditionalFields = new List<FieldRequestModel>
                 {
@@ -154,7 +154,7 @@ namespace IMMRequest.Logic.Tests
 
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
-            var request = new CreateRequest
+            var request = new CreateRequestModel
             {
                 AdditionalFields = new List<FieldRequestModel>
                 {
@@ -173,7 +173,7 @@ namespace IMMRequest.Logic.Tests
 
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
-            var request = new CreateRequest
+            var request = new CreateRequestModel
             {
                 AdditionalFields = new List<FieldRequestModel>
                 {
@@ -192,7 +192,7 @@ namespace IMMRequest.Logic.Tests
 
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
-            var request = new CreateRequest
+            var request = new CreateRequestModel
             {
                 AdditionalFields = new List<FieldRequestModel>
                 {
@@ -214,7 +214,7 @@ namespace IMMRequest.Logic.Tests
 
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
-            Assert.ThrowsException<LessAdditionalFieldsThanRequiredException>(() => _requestsLogic.Add(CreateRequest));
+            Assert.ThrowsException<LessAdditionalFieldsThanRequiredException>(() => _requestsLogic.Add(CreateRequestModel));
         }
 
         [TestMethod]
@@ -230,12 +230,12 @@ namespace IMMRequest.Logic.Tests
 
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
-            var request = CreateRequest;
+            var request = CreateRequestModel;
             var requestFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "number", Value = "-1" } };
             requestFields.Add(new FieldRequestModel { Name = "text", Value = "some text" });
 
 
-            Assert.ThrowsException<LessAdditionalFieldsThanRequiredException>(() => _requestsLogic.Add(CreateRequest));
+            Assert.ThrowsException<LessAdditionalFieldsThanRequiredException>(() => _requestsLogic.Add(CreateRequestModel));
         }
 
         [TestMethod]
@@ -251,7 +251,7 @@ namespace IMMRequest.Logic.Tests
 
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
-            var request = CreateRequest;
+            var request = CreateRequestModel;
             var requestFields = new List<FieldRequestModel>
             {
                 new FieldRequestModel {Name = "number", Value = "-1"},
@@ -285,7 +285,7 @@ namespace IMMRequest.Logic.Tests
 
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
-            var request = CreateRequest;
+            var request = CreateRequestModel;
             request.AdditionalFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "number", Value = "-1" } };
 
             _requestRepositoryMock.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
@@ -311,7 +311,7 @@ namespace IMMRequest.Logic.Tests
 
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
-            var request = CreateRequest;
+            var request = CreateRequestModel;
             request.AdditionalFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "text", Value = "-1" } };
 
             _requestRepositoryMock.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
@@ -338,7 +338,7 @@ namespace IMMRequest.Logic.Tests
 
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
-            var request = CreateRequest;
+            var request = CreateRequestModel;
             request.AdditionalFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "date", Value = "01/04/1994" } };
 
             _requestRepositoryMock.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
@@ -353,7 +353,7 @@ namespace IMMRequest.Logic.Tests
                 .Callback<Request>(req => { listOfFields = req.FieldValues; })
                 .Verifiable();
 
-            var request = new CreateRequest
+            var request = new CreateRequestModel
             {
                 Name = "Name Request",
                 Phone = "5555555",
@@ -392,7 +392,7 @@ namespace IMMRequest.Logic.Tests
                 .Callback<Request>(req => { listOfFields = req.FieldValues; })
                 .Verifiable();
 
-            var request = new CreateRequest
+            var request = new CreateRequestModel
             {
                 Name = "Name Request",
                 Phone = "5555555",
@@ -431,7 +431,7 @@ namespace IMMRequest.Logic.Tests
                 .Callback<Request>(req => { listOfFields = req.FieldValues; })
                 .Verifiable();
 
-            var request = new CreateRequest
+            var request = new CreateRequestModel
             {
                 Name = "Name Request",
                 Phone = "5555555",
@@ -466,7 +466,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void NewRequestTypeIdShouldBeProvidedByUser()
         {
-            var request = new CreateRequest
+            var request = new CreateRequestModel
             {
                 Name = "Name Request",
                 Phone = "5555555",
@@ -650,11 +650,44 @@ namespace IMMRequest.Logic.Tests
             var error = new ErrorModel("msg");
             Assert.AreEqual("msg", error.Error);
         }
+        
+        [TestMethod]
+        public void CanGetReportsRequestByMail()
+        {
+            const string mail = "citizen@mail.com";
+            var request = NewListOfRequests(mail);
+            
+            _requestRepositoryMock
+                .Setup(r => r.GetAllByCondition(It.IsAny<Func<Request, bool>>()))
+                .Returns(request);
+
+            var allRequests = _requestsLogic.GetRequestByMail(mail).ToList();
+
+            Assert.AreEqual(1, allRequests.Count);
+        }
+
 
         private void SetUpAddMocks()
         {
             _requestRepositoryMock.Setup(x => x.Add(It.IsAny<Request>())).Verifiable();
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(NewType()).Verifiable();
+        }
+        
+        private IEnumerable<Request> NewListOfRequests(string mail)
+        {
+            var list = new List<Request>();
+            for (var i = 1; i < 5; i++) 
+            {
+                list.Add(new Request
+                {
+                    Citizen = new Citizen {Id = new Random().Next(0,30),Email = mail, Name = "Name"+i, PhoneNumber = "555-5555555"},
+                    Details = "Request Details",
+                    Type = NewType(),
+                    Id = i
+                });
+            }
+
+            return list;
         }
     }
 }

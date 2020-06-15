@@ -9,6 +9,7 @@ namespace IMMRequest.WebApi.Controllers
     using Logic.Interfaces;
     using Logic.Models.Error;
     using Logic.Models.Request;
+    using Logic.Models.State;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
@@ -26,17 +27,17 @@ namespace IMMRequest.WebApi.Controllers
         /// <summary>
         ///     Creates a new request in the system
         /// </summary>
-        /// <param name="request">request body</param>
+        /// <param name="requestModel">request body</param>
         /// <response code="201">Request created</response>
         /// <response code="400">There's something wrong with the request body</response>
         /// <response code="404">A field name could not be found</response>
         /// <response code="500">Something is wrong with the server</response>
         [HttpPost]
-        public ActionResult CreateRequest([FromBody] CreateRequest request)
+        public ActionResult CreateRequest([FromBody] CreateRequestModel requestModel)
         {
             try
             {
-                var requestId = _requestsLogic.Add(request);
+                var requestId = _requestsLogic.Add(requestModel);
                 return CreatedAtRoute(
                     nameof(GetOne),
                     new { Id = requestId },
@@ -172,6 +173,30 @@ namespace IMMRequest.WebApi.Controllers
             catch (InvalidRequestIdException ex)
             {
                 return BadRequest(new ErrorModel(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
+            }
+        }
+        
+        /// <summary>
+        /// Gets all request by a user
+        /// </summary>
+        /// <returns>A json object with the details of the request</returns>
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<StateReportModel>), 200)]
+        [Route("{mail}")]
+        [AuthorizationFilter]
+        public ObjectResult GetAllRequestByMail(string mail)
+        {
+            try
+            {
+                return Ok(_requestsLogic.GetRequestByMail(mail));
+            }
+            catch (NoSuchRequestException noSuchRequest)
+            {
+                return BadRequest(new ErrorModel(noSuchRequest.Message));
             }
             catch (Exception ex)
             {

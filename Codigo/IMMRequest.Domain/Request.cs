@@ -1,5 +1,6 @@
 namespace IMMRequest.Domain
 {
+    using System;
     using System.Collections.Generic;
     using Exceptions;
     using States;
@@ -11,6 +12,7 @@ namespace IMMRequest.Domain
         public virtual Citizen Citizen { get; set; }
         public virtual Type Type { get; set; }
         public virtual List<RequestField> FieldValues { get; set; } = new List<RequestField>();
+        public virtual DateTime CreationDateTime { get; set; }
         private string _details;
         public string Details
         {

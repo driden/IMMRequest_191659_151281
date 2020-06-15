@@ -2,7 +2,7 @@ namespace IMMRequest.Logic.Models.Request
 {
     using System.Collections.Generic;
 
-    public class CreateRequest
+    public class CreateRequestModel
     {
         public string Details { get; set; }
         public string Email { get; set; }
