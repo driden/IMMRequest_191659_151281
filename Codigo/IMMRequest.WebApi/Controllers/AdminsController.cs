@@ -5,7 +5,7 @@ namespace IMMRequest.WebApi.Controllers
     using Domain;
     using Domain.Exceptions;
     using Filters;
-    using Logic.Exceptions.RemoveType;
+    using Logic.Exceptions;
     using Logic.Interfaces;
     using Logic.Models.Admin;
     using Logic.Models.Error;
@@ -45,13 +45,13 @@ namespace IMMRequest.WebApi.Controllers
                 _adminsLogic.Update(id, modifyRequest);
                 return NoContent();
             }
-            catch (InvalidIdException invalidIdException)
-            {
-                return BadRequest(new ErrorModel(invalidIdException.Message));
-            }
             catch (InvalidEmailException invalidEmailException)
             {
                 return BadRequest(new ErrorModel(invalidEmailException.Message));
+            }
+            catch (AccountException accountException)
+            {
+                return BadRequest(new ErrorModel(accountException.Message));
             }
             catch (Exception exception)
             {
@@ -82,13 +82,12 @@ namespace IMMRequest.WebApi.Controllers
             {
                 return BadRequest(new ErrorModel(exception.Message));
             }
-            catch (InvalidIdException exception)
+            catch (AccountException accountException)
             {
-                return BadRequest(new ErrorModel(exception.Message));
+                return BadRequest(new ErrorModel(accountException.Message));
             }
             catch (Exception exception)
-            {
-                return StatusCode(500, new ErrorModel(exception.Message));
+            {               return StatusCode(500, new ErrorModel(exception.Message));
             }
         }
 
@@ -101,7 +100,7 @@ namespace IMMRequest.WebApi.Controllers
                 _adminsLogic.Remove(id);
                 return Ok();
             }
-            catch (InvalidIdException invalidIdException)
+            catch (AccountException invalidIdException)
             {
                 return BadRequest(new ErrorModel(invalidIdException.Message));
             }

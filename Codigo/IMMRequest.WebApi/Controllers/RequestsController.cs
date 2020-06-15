@@ -4,8 +4,8 @@ namespace IMMRequest.WebApi.Controllers
     using System.Collections.Generic;
     using Domain.Exceptions;
     using Filters;
+    using Logic.Core.Exceptions.AdditionalField;
     using Logic.Exceptions;
-    using Logic.Exceptions.CreateTopic;
     using Logic.Interfaces;
     using Logic.Models.Error;
     using Logic.Models.Request;
@@ -42,45 +42,33 @@ namespace IMMRequest.WebApi.Controllers
                     new { Id = requestId },
                     new { Id = requestId, Text = $"request created with id {requestId}" });
             }
-            catch (NoSuchTypeException nste)
+            catch (RequestException requestException)
             {
-                return BadRequest(new ErrorModel(nste.Message));
+                return BadRequest(new ErrorModel(requestException.Message));
             }
-            catch (InvalidAdditionalFieldForTypeException iaf)
+            catch (AdditionalFieldException additionalFieldException)
             {
-                return BadRequest(new ErrorModel(iaf.Message));
+                return BadRequest(new ErrorModel(additionalFieldException.Message));
             }
-            catch (NoSuchAdditionalFieldException nsaf)
+            catch (TypeException exception)
             {
-                return NotFound(new ErrorModel(nsaf.Message));
+                return NotFound(new ErrorModel(exception.Message));
             }
-            catch (InvalidFieldValueCastForFieldTypeException ifve)
+            catch (InvalidDetailsException invalidDetailsException)
             {
-                return BadRequest(new ErrorModel(ifve.Message));
+                return BadRequest(new ErrorModel(invalidDetailsException.Message));
             }
-            catch (InvalidFieldRangeException ifre)
+            catch (InvalidNameFormatException nameFormatException)
             {
-                return BadRequest(new ErrorModel(ifre.Message));
+                return BadRequest(new ErrorModel(nameFormatException.Message));
             }
-            catch (LessAdditionalFieldsThanRequiredException ladftre)
+            catch (InvalidEmailException invalidEmailException)
             {
-                return BadRequest(new ErrorModel(ladftre.Message));
+                return BadRequest(new ErrorModel(invalidEmailException.Message));
             }
-            catch (InvalidDetailsException exception)
+            catch (InvalidPhoneNumberException phoneNumberException)
             {
-                return BadRequest(new ErrorModel(exception.Message));
-            }
-            catch (InvalidNameFormatException exception)
-            {
-                return BadRequest(new ErrorModel(exception.Message));
-            }
-            catch (InvalidEmailException exception)
-            {
-                return BadRequest(new ErrorModel(exception.Message));
-            }
-            catch (InvalidPhoneNumberException exception)
-            {
-                return BadRequest(new ErrorModel(exception.Message));
+                return BadRequest(new ErrorModel(phoneNumberException.Message));
             }
             catch (Exception ex)
             {
@@ -120,13 +108,13 @@ namespace IMMRequest.WebApi.Controllers
             {
                 return Ok(_requestsLogic.GetRequestStatus(id));
             }
-            catch (InvalidTopicIdException invalidRequestId)
+            catch (TopicException topicException)
             {
-                return BadRequest(new ErrorModel(invalidRequestId.Message));
+                return BadRequest(new ErrorModel(topicException.Message));
             }
-            catch (NoSuchRequestException noSuchRequest)
+            catch (RequestException requestException)
             {
-                return BadRequest(new ErrorModel(noSuchRequest.Message));
+                return BadRequest(new ErrorModel(requestException.Message));
             }
             catch (Exception ex)
             {
@@ -153,23 +141,15 @@ namespace IMMRequest.WebApi.Controllers
                 _requestsLogic.UpdateRequestStatus(id, updateStateRequest.NewState);
                 return NoContent();
             }
-            catch (InvalidStateNameException ex)
+            catch (RequestException ex)
             {
                 return BadRequest(new ErrorModel(ex.Message));
             }
-            catch (InvalidTopicIdException ex)
-            {
-                return NotFound(new ErrorModel(ex.Message));
-            }
-            catch (NoSuchRequestException ex)
+            catch (TopicException ex)
             {
                 return NotFound(new ErrorModel(ex.Message));
             }
             catch (InvalidStateException ex)
-            {
-                return BadRequest(new ErrorModel(ex.Message));
-            }
-            catch (InvalidRequestIdException ex)
             {
                 return BadRequest(new ErrorModel(ex.Message));
             }

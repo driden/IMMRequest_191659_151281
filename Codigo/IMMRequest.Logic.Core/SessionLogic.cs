@@ -5,6 +5,7 @@ namespace IMMRequest.Logic.Core
     using Domain;
     using Interfaces;
     using Exceptions;
+    using Exceptions.Account;
     using Models.Admin;
 
     public class SessionLogic : ISessionLogic

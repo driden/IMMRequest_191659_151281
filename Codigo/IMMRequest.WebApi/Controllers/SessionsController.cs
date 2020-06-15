@@ -25,9 +25,9 @@ namespace IMMRequest.WebApi.Controllers
             {
                 return Ok(new {Token = _sessionLogic.Login(adminLogin)});
             }
-            catch (NoSuchAdministrator noSuchAdministrator)
+            catch (AccountException accountException)
             {
-                return BadRequest(new ErrorModel(noSuchAdministrator.Message));
+                return BadRequest(new ErrorModel(accountException.Message));
             }
             catch (Exception)
             {

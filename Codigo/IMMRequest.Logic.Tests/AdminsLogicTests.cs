@@ -5,10 +5,11 @@ namespace IMMRequest.Logic.Tests
     using System.Linq;
     using System.Linq.Expressions;
     using Core;
+    using Core.Exceptions.Account;
+    using Core.Exceptions.Type;
     using DataAccess.Interfaces;
     using Domain;
     using Domain.Exceptions;
-    using Exceptions.RemoveType;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Models.Admin;
     using Moq;
@@ -123,7 +124,7 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CantUpdateAnAdminWithANegativeId()
         {
-            Assert.ThrowsException<InvalidIdException>(() => _adminsLogic.Update(-1, new AdminModel()));
+            Assert.ThrowsException<InvalidAdminIdException>(() => _adminsLogic.Update(-1, new AdminModel()));
         }
 
         [TestMethod]
@@ -198,7 +199,7 @@ namespace IMMRequest.Logic.Tests
                 .Setup(m => m.Get(1))
                 .Returns<Admin>(null);
 
-            Assert.ThrowsException<InvalidIdException>(() => _adminsLogic.Update(1, request));
+            Assert.ThrowsException<InvalidAdminIdException>(() => _adminsLogic.Update(1, request));
         }
 
         [TestMethod]
@@ -305,14 +306,14 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CantRemoveAnAdminUsingANegativeId()
         {
-            Assert.ThrowsException<InvalidIdException>(() => _adminsLogic.Remove(-1));
+            Assert.ThrowsException<InvalidAdminIdException>(() => _adminsLogic.Remove(-1));
         }
 
         [TestMethod]
         public void CantRemoveAnAdminThatDoesNotExist()
         {
             _adminRepositoryMock.Setup(m => m.Get(10)).Returns<Admin>(null);
-            Assert.ThrowsException<InvalidIdException>(() => _adminsLogic.Remove(10));
+            Assert.ThrowsException<InvalidAdminIdException>(() => _adminsLogic.Remove(10));
         }
 
         [TestMethod]

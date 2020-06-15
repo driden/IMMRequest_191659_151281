@@ -4,7 +4,7 @@ namespace IMMRequest.Logic.Core
     using DataAccess.Interfaces;
     using Domain;
     using Domain.Exceptions;
-    using Exceptions.RemoveType;
+    using Exceptions.Account;
     using Interfaces;
     using Models.Admin;
 
@@ -81,7 +81,7 @@ namespace IMMRequest.Logic.Core
         {
             if (storedAdmin is null)
             {
-                throw new InvalidIdException("Admin with given Id couldn't be found");
+                throw new InvalidAdminIdException("Admin with given Id couldn't be found");
             }
         }
 
@@ -108,7 +108,7 @@ namespace IMMRequest.Logic.Core
         {
             if (id < 1)
             {
-                throw new InvalidIdException("An admin can't have an Id lower than 1");
+                throw new InvalidAdminIdException("An admin can't have an Id lower than 1");
             }
         }
 

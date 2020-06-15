@@ -4,6 +4,9 @@ namespace IMMRequest.Logic.Tests
     using System.Collections.Generic;
     using System.Linq;
     using Core;
+    using Core.Exceptions.AdditionalField;
+    using Core.Exceptions.Request;
+    using Core.Exceptions.Type;
     using DataAccess.Interfaces;
     using Domain;
     using Domain.Exceptions;

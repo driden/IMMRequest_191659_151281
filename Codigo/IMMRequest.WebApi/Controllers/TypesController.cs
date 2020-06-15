@@ -4,9 +4,9 @@ namespace IMMRequest.WebApi.Controllers
     using System.Collections.Generic;
     using Domain.Exceptions;
     using Filters;
-    using Logic.Exceptions;
-    using Logic.Exceptions.CreateTopic;
-    using Logic.Exceptions.RemoveType;
+    using Logic.Core.Exceptions.AdditionalField;
+    using Logic.Core.Exceptions.Topic;
+    using Logic.Core.Exceptions.Type;
     using Logic.Interfaces;
     using Logic.Models.Error;
     using Logic.Models.Type;
