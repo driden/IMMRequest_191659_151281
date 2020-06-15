@@ -43,7 +43,7 @@ namespace IMMRequest.Logic.Tests
 
             Assert.AreEqual("Area5", area.Name);
             Assert.AreEqual(5, area.Id);
-            CollectionAssert.AreEqual(new List<int> {10},  area.Topics.ToList());
+            CollectionAssert.AreEqual(new List<int> { 10 }, area.Topics.ToList());
         }
     }
 }

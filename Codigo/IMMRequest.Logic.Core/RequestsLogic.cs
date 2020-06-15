@@ -6,7 +6,6 @@ namespace IMMRequest.Logic.Core
     using DataAccess.Interfaces;
     using Domain;
     using Domain.Fields;
-    using Exceptions;
     using Exceptions.AdditionalField;
     using Exceptions.Request;
     using Exceptions.Type;

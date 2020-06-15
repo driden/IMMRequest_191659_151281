@@ -6,7 +6,6 @@ namespace IMMRequest.Logic.Tests
     using System.Linq.Expressions;
     using Core;
     using Core.Exceptions.Account;
-    using Core.Exceptions.Type;
     using DataAccess.Interfaces;
     using Domain;
     using Domain.Exceptions;

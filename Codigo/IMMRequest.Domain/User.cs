@@ -16,7 +16,7 @@ namespace IMMRequest.Domain
                 {
                     throw new InvalidNameFormatException("Please type a name");
                 }
-                if(Regex.Match(value, @"^[\w\d_-][\s\w\d]{2,50}$").Success)
+                if (Regex.Match(value, @"^[\w\d_-][\s\w\d]{2,50}$").Success)
                 {
                     _name = value;
                 }

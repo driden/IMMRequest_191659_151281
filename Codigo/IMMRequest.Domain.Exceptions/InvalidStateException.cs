@@ -3,7 +3,7 @@ namespace IMMRequest.Domain.Exceptions
     using System;
 
     public class InvalidStateException : Exception
-    { 
+    {
         public InvalidStateException(string message)
             : this(message, null) { }
 

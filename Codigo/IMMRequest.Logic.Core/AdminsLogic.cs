@@ -87,7 +87,11 @@ namespace IMMRequest.Logic.Core
 
         public void ValidateEmailIsNotUsedByAnotherAdmin(string email, int adminId)
         {
-            if (!ExistsAdminWithEmail(email)) return;
+            if (!ExistsAdminWithEmail(email))
+            {
+                return;
+            }
+
             var emailOwner =
                 _adminRepository.FirstOrDefault(f => f.Email.Equals(email));
             if (emailOwner.Id != adminId)

@@ -2,8 +2,8 @@ namespace IMMRequest.Logic.Exceptions
 {
     using System;
 
-    public abstract class AccountException: Exception
+    public abstract class AccountException : Exception
     {
-        protected AccountException(string errorMsg):base(errorMsg) { }
+        protected AccountException(string errorMsg) : base(errorMsg) { }
     }
 }

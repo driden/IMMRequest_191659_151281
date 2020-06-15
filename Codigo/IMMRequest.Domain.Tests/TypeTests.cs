@@ -4,7 +4,7 @@ namespace IMMRequest.Domain.Tests
     using System.Collections.Generic;
     using Domain.Fields;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Type=Domain.Type;
+    using Type = Domain.Type;
 
     [TestClass]
     public class TypeTests

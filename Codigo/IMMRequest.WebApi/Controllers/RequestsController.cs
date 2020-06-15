@@ -2,10 +2,7 @@ namespace IMMRequest.WebApi.Controllers
 {
     using System;
     using System.Collections.Generic;
-    using Domain.Exceptions;
     using Filters;
-    using Logic.Core.Exceptions.AdditionalField;
-    using Logic.Exceptions;
     using Logic.Interfaces;
     using Logic.Models.Error;
     using Logic.Models.Request;
@@ -32,6 +29,8 @@ namespace IMMRequest.WebApi.Controllers
         /// <response code="404">A field name could not be found</response>
         /// <response code="500">Something is wrong with the server</response>
         [HttpPost]
+        [DomainExceptionFilter]
+        [LogicExceptionFilter]
         public ActionResult CreateRequest([FromBody] CreateRequest request)
         {
             try
@@ -41,34 +40,6 @@ namespace IMMRequest.WebApi.Controllers
                     nameof(GetOne),
                     new { Id = requestId },
                     new { Id = requestId, Text = $"request created with id {requestId}" });
-            }
-            catch (RequestException requestException)
-            {
-                return BadRequest(new ErrorModel(requestException.Message));
-            }
-            catch (AdditionalFieldException additionalFieldException)
-            {
-                return BadRequest(new ErrorModel(additionalFieldException.Message));
-            }
-            catch (TypeException exception)
-            {
-                return NotFound(new ErrorModel(exception.Message));
-            }
-            catch (InvalidDetailsException invalidDetailsException)
-            {
-                return BadRequest(new ErrorModel(invalidDetailsException.Message));
-            }
-            catch (InvalidNameFormatException nameFormatException)
-            {
-                return BadRequest(new ErrorModel(nameFormatException.Message));
-            }
-            catch (InvalidEmailException invalidEmailException)
-            {
-                return BadRequest(new ErrorModel(invalidEmailException.Message));
-            }
-            catch (InvalidPhoneNumberException phoneNumberException)
-            {
-                return BadRequest(new ErrorModel(phoneNumberException.Message));
             }
             catch (Exception ex)
             {
@@ -102,19 +73,12 @@ namespace IMMRequest.WebApi.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<RequestStatusModel>), 200)]
         [Route("{id}", Name = "GetOne")]
+        [LogicExceptionFilter]
         public ActionResult<RequestModel> GetOne(int id)
         {
             try
             {
                 return Ok(_requestsLogic.GetRequestStatus(id));
-            }
-            catch (TopicException topicException)
-            {
-                return BadRequest(new ErrorModel(topicException.Message));
-            }
-            catch (RequestException requestException)
-            {
-                return BadRequest(new ErrorModel(requestException.Message));
             }
             catch (Exception ex)
             {
@@ -134,24 +98,14 @@ namespace IMMRequest.WebApi.Controllers
         [HttpPut]
         [Route("{id}")]
         [AuthorizationFilter]
+        [DomainExceptionFilter]
+        [LogicExceptionFilter]
         public ActionResult UpdateStatus(int id, [FromBody] UpdateStateModel updateStateRequest)
         {
             try
             {
                 _requestsLogic.UpdateRequestStatus(id, updateStateRequest.NewState);
                 return NoContent();
-            }
-            catch (RequestException ex)
-            {
-                return BadRequest(new ErrorModel(ex.Message));
-            }
-            catch (TopicException ex)
-            {
-                return NotFound(new ErrorModel(ex.Message));
-            }
-            catch (InvalidStateException ex)
-            {
-                return BadRequest(new ErrorModel(ex.Message));
             }
             catch (Exception ex)
             {

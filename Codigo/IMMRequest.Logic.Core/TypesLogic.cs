@@ -23,8 +23,8 @@ namespace IMMRequest.Logic.Core
             IRepository<Topic> topicRepository,
             IRepository<Type> typeRepository)
         {
-            this._topicRepository = topicRepository;
-            this._typeRepository = typeRepository;
+            _topicRepository = topicRepository;
+            _typeRepository = typeRepository;
         }
 
         public void Remove(int id)
@@ -41,7 +41,7 @@ namespace IMMRequest.Logic.Core
             ValidateTopicIdNumber(createTypeRequest.TopicId);
             ValidateAdditionalFieldsNames(createTypeRequest);
             ValidateAdditionalFieldsType(createTypeRequest);
-            var topic = this._topicRepository.Get(createTypeRequest.TopicId);
+            var topic = _topicRepository.Get(createTypeRequest.TopicId);
             ValidateTopic(createTypeRequest.TopicId, topic);
             ValidateTypeName(createTypeRequest, topic);
 

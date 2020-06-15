@@ -2,11 +2,7 @@ namespace IMMRequest.WebApi.Controllers
 {
     using System;
     using System.Collections.Generic;
-    using Domain.Exceptions;
     using Filters;
-    using Logic.Core.Exceptions.AdditionalField;
-    using Logic.Core.Exceptions.Topic;
-    using Logic.Core.Exceptions.Type;
     using Logic.Interfaces;
     using Logic.Models.Error;
     using Logic.Models.Type;
@@ -33,48 +29,14 @@ namespace IMMRequest.WebApi.Controllers
         /// <response code="500">Something is wrong with the server</response>
         [HttpPost]
         [AuthorizationFilter]
+        [DomainExceptionFilter]
+        [LogicExceptionFilter]
         public ActionResult AddType([FromBody] CreateTypeRequest request)
         {
             try
             {
                 var typeId = _typesLogic.Add(request);
-                return new OkObjectResult(new {Id = typeId, Text = $"Type created with id {typeId}"});
-            }
-            catch (InvalidTopicIdException invalidTopicIdException)
-            {
-                return BadRequest(new ErrorModel(invalidTopicIdException.Message));
-            }
-            catch (InvalidFieldTypeException invalidFieldTypeException)
-            {
-                return BadRequest(new ErrorModel(invalidFieldTypeException.Message));
-            }
-            catch (NoSuchTopicException suchTopicException)
-            {
-                return BadRequest(new ErrorModel(suchTopicException.Message));
-            }
-            catch (EmptyTypeNameException emptyTypeNameException)
-            {
-                return BadRequest(new ErrorModel(emptyTypeNameException.Message));
-            }
-            catch (ExistingTypeNameException existingTypeNameException)
-            {
-                return BadRequest(new ErrorModel(existingTypeNameException.Message));
-            }
-            catch (InvalidFieldValueCastForFieldTypeException invalidFieldValueCastForFieldTypeException)
-            {
-                return BadRequest(new ErrorModel(invalidFieldValueCastForFieldTypeException.Message));
-            }
-            catch (InvalidFieldRangeException invalidFieldRangeException)
-            {
-                return BadRequest(new ErrorModel(invalidFieldRangeException.Message));
-            }
-            catch (InvalidNameForAdditionalFieldException invalidNameForAdditionalField)
-            {
-                return BadRequest(new ErrorModel(invalidNameForAdditionalField.Message));
-            }
-            catch (InvalidAdditionalFieldForTypeException exception)
-            {
-                return BadRequest(new ErrorModel(exception.Message));
+                return new OkObjectResult(new { Id = typeId, Text = $"Type created with id {typeId}" });
             }
             catch (Exception ex)
             {
@@ -92,20 +54,13 @@ namespace IMMRequest.WebApi.Controllers
         [HttpDelete]
         [AuthorizationFilter]
         [Route("{id}")]
+        [LogicExceptionFilter]
         public ActionResult DeleteType(int id)
         {
             try
             {
                 _typesLogic.Remove(id);
                 return Ok();
-            }
-            catch (InvalidIdException invalidTypeIdException)
-            {
-                return BadRequest(new ErrorModel(invalidTypeIdException.Message));
-            }
-            catch (NoSuchTypeException noSuchTypeException)
-            {
-                return BadRequest(new ErrorModel(noSuchTypeException.Message));
             }
             catch (Exception ex)
             {

@@ -1,7 +1,7 @@
 namespace IMMRequest.WebApi.Controllers
 {
     using System;
-    using Logic.Exceptions;
+    using Filters;
     using Logic.Interfaces;
     using Logic.Models.Admin;
     using Logic.Models.Error;
@@ -19,15 +19,12 @@ namespace IMMRequest.WebApi.Controllers
         }
 
         [HttpPost]
+        [LogicExceptionFilter]
         public IActionResult Login([FromBody] AdminLoginModel adminLogin)
         {
             try
             {
-                return Ok(new {Token = _sessionLogic.Login(adminLogin)});
-            }
-            catch (AccountException accountException)
-            {
-                return BadRequest(new ErrorModel(accountException.Message));
+                return Ok(new { Token = _sessionLogic.Login(adminLogin) });
             }
             catch (Exception)
             {

@@ -12,7 +12,6 @@ namespace IMMRequest.Logic.Tests
     using Domain.Exceptions;
     using Domain.Fields;
     using Domain.States;
-    using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Models.Error;
     using Models.Request;
@@ -514,13 +513,13 @@ namespace IMMRequest.Logic.Tests
         {
             _requestRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(() => null);
 
-            Assert.ThrowsException<NoSuchRequestException>(() => this._requestsLogic.GetRequestStatus(1));
+            Assert.ThrowsException<NoSuchRequestException>(() => _requestsLogic.GetRequestStatus(1));
         }
 
         [TestMethod]
         public void CantGetARequestStatusWithAnInvalidRequestId()
         {
-            Assert.ThrowsException<InvalidRequestIdException>(() => this._requestsLogic.GetRequestStatus(-1));
+            Assert.ThrowsException<InvalidRequestIdException>(() => _requestsLogic.GetRequestStatus(-1));
         }
 
         [TestMethod]

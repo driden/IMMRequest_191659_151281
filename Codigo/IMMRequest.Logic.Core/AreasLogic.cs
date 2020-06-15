@@ -13,7 +13,7 @@ namespace IMMRequest.Logic.Core
 
         public AreasLogic(IRepository<Area> areaAreaRepository)
         {
-            this._areaRepository = areaAreaRepository;
+            _areaRepository = areaAreaRepository;
         }
 
         public IEnumerable<AreaModel> GetAll()

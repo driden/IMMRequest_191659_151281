@@ -4,6 +4,6 @@ namespace IMMRequest.Logic.Exceptions
 
     public abstract class TypeException : Exception
     {
-        protected TypeException(string error): base(error) { }
+        protected TypeException(string error) : base(error) { }
     }
 }
