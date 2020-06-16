@@ -8,11 +8,6 @@ namespace IMMRequest.WebApi.Filters
 
     public class SystemExceptionFilter : ExceptionFilterAttribute
     {
-        public SystemExceptionFilter()
-        {
-            Order = 3;
-        }
-
         public override void OnException(ExceptionContext context)
         {
             context.ExceptionHandled = true;

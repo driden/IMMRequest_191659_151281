@@ -10,11 +10,6 @@ namespace IMMRequest.WebApi.Filters
 
     public class LogicExceptionFilter : ExceptionFilterAttribute
     {
-        public LogicExceptionFilter()
-        {
-            Order = 2;
-        }
-
         public override void OnException(ExceptionContext context)
         {
             var logicExceptions = new[]

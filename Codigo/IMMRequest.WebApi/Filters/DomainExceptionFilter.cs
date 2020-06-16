@@ -10,11 +10,6 @@ namespace IMMRequest.WebApi.Filters
 
     public class DomainExceptionFilter : ExceptionFilterAttribute
     {
-        public DomainExceptionFilter()
-        {
-            Order = 1;
-        }
-
         public override void OnException(ExceptionContext context)
         {
             var domainExceptions = new[]
