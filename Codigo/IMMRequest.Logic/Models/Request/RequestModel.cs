@@ -4,7 +4,7 @@ namespace IMMRequest.Logic.Models.Request
 
     public class RequestModel
     {
-        public string Details  { get; set; }
+        public string Details { get; set; }
 
         public string RequestState { get; set; }
 
@@ -18,4 +18,4 @@ namespace IMMRequest.Logic.Models.Request
 
         public IEnumerable<FieldRequestModel> Fields { get; set; }
     }
-} 
+}

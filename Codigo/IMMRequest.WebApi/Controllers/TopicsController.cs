@@ -1,15 +1,14 @@
 namespace IMMRequest.WebApi.Controllers
 {
-    using System;
     using System.Collections.Generic;
+    using Filters;
     using Logic.Interfaces;
-    using Logic.Models.Error;
     using Logic.Models.Topic;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/topics")]
     [ApiController]
+    [SystemExceptionFilter]
     public class TopicsController : ControllerBase
     {
         private readonly ITopicsLogic _topicsLogic;
@@ -28,14 +27,7 @@ namespace IMMRequest.WebApi.Controllers
         [Route("{areaId}")]
         public ActionResult<IEnumerable<TopicModel>> GetAll(int areaId)
         {
-            try
-            {
-                return Ok(_topicsLogic.GetAll(areaId));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
-            }
+            return Ok(_topicsLogic.GetAll(areaId));
         }
     }
 }

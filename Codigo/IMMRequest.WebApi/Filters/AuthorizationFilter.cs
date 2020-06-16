@@ -1,10 +1,10 @@
 namespace IMMRequest.WebApi.Filters
 {
     using System;
+    using Logic.Interfaces;
+    using Logic.Models.Error;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
-    using Logic.Models.Error;
-    using Logic.Interfaces;
 
     public class AuthorizationFilter : Attribute, IActionFilter
     {
@@ -21,7 +21,7 @@ namespace IMMRequest.WebApi.Filters
                 try
                 {
                     Guid token = Guid.Parse(headerToken);
-                    this.VerifyToken(context, token);
+                    VerifyToken(context, token);
                 }
                 catch (FormatException)
                 {
@@ -32,7 +32,7 @@ namespace IMMRequest.WebApi.Filters
 
         private void VerifyToken(ActionExecutingContext context, Guid token)
         {
-            var session = this.GetSessionLogic(context);
+            var session = GetSessionLogic(context);
             if (!session.IsValidToken(token, context.HttpContext.Request.Headers["username"]))
             {
                 context.Result = new BadRequestObjectResult(new ErrorModel("Invalid Token"));

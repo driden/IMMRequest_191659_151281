@@ -1,11 +1,9 @@
 namespace IMMRequest.WebApi.Controllers
 {
-    using System;
     using System.Collections.Generic;
+    using Filters;
     using Logic.Interfaces;
     using Logic.Models.Area;
-    using Logic.Models.Error;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/areas")]
@@ -20,16 +18,10 @@ namespace IMMRequest.WebApi.Controllers
         }
 
         [HttpGet]
+        [SystemExceptionFilter]
         public ActionResult<IEnumerable<AreaModel>> GetAll()
         {
-            try
-            {
-                return Ok(_areasLogic.GetAll());
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
-            }
+            return Ok(_areasLogic.GetAll());
         }
     }
 }

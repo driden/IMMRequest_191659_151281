@@ -13,7 +13,7 @@ namespace IMMRequest.Logic.Core
 
         public TopicsLogic(IRepository<Topic> topicRepository)
         {
-            this._topicRepository = topicRepository;
+            _topicRepository = topicRepository;
         }
 
         public IEnumerable<TopicModel> GetAll(int areaId)

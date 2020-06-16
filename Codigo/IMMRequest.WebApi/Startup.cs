@@ -3,6 +3,7 @@ namespace IMMRequest.WebApi
     using System.Reflection;
     using DataAccess.Core;
     using Factory;
+    using Filters;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -21,7 +22,13 @@ namespace IMMRequest.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(DomainExceptionFilter), 1);
+                options.Filters.Add(typeof(LogicExceptionFilter), 2);
+                options.Filters.Add(typeof(SystemExceptionFilter), 3);
+            });
+
 
             services.AddImmRequestSwagger(Assembly.GetExecutingAssembly().GetName().Name);
             services.AddImmRequestCors();
@@ -29,6 +36,10 @@ namespace IMMRequest.WebApi
             services.AddImmRequestDatabase();
             services.AddImmRequestLogic();
             services.AddImmRequestAuthorization();
+
+            services.AddScoped<DomainExceptionFilter>();
+            services.AddScoped<LogicExceptionFilter>();
+            services.AddScoped<SystemExceptionFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -54,7 +54,7 @@ namespace IMMRequest.Domain.Tests
         public void TopicAreaTest()
         {
             Random random = new Random();
-            int area = random.Next(1,50);
+            int area = random.Next(1, 50);
             var topic = new Topic
             {
                 AreaId = area

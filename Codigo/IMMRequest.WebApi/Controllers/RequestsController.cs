@@ -1,19 +1,16 @@
 namespace IMMRequest.WebApi.Controllers
 {
-    using System;
     using System.Collections.Generic;
-    using Domain.Exceptions;
     using Filters;
-    using Logic.Exceptions;
-    using Logic.Exceptions.CreateTopic;
     using Logic.Interfaces;
-    using Logic.Models.Error;
     using Logic.Models.Request;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/requests")]
     [ApiController]
+    [SystemExceptionFilter]
+    [DomainExceptionFilter]
+    [LogicExceptionFilter]
     public class RequestsController : ControllerBase
     {
         private readonly IRequestsLogic _requestsLogic;
@@ -34,58 +31,11 @@ namespace IMMRequest.WebApi.Controllers
         [HttpPost]
         public ActionResult CreateRequest([FromBody] CreateRequest request)
         {
-            try
-            {
-                var requestId = _requestsLogic.Add(request);
-                return CreatedAtRoute(
-                    nameof(GetOne),
-                    new { Id = requestId },
-                    new { Id = requestId, Text = $"request created with id {requestId}" });
-            }
-            catch (NoSuchTypeException nste)
-            {
-                return BadRequest(new ErrorModel(nste.Message));
-            }
-            catch (InvalidAdditionalFieldForTypeException iaf)
-            {
-                return BadRequest(new ErrorModel(iaf.Message));
-            }
-            catch (NoSuchAdditionalFieldException nsaf)
-            {
-                return NotFound(new ErrorModel(nsaf.Message));
-            }
-            catch (InvalidFieldValueCastForFieldTypeException ifve)
-            {
-                return BadRequest(new ErrorModel(ifve.Message));
-            }
-            catch (InvalidFieldRangeException ifre)
-            {
-                return BadRequest(new ErrorModel(ifre.Message));
-            }
-            catch (LessAdditionalFieldsThanRequiredException ladftre)
-            {
-                return BadRequest(new ErrorModel(ladftre.Message));
-            }
-            catch (InvalidDetailsException exception)
-            {
-                return BadRequest(new ErrorModel(exception.Message));
-            }
-            catch (InvalidNameFormatException exception)
-            {
-                return BadRequest(new ErrorModel(exception.Message));
-            }
-            catch (InvalidEmailException exception)
-            {
-                return BadRequest(new ErrorModel(exception.Message));
-            }
-            catch (InvalidPhoneNumberException exception)
-            {
-                return BadRequest(new ErrorModel(exception.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
-            }
+            var requestId = _requestsLogic.Add(request);
+            return CreatedAtRoute(
+                nameof(GetOne),
+                new { Id = requestId },
+                new { Id = requestId, Text = $"request created with id {requestId}" });
         }
 
         /// <summary>
@@ -97,14 +47,7 @@ namespace IMMRequest.WebApi.Controllers
         [AuthorizationFilter]
         public ActionResult<IEnumerable<RequestStatusModel>> GetAll()
         {
-            try
-            {
-                return Ok(_requestsLogic.GetAllRequests());
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
-            }
+            return Ok(_requestsLogic.GetAllRequests());
         }
 
         /// <summary>
@@ -116,22 +59,7 @@ namespace IMMRequest.WebApi.Controllers
         [Route("{id}", Name = "GetOne")]
         public ActionResult<RequestModel> GetOne(int id)
         {
-            try
-            {
-                return Ok(_requestsLogic.GetRequestStatus(id));
-            }
-            catch (InvalidTopicIdException invalidRequestId)
-            {
-                return BadRequest(new ErrorModel(invalidRequestId.Message));
-            }
-            catch (NoSuchRequestException noSuchRequest)
-            {
-                return BadRequest(new ErrorModel(noSuchRequest.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
-            }
+            return Ok(_requestsLogic.GetRequestStatus(id));
         }
 
         /// <summary>
@@ -148,35 +76,8 @@ namespace IMMRequest.WebApi.Controllers
         [AuthorizationFilter]
         public ActionResult UpdateStatus(int id, [FromBody] UpdateStateModel updateStateRequest)
         {
-            try
-            {
-                _requestsLogic.UpdateRequestStatus(id, updateStateRequest.NewState);
-                return NoContent();
-            }
-            catch (InvalidStateNameException ex)
-            {
-                return BadRequest(new ErrorModel(ex.Message));
-            }
-            catch (InvalidTopicIdException ex)
-            {
-                return NotFound(new ErrorModel(ex.Message));
-            }
-            catch (NoSuchRequestException ex)
-            {
-                return NotFound(new ErrorModel(ex.Message));
-            }
-            catch (InvalidStateException ex)
-            {
-                return BadRequest(new ErrorModel(ex.Message));
-            }
-            catch (InvalidRequestIdException ex)
-            {
-                return BadRequest(new ErrorModel(ex.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
-            }
+            _requestsLogic.UpdateRequestStatus(id, updateStateRequest.NewState);
+            return NoContent();
         }
     }
 }

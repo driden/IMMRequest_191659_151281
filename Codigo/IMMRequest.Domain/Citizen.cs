@@ -1,6 +1,6 @@
 namespace IMMRequest.Domain
 {
-  public class Citizen : User
-  {
-  }
+    public class Citizen : User
+    {
+    }
 }
