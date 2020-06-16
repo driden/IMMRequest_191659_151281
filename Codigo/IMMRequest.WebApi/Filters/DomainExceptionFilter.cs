@@ -1,6 +1,7 @@
 namespace IMMRequest.WebApi.Filters
 {
     using System.Linq;
+    using System.Net;
     using Domain.Exceptions;
     using Logic.Models.Error;
     using Microsoft.AspNetCore.Http;
@@ -9,6 +10,11 @@ namespace IMMRequest.WebApi.Filters
 
     public class DomainExceptionFilter : ExceptionFilterAttribute
     {
+        public DomainExceptionFilter()
+        {
+            Order = 1;
+        }
+
         public override void OnException(ExceptionContext context)
         {
             var domainExceptions = new[]
@@ -29,10 +35,9 @@ namespace IMMRequest.WebApi.Filters
                 context.ExceptionHandled = true;
                 HttpResponse response = context.HttpContext.Response;
                 response.ContentType = "application/json";
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
                 context.Result = new BadRequestObjectResult(new ErrorModel(context.Exception.Message));
             }
-
-            base.OnException(context);
         }
     }
 }

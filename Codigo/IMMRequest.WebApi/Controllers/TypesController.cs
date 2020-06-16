@@ -1,16 +1,16 @@
 namespace IMMRequest.WebApi.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using Filters;
     using Logic.Interfaces;
-    using Logic.Models.Error;
     using Logic.Models.Type;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/types")]
     [ApiController]
+    [DomainExceptionFilter]
+    [LogicExceptionFilter]
+    [SystemExceptionFilter]
     public class TypesController : ControllerBase
     {
         private readonly ITypesLogic _typesLogic;
@@ -29,19 +29,10 @@ namespace IMMRequest.WebApi.Controllers
         /// <response code="500">Something is wrong with the server</response>
         [HttpPost]
         [AuthorizationFilter]
-        [DomainExceptionFilter]
-        [LogicExceptionFilter]
         public ActionResult AddType([FromBody] CreateTypeRequest request)
         {
-            try
-            {
-                var typeId = _typesLogic.Add(request);
-                return new OkObjectResult(new { Id = typeId, Text = $"Type created with id {typeId}" });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
-            }
+            var typeId = _typesLogic.Add(request);
+            return new OkObjectResult(new { Id = typeId, Text = $"Type created with id {typeId}" });
         }
 
         /// <summary>
@@ -54,18 +45,10 @@ namespace IMMRequest.WebApi.Controllers
         [HttpDelete]
         [AuthorizationFilter]
         [Route("{id}")]
-        [LogicExceptionFilter]
         public ActionResult DeleteType(int id)
         {
-            try
-            {
-                _typesLogic.Remove(id);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
-            }
+            _typesLogic.Remove(id);
+            return Ok();
         }
 
         /// <summary>

@@ -1,16 +1,16 @@
 namespace IMMRequest.WebApi.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using Filters;
     using Logic.Interfaces;
-    using Logic.Models.Error;
     using Logic.Models.Request;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/requests")]
     [ApiController]
+    [SystemExceptionFilter]
+    [DomainExceptionFilter]
+    [LogicExceptionFilter]
     public class RequestsController : ControllerBase
     {
         private readonly IRequestsLogic _requestsLogic;
@@ -29,22 +29,13 @@ namespace IMMRequest.WebApi.Controllers
         /// <response code="404">A field name could not be found</response>
         /// <response code="500">Something is wrong with the server</response>
         [HttpPost]
-        [DomainExceptionFilter]
-        [LogicExceptionFilter]
         public ActionResult CreateRequest([FromBody] CreateRequest request)
         {
-            try
-            {
-                var requestId = _requestsLogic.Add(request);
-                return CreatedAtRoute(
-                    nameof(GetOne),
-                    new { Id = requestId },
-                    new { Id = requestId, Text = $"request created with id {requestId}" });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
-            }
+            var requestId = _requestsLogic.Add(request);
+            return CreatedAtRoute(
+                nameof(GetOne),
+                new { Id = requestId },
+                new { Id = requestId, Text = $"request created with id {requestId}" });
         }
 
         /// <summary>
@@ -56,14 +47,7 @@ namespace IMMRequest.WebApi.Controllers
         [AuthorizationFilter]
         public ActionResult<IEnumerable<RequestStatusModel>> GetAll()
         {
-            try
-            {
-                return Ok(_requestsLogic.GetAllRequests());
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
-            }
+            return Ok(_requestsLogic.GetAllRequests());
         }
 
         /// <summary>
@@ -73,17 +57,9 @@ namespace IMMRequest.WebApi.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<RequestStatusModel>), 200)]
         [Route("{id}", Name = "GetOne")]
-        [LogicExceptionFilter]
         public ActionResult<RequestModel> GetOne(int id)
         {
-            try
-            {
-                return Ok(_requestsLogic.GetRequestStatus(id));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
-            }
+            return Ok(_requestsLogic.GetRequestStatus(id));
         }
 
         /// <summary>
@@ -98,19 +74,10 @@ namespace IMMRequest.WebApi.Controllers
         [HttpPut]
         [Route("{id}")]
         [AuthorizationFilter]
-        [DomainExceptionFilter]
-        [LogicExceptionFilter]
         public ActionResult UpdateStatus(int id, [FromBody] UpdateStateModel updateStateRequest)
         {
-            try
-            {
-                _requestsLogic.UpdateRequestStatus(id, updateStateRequest.NewState);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
-            }
+            _requestsLogic.UpdateRequestStatus(id, updateStateRequest.NewState);
+            return NoContent();
         }
     }
 }
