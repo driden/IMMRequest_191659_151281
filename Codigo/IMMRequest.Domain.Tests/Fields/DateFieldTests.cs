@@ -79,7 +79,7 @@ namespace IMMRequest.Domain.Tests.Fields
             var dateField = new DateField();
             var lowRange = new DateItem { Id = 1, Value = DateTime.Now };
             var midRange = new DateItem { Id = 2, Value = DateTime.Now };
-            var highRange = new DateItem {Id = 2, Value = DateTime.Now};
+            var highRange = new DateItem { Id = 2, Value = DateTime.Now };
 
             dateField.AddToRange(lowRange);
             dateField.AddToRange(midRange);
@@ -106,7 +106,7 @@ namespace IMMRequest.Domain.Tests.Fields
         {
             var dateField = new DateField();
             var lowRange = new DateItem { Id = 1, Value = DateTime.Now };
-            var midRange = new DateItem { Id = 2, Value = DateTime.Now.AddDays(1)};
+            var midRange = new DateItem { Id = 2, Value = DateTime.Now.AddDays(1) };
 
             dateField.AddToRange(lowRange);
             dateField.AddToRange(midRange);

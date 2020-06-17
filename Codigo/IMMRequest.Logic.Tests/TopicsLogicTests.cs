@@ -4,8 +4,8 @@ namespace IMMRequest.Logic.Tests
     using System.Linq;
     using Core;
     using DataAccess.Interfaces;
-    using Domain.Fields;
     using Domain;
+    using Domain.Fields;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Models.Topic;
     using Moq;

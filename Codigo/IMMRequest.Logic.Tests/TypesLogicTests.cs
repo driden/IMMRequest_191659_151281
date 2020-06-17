@@ -4,13 +4,13 @@ namespace IMMRequest.Logic.Tests
     using System.Collections.Generic;
     using System.Linq;
     using Core;
+    using Core.Exceptions.AdditionalField;
+    using Core.Exceptions.Topic;
+    using Core.Exceptions.Type;
     using DataAccess.Interfaces;
     using Domain;
     using Domain.Exceptions;
     using Domain.Fields;
-    using Exceptions;
-    using Exceptions.CreateTopic;
-    using Exceptions.RemoveType;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Models.Type;
     using Moq;

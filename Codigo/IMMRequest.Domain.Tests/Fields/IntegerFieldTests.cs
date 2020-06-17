@@ -75,8 +75,8 @@ namespace IMMRequest.Domain.Tests.Fields
         public void LoweThanInitialRangeThrowsException()
         {
             var integerField = new IntegerField();
-            var lowRange = new IntegerItem {Id = 1, Value = 3};
-            var midRange = new IntegerItem {Id = 2, Value = 5};
+            var lowRange = new IntegerItem { Id = 1, Value = 3 };
+            var midRange = new IntegerItem { Id = 2, Value = 5 };
 
             integerField.AddToRange(lowRange);
             integerField.AddToRange(midRange);
@@ -89,8 +89,8 @@ namespace IMMRequest.Domain.Tests.Fields
         public void HigherThanEndRangeThrowsException()
         {
             var integerField = new IntegerField();
-            var lowRange = new IntegerItem {Id = 1, Value = 3};
-            var midRange = new IntegerItem {Id = 2, Value = 5};
+            var lowRange = new IntegerItem { Id = 1, Value = 3 };
+            var midRange = new IntegerItem { Id = 2, Value = 5 };
 
             integerField.AddToRange(lowRange);
             integerField.AddToRange(midRange);

@@ -10,7 +10,7 @@ namespace IMMRequest.Logic.Tests
         public void NewStateTest()
         {
             var newState = "test text";
-            UpdateStateModel updateTest = new UpdateStateModel {NewState = newState};
+            UpdateStateModel updateTest = new UpdateStateModel { NewState = newState };
 
             Assert.AreEqual(newState, updateTest.NewState);
         }

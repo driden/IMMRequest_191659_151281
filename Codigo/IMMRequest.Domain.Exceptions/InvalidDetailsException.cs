@@ -6,7 +6,7 @@ namespace IMMRequest.Domain.Exceptions
     {
 
         public InvalidDetailsException(string message)
-            : this(message,null) { }
+            : this(message, null) { }
 
         public InvalidDetailsException(string message, Exception inner)
             : base(message, inner) { }

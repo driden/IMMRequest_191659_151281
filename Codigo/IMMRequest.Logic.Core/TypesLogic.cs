@@ -7,9 +7,9 @@ namespace IMMRequest.Logic.Core
     using DataAccess.Interfaces;
     using Domain;
     using Domain.Fields;
-    using Exceptions;
-    using Exceptions.CreateTopic;
-    using Exceptions.RemoveType;
+    using Exceptions.AdditionalField;
+    using Exceptions.Topic;
+    using Exceptions.Type;
     using Interfaces;
     using Models.Type;
     using Type = Domain.Type;
@@ -23,8 +23,8 @@ namespace IMMRequest.Logic.Core
             IRepository<Topic> topicRepository,
             IRepository<Type> typeRepository)
         {
-            this._topicRepository = topicRepository;
-            this._typeRepository = typeRepository;
+            _topicRepository = topicRepository;
+            _typeRepository = typeRepository;
         }
 
         public void Remove(int id)
@@ -41,7 +41,7 @@ namespace IMMRequest.Logic.Core
             ValidateTopicIdNumber(createTypeRequest.TopicId);
             ValidateAdditionalFieldsNames(createTypeRequest);
             ValidateAdditionalFieldsType(createTypeRequest);
-            var topic = this._topicRepository.Get(createTypeRequest.TopicId);
+            var topic = _topicRepository.Get(createTypeRequest.TopicId);
             ValidateTopic(createTypeRequest.TopicId, topic);
             ValidateTypeName(createTypeRequest, topic);
 

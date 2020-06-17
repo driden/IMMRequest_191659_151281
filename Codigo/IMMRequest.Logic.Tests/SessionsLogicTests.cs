@@ -3,9 +3,9 @@ namespace IMMRequest.Logic.Tests
     using System;
     using System.Linq.Expressions;
     using Core;
+    using Core.Exceptions.Account;
     using DataAccess.Interfaces;
     using Domain;
-    using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Models.Admin;
     using Moq;

@@ -28,7 +28,7 @@ namespace IMMRequest.Domain.Tests
         [TestMethod]
         public void AreaHasId()
         {
-            var area = new Area {Id = 1};
+            var area = new Area { Id = 1 };
             Assert.AreEqual(1, area.Id);
         }
     }

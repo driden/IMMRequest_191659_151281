@@ -19,7 +19,7 @@ namespace IMMRequest.Domain.Tests
             var request = new Request();
             Assert.AreEqual(typeof(CreatedState), request.Status.GetType());
         }
-        
+
         [TestMethod]
         public void RequestStatusTest()
         {
@@ -28,7 +28,7 @@ namespace IMMRequest.Domain.Tests
 
             Assert.AreEqual(typeof(AcceptedState), request.Status.GetType());
         }
-        
+
         [TestMethod]
         public void RequestDetailsTest()
         {
@@ -99,7 +99,7 @@ namespace IMMRequest.Domain.Tests
 
             Assert.AreSame(citizen, request.Citizen);
         }
-        
+
         [TestMethod]
         public void RequestTopicTest()
         {
@@ -115,7 +115,8 @@ namespace IMMRequest.Domain.Tests
         {
             var dateItem = new DateItem
             {
-                Id = 1, DateFieldId = 1
+                Id = 1,
+                DateFieldId = 1
             };
             Assert.AreEqual(1, dateItem.Id);
             Assert.AreEqual(1, dateItem.DateFieldId);
@@ -126,7 +127,8 @@ namespace IMMRequest.Domain.Tests
         {
             var textItem = new TextItem
             {
-                Id = 1, TextFieldId = 1
+                Id = 1,
+                TextFieldId = 1
             };
 
             Assert.AreEqual(1, textItem.Id);
@@ -138,7 +140,8 @@ namespace IMMRequest.Domain.Tests
         {
             var intItem = new IntegerItem
             {
-                Id = 1, IntegerFieldId = 1
+                Id = 1,
+                IntegerFieldId = 1
             };
 
             Assert.AreEqual(1, intItem.Id);
@@ -150,7 +153,8 @@ namespace IMMRequest.Domain.Tests
         {
             var request = new Request
             {
-                Id = 1, FieldValues = new List<RequestField> {new TextRequestField {Id = 1, requestId = 1}}
+                Id = 1,
+                FieldValues = new List<RequestField> { new TextRequestField { Id = 1, requestId = 1 } }
             };
 
             Assert.AreEqual(1, request.Id);
