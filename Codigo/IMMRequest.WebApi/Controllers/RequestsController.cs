@@ -33,7 +33,7 @@ namespace IMMRequest.WebApi.Controllers
         [HttpPost]
         public ActionResult CreateRequest([FromBody] CreateRequestModel requestModel)
         {
-            var requestId = _requestsLogic.Add(request);
+            var requestId = _requestsLogic.Add(requestModel);
             return CreatedAtRoute(
                 nameof(GetOne),
                 new { Id = requestId },
@@ -83,27 +83,17 @@ namespace IMMRequest.WebApi.Controllers
         }
 
         /// <summary>
-        /// Gets all request by a user
+        ///     Gets all request by a user mail between two dates
         /// </summary>
+        /// <param name="mail"> The mail from user </param>
         /// <returns>A json object with the details of the request</returns>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<StateReportModel>), 200)]
         [Route("{mail}")]
         [AuthorizationFilter]
-        public ObjectResult GetAllRequestByMail(string mail)
-        {
-            try
-            {
-                return Ok(_requestsLogic.GetRequestByMail(mail));
-            }
-            catch (NoSuchRequestException noSuchRequest)
-            {
-                return BadRequest(new ErrorModel(noSuchRequest.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(ex.Message));
-            }
+        public ActionResult<IEnumerable<StateReportModel>>  GetAllRequestByMail(string mail)
+        { 
+            return Ok(_requestsLogic.GetRequestByMail(mail)); 
         }
     }
 }
