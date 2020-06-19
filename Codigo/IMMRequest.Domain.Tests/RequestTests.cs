@@ -32,7 +32,7 @@ namespace IMMRequest.Domain.Tests
         [TestMethod]
         public void RequestDetailsTest()
         {
-            var detail = "this is a test";
+            const string detail = "this is a test";
             var request = new Request
             {
                 Details = detail
@@ -40,23 +40,20 @@ namespace IMMRequest.Domain.Tests
             Assert.AreSame(detail, request.Details);
         }
 
-
         [TestMethod]
         public void RequestDetailsLessTest()
         {
-            int length = 2000;
+            const int length = 2000;
 
             // creating a StringBuilder object()
             StringBuilder str_build = new StringBuilder();
             Random random = new Random();
 
-            char letter;
-
             for (int i = 0; i < length; i++)
             {
                 double flt = random.NextDouble();
                 int shift = Convert.ToInt32(Math.Floor(25 * flt));
-                letter = Convert.ToChar(shift + 65);
+                char letter = Convert.ToChar(shift + 65);
                 str_build.Append(letter);
             }
 
@@ -72,7 +69,7 @@ namespace IMMRequest.Domain.Tests
         [ExpectedException(typeof(InvalidDetailsException))]
         public void RequestDetailsMoreTest()
         {
-            int length = 2001;
+            const int length = 2001;
 
             StringBuilder str_build = new StringBuilder();
             Random random = new Random();
@@ -163,6 +160,13 @@ namespace IMMRequest.Domain.Tests
             Assert.AreEqual(1, request.Id);
             Assert.AreEqual(1, request.FieldValues.First().Id);
             Assert.AreEqual(1, request.FieldValues.First().requestId);
+        }
+
+        [TestMethod]
+        public void RequestCreationDateTime()
+        {
+            var request = new Request();
+            Assert.AreEqual(DateTime.Now.Date, request.CreationDateTime.Date);
         }
     }
 

@@ -23,15 +23,15 @@ namespace IMMRequest.WebApi.Controllers
         /// <summary>
         ///     Creates a new request in the system
         /// </summary>
-        /// <param name="request">request body</param>
+        /// <param name="requestModel">request body</param>
         /// <response code="201">Request created</response>
         /// <response code="400">There's something wrong with the request body</response>
         /// <response code="404">A field name could not be found</response>
         /// <response code="500">Something is wrong with the server</response>
         [HttpPost]
-        public ActionResult CreateRequest([FromBody] CreateRequest request)
+        public ActionResult CreateRequest([FromBody] CreateRequestModel requestModel)
         {
-            var requestId = _requestsLogic.Add(request);
+            var requestId = _requestsLogic.Add(requestModel);
             return CreatedAtRoute(
                 nameof(GetOne),
                 new { Id = requestId },
