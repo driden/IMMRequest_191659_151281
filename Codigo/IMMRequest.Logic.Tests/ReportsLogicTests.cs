@@ -12,7 +12,7 @@ namespace IMMRequest.Logic.Tests
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
     using Type = Domain.Type;
-    
+
     [TestClass]
     public class ReportsLogicTests: IMMRequestLogicTestBase
     {
@@ -27,20 +27,20 @@ namespace IMMRequest.Logic.Tests
                 _requestRepositoryMock.Object
             );
         }
-        
+
         [TestMethod]
         public void CanGetReportsRequestByMail()
         {
             const string mail = "citizen@mail.com";
-            var request = NewListOfRequests(mail);
-            
+            var requests = NewListOfRequests(mail);
+
             _requestRepositoryMock
                 .Setup(r => r.GetAll())
-                .Returns(request);
+                .Returns(requests);
 
             var allRequests = _reportsLogic.GetRequestByMail(
-                mail, 
-                DateTime.Today.AddYears(-1), 
+                mail,
+                DateTime.Today.AddYears(-1),
                 DateTime.Today);
 
             Assert.AreEqual(2, allRequests.Count());
@@ -50,33 +50,33 @@ namespace IMMRequest.Logic.Tests
         public void InvalidReportNotExistenMail()
         {
             const string mail = "a@mail.com";
-            var request = NewListOfRequests("foo@mail.com");
-            
+            var requests = NewListOfRequests("foo@mail.com");
+
             _requestRepositoryMock
                 .Setup(r => r.GetAll())
-                .Returns(request);
+                .Returns(requests);
 
             var allRequests = _reportsLogic.GetRequestByMail(
-                mail, 
-                DateTime.Today.AddYears(-1), 
+                mail,
+                DateTime.Today.AddYears(-1),
                 DateTime.Today);
 
             Assert.AreEqual(0, allRequests.Count());
         }
-        
+
         [TestMethod]
         public void InvalidReportEmptyMail()
         {
             const string mail = "";
-            var request = NewListOfRequests("foo@mail.com");
-            
+            var requests = NewListOfRequests("foo@mail.com");
+
             _requestRepositoryMock
                 .Setup(r => r.GetAll())
-                .Returns(request);
+                .Returns(requests);
 
             Assert.ThrowsException<InvalidMailFormatException>(() => _reportsLogic.GetRequestByMail(
-                mail, 
-                DateTime.Today.AddYears(-1), 
+                mail,
+                DateTime.Today.AddYears(-1),
                 DateTime.Today.AddYears(1)));
         }
 
@@ -84,31 +84,47 @@ namespace IMMRequest.Logic.Tests
         public void InvalidReportWrongFormatMail()
         {
             const string mail = " ";
-            var request = NewListOfRequests("foo@mail.com");
-            
+            var requests = NewListOfRequests("foo@mail.com");
+
             _requestRepositoryMock
                 .Setup(r => r.GetAll())
-                .Returns(request);
+                .Returns(requests);
 
             Assert.ThrowsException<InvalidMailFormatException>(() => _reportsLogic.GetRequestByMail(
-                mail, 
-                DateTime.Today.AddYears(-1), 
+                mail,
+                DateTime.Today.AddYears(-1),
                 DateTime.Today));
+        }
+
+        [TestMethod]
+        public void InvalidReportWithNullMail()
+        {
+            const string mail = "foo@mail.com";
+            var requests = NewListOfRequests(mail);
+
+            _requestRepositoryMock
+                .Setup(r => r.GetAll())
+                .Returns(requests);
+
+            Assert.ThrowsException<InvalidMailFormatException>(() => _reportsLogic.GetRequestByMail(
+                null,
+                DateTime.Today.AddYears(-1),
+                DateTime.Today.AddYears(1)));
         }
 
         [TestMethod]
         public void InvalidReportWithWrongRangeDate()
         {
             const string mail = "foo@mail.com";
-            var request = NewListOfRequests(mail);
-            
+            var requests = NewListOfRequests(mail);
+
             _requestRepositoryMock
                 .Setup(r => r.GetAll())
-                .Returns(request);
+                .Returns(requests);
 
             Assert.ThrowsException<InvalidDateRageException>(() => _reportsLogic.GetRequestByMail(
-                mail, 
-                DateTime.Today.AddYears(-1), 
+                mail,
+                DateTime.Today.AddYears(-1),
                 DateTime.Today.AddYears(-2)));
         }
 
@@ -116,14 +132,14 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CanGetTypeReports()
         {
-            var request = NewListOfRequests("citizen@mail.com");
-            
+            var requests = NewListOfRequests("citizen@mail.com");
+
             _requestRepositoryMock
                 .Setup(r => r.GetAll())
-                .Returns(request);
+                .Returns(requests);
 
             var allTypes = _reportsLogic.GetMostUsedTypes(
-                DateTime.Today.AddYears(-1), 
+                DateTime.Today.AddYears(-1),
                 DateTime.Today);
 
             Assert.AreEqual(2, allTypes.Count());
@@ -132,14 +148,14 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void CanGetTypeAsReports()
         {
-            var request = NewListOfRequests("citizen@mail.com");
-            
+            var requests = NewListOfRequests("citizen@mail.com");
+
             _requestRepositoryMock
                 .Setup(r => r.GetAll())
-                .Returns(request);
+                .Returns(requests);
 
             var allTypes = _reportsLogic.GetMostUsedTypes(
-                DateTime.Today.AddYears(-1), 
+                DateTime.Today.AddYears(-1),
                 DateTime.Today);
 
             Assert.AreEqual("Contenedor roto", allTypes.First().Name);
@@ -148,21 +164,21 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void InvalidDateRageTypesReport()
         {
-            var request = NewListOfRequests("citizen@mail.com");
-            
+            var requests = NewListOfRequests("citizen@mail.com");
+
             _requestRepositoryMock
                 .Setup(r => r.GetAll())
-                .Returns(request);
+                .Returns(requests);
 
             Assert.ThrowsException<InvalidDateRageException>(() => _reportsLogic.GetMostUsedTypes(
-                DateTime.Today.AddYears(-1), 
+                DateTime.Today.AddYears(-1),
                 DateTime.Today.AddYears(-2)));
         }
-        
+
         private IEnumerable<Request> NewListOfRequests(string mail)
         {
             var list = new List<Request>();
-            for (var i = 1; i < 5; i++) 
+            for (var i = 1; i < 5; i++)
             {
                 list.Add(new Request
                 {
@@ -188,7 +204,7 @@ namespace IMMRequest.Logic.Tests
             return list;
         }
 
-        protected Type NewType(string typeName)
+        private Type NewType(string typeName)
         {
             DateField dateFieldFechaYHora = new DateField
             {

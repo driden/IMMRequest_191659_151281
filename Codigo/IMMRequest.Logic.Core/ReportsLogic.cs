@@ -14,7 +14,6 @@ namespace IMMRequest.Logic.Core
     {
         private readonly IRepository<Request> _requestRepository;
         
-
         public ReportsLogic(
             IRepository<Request> requestRepository
         )
@@ -24,7 +23,7 @@ namespace IMMRequest.Logic.Core
 
         public IEnumerable<StateReportModel> GetRequestByMail(string mail, DateTime startDate, DateTime endDate)
         {
-            ValidateStringValueNotNullOrEmpty(mail);
+            ValidateMailString(mail);
             ValidateDateRange(startDate, endDate);
 
             var requests = _requestRepository.GetAll();
@@ -42,7 +41,7 @@ namespace IMMRequest.Logic.Core
 
             return status;
         }
-        
+
         public IEnumerable<TypeReportModel> GetMostUsedTypes(DateTime startDate, DateTime endDate)
         {
             ValidateDateRange(startDate, endDate);
@@ -58,12 +57,12 @@ namespace IMMRequest.Logic.Core
                     Name = group.Key,
                     Quantity = group.Count()
                 });
-            
+
             return types;
         }
 
         #region Validation Methods
-        private void ValidateStringValueNotNullOrEmpty(string value)
+        private void ValidateMailString(string value)
         {
             if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
             {
@@ -72,7 +71,7 @@ namespace IMMRequest.Logic.Core
             }
         }
 
-        private void ValidateDateRange(DateTime startDate, DateTime endDate) 
+        private void ValidateDateRange(DateTime startDate, DateTime endDate)
         {
             if (startDate > endDate)
             {

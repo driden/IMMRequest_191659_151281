@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CreateRequestList>
+  <Requests>
+    <CreateRequest>
+      <AdditionalFields>
+        <FieldRequestModel>
+          <Name>Nro de Movil</Name>
+          <Value>111111</Value>
+        </FieldRequestModel>
+        <FieldRequestModel>
+          <Name>Fecha y hora</Name>
+          <Value>9/5/2020</Value>
+        </FieldRequestModel>
+      </AdditionalFields>
+      <Details>some details</Details>
+      <Email>someemail@citizen.com</Email>
+      <Name>some citizens name</Name>
+      <Phone>5555-555-555</Phone>
+      <TypeId>1</TypeId>
+    </CreateRequest>
+    <CreateRequest>
+      <AdditionalFields>
+        <FieldRequestModel>
+          <Name>Nro de Movil</Name>
+          <Value>111111</Value>
+        </FieldRequestModel>
+        <FieldRequestModel>
+          <Name>Fecha y hora</Name>
+          <Value>9/5/2020</Value>
+        </FieldRequestModel>
+      </AdditionalFields>
+      <Details>some more details</Details>
+      <Email>someemail2@citizen.com</Email>
+      <Name>some citizens name</Name>
+      <Phone>22222-555-555</Phone>
+      <TypeId>1</TypeId>
+    </CreateRequest>
+  </Requests>
+</CreateRequestList>

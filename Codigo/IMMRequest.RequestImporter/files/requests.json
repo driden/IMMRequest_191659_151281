@@ -1,0 +1,21 @@
+{
+  "requests": [
+    {
+      "details": "some details",
+      "email": "someemail@citizen.com",
+      "name": "some citizens name",
+      "phone": "5555-555-555",
+      "typeId": 1,
+      "additionalFields": [
+        {
+          "name": "Nro de Movil",
+          "value": "111111"
+        },
+        {
+          "name": "Fecha y hora",
+          "value": "9/5/2020"
+        }
+      ]
+    }
+  ]
+}
