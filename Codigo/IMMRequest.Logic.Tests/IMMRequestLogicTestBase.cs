@@ -74,7 +74,7 @@ namespace IMMRequest.Logic.Tests
              new TextField { Name = "Matricula" }
         };
 
-        protected CreateRequest CreateRequest => new CreateRequest
+        protected CreateRequestModel CreateRequestModel => new CreateRequestModel
         {
             Email = "test@mail.com",
             Details = "test details",
@@ -82,9 +82,9 @@ namespace IMMRequest.Logic.Tests
             Phone = "555-555555",
         };
 
-        protected CreateRequest NewCreateRequestBody()
+        protected CreateRequestModel NewCreateRequestBody()
         {
-            return new CreateRequest
+            return new CreateRequestModel
             {
                 Email = "test@mail.com",
                 Details = "test details",

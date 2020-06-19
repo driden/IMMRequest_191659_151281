@@ -14,6 +14,7 @@ namespace IMMRequest.Factory
             serviceCollection.AddScoped<IAreasLogic, AreasLogic>();
             serviceCollection.AddScoped<ITopicsLogic, TopicsLogic>();
             serviceCollection.AddScoped<ITypesLogic, TypesLogic>();
+            serviceCollection.AddScoped<IReportsLogic, ReportsLogic>(); 
 
             return serviceCollection;
         }
