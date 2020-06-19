@@ -32,11 +32,6 @@ namespace IMMRequest.DataAccess.Core.Repositories
             return Context.Set<T>().ToList();
         }
 
-        public IEnumerable<T> GetAllByCondition(Func<T, bool> predicate)
-        {
-            return Context.Set<T>().Where(predicate);
-        }
-
         public void Update(T entity)
         {
             Context.Attach(entity);

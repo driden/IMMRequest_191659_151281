@@ -7,5 +7,6 @@ namespace IMMRequest.Logic.Interfaces
     public interface IReportsLogic
     {
         IEnumerable<StateReportModel> GetRequestByMail(string mail, DateTime startDate, DateTime endDate);
+        IEnumerable<Object> GetMostUsedTypes();
     }
 }

@@ -12,6 +12,7 @@ namespace IMMRequest.Logic.Core
     public class ReportsLogic : IReportsLogic
     {
         private readonly IRepository<Request> _requestRepository;
+        
 
         public ReportsLogic(
             IRepository<Request> requestRepository
@@ -40,6 +41,18 @@ namespace IMMRequest.Logic.Core
 
             return status;
         }
+        
+        public IEnumerable<Object> GetMostUsedTypes()
+        {
+            var allRequest = _requestRepository.GetAll();
+
+            var types = allRequest
+                .GroupBy(s => s.Type.Name)
+                .Select(group => group.Count());
+            //.Where(r => allTypes.Contains(r.Type));
+            
+            return null;
+        }
 
         private void ValidateStringValueNotNullOrEmpty(string value)
         {
@@ -52,7 +65,7 @@ namespace IMMRequest.Logic.Core
 
         private void ValidateDateRange(DateTime startDate, DateTime endDate) 
         {
-            if ((startDate > endDate) || (endDate > System.DateTime.Today))
+            if (startDate > endDate)
             {
                 throw new InvalidDateRageException(
                     "Invalid range for date start and end");

@@ -110,21 +110,13 @@ namespace IMMRequest.Logic.Tests
                 DateTime.Today.AddYears(-2)));
         }
 
-        [TestMethod]
-        public void InvalidReportWithWrongEndDate()
-        {
-            const string mail = "foo@mail.com";
-            var request = NewListOfRequests(mail);
-            
-            _requestRepositoryMock
-                .Setup(r => r.GetAll())
-                .Returns(request);
-
-            Assert.ThrowsException<InvalidDateRageException>(() => _reportsLogic.GetRequestByMail(
-                mail, 
-                DateTime.Today.AddYears(-1), 
-                DateTime.Today.AddYears(1)));
-        }
+        // Test for Model
+        // TODO::
+        
+        
+        
+        
+        
         
         private IEnumerable<Request> NewListOfRequests(string mail)
         {

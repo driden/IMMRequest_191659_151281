@@ -28,10 +28,24 @@ namespace IMMRequest.WebApi.Controllers
         /// <returns>A json object with the details of the request</returns>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<StateReportModel>), 200)]
+        [Route("a")]
         [AuthorizationFilter]
         public ActionResult<IEnumerable<StateReportModel>> GetAllRequestByMail([FromBody] SearchByMailModel reportInput)
         { 
             return Ok(_reportsLogic.GetRequestByMail(reportInput.Mail, reportInput.StartDate, reportInput.EndDate)); 
+        }
+        
+        /// <summary>
+        ///     Lists all the types for a given topic.
+        /// </summary>
+        /// <param name="topicId">the topic Id for which their type should be listed</param>
+        /// <returns>Returns the list of types in a topic</returns>
+        [HttpGet]
+        [Route("b")]
+        [AuthorizationFilter]
+        public OkObjectResult GetMostUsedTypes()
+        {
+            return Ok(_reportsLogic.GetMostUsedTypes());
         }
     }
 }
