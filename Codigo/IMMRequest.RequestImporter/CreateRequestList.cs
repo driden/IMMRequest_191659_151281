@@ -5,6 +5,6 @@ namespace IMMRequest.RequestImporter
 
     public class CreateRequestList
     {
-        public List<CreateRequest> Requests { get; set; }
+        public List<CreateRequestModel> Requests { get; set; }
     }
 }
