@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="CreateRequest.cs" />
+    <Compile Remove="FieldRequestModel.cs" />
+    <Compile Remove="IRequestsImportable.cs" />
+    <Compile Remove="RequestModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\IMMRequest.Logic\IMMRequest.Logic.csproj" />
+    <ProjectReference Include="..\..\IMMRequest.RequestImporter\IMMRequest.RequestImporter.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>c:\program files\dotnet\sdk\NuGetFallbackFolder\newtonsoft.json\9.0.1\lib\netstandard1.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="requests.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="COPY /Y $(TargetPath) $(SolutionDir)\..\IMMRequest.RequestImporter\plugins" />
+  </Target>
+
+</Project>
