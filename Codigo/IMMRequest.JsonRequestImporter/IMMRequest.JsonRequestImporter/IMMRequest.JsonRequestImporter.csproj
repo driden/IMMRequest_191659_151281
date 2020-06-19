@@ -28,8 +28,10 @@
     </None>
   </ItemGroup>
 
+  <!--
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="COPY /Y $(TargetPath) $(SolutionDir)\..\IMMRequest.RequestImporter\plugins" />
   </Target>
+  -->
 
 </Project>
