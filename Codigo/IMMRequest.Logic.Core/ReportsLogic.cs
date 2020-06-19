@@ -22,7 +22,7 @@ namespace IMMRequest.Logic.Core
 
         public IEnumerable<StateReportModel> GetRequestByMail(string mail, DateTime startDate, DateTime endDate)
         {
-            ValidateStringValueNotNullOrEmpty(mail);
+            ValidateMailString(mail);
             ValidateDateRange(startDate, endDate);
 
             var requests = _requestRepository.GetAll();
@@ -41,7 +41,7 @@ namespace IMMRequest.Logic.Core
             return status;
         }
 
-        private void ValidateStringValueNotNullOrEmpty(string value)
+        private void ValidateMailString(string value)
         {
             if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
             {

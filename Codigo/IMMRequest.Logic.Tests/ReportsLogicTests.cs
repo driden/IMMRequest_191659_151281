@@ -95,6 +95,22 @@ namespace IMMRequest.Logic.Tests
         }
 
         [TestMethod]
+        public void InvalidReportWithNullMail()
+        {
+            const string mail = "foo@mail.com";
+            var request = NewListOfRequests(mail);
+            
+            _requestRepositoryMock
+                .Setup(r => r.GetAll())
+                .Returns(request);
+
+            Assert.ThrowsException<InvalidMailFormatException>(() => _reportsLogic.GetRequestByMail(
+                null, 
+                DateTime.Today.AddYears(-1), 
+                DateTime.Today.AddYears(1)));
+        }
+
+        [TestMethod]
         public void InvalidReportWithWrongRangeDate()
         {
             const string mail = "foo@mail.com";
