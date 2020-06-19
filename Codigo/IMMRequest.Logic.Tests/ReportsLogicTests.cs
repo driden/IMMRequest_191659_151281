@@ -30,11 +30,11 @@ namespace IMMRequest.Logic.Tests
         public void CanGetReportsRequestByMail()
         {
             const string mail = "citizen@mail.com";
-            var request = NewListOfRequests(mail);
+            var requests = NewListOfRequests(mail);
             
             _requestRepositoryMock
                 .Setup(r => r.GetAll())
-                .Returns(request);
+                .Returns(requests);
 
             var allRequests = _reportsLogic.GetRequestByMail(
                 mail, 
@@ -48,11 +48,11 @@ namespace IMMRequest.Logic.Tests
         public void InvalidReportNotExistenMail()
         {
             const string mail = "a@mail.com";
-            var request = NewListOfRequests("foo@mail.com");
+            var requests = NewListOfRequests("foo@mail.com");
             
             _requestRepositoryMock
                 .Setup(r => r.GetAll())
-                .Returns(request);
+                .Returns(requests);
 
             var allRequests = _reportsLogic.GetRequestByMail(
                 mail, 
@@ -66,11 +66,11 @@ namespace IMMRequest.Logic.Tests
         public void InvalidReportEmptyMail()
         {
             const string mail = "";
-            var request = NewListOfRequests("foo@mail.com");
+            var requests = NewListOfRequests("foo@mail.com");
             
             _requestRepositoryMock
                 .Setup(r => r.GetAll())
-                .Returns(request);
+                .Returns(requests);
 
             Assert.ThrowsException<InvalidMailFormatException>(() => _reportsLogic.GetRequestByMail(
                 mail, 
@@ -82,11 +82,11 @@ namespace IMMRequest.Logic.Tests
         public void InvalidReportWrongFormatMail()
         {
             const string mail = " ";
-            var request = NewListOfRequests("foo@mail.com");
+            var requests = NewListOfRequests("foo@mail.com");
             
             _requestRepositoryMock
                 .Setup(r => r.GetAll())
-                .Returns(request);
+                .Returns(requests);
 
             Assert.ThrowsException<InvalidMailFormatException>(() => _reportsLogic.GetRequestByMail(
                 mail, 
@@ -98,11 +98,11 @@ namespace IMMRequest.Logic.Tests
         public void InvalidReportWithNullMail()
         {
             const string mail = "foo@mail.com";
-            var request = NewListOfRequests(mail);
+            var requests = NewListOfRequests(mail);
             
             _requestRepositoryMock
                 .Setup(r => r.GetAll())
-                .Returns(request);
+                .Returns(requests);
 
             Assert.ThrowsException<InvalidMailFormatException>(() => _reportsLogic.GetRequestByMail(
                 null, 
@@ -114,11 +114,11 @@ namespace IMMRequest.Logic.Tests
         public void InvalidReportWithWrongRangeDate()
         {
             const string mail = "foo@mail.com";
-            var request = NewListOfRequests(mail);
+            var requests = NewListOfRequests(mail);
             
             _requestRepositoryMock
                 .Setup(r => r.GetAll())
-                .Returns(request);
+                .Returns(requests);
 
             Assert.ThrowsException<InvalidDateRageException>(() => _reportsLogic.GetRequestByMail(
                 mail, 
@@ -130,11 +130,11 @@ namespace IMMRequest.Logic.Tests
         public void InvalidReportWithWrongEndDate()
         {
             const string mail = "foo@mail.com";
-            var request = NewListOfRequests(mail);
+            var requests = NewListOfRequests(mail);
             
             _requestRepositoryMock
                 .Setup(r => r.GetAll())
-                .Returns(request);
+                .Returns(requests);
 
             Assert.ThrowsException<InvalidDateRageException>(() => _reportsLogic.GetRequestByMail(
                 mail, 
