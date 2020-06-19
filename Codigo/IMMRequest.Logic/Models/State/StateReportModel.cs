@@ -8,6 +8,6 @@ namespace IMMRequest.Logic.Models.State
         
         public int Quantity { get; set; }
         
-        public List<int> Types { get; set; }
+        public IEnumerable<int> Ids { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace IMMRequest.Domain.States
     {
         public InReviewState()
         {
-            Description = "This request is currently in-review";
+            Description = "In review";
         }
 
         public InReviewState(Request Request) : this()

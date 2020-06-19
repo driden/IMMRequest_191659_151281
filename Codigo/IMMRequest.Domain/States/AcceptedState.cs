@@ -6,7 +6,7 @@ namespace IMMRequest.Domain.States
     {
         public AcceptedState()
         {
-            Description = "This request has been accepted";
+            Description = "Accepted";
         }
 
         public AcceptedState(Request request) : this()

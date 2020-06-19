@@ -652,44 +652,11 @@ namespace IMMRequest.Logic.Tests
             var error = new ErrorModel("msg");
             Assert.AreEqual("msg", error.Error);
         }
-        
-        [TestMethod]
-        public void CanGetReportsRequestByMail()
-        {
-            const string mail = "citizen@mail.com";
-            var request = NewListOfRequests(mail);
-            
-            _requestRepositoryMock
-                .Setup(r => r.GetAllByCondition(It.IsAny<Func<Request, bool>>()))
-                .Returns(request);
-
-            var allRequests = _requestsLogic.GetRequestByMail(mail).ToList();
-
-            Assert.AreEqual(1, allRequests.Count);
-        }
-
 
         private void SetUpAddMocks()
         {
             _requestRepositoryMock.Setup(x => x.Add(It.IsAny<Request>())).Verifiable();
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(NewType()).Verifiable();
-        }
-        
-        private IEnumerable<Request> NewListOfRequests(string mail)
-        {
-            var list = new List<Request>();
-            for (var i = 1; i < 5; i++) 
-            {
-                list.Add(new Request
-                {
-                    Citizen = new Citizen {Id = new Random().Next(0,30),Email = mail, Name = "Name"+i, PhoneNumber = "555-5555555"},
-                    Details = "Request Details",
-                    Type = NewType(),
-                    Id = i
-                });
-            }
-
-            return list;
         }
     }
 }

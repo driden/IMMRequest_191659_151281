@@ -6,7 +6,7 @@ namespace IMMRequest.Domain.States
     {
         public CreatedState()
         {
-            Description = "This request has been created";
+            Description = "Created";
         }
 
         public CreatedState(Request Request) : this()

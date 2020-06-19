@@ -4,8 +4,6 @@ namespace IMMRequest.WebApi.Controllers
     using Filters;
     using Logic.Interfaces;
     using Logic.Models.Request;
-    using Logic.Models.State;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/requests")]
@@ -80,20 +78,6 @@ namespace IMMRequest.WebApi.Controllers
         {
             _requestsLogic.UpdateRequestStatus(id, updateStateRequest.NewState);
             return NoContent();
-        }
-
-        /// <summary>
-        ///     Gets all request by a user mail between two dates
-        /// </summary>
-        /// <param name="mail"> The mail from user </param>
-        /// <returns>A json object with the details of the request</returns>
-        [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<StateReportModel>), 200)]
-        [Route("{mail}")]
-        [AuthorizationFilter]
-        public ActionResult<IEnumerable<StateReportModel>>  GetAllRequestByMail(string mail)
-        { 
-            return Ok(_requestsLogic.GetRequestByMail(mail)); 
         }
     }
 }

@@ -10,9 +10,7 @@ namespace IMMRequest.Logic.Core
     using Exceptions.Request;
     using Exceptions.Type;
     using Interfaces;
-    using Logic.Exceptions;
     using Models.Request;
-    using Models.State;
     using Type = Domain.Type;
 
     public class RequestsLogic : IRequestsLogic
@@ -182,37 +180,6 @@ namespace IMMRequest.Logic.Core
             }
         }
 
-        public IEnumerable<StateReportModel> GetRequestByMail(string mail)
-        {
-            ValidateStringValueNotNullOrEmpty(mail);
-
-            var requests = _requestRepository
-                .GetAllByCondition(req => (req.Citizen.Email.Equals(mail)));
-
-            var result = new StateReportModel
-            {
-
-            };
-            
-            
-            /*   
-               var repeatedNames = fieldsWithType
-                   .GroupBy(f => f.Name)
-                   .Where(group => group.Count() > 1)
-                   .Select(f => f.Key)
-                   .ToList();
-           */
-            // _requestRepo.GetAllByCondition(req => req.Citizen.Name == mail);
-            //_requestRepo.GetAllByCondition(req => req.Citizen.Exists(c => c.Name == mail)).Select(req => new GetAllRequestsByMail(req));
-
-
-            // coniditions.GroupBy(c => typeof(c.State)))
-            //    .Where(condiciones)
-            //    .Select(g => new { Tipo = g.Key, Cantidad = g.Count() ... };
-
-            return null;
-        }
-        
         #region Validation Methods
         private void ValidateRequestId(int requestId)
         {
@@ -301,15 +268,6 @@ namespace IMMRequest.Logic.Core
             if (type == null)
             {
                 throw new NoSuchTypeException($"No type with id={createRequestModel.TypeId} exists");
-            }
-        }
-
-        private static void ValidateStringValueNotNullOrEmpty(string value)
-        {
-            if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
-            {
-                throw new InvalidMailFormatException(
-                    "value for mail cannot be empty or null");
             }
         }
 
