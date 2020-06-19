@@ -5,15 +5,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="requests.json" />
+    <None Remove="requests.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\IMMRequest.Logic\IMMRequest.Logic.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="NewFolder\" />
     <Folder Include="plugins\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="files\requests.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="files\requests.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="plugins\IMMRequest.JsonRequestImporter.dll">

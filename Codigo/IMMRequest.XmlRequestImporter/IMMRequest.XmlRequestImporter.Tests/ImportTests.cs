@@ -26,8 +26,8 @@ namespace IMMRequest.XmlRequestImporter.Tests
         public void ItCanParseRequests()
         {
             IRequestsImportable importer = new XmlRequestImporter();
-            var list = importer.Import(@"files/requests.json");
-            Assert.AreEqual(1, list.Count());
+            var list = importer.Import(@"files/requests.xml");
+            Assert.AreEqual(2, list.Requests.Count);
         }
 
     }

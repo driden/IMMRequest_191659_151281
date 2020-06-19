@@ -4,13 +4,12 @@ namespace IMMRequest.JsonRequestImporter
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
-    using Logic.Models.Request;
     using Newtonsoft.Json;
     using RequestImporter;
 
     public class JsonRequestImporter : IRequestsImportable
     {
-        public List<CreateRequest> Import(string filePath)
+        public CreateRequestList Import(string filePath)
         {
             var fullPath = Path.Join(Path.GetDirectoryName(Assembly.GetCallingAssembly().Location), filePath);
             if (string.IsNullOrEmpty(filePath))
@@ -27,7 +26,7 @@ namespace IMMRequest.JsonRequestImporter
             using (var streamReader = new StreamReader(fullPath))
             {
                 string json = streamReader.ReadToEnd();
-                List<CreateRequest> requests = JsonConvert.DeserializeObject<List<CreateRequest>>(json);
+                var requests = JsonConvert.DeserializeObject<CreateRequestList>(json);
                 return requests;
             }
         }

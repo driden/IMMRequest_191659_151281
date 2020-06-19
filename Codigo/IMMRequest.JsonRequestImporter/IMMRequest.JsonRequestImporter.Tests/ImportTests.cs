@@ -1,7 +1,6 @@
 namespace IMMRequest.JsonRequestImporter.Tests
 {
     using System;
-    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using RequestImporter;
 
@@ -27,7 +26,7 @@ namespace IMMRequest.JsonRequestImporter.Tests
         {
             IRequestsImportable importer = new JsonRequestImporter();
             var list = importer.Import(@"files/requests.json");
-            Assert.AreEqual(1,list.Count());
+            Assert.AreEqual(1,list.Requests.Count);
         }
     }
 }

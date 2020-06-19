@@ -5,7 +5,6 @@ namespace IMMRequest.RequestImporter
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using Logic.Models.Request;
 
     public class AbstractRequestImporter
     {
@@ -20,7 +19,7 @@ namespace IMMRequest.RequestImporter
             return importer;
         }
 
-        public List<CreateRequest> ParseFile(string filePath)
+        public CreateRequestList ParseFile(string filePath)
         {
             IRequestsImportable instance = GetInstance();
             return instance.Import(filePath);
