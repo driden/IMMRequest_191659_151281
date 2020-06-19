@@ -1,10 +1,10 @@
 namespace IMMRequest.XmlRequestImporter.Tests
 {
     using System;
-    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using RequestImporter;
 
+    [Ignore]
     [TestClass]
     public class ImportTests
     {
