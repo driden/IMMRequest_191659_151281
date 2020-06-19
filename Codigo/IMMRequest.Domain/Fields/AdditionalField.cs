@@ -1,6 +1,6 @@
 namespace IMMRequest.Domain.Fields
 {
-    public enum FieldType { Integer, Text, Date }
+    public enum FieldType { Integer, Text, Date, Boolean }
     public abstract class AdditionalField
     {
         public int Id { get; set; }
