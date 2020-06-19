@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMMRequest.XmlRequestImporter", "IMMRequest.XmlRequestImporter\IMMRequest.XmlRequestImporter.csproj", "{3C258175-F07A-4936-BD26-B7C0A39EB5EF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FCA14FA3-8A2F-421E-8F13-A14C1705DAB9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IMMRequest.Logic", "..\IMMRequest.Logic\IMMRequest.Logic.csproj", "{3533A845-51ED-43A9-BF9E-EE02445870EE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IMMRequest.RequestImporter", "..\IMMRequest.RequestImporter\IMMRequest.RequestImporter.csproj", "{DEBABC1C-6BC1-48EC-8C43-7A3C17E09968}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMMRequest.XmlRequestImporter.Tests", "IMMRequest.XmlRequestImporter.Tests\IMMRequest.XmlRequestImporter.Tests.csproj", "{FB59EEF3-22D0-4A6C-BB20-449DB4AABCEE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C258175-F07A-4936-BD26-B7C0A39EB5EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C258175-F07A-4936-BD26-B7C0A39EB5EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C258175-F07A-4936-BD26-B7C0A39EB5EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C258175-F07A-4936-BD26-B7C0A39EB5EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3533A845-51ED-43A9-BF9E-EE02445870EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3533A845-51ED-43A9-BF9E-EE02445870EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3533A845-51ED-43A9-BF9E-EE02445870EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3533A845-51ED-43A9-BF9E-EE02445870EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEBABC1C-6BC1-48EC-8C43-7A3C17E09968}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEBABC1C-6BC1-48EC-8C43-7A3C17E09968}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEBABC1C-6BC1-48EC-8C43-7A3C17E09968}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEBABC1C-6BC1-48EC-8C43-7A3C17E09968}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB59EEF3-22D0-4A6C-BB20-449DB4AABCEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB59EEF3-22D0-4A6C-BB20-449DB4AABCEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB59EEF3-22D0-4A6C-BB20-449DB4AABCEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB59EEF3-22D0-4A6C-BB20-449DB4AABCEE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9E24F83D-A60C-446B-9E2F-E9B516E6DE59}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IMMRequest.JsonRequestImporter", "IMMRequest.JsonRequestImporter\IMMRequest.JsonRequestImporter.csproj", "{19E564E7-61BC-4D83-B8CF-A325384B3D53}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IMMRequest.JsonRequestImporter.Tests", "IMMRequest.JsonRequestImporter.Tests\IMMRequest.JsonRequestImporter.Tests.csproj", "{56B955E5-02F8-4501-92DC-210D2D91A25F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IMMRequest.Logic", "..\IMMRequest.Logic\IMMRequest.Logic.csproj", "{DE8C4D6D-0240-4B72-8C16-C61C5717DF10}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IMMRequest.RequestImporter", "..\IMMRequest.RequestImporter\IMMRequest.RequestImporter.csproj", "{391921D7-0576-416A-A249-D50DDA70C818}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19E564E7-61BC-4D83-B8CF-A325384B3D53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19E564E7-61BC-4D83-B8CF-A325384B3D53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19E564E7-61BC-4D83-B8CF-A325384B3D53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19E564E7-61BC-4D83-B8CF-A325384B3D53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56B955E5-02F8-4501-92DC-210D2D91A25F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56B955E5-02F8-4501-92DC-210D2D91A25F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56B955E5-02F8-4501-92DC-210D2D91A25F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56B955E5-02F8-4501-92DC-210D2D91A25F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE8C4D6D-0240-4B72-8C16-C61C5717DF10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE8C4D6D-0240-4B72-8C16-C61C5717DF10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE8C4D6D-0240-4B72-8C16-C61C5717DF10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE8C4D6D-0240-4B72-8C16-C61C5717DF10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{391921D7-0576-416A-A249-D50DDA70C818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{391921D7-0576-416A-A249-D50DDA70C818}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{391921D7-0576-416A-A249-D50DDA70C818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{391921D7-0576-416A-A249-D50DDA70C818}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {25A26E49-B166-481A-ABE8-5FDFA08DCEB9}
+	EndGlobalSection
+EndGlobal
