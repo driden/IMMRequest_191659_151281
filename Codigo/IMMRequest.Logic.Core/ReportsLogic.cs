@@ -8,6 +8,7 @@ namespace IMMRequest.Logic.Core
     using Interfaces;
     using Logic.Exceptions;
     using Models.State;
+    using Models.Type;
 
     public class ReportsLogic : IReportsLogic
     {
@@ -42,18 +43,26 @@ namespace IMMRequest.Logic.Core
             return status;
         }
         
-        public IEnumerable<Object> GetMostUsedTypes()
+        public IEnumerable<TypeReportModel> GetMostUsedTypes(DateTime startDate, DateTime endDate)
         {
+            ValidateDateRange(startDate, endDate);
+
             var allRequest = _requestRepository.GetAll();
 
             var types = allRequest
+                .Where(request => request.CreationDateTime <= endDate && request.CreationDateTime >= startDate)
+                .OrderBy(o => o.Type.Name)
                 .GroupBy(s => s.Type.Name)
-                .Select(group => group.Count());
-            //.Where(r => allTypes.Contains(r.Type));
+                .Select(group => new TypeReportModel
+                {
+                    Name = group.Key,
+                    Quantity = group.Count()
+                });
             
-            return null;
+            return types;
         }
 
+        #region Validation Methods
         private void ValidateStringValueNotNullOrEmpty(string value)
         {
             if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
@@ -71,5 +80,6 @@ namespace IMMRequest.Logic.Core
                     "Invalid range for date start and end");
             }
         }
+        #endregion Validation Methods
     }
 }

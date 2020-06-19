@@ -7,9 +7,11 @@ namespace IMMRequest.Logic.Tests
     using DataAccess.Interfaces;
     using Domain;
     using Domain.States;
+    using IMMRequest.Domain.Fields;
     using IMMRequest.Logic.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
+    using Type = Domain.Type;
     
     [TestClass]
     public class ReportsLogicTests: IMMRequestLogicTestBase
@@ -110,13 +112,52 @@ namespace IMMRequest.Logic.Tests
                 DateTime.Today.AddYears(-2)));
         }
 
-        // Test for Model
-        // TODO::
-        
-        
-        
-        
-        
+
+        [TestMethod]
+        public void CanGetTypeReports()
+        {
+            var request = NewListOfRequests("citizen@mail.com");
+            
+            _requestRepositoryMock
+                .Setup(r => r.GetAll())
+                .Returns(request);
+
+            var allTypes = _reportsLogic.GetMostUsedTypes(
+                DateTime.Today.AddYears(-1), 
+                DateTime.Today);
+
+            Assert.AreEqual(2, allTypes.Count());
+        }
+
+        [TestMethod]
+        public void CanGetTypeAsReports()
+        {
+            var request = NewListOfRequests("citizen@mail.com");
+            
+            _requestRepositoryMock
+                .Setup(r => r.GetAll())
+                .Returns(request);
+
+            var allTypes = _reportsLogic.GetMostUsedTypes(
+                DateTime.Today.AddYears(-1), 
+                DateTime.Today);
+
+            Assert.AreEqual("Contenedor roto", allTypes.First().Name);
+        }
+
+        [TestMethod]
+        public void InvalidDateRageTypesReport()
+        {
+            var request = NewListOfRequests("citizen@mail.com");
+            
+            _requestRepositoryMock
+                .Setup(r => r.GetAll())
+                .Returns(request);
+
+            Assert.ThrowsException<InvalidDateRageException>(() => _reportsLogic.GetMostUsedTypes(
+                DateTime.Today.AddYears(-1), 
+                DateTime.Today.AddYears(-2)));
+        }
         
         private IEnumerable<Request> NewListOfRequests(string mail)
         {
@@ -127,7 +168,7 @@ namespace IMMRequest.Logic.Tests
                 {
                     Citizen = new Citizen {Id = new Random().Next(0,30),Email = mail, Name = "Name"+i, PhoneNumber = "555-5555555"},
                     Details = "Request Details",
-                    Type = NewType(),
+                    Type = NewType("Taxi Acoso"),
                     CreationDateTime = System.DateTime.Today,
                     Id = i
                 });
@@ -138,13 +179,32 @@ namespace IMMRequest.Logic.Tests
                 Citizen = new Citizen
                     {Id = new Random().Next(0, 30), Email = mail, Name = "Name", PhoneNumber = "555-5555555"},
                 Details = "Request Details",
-                Type = NewType(),
+                Type = NewType("Contenedor roto"),
                 Status = new DeniedState(),
                 CreationDateTime = System.DateTime.Today,
                 Id = 100
             });
 
             return list;
+        }
+
+        protected Type NewType(string typeName)
+        {
+            DateField dateFieldFechaYHora = new DateField
+            {
+                Name = "TestAdditionalDateField",
+                Range = new List<DateItem>
+                {
+                    new DateItem { Value = DateTime.Today.AddDays(-1) },
+                    new DateItem { Value = DateTime.Today.AddDays(1) },
+                }
+            };
+
+            return new Type
+            {
+                Name = typeName,
+                AdditionalFields = new List<AdditionalField> { dateFieldFechaYHora }
+            };
         }
     }
 }
