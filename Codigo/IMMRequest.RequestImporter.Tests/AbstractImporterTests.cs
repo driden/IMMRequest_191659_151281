@@ -16,7 +16,7 @@ namespace IMMRequest.RequestImporter.Tests
         public void CanParseAJsonFile()
         {
             var abstractImporter = new AbstractRequestImporter();
-            Assert.IsNotNull(abstractImporter.ParseFile("files/requests.json"));
+            Assert.IsNotNull(abstractImporter.ParseFile("files/requests.xml"));
         }
 
     }

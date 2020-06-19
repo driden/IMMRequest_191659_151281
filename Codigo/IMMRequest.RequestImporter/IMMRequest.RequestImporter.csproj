@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="NewFolder\" />
     <Folder Include="plugins\" />
   </ItemGroup>
 
@@ -25,7 +24,7 @@
     <None Update="files\requests.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="plugins\IMMRequest.JsonRequestImporter.dll">
+    <None Update="plugins\IMMRequest.XmlRequestImporter.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
