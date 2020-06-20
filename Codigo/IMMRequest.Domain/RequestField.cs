@@ -1,6 +1,8 @@
 namespace IMMRequest.Domain
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class RequestField
     {
@@ -11,36 +13,27 @@ namespace IMMRequest.Domain
 
     public class IntRequestField : RequestField
     {
-        public int Value { get; set; }
+        public List<int> Values { get; set; }
 
-        public override string ToString()
-        {
-            return Value.ToString();
-        }
+        public override string ToString() => string.Join(',', Values);
     }
 
     public class TextRequestField : RequestField
     {
-        public string Value { get; set; }
+        public List<string> Values { get; set; }
 
-        public override string ToString()
-        {
-            return Value;
-        }
+        public override string ToString() => string.Join(',', Values);
     }
 
     public class DateRequestField : RequestField
     {
-        public DateTime Value { get; set; }
+        public List<DateTime> Values { get; set; }
 
-        public override string ToString()
-        {
-            return Value.ToString("G");
-        }
+        public override string ToString() => string.Join(',', Values.Select(v => v.ToString("G")));
     }
 
     public class BooleanRequestField : RequestField
     {
-        public bool Value { get; set; }
+        public List<bool> Values { get; set; }
     }
 }

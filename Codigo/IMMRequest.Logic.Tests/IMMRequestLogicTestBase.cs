@@ -24,9 +24,9 @@ namespace IMMRequest.Logic.Tests
         {
             return new List<RequestField>
             {
-                new IntRequestField{ Name = "num", Value = 4},
-                new TextRequestField { Name = "text", Value = "some text"},
-                new DateRequestField { Name = "date", Value = DateTime.Today}
+                new IntRequestField{ Name = "num", Values = new List<int>{4}},
+                new TextRequestField { Name = "text", Values =new List<string>{ "some text"}},
+                new DateRequestField { Name = "date", Values =new List<DateTime>{ DateTime.Today}}
             };
         }
 

@@ -20,18 +20,18 @@ namespace IMMRequest.Domain.Fields
             IsRequired = false;
         }
 
-        public override void ValidateRange(object value)
+        public override void ValidateRange<T>(IEnumerable<T> values)
         {
             ValidateRangeIsCorrect();
             if (Range.Count() == 2)
             {
-                DateTime val = (DateTime)value;
+                DateTime[] val = values.Cast<DateTime>().ToArray();
                 DateTime first = Range.First().Value;
                 DateTime second = Range.Skip(1).First().Value;
 
-                if (first > val || val > second)
+                if (val.All(v => first > v || v > second))
                 {
-                    throw new InvalidFieldRangeException($"Date value {ToDateString(val)} is not in range [{ToDateString(first)},{ToDateString(second)}]");
+                    throw new InvalidFieldRangeException($"One of the date values {string.Join(',', val)} is not in range [{ToDateString(first)},{ToDateString(second)}]");
                 }
             }
         }

@@ -102,7 +102,7 @@ namespace IMMRequest.Logic.Tests
             {
                 AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequestModel { Name = "text", Value = "some text"}
+                   new FieldRequestModel { Name = "text", Values = "some text"}
                 }
             };
 
@@ -122,7 +122,7 @@ namespace IMMRequest.Logic.Tests
             {
                 AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequestModel { Name = "text", Value = "some text"}
+                   new FieldRequestModel { Name = "text", Values = "some text"}
                 }
             };
 
@@ -141,7 +141,7 @@ namespace IMMRequest.Logic.Tests
             {
                 AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequestModel { Name = "number", Value = "some text"}
+                   new FieldRequestModel { Name = "number", Values = "some text"}
                 }
             };
 
@@ -160,7 +160,7 @@ namespace IMMRequest.Logic.Tests
             {
                 AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequestModel { Name = "date", Value = "some text"}
+                   new FieldRequestModel { Name = "date", Values = "some text"}
                 }
             };
 
@@ -179,7 +179,7 @@ namespace IMMRequest.Logic.Tests
             {
                 AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequestModel { Name = "text", Value = ""}
+                   new FieldRequestModel { Name = "text", Values = ""}
                 }
             };
 
@@ -198,7 +198,7 @@ namespace IMMRequest.Logic.Tests
             {
                 AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequestModel { Name = "text", Value = "  "}
+                   new FieldRequestModel { Name = "text", Values = "  "}
                 }
             };
 
@@ -233,8 +233,8 @@ namespace IMMRequest.Logic.Tests
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = CreateRequestModel;
-            var requestFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "number", Value = "-1" } };
-            requestFields.Add(new FieldRequestModel { Name = "text", Value = "some text" });
+            var requestFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "number", Values = "-1" } };
+            requestFields.Add(new FieldRequestModel { Name = "text", Values = "some text" });
 
 
             Assert.ThrowsException<LessAdditionalFieldsThanRequiredException>(() => _requestsLogic.Add(CreateRequestModel));
@@ -256,8 +256,8 @@ namespace IMMRequest.Logic.Tests
             var request = CreateRequestModel;
             var requestFields = new List<FieldRequestModel>
             {
-                new FieldRequestModel {Name = "number", Value = "-1"},
-                new FieldRequestModel {Name = "text", Value = "some text"}
+                new FieldRequestModel {Name = "number", Values = "-1"},
+                new FieldRequestModel {Name = "text", Values = "some text"}
             };
 
             request.AdditionalFields = requestFields;
@@ -288,7 +288,7 @@ namespace IMMRequest.Logic.Tests
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = CreateRequestModel;
-            request.AdditionalFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "number", Value = "-1" } };
+            request.AdditionalFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "number", Values = "-1" } };
 
             _requestRepositoryMock.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
             Assert.ThrowsException<InvalidFieldRangeException>(() => _requestsLogic.Add(request));
@@ -314,7 +314,7 @@ namespace IMMRequest.Logic.Tests
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = CreateRequestModel;
-            request.AdditionalFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "text", Value = "-1" } };
+            request.AdditionalFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "text", Values = "-1" } };
 
             _requestRepositoryMock.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
             Assert.ThrowsException<InvalidFieldRangeException>(() => _requestsLogic.Add(request));
@@ -341,7 +341,7 @@ namespace IMMRequest.Logic.Tests
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = CreateRequestModel;
-            request.AdditionalFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "date", Value = "01/04/1994" } };
+            request.AdditionalFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "date", Values = "01/04/1994" } };
 
             _requestRepositoryMock.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
             Assert.ThrowsException<InvalidFieldRangeException>(() => _requestsLogic.Add(request));
@@ -363,7 +363,7 @@ namespace IMMRequest.Logic.Tests
             _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
 
             var request = CreateRequestModel;
-            request.AdditionalFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "boolean", Value = "no booleano" } };
+            request.AdditionalFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "boolean", Values = "no booleano" } };
 
             _requestRepositoryMock.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
             Assert.ThrowsException<InvalidFieldRangeException>(() => _requestsLogic.Add(request));
@@ -387,7 +387,7 @@ namespace IMMRequest.Logic.Tests
                 Details = "some details",
                 AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequestModel { Name = "text", Value = "some text"}
+                   new FieldRequestModel { Name = "text", Values = "some text"}
                 }
             };
 
@@ -407,7 +407,7 @@ namespace IMMRequest.Logic.Tests
 
             TextRequestField textRequestField = ((TextRequestField)listOfFields[0]);
             Assert.AreEqual(textRequestField.Name, "text");
-            Assert.AreEqual(textRequestField.Value, "some text");
+            Assert.AreEqual(textRequestField.Values.FirstOrDefault(), "some text");
         }
 
         [TestMethod]
@@ -426,7 +426,7 @@ namespace IMMRequest.Logic.Tests
                 Details = "some details",
                 AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequestModel { Name = "num", Value = "5"}
+                   new FieldRequestModel { Name = "num", Values = "5"}
                 }
             };
 
@@ -446,7 +446,7 @@ namespace IMMRequest.Logic.Tests
 
             IntRequestField intRequestField = (IntRequestField)listOfFields[0];
             Assert.AreEqual(intRequestField.Name, "num");
-            Assert.AreEqual(intRequestField.Value, 5);
+            Assert.AreEqual(intRequestField.Values.FirstOrDefault(), 5);
         }
 
         [TestMethod]
@@ -465,7 +465,7 @@ namespace IMMRequest.Logic.Tests
                 Details = "some details",
                 AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequestModel { Name = "date", Value = "05/11/1981"}
+                   new FieldRequestModel { Name = "date", Values = "05/11/1981"}
                 }
             };
 
@@ -485,7 +485,7 @@ namespace IMMRequest.Logic.Tests
 
             DateRequestField dateRequestField = (DateRequestField)listOfFields[0];
             Assert.AreEqual(dateRequestField.Name, "date");
-            Assert.AreEqual(dateRequestField.Value, DateTime.Parse("05/11/1981"));
+            Assert.AreEqual(dateRequestField.Values.FirstOrDefault(), DateTime.Parse("05/11/1981"));
 
         }
 
@@ -505,7 +505,7 @@ namespace IMMRequest.Logic.Tests
                 Details = "some details",
                 AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequestModel { Name = "bool", Value = "false"}
+                   new FieldRequestModel { Name = "bool", Values = "false"}
                 }
             };
 
@@ -525,7 +525,7 @@ namespace IMMRequest.Logic.Tests
 
             BooleanRequestField booleanRequestField = (BooleanRequestField)listOfFields[0];
             Assert.AreEqual(booleanRequestField.Name, "bool");
-            Assert.AreEqual(booleanRequestField.Value, false);
+            Assert.AreEqual(booleanRequestField.Values.First(), false);
         }
 
 
@@ -540,7 +540,7 @@ namespace IMMRequest.Logic.Tests
                 Details = "some details",
                 AdditionalFields = new List<FieldRequestModel>
                 {
-                   new FieldRequestModel { Name = "date", Value = "05/11/1981"}
+                   new FieldRequestModel { Name = "date", Values = "05/11/1981"}
                 }
             };
 
@@ -563,11 +563,11 @@ namespace IMMRequest.Logic.Tests
             Assert.AreEqual(request.Details, requestResponse.Details);
             Assert.AreEqual(request.Status.Description, requestResponse.RequestState);
             Assert.AreEqual(1, requestResponse.RequestId);
-            CollectionAssert.AreEqual(
+            CollectionAssert.AreEquivalent(
             new List<FieldRequestModel>{
-                new FieldRequestModel { Name = "num", Value = "4"},
-                new FieldRequestModel { Name = "text", Value = "some text"},
-                new FieldRequestModel { Name = "date", Value = DateTime.Today.ToString("G")}
+                new FieldRequestModel { Name = "num", Values = "4"},
+                new FieldRequestModel { Name = "text", Values = "some text"},
+                new FieldRequestModel { Name = "date", Values = DateTime.Today.ToString("G")}
             },
             requestResponse.Fields.ToList());
         }

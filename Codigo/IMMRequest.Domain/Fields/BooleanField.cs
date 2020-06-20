@@ -6,7 +6,13 @@ namespace IMMRequest.Domain.Fields
 
     public class BooleanField : AdditionalField
     {
-        public virtual IList<bool> Range { get; set; } = new List<bool>(new[] { true, false });
+        public virtual IList<BooleanItem> Range { get; set; } =
+            new List<BooleanItem>(
+                new[]
+                {
+                    new BooleanItem { Value = true },
+                    new BooleanItem { Value = false }
+                });
 
         public BooleanField()
         {
@@ -14,9 +20,9 @@ namespace IMMRequest.Domain.Fields
             IsRequired = false;
         }
 
-        public override void ValidateRange(object value)
+        public override void ValidateRange<T>(IEnumerable<T> values)
         {
-            if (value is null)
+            if (values is null)
             {
                 throw new InvalidFieldRangeException($"a boolean additional field cannot be null");
             }

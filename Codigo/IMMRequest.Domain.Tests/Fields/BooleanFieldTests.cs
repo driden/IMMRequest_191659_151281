@@ -20,8 +20,10 @@ namespace IMMRequest.Domain.Tests.Fields
         public void BooleanFieldHasTrueAndFalseAsRange()
         {
             var boolean = new BooleanField();
-            CollectionAssert.AreEquivalent(new List<bool> { true, false }, boolean.Range.ToList());
+
             Assert.AreEqual(2, boolean.Range.Count);
+            Assert.IsTrue(boolean.Range.First().Value);
+            Assert.IsFalse(boolean.Range.Skip(1).First().Value);
         }
 
         [TestMethod]
@@ -36,7 +38,7 @@ namespace IMMRequest.Domain.Tests.Fields
         public void ValidateRangeThrowsExceptionIfNull()
         {
             var boolean = new BooleanField();
-            Assert.ThrowsException<InvalidFieldRangeException>(() => boolean.ValidateRange(null));
+            Assert.ThrowsException<InvalidFieldRangeException>(() => boolean.ValidateRange<bool>(null));
         }
     }
 }

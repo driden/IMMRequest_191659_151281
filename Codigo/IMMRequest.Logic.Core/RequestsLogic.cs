@@ -16,6 +16,7 @@ namespace IMMRequest.Logic.Core
 
     public class RequestsLogic : IRequestsLogic
     {
+        private const char VALUE_SEPARATOR = '|';
         private readonly IRepository<Request> _requestRepository;
         private readonly IRepository<Type> _typeRepository;
 
@@ -43,22 +44,22 @@ namespace IMMRequest.Logic.Core
                 switch (correspondingField.FieldType)
                 {
                     case FieldType.Date:
-                        var parseDate = TryToParseDateValue(additionalField);
+                        var parseDate = TryToParseDateValues(additionalField);
                         correspondingField.ValidateRange(parseDate);
                         break;
 
                     case FieldType.Integer:
-                        var num = TryToParseIntValue(additionalField);
+                        var num = TryToParseIntValues(additionalField);
                         correspondingField.ValidateRange(num);
                         break;
 
                     case FieldType.Text:
                         ValidateStringValueNotNullOrEmpty(additionalField);
-                        correspondingField.ValidateRange(additionalField.Value);
+                        correspondingField.ValidateRange(additionalField.Values.Split(VALUE_SEPARATOR));
                         break;
                     case FieldType.Boolean:
                         ValidateStringCanBeABool(additionalField);
-                        correspondingField.ValidateRange(additionalField.Value);
+                        correspondingField.ValidateRange(additionalField.Values);
                         break;
                 }
             }
@@ -88,7 +89,6 @@ namespace IMMRequest.Logic.Core
 
             ValidateRequestNotNull(requestId, request);
 
-            //var area = this._areaQueries.FindWithTypeId(request.Type.Id);
             return new RequestModel
             {
                 Details = request.Details,
@@ -96,7 +96,12 @@ namespace IMMRequest.Logic.Core
                 CitizenName = request.Citizen.Name,
                 CitizenPhoneNumber = request.Citizen.PhoneNumber,
                 CitizenEmail = request.Citizen.Email,
-                Fields = request.FieldValues.Select(fv => new FieldRequestModel { Name = fv.Name, Value = fv.ToString() }),
+                Fields = request.FieldValues.Select(fv =>
+                    new FieldRequestModel
+                    {
+                        Name = fv.Name,
+                        Values = fv.ToString()
+                    }),
                 RequestId = request.Id
             };
         }
@@ -153,7 +158,7 @@ namespace IMMRequest.Logic.Core
                 createRequestModel.AdditionalFields,
                 af => af.Name,
                 crf => crf.Name,
-                (af, crf) => new { Type = af.FieldType, crf.Name, crf.Value }
+                (af, crf) => new { Type = af.FieldType, crf.Name, crf.Values }
             ).ToList();
 
             var repeatedNames = fieldsWithType
@@ -173,16 +178,16 @@ namespace IMMRequest.Logic.Core
                 switch (field.Type)
                 {
                     case FieldType.Date:
-                        request.FieldValues.Add(new DateRequestField { Name = field.Name, Value = DateTime.Parse(field.Value) });
+                        request.FieldValues.Add(new DateRequestField { Name = field.Name, Values = field.Values.Split(',').Select(DateTime.Parse).ToList() });
                         break;
                     case FieldType.Integer:
-                        request.FieldValues.Add(new IntRequestField { Name = field.Name, Value = int.Parse(field.Value) });
+                        request.FieldValues.Add(new IntRequestField { Name = field.Name, Values = field.Values.Split(',').Select(int.Parse).ToList() });
                         break;
                     case FieldType.Text:
-                        request.FieldValues.Add(new TextRequestField { Name = field.Name, Value = field.Value });
+                        request.FieldValues.Add(new TextRequestField { Name = field.Name, Values = field.Values.Split(',').ToList() });
                         break;
                     case FieldType.Boolean:
-                        request.FieldValues.Add(new BooleanRequestField { Name = field.Name, Value = bool.Parse(field.Value) });
+                        request.FieldValues.Add(new BooleanRequestField { Name = field.Name, Values = field.Values.Split(',').Select(bool.Parse).ToList() });
                         break;
                 }
             }
@@ -208,8 +213,7 @@ namespace IMMRequest.Logic.Core
         private void ValidateNoRequiredFieldsAreMissing(CreateRequestModel createRequestModel, Type type)
         {
             var requiredFields = type.AdditionalFields.Where(af => af.IsRequired).Select(af => af.Name);
-            var providedFields = createRequestModel.AdditionalFields.Select(x => x.Name);
-            var nonProvidedRequiredFields =
+            var providedFields = createRequestModel.AdditionalFields.Select(x => x.Name); var nonProvidedRequiredFields =
                 requiredFields.Except(providedFields, StringComparer.InvariantCultureIgnoreCase);
             var providedRequiredFields = nonProvidedRequiredFields as string[] ?? nonProvidedRequiredFields.ToArray();
             if (providedRequiredFields.Any())
@@ -221,7 +225,7 @@ namespace IMMRequest.Logic.Core
 
         private static void ValidateStringValueNotNullOrEmpty(FieldRequestModel additionalField)
         {
-            if (string.IsNullOrEmpty(additionalField.Value) || string.IsNullOrWhiteSpace(additionalField.Value))
+            if (additionalField.Values.Split(VALUE_SEPARATOR).Any(string.IsNullOrEmpty) || additionalField.Values.Split(',').Any(string.IsNullOrWhiteSpace))
             {
                 throw new InvalidFieldValueCastForFieldTypeException(
                     $"value for field with name {additionalField.Name} cannot be empty or null");
@@ -230,33 +234,40 @@ namespace IMMRequest.Logic.Core
         private static void ValidateStringCanBeABool(FieldRequestModel additionalField)
         {
             ValidateStringValueNotNullOrEmpty(additionalField);
-            var lowercaseBool = additionalField.Value.ToLower();
-            if (lowercaseBool != "true" && lowercaseBool != "false")
+            var boolStrings = new[] { "true", "false" };
+            var values = additionalField.Values.Split(VALUE_SEPARATOR);
+            if (values.Count() > 1 || !boolStrings.Contains(values.FirstOrDefault()))
             {
                 throw new InvalidFieldRangeException("a boolean field can only be 'true' or 'false'");
             }
         }
 
-        private int TryToParseIntValue(FieldRequestModel additionalField)
+        private List<int> TryToParseIntValues(FieldRequestModel additionalField)
         {
-            if (!int.TryParse(additionalField.Value, out var num))
+            return additionalField.Values.Split(VALUE_SEPARATOR).Select(val =>
             {
-                throw new InvalidFieldValueCastForFieldTypeException(
-                    $"value '{additionalField.Value}' for field with name {additionalField.Name} cannot be read as an integer");
-            }
+                if (!int.TryParse(val, out var num))
+                {
+                    throw new InvalidFieldValueCastForFieldTypeException(
+                        $"value '{val}' for field with name {additionalField.Name} cannot be read as an integer");
+                }
 
-            return num;
+                return num;
+            }).ToList();
         }
 
-        private DateTime TryToParseDateValue(FieldRequestModel additionalField)
+        private List<DateTime> TryToParseDateValues(FieldRequestModel additionalField)
         {
-            if (!DateTime.TryParse(additionalField.Value, out var parseDate))
+            return additionalField.Values.Split(VALUE_SEPARATOR).Select(val =>
             {
-                throw new InvalidFieldValueCastForFieldTypeException(
-                    $"value '{additionalField.Value}' for field with name {additionalField.Name} cannot be read as a date");
-            }
+                if (!DateTime.TryParse(val, out var parseDate))
+                {
+                    throw new InvalidFieldValueCastForFieldTypeException(
+                        $"value '{val}' for field with name {additionalField.Name} cannot be read as a date");
+                }
 
-            return parseDate;
+                return parseDate;
+            }).ToList();
         }
 
         private AdditionalField FindFieldTemplateWithName(Type type, FieldRequestModel additionalField)

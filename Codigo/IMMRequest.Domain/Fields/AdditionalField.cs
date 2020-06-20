@@ -11,7 +11,7 @@ namespace IMMRequest.Domain.Fields
         public bool IsRequired { get; set; }
         public int TypeId { get; set; }
 
-        public abstract void ValidateRange(object value);
+        public abstract void ValidateRange<T>(IEnumerable<T> values);
         public abstract void ValidateRangeIsCorrect();
         public abstract void AddToRange(IItem item);
         public abstract IEnumerable<string> GetRangeAsText();
