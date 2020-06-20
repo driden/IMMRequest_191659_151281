@@ -175,19 +175,20 @@ namespace IMMRequest.Logic.Core
             // create additional fields list
             foreach (var field in fieldsWithType)
             {
+                var fieldValues = field.Values.Split(VALUE_SEPARATOR);
                 switch (field.Type)
                 {
                     case FieldType.Date:
-                        request.FieldValues.Add(new DateRequestField { Name = field.Name, Values = field.Values.Split(',').Select(DateTime.Parse).ToList() });
+                        request.FieldValues.Add(new DateRequestField { Name = field.Name, Values = fieldValues.Select(DateTime.Parse).ToList() });
                         break;
                     case FieldType.Integer:
-                        request.FieldValues.Add(new IntRequestField { Name = field.Name, Values = field.Values.Split(',').Select(int.Parse).ToList() });
+                        request.FieldValues.Add(new IntRequestField { Name = field.Name, Values = fieldValues.Select(int.Parse).ToList() });
                         break;
                     case FieldType.Text:
-                        request.FieldValues.Add(new TextRequestField { Name = field.Name, Values = field.Values.Split(',').ToList() });
+                        request.FieldValues.Add(new TextRequestField { Name = field.Name, Values = fieldValues.ToList() });
                         break;
                     case FieldType.Boolean:
-                        request.FieldValues.Add(new BooleanRequestField { Name = field.Name, Values = field.Values.Split(',').Select(bool.Parse).ToList() });
+                        request.FieldValues.Add(new BooleanRequestField { Name = field.Name, Values = fieldValues.Select(bool.Parse).ToList() });
                         break;
                 }
             }

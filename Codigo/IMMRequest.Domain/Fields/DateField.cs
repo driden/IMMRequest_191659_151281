@@ -31,7 +31,8 @@ namespace IMMRequest.Domain.Fields
 
                 if (val.All(v => first > v || v > second))
                 {
-                    throw new InvalidFieldRangeException($"One of the date values {string.Join(',', val)} is not in range [{ToDateString(first)},{ToDateString(second)}]");
+                    var dateValues = string.Join(',', val.Select(ToDateString));
+                    throw new InvalidFieldRangeException($"One of the date values {dateValues} is not in range [{ToDateString(first)},{ToDateString(second)}]");
                 }
             }
         }

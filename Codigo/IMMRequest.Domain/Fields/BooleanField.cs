@@ -38,7 +38,7 @@ namespace IMMRequest.Domain.Fields
 
         public override IEnumerable<string> GetRangeAsText()
         {
-            return Range.Select(x => x.ToString());
+            return Range.Select(x => x.Value.ToString());
         }
 
         public override string GetTypeName() => "boolean";
