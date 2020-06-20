@@ -44,7 +44,7 @@ namespace IMMRequest.Logic.Tests
 
             return new Type
             {
-                Name = "TestType",
+                Name = "Type One",
                 AdditionalFields = new List<AdditionalField> { dateFieldFechaYHora }
             };
         }
