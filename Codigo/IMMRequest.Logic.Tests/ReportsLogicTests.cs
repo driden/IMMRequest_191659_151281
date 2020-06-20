@@ -158,7 +158,7 @@ namespace IMMRequest.Logic.Tests
                 DateTime.Today.AddYears(-1),
                 DateTime.Today);
 
-            Assert.AreEqual("Contenedor roto", allTypes.First().Name);
+            Assert.AreEqual("Taxi Acoso", allTypes.First().Name);
         }
 
         [TestMethod]

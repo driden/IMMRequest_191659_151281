@@ -50,13 +50,14 @@ namespace IMMRequest.Logic.Core
 
             var types = allRequest
                 .Where(request => request.CreationDateTime <= endDate && request.CreationDateTime >= startDate)
-                .OrderBy(o => o.Type.Name)
+                .OrderBy(s => s.Type.Id)
                 .GroupBy(s => s.Type.Name)
                 .Select(group => new TypeReportModel
                 {
                     Name = group.Key,
-                    Quantity = group.Count()
-                });
+                    Quantity = group.Count(),
+                })
+                .OrderByDescending(o => o.Quantity);
 
             return types;
         }
