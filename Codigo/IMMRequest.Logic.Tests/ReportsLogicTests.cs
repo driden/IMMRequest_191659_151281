@@ -47,10 +47,12 @@ namespace IMMRequest.Logic.Tests
                 .Returns(requests);
 
             
-            var allRequests = _reportsLogic.GetRequestByMail(
+            IEnumerable<StateReportModel> allRequests = _reportsLogic.GetRequestByMail(
                 searchByMailModel.Mail, searchByMailModel.StartDate, searchByMailModel.EndDate);
 
             Assert.AreEqual(2, allRequests.Count());
+            Assert.AreEqual("Created", allRequests.First().StateName);
+            Assert.IsTrue(allRequests.First().Ids.Any());
         }
 
         [TestMethod]
@@ -69,7 +71,7 @@ namespace IMMRequest.Logic.Tests
                 .Setup(r => r.GetAll())
                 .Returns(requests);
 
-            var allRequests = _reportsLogic.GetRequestByMail(
+            IEnumerable<StateReportModel> allRequests = _reportsLogic.GetRequestByMail(
                 searchByMailModel.Mail, searchByMailModel.StartDate, searchByMailModel.EndDate);
 
             Assert.AreEqual(0, allRequests.Count());
@@ -214,6 +216,24 @@ namespace IMMRequest.Logic.Tests
 
             Assert.ThrowsException<InvalidDateRageException>(() => _reportsLogic.GetMostUsedTypes(
                 searchTypeModel.StartDate, searchTypeModel.EndDate));
+        }
+        
+        [TestMethod]
+        public void StateReportName()
+        {
+            var newState = "test text";
+            StateReportModel stateReportModel = new StateReportModel { StateName = newState };
+
+            Assert.AreEqual(newState, stateReportModel.StateName);
+        }
+        
+        [TestMethod]
+        public void StateReportQuantitie()
+        {
+            var quantity = 5;
+            StateReportModel stateReportModel = new StateReportModel { Quantity = quantity };
+
+            Assert.AreEqual(quantity, stateReportModel.Quantity);
         }
 
         private IEnumerable<Request> NewListOfRequests(string mail)
