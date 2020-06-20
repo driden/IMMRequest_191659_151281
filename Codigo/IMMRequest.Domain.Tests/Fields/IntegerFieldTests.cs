@@ -81,7 +81,7 @@ namespace IMMRequest.Domain.Tests.Fields
             integerField.AddToRange(lowRange);
             integerField.AddToRange(midRange);
 
-            Assert.ThrowsException<InvalidFieldRangeException>(() => integerField.ValidateRange(2));
+            Assert.ThrowsException<InvalidFieldRangeException>(() => integerField.ValidateRange(new[] { 2 }));
         }
 
 
@@ -95,7 +95,7 @@ namespace IMMRequest.Domain.Tests.Fields
             integerField.AddToRange(lowRange);
             integerField.AddToRange(midRange);
 
-            Assert.ThrowsException<InvalidFieldRangeException>(() => integerField.ValidateRange(6));
+            Assert.ThrowsException<InvalidFieldRangeException>(() => integerField.ValidateRange(new[] { 6 }));
         }
 
 

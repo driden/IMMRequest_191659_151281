@@ -30,6 +30,14 @@ namespace IMMRequest.Domain.Fields
         public FieldType Type => FieldType.Integer;
     }
 
+    public class BooleanItem : IItem
+    {
+        public int Id { get; set; }
+        public bool Value { get; set; }
+        public int BooleanFieldId { get; set; }
+        public FieldType Type => FieldType.Boolean;
+    }
+
     public interface IItem
     {
         FieldType Type { get; }

@@ -19,18 +19,18 @@ namespace IMMRequest.Domain.Fields
             IsRequired = false;
         }
 
-        public override void ValidateRange(object value)
+        public override void ValidateRange<T>(IEnumerable<T> values)
         {
             ValidateRangeIsCorrect();
-            int val = (int)value;
             if (Range.Count() == 2)
             {
+                int[] val = values.Cast<int>().ToArray();
                 int first = Range.First().Value;
                 int second = Range.Skip(1).First().Value;
 
-                if (first > val || val > second)
+                if (val.All(v => first > v || v > second))
                 {
-                    throw new InvalidFieldRangeException($"Integer value {val} is not in range [{first},{second}]");
+                    throw new InvalidFieldRangeException($"One of the integer values {string.Join(',',val)} is not in range [{first},{second}]");
                 }
             }
         }
@@ -60,5 +60,12 @@ namespace IMMRequest.Domain.Fields
                 AddToRange(((IntegerItem)item).Value);
             }
         }
+
+        public override IEnumerable<string> GetRangeAsText()
+        {
+            return Range.Select(intItem => intItem.Value.ToString());
+        }
+
+        public override string GetTypeName() => "integer";
     }
 }

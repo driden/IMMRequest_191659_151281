@@ -8,7 +8,7 @@ namespace IMMRequest.Logic.Tests
     using Domain;
     using Domain.States;
     using IMMRequest.Domain.Fields;
-    using IMMRequest.Logic.Exceptions;
+    using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
     using Type = Domain.Type;

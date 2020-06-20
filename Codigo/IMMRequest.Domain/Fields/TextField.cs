@@ -1,5 +1,6 @@
 namespace IMMRequest.Domain.Fields
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Exceptions;
@@ -19,12 +20,15 @@ namespace IMMRequest.Domain.Fields
             FieldType = FieldType.Text;
         }
 
-        public override void ValidateRange(object value)
+        public override void ValidateRange<T>(IEnumerable<T> values)
         {
             ValidateRangeIsCorrect();
-            if (Range.Any() && !Range.Any(rangeVal => value.ToString().Trim().Equals(rangeVal)))
+            var strValues = values.Cast<string>();
+            var extras = strValues.Except(Range.Select(x => x.Value), StringComparer.OrdinalIgnoreCase).ToList();
+
+            if (Range.Any() && extras.Any())
             {
-                throw new InvalidFieldRangeException($"text '{value}' is not in range {string.Join(", ", Range.Select(r => r.Value).ToArray())}");
+                throw new InvalidFieldRangeException($"text '{values}' is not in range {string.Join(", ", Range.Select(r => r.Value).ToArray())}");
             }
         }
 
@@ -43,5 +47,12 @@ namespace IMMRequest.Domain.Fields
                 AddToRange(((TextItem)item).Value);
             }
         }
+
+        public override IEnumerable<string> GetRangeAsText()
+        {
+            return Range.Select(textItem => textItem.Value);
+        }
+
+        public override string GetTypeName() => "text";
     }
 }

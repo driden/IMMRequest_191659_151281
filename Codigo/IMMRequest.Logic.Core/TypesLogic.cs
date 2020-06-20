@@ -55,10 +55,19 @@ namespace IMMRequest.Logic.Core
 
             foreach (var additionalField in createTypeRequest.AdditionalFields)
             {
-                var fieldType = GetFieldType(additionalField.FieldType);
+                var fieldType = AdditionalField.MapStringToFieldType(additionalField.FieldType);
 
                 switch (fieldType)
                 {
+                    case FieldType.Boolean:
+                        var booleanField = new BooleanField
+                        {
+                            IsRequired = additionalField.IsRequired,
+                            Name = additionalField.Name
+                        };
+
+                        newType.AdditionalFields.Add(booleanField);
+                        break;
                     case FieldType.Date:
                         var range = additionalField.Range.ToList();
                         var dateRangeValues = range.Select(TryToParseDateValue);
@@ -126,16 +135,9 @@ namespace IMMRequest.Logic.Core
                         {
                             Name = additionalField.Name,
                             Id = additionalField.Id,
-                            FieldType = additionalField.FieldType == FieldType.Integer
-                                ? "integer"
-                                : additionalField.FieldType == FieldType.Date
-                                    ? "date"
-                                    : "text",
+                            FieldType = additionalField.GetTypeName(),
                             IsRequired = additionalField.IsRequired,
-                            Range = additionalField.FieldType == FieldType.Integer ? ((IntegerField)additionalField).Range.Select(intItem => intItem.Value.ToString())
-                                : additionalField.FieldType == FieldType.Date
-                                    ? ((DateField)additionalField).Range.Select(dateItem => dateItem.ToString())
-                                    : ((TextField)additionalField).Range.Select(textItem => textItem.Value)
+                            Range = additionalField.GetRangeAsText()
                         })
                         .ToList()
                 });
@@ -164,21 +166,11 @@ namespace IMMRequest.Logic.Core
             return parseDate;
         }
 
-        public FieldType GetFieldType(string fieldTypeStr)
-        {
-            switch (fieldTypeStr)
-            {
-                case "int": return FieldType.Integer;
-                case "text": return FieldType.Text;
-                default: return FieldType.Date;
-            }
-        }
-
         #endregion Utilities
 
         #region Validations
 
-        public void ValidateTypeCanBeDeleted(int id, Type type)
+        private void ValidateTypeCanBeDeleted(int id, Type type)
         {
             if (type == null || !type.IsActive)
             {
@@ -186,7 +178,7 @@ namespace IMMRequest.Logic.Core
             }
         }
 
-        public void ValidateTypeIdNumber(int typeId)
+        private void ValidateTypeIdNumber(int typeId)
         {
             if (typeId < 1)
             {
@@ -194,7 +186,7 @@ namespace IMMRequest.Logic.Core
             }
         }
 
-        public void ValidateTopicIdNumber(int topicId)
+        private void ValidateTopicIdNumber(int topicId)
         {
             if (topicId < 1)
             {
@@ -202,7 +194,7 @@ namespace IMMRequest.Logic.Core
             }
         }
 
-        public void ValidateTopic(int topicId, Topic topic)
+        private void ValidateTopic(int topicId, Topic topic)
         {
             if (topic == null)
             {
@@ -210,9 +202,9 @@ namespace IMMRequest.Logic.Core
             }
         }
 
-        public void ValidateAdditionalFieldsType(CreateTypeRequest request)
+        private void ValidateAdditionalFieldsType(CreateTypeRequest request)
         {
-            var validTypes = new[] { "int", "text", "date" };
+            var validTypes = new[] { "int", "text", "date", "boolean" };
             var invalidTypes = request.AdditionalFields.Select(field => field.FieldType).Distinct().Except(validTypes).ToList();
 
             if (invalidTypes.Any())
