@@ -7,7 +7,7 @@ namespace IMMRequest.Logic.Tests
     using DataAccess.Interfaces;
     using Domain;
     using Domain.States;
-    using IMMRequest.Logic.Exceptions;
+    using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
     

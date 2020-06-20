@@ -43,5 +43,12 @@ namespace IMMRequest.Domain.Fields
                 AddToRange(((TextItem)item).Value);
             }
         }
+
+        public override IEnumerable<string> GetRangeAsText()
+        {
+            return Range.Select(textItem => textItem.Value);
+        }
+
+        public override string GetTypeName() => "text";
     }
 }

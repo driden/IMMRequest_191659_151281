@@ -348,6 +348,30 @@ namespace IMMRequest.Logic.Tests
         }
 
         [TestMethod]
+        public void ProvidingABooleanFieldOutOfRangeShouldThrowException()
+        {
+            var typeInDatabase = NewType();
+            typeInDatabase.AdditionalFields = new List<AdditionalField>
+            {
+                new BooleanField()
+                {
+                    Name = "boolean",
+                    IsRequired = true
+                }
+            };
+
+            _typeRepositoryMock.Setup(x => x.Get(It.IsAny<int>())).Returns(typeInDatabase).Verifiable();
+
+            var request = CreateRequestModel;
+            request.AdditionalFields = new List<FieldRequestModel> { new FieldRequestModel { Name = "boolean", Value = "no booleano" } };
+
+            _requestRepositoryMock.Setup(mock => mock.Add(It.IsAny<Request>())).Verifiable();
+            Assert.ThrowsException<InvalidFieldRangeException>(() => _requestsLogic.Add(request));
+        }
+
+
+
+        [TestMethod]
         public void NewRequestShouldContainAdditionalTextFields()
         {
             IList<RequestField> listOfFields = null;
@@ -464,6 +488,46 @@ namespace IMMRequest.Logic.Tests
             Assert.AreEqual(dateRequestField.Value, DateTime.Parse("05/11/1981"));
 
         }
+
+        [TestMethod]
+        public void NewRequestShouldContainAdditionalBooleanFields()
+        {
+            IList<RequestField> listOfFields = null;
+            _requestRepositoryMock.Setup(x => x.Add(It.IsAny<Request>()))
+                .Callback<Request>(req => { listOfFields = req.FieldValues; })
+                .Verifiable();
+
+            var request = new CreateRequestModel
+            {
+                Name = "Name Request",
+                Phone = "5555555",
+                Email = "mail@mail.com",
+                Details = "some details",
+                AdditionalFields = new List<FieldRequestModel>
+                {
+                   new FieldRequestModel { Name = "bool", Value = "false"}
+                }
+            };
+
+            var typeInDatabase = NewType();
+            typeInDatabase.AdditionalFields = new List<AdditionalField>
+            {
+                new BooleanField()
+                {
+                    Name = "bool",
+                    IsRequired = true,
+                }
+            };
+
+            _typeRepositoryMock.Setup(repo => repo.Get(It.IsAny<int>())).Returns(typeInDatabase);
+
+            _requestsLogic.Add(request);
+
+            BooleanRequestField booleanRequestField = (BooleanRequestField)listOfFields[0];
+            Assert.AreEqual(booleanRequestField.Name, "bool");
+            Assert.AreEqual(booleanRequestField.Value, false);
+        }
+
 
         [TestMethod]
         public void NewRequestTypeIdShouldBeProvidedByUser()

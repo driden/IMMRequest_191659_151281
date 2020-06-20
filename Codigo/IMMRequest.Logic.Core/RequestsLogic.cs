@@ -5,6 +5,7 @@ namespace IMMRequest.Logic.Core
     using System.Linq;
     using DataAccess.Interfaces;
     using Domain;
+    using Domain.Exceptions;
     using Domain.Fields;
     using Exceptions.AdditionalField;
     using Exceptions.Request;
@@ -53,6 +54,10 @@ namespace IMMRequest.Logic.Core
 
                     case FieldType.Text:
                         ValidateStringValueNotNullOrEmpty(additionalField);
+                        correspondingField.ValidateRange(additionalField.Value);
+                        break;
+                    case FieldType.Boolean:
+                        ValidateStringCanBeABool(additionalField);
                         correspondingField.ValidateRange(additionalField.Value);
                         break;
                 }
@@ -149,7 +154,7 @@ namespace IMMRequest.Logic.Core
                 af => af.Name,
                 crf => crf.Name,
                 (af, crf) => new { Type = af.FieldType, crf.Name, crf.Value }
-            );
+            ).ToList();
 
             var repeatedNames = fieldsWithType
                 .GroupBy(f => f.Name)
@@ -175,6 +180,9 @@ namespace IMMRequest.Logic.Core
                         break;
                     case FieldType.Text:
                         request.FieldValues.Add(new TextRequestField { Name = field.Name, Value = field.Value });
+                        break;
+                    case FieldType.Boolean:
+                        request.FieldValues.Add(new BooleanRequestField { Name = field.Name, Value = bool.Parse(field.Value) });
                         break;
                 }
             }
@@ -217,6 +225,15 @@ namespace IMMRequest.Logic.Core
             {
                 throw new InvalidFieldValueCastForFieldTypeException(
                     $"value for field with name {additionalField.Name} cannot be empty or null");
+            }
+        }
+        private static void ValidateStringCanBeABool(FieldRequestModel additionalField)
+        {
+            ValidateStringValueNotNullOrEmpty(additionalField);
+            var lowercaseBool = additionalField.Value.ToLower();
+            if (lowercaseBool != "true" && lowercaseBool != "false")
+            {
+                throw new InvalidFieldRangeException("a boolean field can only be 'true' or 'false'");
             }
         }
 

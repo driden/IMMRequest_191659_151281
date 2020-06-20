@@ -62,6 +62,13 @@ namespace IMMRequest.Domain.Fields
             }
         }
 
+        public override IEnumerable<string> GetRangeAsText()
+        {
+            return Range.Select(dateItem => dateItem.ToString());
+        }
+
+        public override string GetTypeName() => "date";
+
         private string ToDateString(DateTime date)
         {
             return date.ToString("dd-MM-yyyy");

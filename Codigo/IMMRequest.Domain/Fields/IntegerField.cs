@@ -60,5 +60,12 @@ namespace IMMRequest.Domain.Fields
                 AddToRange(((IntegerItem)item).Value);
             }
         }
+
+        public override IEnumerable<string> GetRangeAsText()
+        {
+            return Range.Select(intItem => intItem.Value.ToString());
+        }
+
+        public override string GetTypeName() => "integer";
     }
 }

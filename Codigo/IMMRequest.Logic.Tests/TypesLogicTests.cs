@@ -265,6 +265,25 @@ namespace IMMRequest.Logic.Tests
         }
 
         [TestMethod]
+        public void AFieldWithAnInvalidBooleanRangeShouldWontThrowException()
+        {
+            var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newTopic" };
+            createRequest.AdditionalFields.Add(
+                new AdditionalFieldModel
+                {
+                    Name = "additionalFieldName",
+                    FieldType = "boolean",
+                    Range = new List<string> { "blah", string.Empty }
+                });
+
+            _topicsRepositoryMock.Setup(repo => repo.Get(1)).Returns(new Topic { Name = "name", Id = 1 });
+            _typesRepositoryMock.Setup(repo => repo.Add(It.IsAny<Type>())).Verifiable();
+            _typesLogic.Add(createRequest);
+
+            _typesRepositoryMock.Verify(f => f.Add(It.IsAny<Type>()), Times.Once());
+        }
+
+        [TestMethod]
         public void CanAddANewTypeWithAdditionalFieldsAndNoRange()
         {
             var createRequest = new CreateTypeRequest { TopicId = 1, Name = "newType" };

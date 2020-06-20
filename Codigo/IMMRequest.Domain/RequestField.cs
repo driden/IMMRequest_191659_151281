@@ -38,4 +38,9 @@ namespace IMMRequest.Domain
             return Value.ToString("G");
         }
     }
+
+    public class BooleanRequestField : RequestField
+    {
+        public bool Value { get; set; }
+    }
 }

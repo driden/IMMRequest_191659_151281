@@ -1,6 +1,7 @@
 namespace IMMRequest.Domain.Fields
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Exceptions;
 
     public class BooleanField : AdditionalField
@@ -28,5 +29,12 @@ namespace IMMRequest.Domain.Fields
         public override void AddToRange(IItem item)
         {
         }
+
+        public override IEnumerable<string> GetRangeAsText()
+        {
+            return Range.Select(x => x.ToString());
+        }
+
+        public override string GetTypeName() => "boolean";
     }
 }

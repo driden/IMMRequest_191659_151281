@@ -28,7 +28,7 @@ namespace IMMRequest.Domain.Tests.Fields
         public void BooleanFieldHasAFixedRange()
         {
             var boolean = new BooleanField();
-            boolean.AddToRange(new BooleanItem { Value = false });
+            boolean.AddToRange(new BooleanItem { Value = false, Id = 1, BooleanFieldId = 1 });
             Assert.AreEqual(2, boolean.Range.Count);
         }
 
@@ -37,6 +37,6 @@ namespace IMMRequest.Domain.Tests.Fields
         {
             var boolean = new BooleanField();
             Assert.ThrowsException<InvalidFieldRangeException>(() => boolean.ValidateRange(null));
-       }
+        }
     }
 }
