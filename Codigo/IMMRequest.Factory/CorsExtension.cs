@@ -14,7 +14,8 @@ namespace IMMRequest.Factory
                         builder => builder
                             .AllowAnyOrigin()
                             .AllowAnyMethod()
-                            .AllowAnyHeader());
+                            .AllowAnyHeader()
+                            );
                 });
             return services;
         }

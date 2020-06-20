@@ -3,9 +3,11 @@ namespace IMMRequest.WebApi.Controllers
     using Filters;
     using Logic.Interfaces;
     using Logic.Models.Admin;
+    using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
+    [EnableCors("CorsPolicy")]
     [Route("api/sessions")]
     public class SessionsController : ControllerBase
     {

@@ -54,6 +54,8 @@ namespace IMMRequest.WebApi
 
             app.UseRouting();
 
+            app.UseCors("CorsPolicy");
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -66,8 +68,6 @@ namespace IMMRequest.WebApi
                 conf.SwaggerEndpoint("/swagger/v1/swagger.json", "IMM Request API");
                 conf.RoutePrefix = "swagger";
             });
-
-            app.UseCors("CorsPolicy");
 
             var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
             using (var scope = scopeFactory.CreateScope())
