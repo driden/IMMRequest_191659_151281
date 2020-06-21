@@ -46,9 +46,7 @@
                     (change)="onAreaSelected($event.target.value)"
                   >
                     <option [value]="null" disabled>Select An Area</option>
-                    <option
-                      *ngFor="let area of areas"
-                      [value]="area.id"
+                    <option *ngFor="let area of areas" [value]="area.id"
                       >{{ area.name }}
                     </option>
                   </select>
@@ -59,22 +57,21 @@
                     (change)="onTopicSelected($event.target.value)"
                   >
                     <option [value]="null" disabled>Select A Topic</option>
-                    <option
-                      *ngFor="let topic of topics"
-                      [value]="topic.id"
-                      >{{ topic.name }}</option
-                    >
+                    <option *ngFor="let topic of topics" [value]="topic.id">{{
+                      topic.name
+                    }}</option>
                   </select>
                 </div>
                 <div class="col-md-4 mb-3">
-                  <select class="custom-select" formControlName="typeId">
-                    (change)="onAreaSelected($event.target.value)"
+                  <select
+                    class="custom-select"
+                    formControlName="typeId"
+                    (change)="onTypeSelected($event.target.value)"
+                  >
                     <option [value]="null" disabled>Select A Type</option>
-                    <option
-                      *ngFor="let type of types"
-                      [value]="type.id"
-                      >{{ type.name }}</option
-                    >
+                    <option *ngFor="let type of types" [value]="type.id">{{
+                      type.name
+                    }}</option>
                   </select>
                 </div>
               </div>
@@ -85,6 +82,16 @@
               >
                 Submit
               </button>
+              <div *ngFor="let af of additionalFields">
+                <div class="form-group">
+                  {{ af.name }} = {{ af.fieldType }}
+                  <input
+                    type="{{ getAdditionalFieldInputType(af.fieldType) }}"
+                    class="form-control"
+                    formControlName="{{ af.name }}"
+                  />
+                </div>
+              </div>
             </form>
           </div>
         </div>

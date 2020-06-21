@@ -12,6 +12,6 @@ export class TypesService {
   constructor(private http: HttpClient) {}
 
   getAllInTopic(topicId: number): Observable<Type[]> {
-    return this.http.get<Type[]>(`${environment.serverUrl}/types/${topicId}`);
+    return this.http.get<Type[]>(`${environment.serverUrl}/api/types/${topicId}`);
   }
 }

@@ -15,6 +15,7 @@ import { Topic } from 'src/app/models/Topic';
 import { Type } from 'src/app/models/Type';
 import { TopicsService } from 'src/app/services/topics.service';
 import { TypesService } from 'src/app/services/types.service';
+import { AdditionalField } from '../../../models/AdditionalField';
 
 @Component({
   selector: 'app-new-request',
@@ -30,6 +31,7 @@ export class NewRequestComponent implements OnInit, OnDestroy {
   areas: Area[] = [];
   topics: Topic[] = [];
   types: Type[] = [];
+  additionalFields: AdditionalField[] = [];
 
   newRequestForm: FormGroup;
 
@@ -69,10 +71,40 @@ export class NewRequestComponent implements OnInit, OnDestroy {
 
   onTypeSelected(typeId: number) {
     this.newRequestForm.get('typeId').setValue(typeId);
+    this.additionalFields = this.types.filter(
+      (t: Type) => t.id !== typeId
+    )[0].additionalFields;
+    console.log(`additional fields`, this.additionalFields)
   }
 
   onSubmit() {
     console.log('submitted');
+  }
+
+  loadAdditionalFields(): void {
+    for (const additionalField of this.additionalFields) {
+      (this.newRequestForm.get('additionalFields') as FormArray).push(
+        new FormGroup({
+          name: new FormControl(additionalField.name, Validators.required),
+          type: new FormControl(additionalField.fieldType),
+          value: new FormControl('', Validators.required),
+        })
+      );
+    }
+  }
+
+  getAdditionalFieldInputType(fieldType: string): string {
+    switch (fieldType) {
+      case 'integer':
+        return 'number';
+        break;
+      case 'boolean':
+        return 'checkbox';
+        break;
+      default:
+        return fieldType;
+        break;
+    }
   }
 
   private initForm(): void {
@@ -80,19 +112,6 @@ export class NewRequestComponent implements OnInit, OnDestroy {
     let citizenEmail = '';
     let reqDescription = '';
     let typeId = -1;
-
-    const reqAdditionalFields = new FormArray([]);
-    // for (const ingredient of recipe.ingredients) {
-    //   reqAdditionalFields.push(
-    //     new FormGroup({
-    //       name: new FormControl(ingredient.name, Validators.required),
-    //       amount: new FormControl(ingredient.amount, [
-    //         Validators.required,
-    //         Validators.pattern(/^[1-9]+[0-9]*$/),
-    //       ]),
-    //     })
-    //   );
-    // }
 
     this.newRequestForm = new FormGroup({
       name: new FormControl(citizenName, Validators.required),
@@ -104,7 +123,7 @@ export class NewRequestComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.maxLength(2000),
       ]),
-      additionalFields: reqAdditionalFields,
+      additionalFields: new FormArray([]),
       // areaId: new FormControl(null, Validators.required),
       // topicId: new FormControl(null, Validators.required),
       typeId: new FormControl(typeId, [
