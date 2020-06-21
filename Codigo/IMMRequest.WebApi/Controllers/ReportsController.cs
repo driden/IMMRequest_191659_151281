@@ -6,9 +6,11 @@ namespace IMMRequest.WebApi.Controllers
     using IMMRequest.Logic.Models.Type;
     using Logic.Interfaces;
     using Logic.Models.State;
+    using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/reports")]
+    [EnableCors("CorsPolicy")]
     [ApiController]
     [SystemExceptionFilter]
     [DomainExceptionFilter]

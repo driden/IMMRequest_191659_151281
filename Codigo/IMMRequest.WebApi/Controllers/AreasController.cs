@@ -4,9 +4,11 @@ namespace IMMRequest.WebApi.Controllers
     using Filters;
     using Logic.Interfaces;
     using Logic.Models.Area;
+    using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/areas")]
+    [EnableCors("CorsPolicy")]
     [ApiController]
     public class AreasController : ControllerBase
     {

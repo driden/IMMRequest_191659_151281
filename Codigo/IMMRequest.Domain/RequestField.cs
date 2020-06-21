@@ -29,7 +29,7 @@ namespace IMMRequest.Domain
     {
         public List<DateTime> Values { get; set; }
 
-        public override string ToString() => string.Join(',', Values.Select(v => v.ToString("G")));
+        public override string ToString() => string.Join(',', Values.Select(v => v.ToString("yyyy-MM-dd")));
     }
 
     public class BooleanRequestField : RequestField

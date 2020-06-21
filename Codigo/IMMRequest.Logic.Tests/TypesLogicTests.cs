@@ -576,7 +576,7 @@ namespace IMMRequest.Logic.Tests
             var type = _typesLogic.GetAll(1).FirstOrDefault();
             var range = type?.AdditionalFields[0].Range.ToArray();
 
-            Assert.AreEqual(now.ToString("dd-MM-yyyy"), range?.First());
+            Assert.AreEqual(now.ToString("yyyy-MM-dd"), range?.First());
         }
 
         [TestMethod]
