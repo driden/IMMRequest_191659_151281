@@ -31,7 +31,6 @@ namespace IMMRequest.DataAccess.Core
                 context.Set<Area>().AddRange(SeededAreas);
                 context.Set<Admin>().AddRange(SeededAdmins);
                 context.Set<Citizen>().AddRange(SeededCitizen);
-
                 context.SaveChanges();
             }
         }
@@ -67,11 +66,13 @@ namespace IMMRequest.DataAccess.Core
         private Area AreaTransporte => new Area { Name = "Transporte", Topics = SeededTopics.ToList() };
 
         private Topic AcosoSexual => new Topic { Name = "Acoso Sexual", Types = SeededTypes.ToList() };
+
+        private Topic Limpieza => new Topic { Name = "Contenedores", Types = SeededContenedoresTypes.ToList() } ;
         private Topic[] SeededTopics
         {
             get
             {
-                return new[] { AcosoSexual };
+                return new[] { AcosoSexual, Limpieza };
             }
         }
 
@@ -102,7 +103,7 @@ namespace IMMRequest.DataAccess.Core
             }
         };
 
-        private Type ContenedorIncendiado=> new Type
+        private Type ContenedorIncendiado => new Type
         {
             Name = "Contenedor incendiado",
             AdditionalFields = new List<AdditionalField>
@@ -111,8 +112,9 @@ namespace IMMRequest.DataAccess.Core
             }
         };
 
-        private Type[] SeededTypes => new[] { TaxiAcoso, ContenedorRoto, ContenedorIncendiado };
+        private Type[] SeededContenedoresTypes => new[] { ContenedorRoto, ContenedorIncendiado }; 
 
+        private Type[] SeededTypes => new[] { TaxiAcoso, ParadaRota };
 
         private IntegerField IntegerFieldNroMovil => new IntegerField { IsRequired = true, Name = "Nro de Movil", Range = new List<IntegerItem> { new IntegerItem { Value = 0 }, new IntegerItem { Value = 99999999 } } };
 
