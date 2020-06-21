@@ -567,7 +567,7 @@ namespace IMMRequest.Logic.Tests
             new List<FieldRequestModel>{
                 new FieldRequestModel { Name = "num", Values = "4"},
                 new FieldRequestModel { Name = "text", Values = "some text"},
-                new FieldRequestModel { Name = "date", Values = DateTime.Today.ToString("G")}
+                new FieldRequestModel { Name = "date", Values = DateTime.Today.ToString("yyyy-MM-dd")}
             },
             requestResponse.Fields.ToList());
         }

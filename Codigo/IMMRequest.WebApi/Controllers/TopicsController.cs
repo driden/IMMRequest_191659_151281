@@ -4,9 +4,11 @@ namespace IMMRequest.WebApi.Controllers
     using Filters;
     using Logic.Interfaces;
     using Logic.Models.Topic;
+    using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/topics")]
+    [EnableCors("CorsPolicy")]
     [ApiController]
     [SystemExceptionFilter]
     public class TopicsController : ControllerBase

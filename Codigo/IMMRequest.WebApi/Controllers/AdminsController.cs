@@ -5,9 +5,11 @@ namespace IMMRequest.WebApi.Controllers
     using Filters;
     using Logic.Interfaces;
     using Logic.Models.Admin;
+    using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/admins")]
+    [EnableCors("CorsPolicy")]
     [ApiController]
     [AuthorizationFilter]
     [DomainExceptionFilter]

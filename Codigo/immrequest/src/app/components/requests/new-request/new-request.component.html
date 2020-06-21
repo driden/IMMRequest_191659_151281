@@ -1,74 +1,247 @@
-<div id="content-wrapper" class="d-flex flex-column">
-  <div id="content ">
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-12 col-12">
-          <div class="card shadow mt-3">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">
-                Add a new request
-              </h6>
-            </div>
-            <div class="card-body">
-              <div class="text-center">
-                <form>
-                  <div class="form-group">
-                    <label for="nameInput">Name</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="exampleInputEmail1"
-                      placeholder="Enter your full name"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleInputEmail1"
-                      placeholder="Enter email"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Details</label>
-                    <textarea
-                      class="form-control"
-                      placeholder="Input details"
-                    ></textarea>
-                  </div>
-                  <div class="form-row">
-                    <div class="col-md-4 mb-3">
-                      <select class="custom-select">
-                        <option selected>Area</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                      </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <select class="custom-select">
-                        <option selected>Topic</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                      </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                      <select class="custom-select">
-                        <option selected>Type</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                      </select>
-                    </div>
-                  </div>
+<div class="d-flex flex-column">
+  <!-- Begin Page Content -->
 
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+  <div *ngIf="!!errorMsg" class="alert alert-danger" role="alert">
+    <h4 class="alert-heading">Error :(</h4>
+    <hr />
+    <p>
+      {{ errorMsg }}
+    </p>
+    <button class="btn btn-danger btn-sm" (click)="errorMsg = ''">
+      Close
+    </button>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-xl-6 col-lg-8 col-md-10 col-sm-12 col-12">
+      <div class="card shadow mt-5">
+        <div class="card-header py-3">
+          <div class="row">
+            <h6 class="m-0 font-weight-bold text-primary col-xl-10 col-lg-10 col-md-10 col-sm-10">
+              Add a new request
+            </h6>
+            <button
+              type="submit"
+              class="btn btn-primary float-right col-xl-2 col-lg-2 col-md-2 col-sm-2"
+              [disabled]="this.newRequestForm.invalid"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="text-center">
+            <form [formGroup]="newRequestForm" (submit)="onSubmit()">
+              <div class="form-group row">
+                <label class="col-xl-3 col-lg-3 col-md-3 mb-0 pb-0">Name</label>
+                <input
+                  type="text"
+                  class="form-control col-xl-9 col-lg-9 col-md-9"
+                  placeholder="Enter your full name"
+                  formControlName="name"
+                />
               </div>
-            </div>
+              <div class="form-group row">
+                <label class="col-xl-3 col-lg-3 col-md-3 mb-0 pb-0"
+                  >Phone number</label
+                >
+                <input
+                  type="text"
+                  class="form-control col-xl-9 col-lg-9 col-md-9"
+                  placeholder="Enter your phone number"
+                  formControlName="phone"
+                />
+              </div>
+              <div class="form-group row">
+                <label class="col-xl-3 col-lg-3 col-md-3 mb-0 pb-0"
+                  >Email address</label
+                >
+                <input
+                  type="email"
+                  class="form-control col-xl-9 col-lg-9 col-md-9"
+                  placeholder="Enter email"
+                  formControlName="email"
+                />
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-3 col-xl-3 col-md-3">
+                    <label class>Details</label>
+                  </div>
+                </div>
+                <textarea
+                  class="form-control"
+                  placeholder="Input details"
+                  formControlName="details"
+                ></textarea>
+              </div>
+              <div class="form-row">
+                <div class="col-md-4 mb-3">
+                  <select
+                    class="custom-select"
+                    (change)="onAreaSelected($event.target.value)"
+                    formControlName="areaId"
+                  >
+                    <option *ngFor="let area of areas" [value]="area.id"
+                      >{{ area.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <select
+                    class="custom-select"
+                    (change)="onTopicSelected($event.target.value)"
+                    formControlName="topicId"
+                  >
+                    <option *ngFor="let topic of topics" [value]="topic.id">{{
+                      topic.name
+                    }}</option>
+                  </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <select
+                    class="custom-select"
+                    formControlName="typeId"
+                    (change)="onTypeSelected($event.target.value)"
+                  >
+                    <option *ngFor="let type of types" [value]="type.id">{{
+                      type.name
+                    }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div formArrayName="afArray">
+                <div
+                  *ngFor="let af of additionalFields; let i = index"
+                  class="form-group"
+                  [formGroupName]="i"
+                  [ngSwitch]="getAdditionalFieldInputType(af.fieldType)"
+                >
+                  <!-------------------------->
+                  <!-- DATE ADDITIONAL FIELD-->
+                  <!-------------------------->
+                  <div *ngSwitchCase="'date'">
+                    <label>{{ af.name }}</label>
+                    <div
+                      *ngIf="!!af.range; then dateRange; else dateNoRange"
+                    ></div>
+                    <ng-template #dateRange>
+                      <input
+                        type="date"
+                        class="form-control"
+                        formControlName="{{ af.name }}"
+                        min="{{ af.range[0] }}"
+                        max="{{ af.range[1] }}"
+                        onkeydown="return false"
+                        aria-describedby="dateRequired"
+                      />
+                    </ng-template>
+                    <ng-template #dateNoRange>
+                      <input
+                        type="date"
+                        class="form-control"
+                        formControlName="{{ af.name }}"
+                        onkeydown="return false"
+                        aria-describedby="dateRequired"
+                      />
+                    </ng-template>
+                    <small
+                      *ngIf="af.isRequired"
+                      id="dateRequired"
+                      class="form-text text-muted"
+                    >
+                      this field is required
+                    </small>
+                  </div>
+                  <!-------------------------->
+                  <!-- TEXT ADDITIONAL FIELD-->
+                  <!-------------------------->
+                  <div *ngSwitchCase="'text'">
+                    <label>{{ af.name }}</label>
+                    <div
+                      *ngIf="!af.range; then textRange; else textNoRange"
+                    ></div>
+                    <ng-template #textRange>
+                      <select
+                        multiple
+                        class="form-control"
+                        formControlName="{{ af.name }}"
+                      >
+                        <option
+                          *ngFor="let text of af.range"
+                          [value]="text"
+                        ></option>
+                      </select>
+                    </ng-template>
+                    <ng-template #textNoRange>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="{{ af.name }}"
+                        aria-describedby="numRequired"
+                      />
+                    </ng-template>
+                    <small
+                      *ngIf="af.isRequired"
+                      id="numRequired"
+                      class="form-text text-muted"
+                    >
+                      this field is required
+                    </small>
+                  </div>
+                  <!-------------------------->
+                  <!-- INT ADDITIONAL FIELD-->
+                  <!-------------------------->
+                  <div *ngSwitchCase="'number'">
+                    <label>{{ af.name }}</label>
+                    <div
+                      *ngIf="!af.range; then numRange; else numNoRange"
+                    ></div>
+                    <ng-template #numRange>
+                      <input
+                        type="number"
+                        class="form-control"
+                        formControlName="{{ af.name }}"
+                        min="{{ af.range[0] }}"
+                        min="{{ af.range[1] }}"
+                      />
+                    </ng-template>
+                    <ng-template #numNoRange>
+                      <input
+                        type="number"
+                        class="form-control"
+                        formControlName="{{ af.name }}"
+                      />
+                    </ng-template>
+                    <small
+                      *ngIf="af.isRequired"
+                      id="dateRequired"
+                      class="form-text text-muted"
+                    >
+                      this field is required
+                    </small>
+                    <!-------------------------->
+                    <!-- BOOL ADDITIONAL FIELD-->
+                    <!-------------------------->
+                    <div *ngSwitchCase="'boolean'">
+                      <label>{{ af.name }}</label>
+                      <input
+                        type="checkbox"
+                        class="form-control"
+                        formControlName="{{ af.name }}"
+                      />
+                      <small
+                        *ngIf="af.isRequired"
+                        id="dateRequired"
+                        class="form-text text-muted"
+                      >
+                        this field is required
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
