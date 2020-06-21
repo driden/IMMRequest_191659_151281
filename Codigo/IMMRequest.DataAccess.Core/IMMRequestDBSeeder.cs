@@ -104,7 +104,7 @@ namespace IMMRequest.DataAccess.Core
 
         private Type ContenedorIncendiado=> new Type
         {
-            Name = " Contenedor incendiado",
+            Name = "Contenedor incendiado",
             AdditionalFields = new List<AdditionalField>
             {
                 TextCalle, TextEsquina
