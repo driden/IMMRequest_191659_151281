@@ -29,5 +29,22 @@ namespace IMMRequest.WebApi.Controllers
         {
             return Ok(_topicsLogic.GetAll(areaId));
         }
+
+        /// <summary>
+        ///     Creates a new topic in the system
+        /// </summary>
+        /// <param name="topicModel">topic body</param>
+        /// <response code="201">Topic created</response>
+        /// <response code="400">There's something wrong with the request body</response>
+        /// <response code="404">A field name could not be found</response>
+        /// <response code="500">Something is wrong with the server</response>
+        [HttpPost]
+        public ActionResult CreateTopic([FromBody] TopicModel topicModel)
+        {
+            var topicId = _topicsLogic.Add(topicModel); 
+            return CreatedAtRoute(
+                new { Id = topicId },
+                new { Id = topicId, Text = $"topic created with id {topicId}" });
+        }
     }
 }

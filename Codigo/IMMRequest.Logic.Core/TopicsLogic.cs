@@ -16,6 +16,18 @@ namespace IMMRequest.Logic.Core
             _topicRepository = topicRepository;
         }
 
+        public int Add(TopicModel createTopicModel)
+        {
+            var newTopic = new Topic
+            {
+                AreaId = createTopicModel.AreaId,
+                Name = createTopicModel.Name
+            };
+
+            _topicRepository.Add(newTopic);
+            return newTopic.Id;
+        }
+
         public IEnumerable<TopicModel> GetAll(int areaId)
         {
             var all = _topicRepository.GetAll().Where(topic => topic.AreaId == areaId);
