@@ -1,3 +1,11 @@
+input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched {
+  border: 2px solid red;
+}
+
+input.ng-valid.ng-touched, textarea.ng-valid.ng-touched {
+  border: 2px solid lightgreen;
+}
+
 .table {
   width: 100%;
   margin-bottom: 1rem;

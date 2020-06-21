@@ -1,21 +1,20 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import {
-  NgForm,
-  FormControl,
-  FormGroup,
-  FormArray,
-  Validators,
-} from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
+import { Subscription, throwError, Observable } from 'rxjs';
 
 import { AuthService } from '../../../services/auth.service';
 import { AreasService } from 'src/app/services/areas.service';
 import { Area } from 'src/app/models/Area';
 import { Topic } from 'src/app/models/Topic';
 import { Type } from 'src/app/models/Type';
+import { Request as NewRequest } from 'src/app/models/Request';
 import { TopicsService } from 'src/app/services/topics.service';
 import { TypesService } from 'src/app/services/types.service';
 import { AdditionalField } from '../../../models/AdditionalField';
+import { RequestsService } from 'src/app/services/requests.service';
+import { catchError, tap } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-new-request',
@@ -27,6 +26,7 @@ export class NewRequestComponent implements OnInit, OnDestroy {
   loginSub: Subscription;
   topicSub: Subscription;
   typeSub: Subscription;
+  reqSub: Subscription;
 
   areas: Area[] = [];
   topics: Topic[] = [];
@@ -35,11 +35,15 @@ export class NewRequestComponent implements OnInit, OnDestroy {
 
   newRequestForm: FormGroup;
 
+  errorMsg = '';
+
   constructor(
+    private router: Router,
     private authService: AuthService,
     private areasService: AreasService,
     private topicService: TopicsService,
-    private typeService: TypesService
+    private typeService: TypesService,
+    private requestService: RequestsService
   ) {}
 
   ngOnDestroy(): void {
@@ -47,26 +51,42 @@ export class NewRequestComponent implements OnInit, OnDestroy {
     this.areasSub.unsubscribe();
     this.topicSub.unsubscribe();
     this.typeSub.unsubscribe();
+    this.reqSub.unsubscribe();
   }
 
   ngOnInit(): void {
-    this.authService.login('admin@foo.com', 'pass').subscribe(console.log);
-    this.areasService.getAll().subscribe((areas: Area[]) => {
-      this.areas = areas;
-    });
+    // this.loginSub = this.authService
+    //   .login('admin@foo.com', 'pass')
+    //   .pipe(catchError(this.handleError))
+    //   .subscribe(console.log);
+    this.areasSub = this.areasService
+      .getAll()
+      .pipe(tap((next) => {}, this.handleError))
+      .subscribe((areas: Area[]) => {
+        this.areas = areas;
+        this.topics = [];
+        this.types = [];
+      });
     this.initForm();
   }
 
   onAreaSelected(areaId: number) {
-    this.topicService
+    this.topicSub = this.topicSub = this.topicService
       .getAllInArea(areaId)
-      .subscribe((topics: Topic[]) => (this.topics = topics));
+      .pipe(tap((next) => {}, this.handleError))
+      .subscribe((topics: Topic[]) => {
+        this.topics = topics;
+        this.types = [];
+      });
   }
 
   onTopicSelected(topicId: number) {
-    this.typeService
+    this.typeSub = this.typeService
       .getAllInTopic(topicId)
-      .subscribe((types: Type[]) => (this.types = types));
+      .pipe(tap((next) => {}, this.handleError))
+      .subscribe((types: Type[]) => {
+        this.types = types;
+      });
   }
 
   onTypeSelected(typeId: number) {
@@ -74,22 +94,32 @@ export class NewRequestComponent implements OnInit, OnDestroy {
     this.additionalFields = this.types.filter(
       (t: Type) => t.id !== typeId
     )[0].additionalFields;
-    console.log(`additional fields`, this.additionalFields)
+    this.loadAdditionalFields();
   }
 
-  onSubmit() {
-    console.log('submitted');
+  handleError(error: HttpErrorResponse) {
+    if (!error.error || !error.error.error) {
+      this.errorMsg = 'An error ocurred!';
+    }
+
+    this.errorMsg = error.error.error;
   }
 
   loadAdditionalFields(): void {
+    let additionalFieldsForm = this.newRequestForm.get('afArray') as FormArray;
+
+    additionalFieldsForm.clear();
+
     for (const additionalField of this.additionalFields) {
-      (this.newRequestForm.get('additionalFields') as FormArray).push(
-        new FormGroup({
-          name: new FormControl(additionalField.name, Validators.required),
-          type: new FormControl(additionalField.fieldType),
-          value: new FormControl('', Validators.required),
-        })
+      const afFormGroup = new FormGroup({});
+      afFormGroup.addControl(
+        additionalField.name,
+        new FormControl(
+          null,
+          additionalField.isRequired ? [Validators.required] : []
+        )
       );
+      additionalFieldsForm.push(afFormGroup);
     }
   }
 
@@ -97,16 +127,45 @@ export class NewRequestComponent implements OnInit, OnDestroy {
     switch (fieldType) {
       case 'integer':
         return 'number';
-        break;
       case 'boolean':
         return 'checkbox';
-        break;
       default:
         return fieldType;
-        break;
     }
   }
 
+  onSubmit() {
+    const req = this.createNewRequest();
+    console.log('attempting request', req);
+    this.reqSub = this.requestService
+      .add(req)
+      .pipe(tap(() => {}, this.handleError))
+      .subscribe((req: { id: string }) => {
+        console.log(req.id);
+        this.router.navigate(['/dashboard']);
+      });
+  }
+
+  private createNewRequest(): NewRequest {
+    const req: NewRequest = {
+      details: this.newRequestForm.get('details').value,
+      email: this.newRequestForm.get('email').value,
+      name: this.newRequestForm.get('name').value,
+      phone: this.newRequestForm.get('phone').value,
+      typeId: +this.newRequestForm.get('typeId').value,
+      additionalFields: this.newRequestForm.get('afArray').value,
+    };
+
+    let newArray = [];
+    for (let e of req.additionalFields) {
+      const field = Object.keys(e)[0];
+      if (!!e[field]) {
+        newArray.push({ name: field, values: `${e[field]}` });
+      }
+    }
+    req.additionalFields = newArray;
+    return req;
+  }
   private initForm(): void {
     let citizenName = '';
     let citizenEmail = '';
@@ -123,9 +182,13 @@ export class NewRequestComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.maxLength(2000),
       ]),
-      additionalFields: new FormArray([]),
-      // areaId: new FormControl(null, Validators.required),
-      // topicId: new FormControl(null, Validators.required),
+      phone: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(/^[+]?[(]?[0-9]+[)]?[-0-9]*[0-9]$/),
+      ]),
+      afArray: new FormArray([]),
+      areaId: new FormControl(null, Validators.required),
+      topicId: new FormControl(null, Validators.required),
       typeId: new FormControl(typeId, [
         Validators.required,
         Validators.pattern(/[1-9]+[0-9]*/),

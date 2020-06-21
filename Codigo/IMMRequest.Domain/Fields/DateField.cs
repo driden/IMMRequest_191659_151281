@@ -72,7 +72,7 @@ namespace IMMRequest.Domain.Fields
 
         private string ToDateString(DateTime date)
         {
-            return date.ToString("dd-MM-yyyy");
+            return date.ToString("yyyy-MM-dd");
         }
     }
 }
