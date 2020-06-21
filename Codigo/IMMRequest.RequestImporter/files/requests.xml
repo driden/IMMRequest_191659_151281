@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CreateRequestList>
   <Requests>
-    <CreateRequest>
+    <CreateRequestModel>
       <AdditionalFields>
         <FieldRequestModel>
           <Name>Nro de Movil</Name>
-          <Value>111111</Value>
+          <Values>111111</Values>
         </FieldRequestModel>
         <FieldRequestModel>
           <Name>Fecha y hora</Name>
-          <Value>9/5/2020</Value>
+          <Values>9/5/2020|10/6/2030</Values>
         </FieldRequestModel>
       </AdditionalFields>
       <Details>some details</Details>
@@ -17,16 +17,16 @@
       <Name>some citizens name</Name>
       <Phone>5555-555-555</Phone>
       <TypeId>1</TypeId>
-    </CreateRequest>
-    <CreateRequest>
+    </CreateRequestModel>
+    <CreateRequestModel>
       <AdditionalFields>
         <FieldRequestModel>
           <Name>Nro de Movil</Name>
-          <Value>111111</Value>
+          <Values>111111</Values>
         </FieldRequestModel>
         <FieldRequestModel>
           <Name>Fecha y hora</Name>
-          <Value>9/5/2020</Value>
+          <Values>9/5/2020</Values>
         </FieldRequestModel>
       </AdditionalFields>
       <Details>some more details</Details>
@@ -34,6 +34,6 @@
       <Name>some citizens name</Name>
       <Phone>22222-555-555</Phone>
       <TypeId>1</TypeId>
-    </CreateRequest>
+    </CreateRequestModel>
   </Requests>
 </CreateRequestList>

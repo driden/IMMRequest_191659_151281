@@ -9,11 +9,11 @@
       "additionalFields": [
         {
           "name": "Nro de Movil",
-          "value": "111111"
+          "values": "111111|222222"
         },
         {
           "name": "Fecha y hora",
-          "value": "9/5/2020"
+          "values": "9/5/2020|10/6/2021"
         }
       ]
     }
