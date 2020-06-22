@@ -19,7 +19,7 @@
 
   <!-- Nav Item - Dashboard -->
   <li class="nav-item active">
-    <a class="nav-link" href="dashboard">
+    <a class="nav-link" [routerLink]="['/dashboard']">
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Dashboard</span></a
     >
@@ -32,7 +32,7 @@
   <li class="nav-item">
     <a
       class="nav-link collapsed"
-      href="new-request"
+      [routerLink]="['/new-request']"
       data-target="#collapseTwo"
       aria-expanded="true"
       aria-controls="collapseTwo"
@@ -44,7 +44,7 @@
   <li class="nav-item">
     <a
       class="nav-link collapsed"
-      href="allrequest"
+      [routerLink]="['/allrequest']"
       data-target="#collapseTwo"
       aria-expanded="true"
       aria-controls="collapseTwo"
@@ -57,7 +57,7 @@
   <li class="nav-item">
     <a
       class="nav-link collapsed"
-      href="#import"
+      [routerLink]="['#import']"
       data-toggle="collapseTwo"
       aria-expanded="true"
       aria-controls="collapseUtilities"
@@ -71,14 +71,14 @@
 
    <!-- Nav Item - Reports-->
    <li class="nav-item">
-     <a class="nav-link" href="report-a">
+     <a class="nav-link" [routerLink]="['/report-a']">
        <i class="fas fa-fw fa-chart-area"></i>
        <span>Reportes A </span></a
      >
    </li>
 
    <li class="nav-item">
-    <a class="nav-link" href="report-b">
+    <a class="nav-link" [routerLink]="['/report-b']">
       <i class="fas fa-fw fa-chart-area"></i>
       <span>Reportes B </span></a
     >
@@ -90,7 +90,7 @@
 
   <!-- Nav Item - Login -->
   <li class="nav-item">
-    <a class="nav-link" href="login">
+    <a class="nav-link" [routerLink]="['/login']">
       <i class="fas fa-fw fa-chart-area"></i>
       <span>Login</span></a
     >
