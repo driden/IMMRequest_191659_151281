@@ -47,11 +47,11 @@ export class NewRequestComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-    this.loginSub.unsubscribe();
-    this.areasSub.unsubscribe();
-    this.topicSub.unsubscribe();
-    this.typeSub.unsubscribe();
-    this.reqSub.unsubscribe();
+    this.loginSub && this.loginSub.unsubscribe();
+    this.areasSub && this.areasSub.unsubscribe();
+    this.topicSub && this.topicSub.unsubscribe();
+    this.typeSub && this.typeSub.unsubscribe();
+    this.reqSub && this.reqSub.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -139,7 +139,7 @@ export class NewRequestComponent implements OnInit, OnDestroy {
       .pipe(tap(() => {}, this.setError))
       .subscribe((req: { id: string }) => {
         console.log(req.id);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/view-request', req.id]);
       });
   }
 
