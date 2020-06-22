@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -10,6 +10,9 @@ import { AppComponent } from './app.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NewRequestComponent } from './components/requests/new-request/new-request.component';
+import { ViewRequestComponent } from './components/requests/view-request/view-request.component';
+import { DropdownDirective } from './shared/dropdown.directive';
+import { AuthInterceptorService } from './services/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -17,6 +20,8 @@ import { NewRequestComponent } from './components/requests/new-request/new-reque
     SidebarComponent,
     DashboardComponent,
     NewRequestComponent,
+    ViewRequestComponent,
+    DropdownDirective,
   ],
   imports: [
     CommonModule,
@@ -25,9 +30,15 @@ import { NewRequestComponent } from './components/requests/new-request/new-reque
     FontAwesomeModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
