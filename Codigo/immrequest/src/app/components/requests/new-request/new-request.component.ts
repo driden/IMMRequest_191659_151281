@@ -1,7 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
-import { Subscription, throwError, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { AuthService } from '../../../services/auth.service';
 import { AreasService } from 'src/app/services/areas.service';
@@ -13,8 +15,6 @@ import { TopicsService } from 'src/app/services/topics.service';
 import { TypesService } from 'src/app/services/types.service';
 import { AdditionalField } from '../../../models/AdditionalField';
 import { RequestsService } from 'src/app/services/requests.service';
-import { catchError, tap } from 'rxjs/operators';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-new-request',
@@ -47,21 +47,21 @@ export class NewRequestComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-    this.loginSub.unsubscribe();
-    this.areasSub.unsubscribe();
-    this.topicSub.unsubscribe();
-    this.typeSub.unsubscribe();
-    this.reqSub.unsubscribe();
+    this.loginSub && this.loginSub.unsubscribe();
+    this.areasSub && this.areasSub.unsubscribe();
+    this.topicSub && this.topicSub.unsubscribe();
+    this.typeSub && this.typeSub.unsubscribe();
+    this.reqSub && this.reqSub.unsubscribe();
   }
 
   ngOnInit(): void {
     this.loginSub = this.authService
       .login('admin@foo.com', 'pass')
-      .pipe(tap((next) => {}, this.handleError))
+      .pipe(tap((next) => {}, this.setError))
       .subscribe(console.log);
     this.areasSub = this.areasService
       .getAll()
-      .pipe(tap((next) => {}, this.handleError))
+      .pipe(tap((next) => {}, this.setError))
       .subscribe((areas: Area[]) => {
         this.areas = areas;
         this.topics = [];
@@ -73,7 +73,7 @@ export class NewRequestComponent implements OnInit, OnDestroy {
   onAreaSelected(areaId: number) {
     this.topicSub = this.topicSub = this.topicService
       .getAllInArea(areaId)
-      .pipe(tap((next) => {}, this.handleError))
+      .pipe(tap((next) => {}, this.setError))
       .subscribe((topics: Topic[]) => {
         this.topics = topics;
         this.types = [];
@@ -83,7 +83,7 @@ export class NewRequestComponent implements OnInit, OnDestroy {
   onTopicSelected(topicId: number) {
     this.typeSub = this.typeService
       .getAllInTopic(topicId)
-      .pipe(tap((next) => {}, this.handleError))
+      .pipe(tap((next) => {}, this.setError))
       .subscribe((types: Type[]) => {
         this.types = types;
       });
@@ -97,13 +97,10 @@ export class NewRequestComponent implements OnInit, OnDestroy {
     this.loadAdditionalFields();
   }
 
-  handleError(error: HttpErrorResponse) {
-    if (!error.error || !error.error.error) {
-      this.errorMsg = 'An error ocurred!';
-    }
-
-    this.errorMsg = error.error.error;
-  }
+  setError = (error: HttpErrorResponse) => {
+    console.log(error);
+    this.errorMsg = error.error.title || error.error || 'An error occurred!';
+  };
 
   loadAdditionalFields(): void {
     let additionalFieldsForm = this.newRequestForm.get('afArray') as FormArray;
@@ -139,10 +136,10 @@ export class NewRequestComponent implements OnInit, OnDestroy {
     console.log('attempting request', req);
     this.reqSub = this.requestService
       .add(req)
-      .pipe(tap(() => {}, this.handleError))
+      .pipe(tap(() => {}, this.setError))
       .subscribe((req: { id: string }) => {
         console.log(req.id);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/view-request', req.id]);
       });
   }
 
