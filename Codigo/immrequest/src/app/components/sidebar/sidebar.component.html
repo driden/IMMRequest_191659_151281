@@ -11,7 +11,10 @@
     <div class="sidebar-brand-icon rotate-n-15">
       <i class="fas fa-laugh-wink"></i>
     </div>
-    <div class="sidebar-brand-text mx-3">IMM <br> Request</div>
+    <div class="sidebar-brand-text mx-3">
+      IMM <br />
+      Request
+    </div>
   </a>
 
   <!-- Divider -->
@@ -19,7 +22,7 @@
 
   <!-- Nav Item - Dashboard -->
   <li class="nav-item active">
-    <a class="nav-link" href="dashboard">
+    <a class="nav-link" routerLink="[/dashboard]">
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Dashboard</span></a
     >
@@ -39,14 +42,14 @@
     >
       <i class="fas fa-fw fa-cog"></i>
       <span>Nueva solicitud</span>
-  </a>
+    </a>
   </li>
 
   <!-- Nav Item - Utilities Collapse Menu -->
   <li class="nav-item">
     <a
       class="nav-link collapsed"
-      href="#import"
+      href="#"
       data-toggle="collapseTwo"
       aria-expanded="true"
       aria-controls="collapseUtilities"
@@ -61,12 +64,18 @@
 
   <!-- Nav Item - Login -->
   <li class="nav-item">
-    <a class="nav-link" href="login">
+    <a class="nav-link" [routerLink]="['/login']">
       <i class="fas fa-fw fa-chart-area"></i>
       <span>Login</span></a
     >
   </li>
 
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['/view-request', 1]">
+      <i class="fas fa-fw fa-chart-area"></i>
+      <span>View request1</span>
+    </a>
+  </li>
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block" />
 </ul>

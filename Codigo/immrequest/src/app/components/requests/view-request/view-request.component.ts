@@ -17,7 +17,6 @@ import { User } from 'src/app/models/User';
 export class ViewRequestComponent implements OnInit, OnDestroy {
   reqSub: Subscription;
   updateSub: Subscription;
-  loginSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,10 +48,6 @@ export class ViewRequestComponent implements OnInit, OnDestroy {
           this.updateAvailableStates();
         });
     });
-    this.loginSub = this.authService
-      .login('admin@foo.com', 'pass')
-      .pipe(tap((next) => {}, this.setError))
-      .subscribe(console.log);
     this.authService.userSubject.subscribe((user: User) => (this.user = user));
   }
 
@@ -62,7 +57,6 @@ export class ViewRequestComponent implements OnInit, OnDestroy {
   }
 
   setError = (error: HttpErrorResponse) => {
-    console.log(error);
     this.errorMsg =
       error.error.error || error.error.title || 'An error occurred!';
   };
