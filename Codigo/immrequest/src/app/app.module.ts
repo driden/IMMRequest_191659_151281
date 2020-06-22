@@ -12,6 +12,9 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NewRequestComponent } from './components/requests/new-request/new-request.component';
 import { LoginComponent } from './components/login/login.component';
 import { IndexComponent } from './components/index/index.component';
+import { AllrequestComponent } from './components/requests/allrequest/allrequest.component';
+import { ReportAComponent } from './components/reports/report-a/report-a.component';
+import { ReportBComponent } from './components/reports/report-b/report-b.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +24,9 @@ import { IndexComponent } from './components/index/index.component';
     NewRequestComponent,
     LoginComponent,
     IndexComponent,
+    AllrequestComponent,
+    ReportAComponent,
+    ReportBComponent,
   ],
   imports: [
     CommonModule,
