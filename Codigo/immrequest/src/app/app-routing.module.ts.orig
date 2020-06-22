@@ -3,8 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NewRequestComponent } from './components/requests/new-request/new-request.component';
+<<<<<<< HEAD
 import { ViewRequestComponent} from './components/requests/view-request/view-request.component';
+=======
 import { LoginComponent } from './components/login/login.component';
+>>>>>>> develop
 
 const routes: Routes = [
   {
@@ -18,15 +21,17 @@ const routes: Routes = [
     component: NewRequestComponent,
   },
   {
-    path: 'login',
-    pathMatch: 'full',
-    component: LoginComponent,
-  },
-  {
+<<<<<<< HEAD
     path: 'view-request/:id',
     pathMatch: 'full',
     component: ViewRequestComponent,
   }
+=======
+    path: 'login',
+    pathMatch: 'full',
+    component: LoginComponent,
+  },
+>>>>>>> develop
 ];
 
 @NgModule({

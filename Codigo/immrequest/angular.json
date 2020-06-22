@@ -121,6 +121,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "immrequest"
+    }
+  },
+  "defaultProject": "immrequest",
+  "cli": {
+    "analytics": "bf99c1fa-5e73-4a33-b5b0-1077716a5fa9"
+  }
 }

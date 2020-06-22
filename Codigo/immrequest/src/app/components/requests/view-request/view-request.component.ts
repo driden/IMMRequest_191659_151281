@@ -99,7 +99,7 @@ export class ViewRequestComponent implements OnInit, OnDestroy {
     switch (this.request.requestState) {
       case 'Created':
         return 'badge-secondary';
-      case 'In review':
+      case 'InReview':
         return 'badge-warning';
       case 'Accepted':
         return 'badge-success';

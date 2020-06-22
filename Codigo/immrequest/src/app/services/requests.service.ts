@@ -34,7 +34,7 @@ export class RequestsService {
     switch (state) {
       case 'Created':
         return 'Creada';
-      case 'In review':
+      case 'InReview':
         return 'En revisión';
       case 'Accepted':
         return 'Aceptada';
@@ -51,19 +51,19 @@ export class RequestsService {
     const moves = [
       {
         state: 'Created',
-        to: ['In review'],
+        to: ['InReview'],
       },
       {
-        state: 'In review',
+        state: 'InReview',
         to: ['Created', 'Accepted', 'Denied'],
       },
       {
         state: 'Accepted',
-        to: ['Done', 'In review'],
+        to: ['Done', 'InReview'],
       },
       {
         state: 'Denied',
-        to: ['Done', 'In review'],
+        to: ['Done', 'InReview'],
       },
       {
         state: 'Done',

@@ -12,6 +12,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NewRequestComponent } from './components/requests/new-request/new-request.component';
 import { ViewRequestComponent } from './components/requests/view-request/view-request.component';
 import { DropdownDirective } from './shared/dropdown.directive';
+import { LoginComponent } from './components/login/login.component';
+import { IndexComponent } from './components/index/index.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 
 @NgModule({
@@ -22,6 +24,8 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
     NewRequestComponent,
     ViewRequestComponent,
     DropdownDirective,
+    LoginComponent,
+    IndexComponent,
   ],
   imports: [
     CommonModule,

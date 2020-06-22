@@ -1,7 +1,9 @@
 namespace IMMRequest.Logic.Tests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using Core;
     using DataAccess.Interfaces;
     using Domain;
@@ -9,6 +11,7 @@ namespace IMMRequest.Logic.Tests
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Models.Topic;
     using Moq;
+    using Type = Domain.Type;
 
     [TestClass]
     public class TopicsLogicTests
@@ -65,5 +68,25 @@ namespace IMMRequest.Logic.Tests
             Assert.AreEqual(expected.Id, actual.Id);
             CollectionAssert.AreEqual(expected.Types, actual.Types);
         }
+
+
+        [TestMethod]
+        public void CantCreateNewTopic()
+        {
+            var newTopic = new TopicModel
+            {
+                Name = "Contenedor",
+                AreaId = 1
+            };
+
+            _topicRepositoryMock
+                .Setup(m => m.Exists(It.IsAny<Expression<Func<Topic, bool>>>()))
+                .Returns(false);
+            _topicRepositoryMock.Setup(m => m.Add(It.IsAny<Topic>())).Verifiable();
+            _topicsLogic.Add(newTopic);
+
+            _topicRepositoryMock.Verify(m => m.Add(It.IsAny<Topic>()), Times.Once());
+        }
+
     }
 }
