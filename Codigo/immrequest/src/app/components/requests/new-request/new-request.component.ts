@@ -55,10 +55,10 @@ export class NewRequestComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this.loginSub = this.authService
-    //   .login('admin@foo.com', 'pass')
-    //   .pipe(catchError(this.handleError))
-    //   .subscribe(console.log);
+    this.loginSub = this.authService
+      .login('admin@foo.com', 'pass')
+      .pipe(tap((next) => {}, this.handleError))
+      .subscribe(console.log);
     this.areasSub = this.areasService
       .getAll()
       .pipe(tap((next) => {}, this.handleError))

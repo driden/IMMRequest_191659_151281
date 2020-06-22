@@ -3,6 +3,7 @@ namespace IMMRequest.DataAccess.Interfaces
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
+    using IMMRequest.Domain;
 
     public interface IRepository<T> where T : class
     {
