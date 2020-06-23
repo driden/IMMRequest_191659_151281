@@ -6,7 +6,7 @@
   <!-- Sidebar - Brand -->
   <a
     class="sidebar-brand d-flex align-items-center justify-content-center"
-    href="index.html"
+    [routerLink]="['dashboard']"
   >
     <div class="sidebar-brand-icon rotate-n-15">
       <i class="fas fa-laugh-wink"></i>
@@ -21,7 +21,7 @@
   <hr class="sidebar-divider my-0" />
 
   <!-- Nav Item - Dashboard -->
-  <li class="nav-item active">
+  <li class="nav-item" routerLinkActive="active">
     <a class="nav-link" [routerLink]="['/dashboard']">
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Dashboard</span></a
@@ -66,7 +66,7 @@
     >
       <i class="fas fa-fw fa-cog"></i>
       <span>Todas las solicitudes</span>
-  </a>
+    </a>
   </li>
   <!-- Nav Item - Utilities Collapse Menu -->
   <li class="nav-item">
@@ -94,13 +94,12 @@
      >
    </li>
 
-   <li class="nav-item">
+  <li class="nav-item">
     <a class="nav-link" [routerLink]="['/report-b']">
       <i class="fas fa-fw fa-table"></i>
       <span>Tipos más usados</span></a
     >
   </li>
-
 
   <!-- Divider -->
   <hr class="sidebar-divider" />
@@ -114,5 +113,13 @@
   </li>
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block" />
+
+  <!--Imports-->
+  <li class="nav-item" routerLinkActive="active">
+    <a class="nav-link" [routerLink]="['/import']">
+      <i class="fas fa-fw fa-chart-area"></i>
+      <span>Import from file</span></a
+    >
+  </li>
 </ul>
 <!-- End of Sidebar -->

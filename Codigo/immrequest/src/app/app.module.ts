@@ -19,6 +19,7 @@ import { ReportAComponent } from './components/reports/searchByMail/searchByMail
 import { ReportBComponent } from './components/reports/report-b/report-b.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { NewTypeComponent } from './components/types/new-type/new-type.component';
+import { FileImportComponent } from './components/file-import/file-import.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { NewTypeComponent } from './components/types/new-type/new-type.component
     ReportAComponent,
     ReportBComponent,
     NewTypeComponent,
+    FileImportComponent,
   ],
   imports: [
     CommonModule,

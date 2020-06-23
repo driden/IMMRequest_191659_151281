@@ -8,9 +8,15 @@ namespace IMMRequest.RequestImporter
 
     public class AbstractRequestImporter
     {
-        public IRequestsImportable GetInstance()
+        private readonly Dictionary<string, string> _assemblyForType = new Dictionary<string, string>()
         {
-            var first = ReadFirstInPluginsDirectory();
+            {"json", "IMMRequest.JsonRequestImporter.dll" },
+            {"xml", "IMMRequest.XmlRequestImporter.dll" }
+        };
+
+        public IRequestsImportable GetInstance(string fileType)
+        {
+            var first = ReadFirstInPluginsDirectory(_assemblyForType[fileType.Trim().ToLower()]);
             var dllFile = new FileInfo(first);
 
             Assembly myAssembly = Assembly.LoadFile(dllFile.FullName);
@@ -19,10 +25,10 @@ namespace IMMRequest.RequestImporter
             return importer;
         }
 
-        public CreateRequestList ParseFile(string filePath)
+        public CreateRequestList ParseFile(string fileContent, string fileType)
         {
-            IRequestsImportable instance = GetInstance();
-            return instance.Import(filePath);
+            IRequestsImportable instance = GetInstance(fileType);
+            return instance.Import(fileContent);
         }
 
         private IEnumerable<Type> GetTypesInAssembly<T>(Assembly assembly)
@@ -36,11 +42,11 @@ namespace IMMRequest.RequestImporter
             return types;
         }
 
-        private string ReadFirstInPluginsDirectory()
+        private string ReadFirstInPluginsDirectory(string dllFile)
         {
-            return Directory.EnumerateFiles(Path.Join(GetCurrentDirectory, "plugins"), "*.dll").FirstOrDefault();
+            return Directory.EnumerateFiles(Path.Join(GetCurrentDirectory, "plugins"), dllFile).FirstOrDefault();
         }
 
-        private string GetCurrentDirectory => Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
+        private string GetCurrentDirectory => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     }
 }

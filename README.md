@@ -3,38 +3,22 @@
 
 [![Build status](https://dev.azure.com/IMMRequest/IMMRequest/_apis/build/status/IMMRequest-ASP.NET%20Core-CI)](https://dev.azure.com/IMMRequest/IMMRequest/_build/latest?definitionId=3)
 
-# REST Api documentation
-## Add a new request
-```
-POST /api/requests
-{
-  "details": "some details",
-  "email": "email@citizen.com",
-  "name": "citizen's name",
-  "phone": "5555-555-555",
-  "topicId": 1
-}
-```
-Retuns a 200 if everything was ok
-### TODO
-* [x] Make it return the Id of the newly created Request for tracking
-* Return 400 si
-    * [x] detalles tiene mas de 2000 caracteres
-    * [x] email no tien formate correcto
-    * [x] phone no acepta caracteres espaciales o no tiene numeros
-    * [x] nombre vacio
-    * [ ] Arreglar bug cuando se repite el email en una request y da una excepción de key duplicada.
-* [ ] weapi: Agregar iexception filter
-* [ ] GetAllRequestStatusResponse: referirse a Data Response
-* [ ] Los modelos: comenzar con la palabra Model...
-* [ ] Nombres de paquetes: refactor, singular
-* [ ] IAdminQueries: arreglar paquete
+## TODO
+### Backend
+* [x] Crear un endpoint para poder llamar a la dll que importa los archivos, pasar un objeto `{content: string|byte[], format: string}`
+
+### Frontend
+* [ ] Crear listado de requests
+* [ ] Crear pagina para agregar más admins
+* [ ] Hacer que el listado de request rediriga a la request seleccionada
+* [ ] Componente de reportes A (elegir mejor nombre)
+* [ ] Componente de reportes B (elegir mejor nombre)
+* [ ] Eliminar un tipo
+* [ ] Adaptar los compoonentes para que muestren su contenido según usuario logueado o no
+* [ ] Authorization guards para que no se pueda navegar directo a un componente
+* [ ] Una guarda para que solo el usuario que hizo la solicitud pueda verla
+* [ ] _bonus_ hacer otro router solo para reportes
+
 
 # Docker command
-docker run \
---name sqlserver \
--e 'ACCEPT_EULA=Y' \
--e 'SA_PASSWORD=Pass1234' \
--e 'MSSQL_PID=Express' \
--p 1401:1433 \
--d mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+`docker-compse up -d`

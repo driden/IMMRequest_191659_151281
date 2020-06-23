@@ -17,4 +17,10 @@
     <ProjectReference Include="..\IMMRequest.JsonRequestImporter\IMMRequest.JsonRequestImporter.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="requests.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
