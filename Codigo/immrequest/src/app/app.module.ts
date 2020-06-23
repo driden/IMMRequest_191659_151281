@@ -14,6 +14,9 @@ import { ViewRequestComponent } from './components/requests/view-request/view-re
 import { DropdownDirective } from './shared/dropdown.directive';
 import { LoginComponent } from './components/login/login.component';
 import { IndexComponent } from './components/index/index.component';
+import { AllrequestComponent } from './components/requests/allrequest/allrequest.component';
+import { ReportAComponent } from './components/reports/report-a/report-a.component';
+import { ReportBComponent } from './components/reports/report-b/report-b.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { NewTypeComponent } from './components/types/new-type/new-type.component';
 
@@ -27,6 +30,9 @@ import { NewTypeComponent } from './components/types/new-type/new-type.component
     DropdownDirective,
     LoginComponent,
     IndexComponent,
+    AllrequestComponent,
+    ReportAComponent,
+    ReportBComponent,
     NewTypeComponent,
   ],
   imports: [

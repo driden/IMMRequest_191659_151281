@@ -22,7 +22,7 @@
 
   <!-- Nav Item - Dashboard -->
   <li class="nav-item active">
-    <a class="nav-link" routerLink="[/dashboard]">
+    <a class="nav-link" [routerLink]="['/dashboard']">
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Dashboard</span></a
     >
@@ -35,7 +35,7 @@
   <li class="nav-item">
     <a
       class="nav-link collapsed"
-      href="new-request"
+      [routerLink]="['/new-request']"
       data-target="#collapseTwo"
       aria-expanded="true"
       aria-controls="collapseTwo"
@@ -44,12 +44,35 @@
       <span>Nueva solicitud</span>
     </a>
   </li>
-
+  <li class="nav-item">
+    <a
+      class="nav-link collapsed"
+      [routerLink]="['/new-type']"
+      data-target="#collapseTwo"
+      aria-expanded="true"
+      aria-controls="collapseTwo"
+    >
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Nuevo tipo</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link collapsed"
+      [routerLink]="['/allrequest']"
+      data-target="#collapseTwo"
+      aria-expanded="true"
+      aria-controls="collapseTwo"
+    >
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Todas las solicitudes</span>
+  </a>
+  </li>
   <!-- Nav Item - Utilities Collapse Menu -->
   <li class="nav-item">
     <a
       class="nav-link collapsed"
-      href="#"
+      [routerLink]="['#import']"
       data-toggle="collapseTwo"
       aria-expanded="true"
       aria-controls="collapseUtilities"
@@ -58,6 +81,24 @@
       <span>Importar</span>
     </a>
   </li>
+   <!-- Divider -->
+   <hr class="sidebar-divider" />
+
+   <!-- Nav Item - Reports-->
+   <li class="nav-item">
+     <a class="nav-link" [routerLink]="['/report-a']">
+       <i class="fas fa-fw fa-chart-area"></i>
+       <span>Reportes A </span></a
+     >
+   </li>
+
+   <li class="nav-item">
+    <a class="nav-link" [routerLink]="['/report-b']">
+      <i class="fas fa-fw fa-chart-area"></i>
+      <span>Reportes B </span></a
+    >
+  </li>
+
 
   <!-- Divider -->
   <hr class="sidebar-divider" />
@@ -68,13 +109,6 @@
       <i class="fas fa-fw fa-chart-area"></i>
       <span>Login</span></a
     >
-  </li>
-
-  <li class="nav-item">
-    <a class="nav-link" [routerLink]="['/new-type']">
-      <i class="fas fa-fw fa-chart-area"></i>
-      <span>New Type</span>
-    </a>
   </li>
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block" />
