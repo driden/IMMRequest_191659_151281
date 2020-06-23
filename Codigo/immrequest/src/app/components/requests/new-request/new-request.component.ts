@@ -23,7 +23,6 @@ import { RequestsService } from 'src/app/services/requests.service';
 })
 export class NewRequestComponent implements OnInit, OnDestroy {
   areasSub: Subscription;
-  loginSub: Subscription;
   topicSub: Subscription;
   typeSub: Subscription;
   reqSub: Subscription;
@@ -39,7 +38,6 @@ export class NewRequestComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private authService: AuthService,
     private areasService: AreasService,
     private topicService: TopicsService,
     private typeService: TypesService,
@@ -47,7 +45,6 @@ export class NewRequestComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-    this.loginSub && this.loginSub.unsubscribe();
     this.areasSub && this.areasSub.unsubscribe();
     this.topicSub && this.topicSub.unsubscribe();
     this.typeSub && this.typeSub.unsubscribe();
@@ -55,10 +52,6 @@ export class NewRequestComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loginSub = this.authService
-      .login('admin@foo.com', 'pass')
-      .pipe(tap((next) => {}, this.setError))
-      .subscribe(console.log);
     this.areasSub = this.areasService
       .getAll()
       .pipe(tap((next) => {}, this.setError))
@@ -122,7 +115,7 @@ export class NewRequestComponent implements OnInit, OnDestroy {
 
   getAdditionalFieldInputType(fieldType: string): string {
     switch (fieldType) {
-      case 'integer':
+      case 'int':
         return 'number';
       case 'boolean':
         return 'checkbox';
