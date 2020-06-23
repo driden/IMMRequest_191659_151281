@@ -5,6 +5,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NewRequestComponent } from './components/requests/new-request/new-request.component';
 import { ViewRequestComponent} from './components/requests/view-request/view-request.component';
 import { LoginComponent } from './components/login/login.component';
+import { NewTypeComponent } from './components/types/new-type/new-type.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,11 @@ const routes: Routes = [
     path: 'view-request/:id',
     pathMatch: 'full',
     component: ViewRequestComponent,
+  },
+  {
+    path: 'new-type',
+    pathMatch: 'full',
+    component: NewTypeComponent,
   }
 ];
 

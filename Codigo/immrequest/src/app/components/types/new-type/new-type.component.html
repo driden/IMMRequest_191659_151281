@@ -1,0 +1,196 @@
+<div class="d-flex flex-column">
+  <!-- Begin Page Content -->
+  <div class="container" *ngIf="!!errorMsg">
+    <div class="alert alert-danger row" role="alert">
+      <div class="col-lg-9 col-xl-9 col-md-9">
+        <h4 class="alert-heading">Error :(</h4>
+      </div>
+      <div class="col-lg-2 col-xl-2 col-md-2">
+        <button
+          type="button btn btn-danger btn-sm float-right"
+          class="close"
+          aria-label="Close"
+          (click)="errorMsg = ''"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <hr />
+      <p>
+        {{ errorMsg }}
+      </p>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-xl-6 col-lg-8 col-md-10 col-sm-12 col-12">
+      <div class="card shadow mt-5">
+        <div class="card-header py-3">
+          <div class="row">
+            <h6
+              class="m-0 font-weight-bold text-primary col-xl-10 col-lg-10 col-md-10 col-sm-10"
+            >
+              Crea un nuevo tipo
+            </h6>
+            <button
+              type="submit"
+              class="btn btn-primary float-right col-xl-2 col-lg-2 col-md-2 col-sm-2"
+              [disabled]="newTypeForm.invalid"
+              (click)="onSubmit()"
+            >
+              Enviar
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="text-center">
+            <form [formGroup]="newTypeForm">
+              <div class="form-group row">
+                <label class="col-xl-3 col-lg-3 col-md-3 mb-0 pb-0"
+                  >Nombre</label
+                >
+                <input
+                  type="text"
+                  class="form-control col-xl-9 col-lg-9 col-md-9"
+                  placeholder="Ingresa el nombre del tipo"
+                  formControlName="name"
+                />
+              </div>
+              <div class="form-row">
+                <div class="col-md-6 mb-3 row">
+                  <label class="col-md-6">Area</label>
+                  <select
+                    class="custom-select col-md-6"
+                    (change)="onAreaSelected($event.target.value)"
+                    formControlName="areaId"
+                  >
+                    <option *ngFor="let area of areas" [value]="area.id"
+                      >{{ area.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3 row">
+                  <label class="col-md-6">Tema</label>
+                  <select
+                    class="custom-select col-md-6"
+                    formControlName="topicId"
+                  >
+                    <option *ngFor="let topic of topics" [value]="topic.id">{{
+                      topic.name
+                    }}</option>
+                  </select>
+                </div>
+              </div>
+              <br />
+              <div formArrayName="afArray">
+                <!-- we add the additional fields realted to the type -->
+                <div class="container-fluid">
+                  <label class="text-lg">Campos Adicionales</label>
+                  <button
+                    (click)="addMoreAdditionalFields()"
+                    class="btn btn-outline-secondary btn-sm ml-3"
+                  >
+                    +
+                  </button>
+                  <div class="row">
+                    <div class="col-md-3 col-lg-3">
+                      <label for="">Nombre</label>
+                    </div>
+                    <div class="col-md-3 col-lg-3">
+                      <label for="">Tipo</label>
+                    </div>
+                    <div class="col-md-3 col-lg-3">
+                      <label for="">Rango</label>
+                    </div>
+                    <div class="col-md-2 col-lg-2">
+                      <label for="">Requerido?</label>
+                    </div>
+                  </div>
+                  <div
+                    class="row align-items-start mb-1"
+                    *ngFor="let af of additionalFieldsControls; let i = index"
+                    [formGroupName]="i"
+                  >
+                    <!-- Nombre -->
+                    <div class="col-md-3 col-lg-3">
+                      <input
+                        type="text form-control"
+                        class="form-control"
+                        formControlName="name"
+                      />
+                    </div>
+                    <!-- Tipo -->
+                    <div class="col-md-2 col-lg-2">
+                      <select class="custom-select" formControlName="type">
+                        <option *ngFor="let t of uiTypes" [value]="t.value">
+                          {{ t.text }}
+                        </option>
+                      </select>
+                    </div>
+                    <!-- Rango -->
+                    <div formArrayName="range" class="col-md-4 col-lg-4">
+                      <div>
+                        <button
+                          (click)="addToRange(i)"
+                          class="btn btn-outline-success btn-sm ml-3 col-md-2 col-lg-2"
+                        >
+                          Add
+                        </button>
+                        <!-- fila con la lista de campos adicionales -->
+                        <div class="row justify-content-center">
+                          <ul class="list-group">
+                            <li
+                              class="list-group-item"
+                              [formGroupName]="j"
+                              *ngFor="
+                                let rangeControl of rangeControls(i);
+                                let j = index
+                              "
+                            >
+                              <input
+                                type="text"
+                                value="test"
+                                formControlName="rangeValue"
+                              />
+                              <button
+                                type="button"
+                                class="close"
+                                aria-label="Close"
+                              >
+                                <span
+                                  aria-hidden="true"
+                                  (click)="
+                                    removeAdditionalFieldRangeEntry(i, j)
+                                  "
+                                  >&times;</span
+                                >
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Requerido -->
+                    <div class="col-md-2 col-lg-2">
+                      <input
+                        type="checkbox"
+                        class="align-middle form-check-inline"
+                        formControlName="required"
+                      />
+                    </div>
+                    <!-- Borrar -->
+                    <button
+                      class="btn btn-outline-danger"
+                      (click)="deleteAdditionalField(i)"
+                    >
+                      -
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

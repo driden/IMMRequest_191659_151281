@@ -15,6 +15,7 @@ import { DropdownDirective } from './shared/dropdown.directive';
 import { LoginComponent } from './components/login/login.component';
 import { IndexComponent } from './components/index/index.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { NewTypeComponent } from './components/types/new-type/new-type.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
     DropdownDirective,
     LoginComponent,
     IndexComponent,
+    NewTypeComponent,
   ],
   imports: [
     CommonModule,
