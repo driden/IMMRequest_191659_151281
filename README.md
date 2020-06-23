@@ -5,7 +5,7 @@
 
 ## TODO
 ### Backend
-* [ ] Crear un endpoint para poder llamar a la dll que importa los archivos, pasar un objeto `{content: string|byte[], format: string}`
+* [x] Crear un endpoint para poder llamar a la dll que importa los archivos, pasar un objeto `{content: string|byte[], format: string}`
 
 ### Frontend
 * [ ] Crear listado de requests
