@@ -10,9 +10,9 @@ export interface ReportAData {
 }
 
 @Component({
-  selector: 'app-report-a',
-  templateUrl: './report-a.component.html',
-  styleUrls: ['./report-a.component.css']
+  selector: 'app-searchByMail',
+  templateUrl: './searchByMail.component.html',
+  styleUrls: ['./searchByMail.component.css']
 })
 
 
