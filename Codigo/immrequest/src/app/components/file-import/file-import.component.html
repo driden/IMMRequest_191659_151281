@@ -1,0 +1,62 @@
+<div class="d-flex flex-column">
+  <!-- Begin Page Content -->
+  <div class="container" *ngIf="!!errorMsg">
+    <div class="alert alert-danger row" role="alert">
+      <div class="col-lg-9 col-xl-9 col-md-9">
+        <h4 class="alert-heading">Error :(</h4>
+      </div>
+      <div class="col-lg-2 col-xl-2 col-md-2">
+        <button
+          type="button btn btn-danger btn-sm float-right"
+          class="close"
+          aria-label="Close"
+          (click)="errorMsg = ''"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <hr />
+      <p>
+        {{ errorMsg }}
+      </p>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-xl-6 col-lg-8 col-md-10 col-sm-12 col-12">
+      <div class="card shadow mt-5">
+        <div class="card-header py-3">
+          <div class="row">
+            <h6
+              class="m-0 font-weight-bold text-primary col-xl-10 col-lg-10 col-md-10 col-sm-10"
+            >
+              Agrega múltiples solicitudes mediante un archivo
+            </h6>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="text-center">
+            <input type="file" #file placeholder="Choose file" />
+            <button
+              type="button"
+              accept=".json, .xml"
+              class="btn btn-success"
+              (click)="upload(file.files)"
+            >
+              Importar
+            </button>
+          </div>
+          <div *ngIf="success" class="mt-2 text-center justify-content-center">
+            <div
+              class="alert alert-success"
+              role="alert"
+              style="display: inline-block;"
+            >
+              Importado con éxito {{ addedIds.join(",") }}
+              <span aria-hidden="true" (click)="success = false">&times;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

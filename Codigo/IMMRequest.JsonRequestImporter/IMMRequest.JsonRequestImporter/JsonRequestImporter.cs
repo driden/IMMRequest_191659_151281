@@ -1,29 +1,20 @@
 namespace IMMRequest.JsonRequestImporter
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
-    using System.Reflection;
     using Newtonsoft.Json;
     using RequestImporter;
 
     public class JsonRequestImporter : IRequestsImportable
     {
-        public CreateRequestList Import(string filePath)
+        public CreateRequestList Import(string fileContent)
         {
-            var fullPath = Path.Join(Path.GetDirectoryName(Assembly.GetCallingAssembly().Location), filePath);
-            if (string.IsNullOrEmpty(filePath))
+            if (string.IsNullOrEmpty(fileContent))
             {
-                throw new Exception($"parameter {nameof(filePath)} can't be null nor empty");
+                throw new Exception($"parameter {nameof(fileContent)} can't be null nor empty");
             }
 
-            if (!File.Exists(filePath))
-            {
-                throw new Exception($"parameter {nameof(filePath)} needs to be a valid json file");
-            }
-
-
-            using (var streamReader = new StreamReader(fullPath))
+            using (var streamReader = new StringReader(fileContent))
             {
                 string json = streamReader.ReadToEnd();
                 var requests = JsonConvert.DeserializeObject<CreateRequestList>(json);

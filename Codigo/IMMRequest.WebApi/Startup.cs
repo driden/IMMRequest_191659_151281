@@ -6,6 +6,7 @@ namespace IMMRequest.WebApi
     using Filters;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http.Features;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -27,6 +28,13 @@ namespace IMMRequest.WebApi
                 options.Filters.Add(typeof(DomainExceptionFilter), 1);
                 options.Filters.Add(typeof(LogicExceptionFilter), 2);
                 options.Filters.Add(typeof(SystemExceptionFilter), 3);
+            });
+
+            services.Configure<FormOptions>(opts =>
+            {
+                opts.MemoryBufferThreshold = int.MaxValue;
+                opts.ValueLengthLimit = int.MaxValue;
+                opts.MultipartBodyLengthLimit = int.MaxValue;
             });
 
 
