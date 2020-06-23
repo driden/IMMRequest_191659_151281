@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\IMMRequest.DataAccess\IMMRequest.DataAccess.csproj" />
     <ProjectReference Include="..\IMMRequest.Logic\IMMRequest.Logic.csproj" />
+    <ProjectReference Include="..\IMMRequest.RequestImporter\IMMRequest.RequestImporter.csproj" />
   </ItemGroup>
 
 </Project>

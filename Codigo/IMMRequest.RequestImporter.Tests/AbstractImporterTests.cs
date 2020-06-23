@@ -1,5 +1,6 @@
 namespace IMMRequest.RequestImporter.Tests
 {
+    using System.IO;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -9,14 +10,15 @@ namespace IMMRequest.RequestImporter.Tests
         public void CanFindAllInstancesOfIRequestImportable()
         {
             var abstractImporter = new AbstractRequestImporter();
-            Assert.IsNotNull(abstractImporter.GetInstance());
+            Assert.IsNotNull(abstractImporter.GetInstance("json"));
         }
 
         [TestMethod]
         public void CanParseAJsonFile()
         {
             var abstractImporter = new AbstractRequestImporter();
-            Assert.IsNotNull(abstractImporter.ParseFile("files/requests.xml"));
+            var fileContent = File.ReadAllText("requests.xml");
+            Assert.IsNotNull(abstractImporter.ParseFile(fileContent, "xml"));
         }
 
     }

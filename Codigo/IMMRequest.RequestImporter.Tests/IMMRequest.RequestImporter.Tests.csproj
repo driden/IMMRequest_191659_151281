@@ -17,4 +17,10 @@
     <ProjectReference Include="..\IMMRequest.RequestImporter\IMMRequest.RequestImporter.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="requests.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
