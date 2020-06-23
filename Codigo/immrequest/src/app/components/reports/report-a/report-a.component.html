@@ -72,9 +72,9 @@
             <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
 
               <div>
-                <input class="form-control" id="mail" type="text" formControlName="mail">
-                <input class="form-control" id="startDate" type="date" formControlName="startDate">
-                <input class="form-control" id="endDate" type="date" formControlName="endDate">
+                <input id="mail" type="text" formControlName="mail">
+                <input id="startDate" type="date" formControlName="startDate">
+                <input id="endDate" type="date" formControlName="endDate">
                 <button class="btn btn-primary" type="submit">Buscar</button>
               </div>
             </form>
