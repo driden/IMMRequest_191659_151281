@@ -9,6 +9,7 @@
 
 ### Frontend
 * [ ] Crear listado de requests
+* [ ] Crear listado de requests
 * [ ] Crear pagina para agregar más admins
 * [ ] Hacer que el listado de request rediriga a la request seleccionada
 * [ ] Componente de reportes A (elegir mejor nombre)
@@ -16,6 +17,7 @@
 * [ ] Eliminar un tipo
 * [ ] Adaptar los compoonentes para que muestren su contenido según usuario logueado o no
 * [ ] Authorization guards para que no se pueda navegar directo a un componente
+* [ ] Una guarda para que solo el usuario que hizo la solicitud pueda verla
 * [ ] _bonus_ hacer otro router solo para reportes
 
 
