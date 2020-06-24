@@ -25,15 +25,18 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    console.log(this.user.email, this.user.password);
     this.loginSub = this.authService
       .login(this.user.email, this.user.password)
-      .pipe(tap((next) => {}, this.handleError))
-      .subscribe(() => this.router.navigate(['/dashboard']));
+      .pipe(
+        tap(() => {
+          this.router.navigate(['/dashboard']);
+        }, this.handleError)
+      )
+      .subscribe();
   }
 
-  handleError = (error: HttpErrorResponse) => {
+  handleError = (error) => {
     this.errorMsg =
-      error.error.error || error.error.title || 'An error occurred!';
+      error || error.error.error || error.error.title || 'An error occurred!';
   };
 }

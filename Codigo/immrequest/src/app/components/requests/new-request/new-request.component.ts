@@ -91,8 +91,8 @@ export class NewRequestComponent implements OnInit, OnDestroy {
   }
 
   setError = (error: HttpErrorResponse) => {
-    console.log(error);
-    this.errorMsg = error.error.title || error.error || 'An error occurred!';
+    this.errorMsg =
+      error.error.error || error.error.title || 'An error occurred!';
   };
 
   loadAdditionalFields(): void {

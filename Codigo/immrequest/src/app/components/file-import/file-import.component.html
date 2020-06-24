@@ -1,26 +1,6 @@
 <div class="d-flex flex-column">
   <!-- Begin Page Content -->
-  <div class="container" *ngIf="!!errorMsg">
-    <div class="alert alert-danger row" role="alert">
-      <div class="col-lg-9 col-xl-9 col-md-9">
-        <h4 class="alert-heading">Error :(</h4>
-      </div>
-      <div class="col-lg-2 col-xl-2 col-md-2">
-        <button
-          type="button btn btn-danger btn-sm float-right"
-          class="close"
-          aria-label="Close"
-          (click)="errorMsg = ''"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <hr />
-      <p>
-        {{ errorMsg }}
-      </p>
-    </div>
-  </div>
+  <app-error [message]="errorMsg"></app-error>
   <div class="row justify-content-center">
     <div class="col-xl-6 col-lg-8 col-md-10 col-sm-12 col-12">
       <div class="card shadow mt-5">
