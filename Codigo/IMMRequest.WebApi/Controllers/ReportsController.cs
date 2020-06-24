@@ -33,7 +33,7 @@ namespace IMMRequest.WebApi.Controllers
         /// <returns>A json object with the details of the request</returns>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<StateReportModel>), 200)]
-        [Route("a/mail={mail}&startDate={startDate}&endDate={endDate}")]
+        [Route("a")]
         [AuthorizationFilter]
         public ActionResult<IEnumerable<StateReportModel>> GetAllRequestByMail(string mail, DateTime startDate, DateTime endDate)
         {
@@ -43,9 +43,11 @@ namespace IMMRequest.WebApi.Controllers
         /// <summary>
         ///     Lists all the most used type for requests
         /// </summary>
+        /// <param name="startDate">Start date</param>
+        /// <param name="endDate">End date</param>
         /// <returns>Returns the list of types in a topic</returns>
         [HttpGet]
-        [Route("b/startDate={startDate}&endDate={endDate}")]
+        [Route("b")]
         [AuthorizationFilter]
         public ActionResult<IEnumerable<TypeReportModel>> GetMostUsedTypes(DateTime startDate, DateTime endDate)
         {
