@@ -4,8 +4,7 @@ import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 
-import { FullRequest } from 'src/app/models/FullRequest';
-import { RequestsService } from 'src/app/services/requests.service';
+import { RequestsService, R } from 'src/app/services/requests.service';
 
 @Component({
   selector: 'app-view-all-requests',
@@ -13,7 +12,7 @@ import { RequestsService } from 'src/app/services/requests.service';
   styleUrls: ['./view-all-requests.component.css'],
 })
 export class ViewAllRequestsComponent implements OnInit, OnDestroy {
-  allRequests = [];
+  allRequests:R[] = [];
   errorMessage = '';
   requestSubscription: Subscription = null;
   constructor(
@@ -30,7 +29,7 @@ export class ViewAllRequestsComponent implements OnInit, OnDestroy {
       .getAll()
       .pipe(
         tap(
-          (requests: FullRequest[]) => {
+          (requests: R[]) => {
             this.allRequests = requests;
             this.errorMessage = '';
           },

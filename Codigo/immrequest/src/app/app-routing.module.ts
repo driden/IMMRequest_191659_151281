@@ -12,6 +12,7 @@ import { FileImportComponent } from './components/file-import/file-import.compon
 import { ViewAllRequestsComponent } from './components/requests/view-all-requests/view-all-requests.component';
 import { AddAdminComponent } from './components/add-admin/add-admin.component';
 import { TypesListComponent } from './components/types/types-list/types-list.component';
+import { MyRequestsComponent } from './components/requests/my-requests/my-requests.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,11 @@ const routes: Routes = [
     path: 'view-all-requests',
     pathMatch: 'full',
     component: ViewAllRequestsComponent,
+  },
+  {
+    path: 'view-my-requests',
+    pathMatch: 'full',
+    component: MyRequestsComponent,
   },
   {
     path: 'view-all-types',

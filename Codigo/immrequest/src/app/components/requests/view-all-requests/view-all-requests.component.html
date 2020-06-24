@@ -1,27 +1,12 @@
 <div class="container-fluid">
   <!-- Page Heading -->
-  <app-error [message]='errorMessage'></app-error>
+  <app-error [message]="errorMessage"></app-error>
   <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-5">
     <h1 class="h3 mb-2 text-gray-800">Todas las solicitudes</h1>
   </div>
   <div class="row">
     <div class="col-xl-3 col-md-6 mb-4" *ngFor="let request of allRequests">
-      <div class="card border-left-primary shadow h-100 py-2">
-        <div class="card-body" (click)="visit(request.requestId)">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-              <div
-                class="text-xs font-weight-bold text-primary text-uppercase mb-1"
-              >
-                {{ request.requestedBy }}
-              </div>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">
-                {{ request.details }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <app-request-card [request]="request"></app-request-card>
     </div>
   </div>
 </div>
