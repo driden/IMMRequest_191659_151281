@@ -20,10 +20,9 @@ export class ReportsService
 
   getDataReportMostUsedTypes(data: any)
   {
-    return this.http.post(
-      `${environment.serverUrl}/api/reports/b`,
-      data
-    )
+    return this.http.get(
+      `${environment.serverUrl}/api/reports/b/startDate=${data.startDate}&endDate=${data.endDate}`);
+
   }
 
 
