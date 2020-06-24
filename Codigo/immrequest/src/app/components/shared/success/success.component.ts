@@ -1,13 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-error',
-  templateUrl: './error.component.html',
-  styleUrls: ['./error.component.css'],
+  selector: 'app-success',
+  templateUrl: './success.component.html',
+  styleUrls: ['./success.component.css'],
 })
-export class ErrorComponent implements OnInit {
+export class SuccessComponent implements OnInit {
   @Input() message = '';
   constructor() {}
+
   ngOnInit(): void {}
 
   clearMessage(): void {

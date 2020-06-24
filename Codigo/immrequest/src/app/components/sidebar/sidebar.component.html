@@ -1,9 +1,7 @@
-<!-- Sidebar -->
 <ul
   class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
   id="accordionSidebar"
 >
-  <!-- Sidebar - Brand -->
   <a
     class="sidebar-brand d-flex align-items-center justify-content-center"
     [routerLink]="['dashboard']"
@@ -17,9 +15,6 @@
     </div>
   </a>
 
-  <!-- Divider -->
-  <hr class="sidebar-divider my-0" />
-
   <!-- Nav Item - Dashboard -->
   <li class="nav-item" routerLinkActive="active">
     <a class="nav-link" [routerLink]="['/dashboard']">
@@ -28,105 +23,43 @@
     >
   </li>
 
-  <!-- Divider -->
   <hr class="sidebar-divider" />
-
-  <!-- Nav Item - Pages Collapse Menu -->
-  <li class="nav-item">
-    <a
-      class="nav-link collapsed"
-      [routerLink]="['/new-request']"
-      data-target="#collapseTwo"
-      aria-expanded="true"
-      aria-controls="collapseTwo"
-    >
-      <i class="fas fa-fw fa-cog"></i>
-      <span>Nueva solicitud</span>
-    </a>
-  </li>
-  <li class="nav-item">
-    <a
-      class="nav-link collapsed"
-      [routerLink]="['/new-type']"
-      data-target="#collapseTwo"
-      aria-expanded="true"
-      aria-controls="collapseTwo"
-    >
-      <i class="fas fa-fw fa-cog"></i>
-      <span>Nuevo tipo</span>
-    </a>
-  </li>
-  <li class="nav-item">
-    <a
-      class="nav-link collapsed"
-      [routerLink]="['/allrequest']"
-      data-target="#collapseTwo"
-      aria-expanded="true"
-      aria-controls="collapseTwo"
-    >
-      <i class="fas fa-fw fa-cog"></i>
-      <span>Todas las solicitudes</span>
-    </a>
-  </li>
-  <!-- Nav Item - Utilities Collapse Menu -->
-  <li class="nav-item">
-    <a
-      class="nav-link collapsed"
-      [routerLink]="['#import']"
-      data-toggle="collapseTwo"
-      aria-expanded="true"
-      aria-controls="collapseUtilities"
-    >
-      <i class="fas fa-fw fa-wrench"></i>
-      <span>Importar</span>
-    </a>
-  </li>
-   <!-- Divider -->
-   <hr class="sidebar-divider" />
-   <div class="sidebar-heading">
-    Administrador
-  </div>
-   <!-- Nav Item - Reports-->
-   <li class="nav-item">
-     <a class="nav-link" [routerLink]="['/searchByMail']">
-       <i class="fas fa-fw fa-table"></i>
-       <span>Solicitudes por ciudadano</span></a
-     >
-   </li>
-
-  <li class="nav-item">
-    <a class="nav-link" [routerLink]="['/mostusedtypes']">
-      <i class="fas fa-fw fa-table"></i>
-      <span>Tipos más usados</span></a
-    >
-  </li>
-
-  <!-- Divider -->
-  <hr class="sidebar-divider" />
-
-  <!-- Nav Item - Login -->
+  <!-- Login  -->
   <li class="nav-item">
     <a class="nav-link" [routerLink]="['/login']">
       <i class="fas fa-fw fa-chart-area"></i>
       <span>Login</span></a
     >
   </li>
-  <!-- Divider -->
-  <hr class="sidebar-divider d-none d-md-block" />
-
-  <!--Imports-->
-  <li class="nav-item" routerLinkActive="active">
-    <a class="nav-link" [routerLink]="['/import']">
-      <i class="fas fa-fw fa-chart-area"></i>
-      <span>Import from file</span></a
+  <hr class="sidebar-divider" />
+  <div class="sidebar-heading">
+    Administrador
+  </div>
+  <li
+    class="nav-item"
+    routerLinkActive="active"
+    *ngFor="let link of adminLinks"
+  >
+    <a class="nav-link" [routerLink]="link.route">
+      <i class="{{ link.icon }}"></i>
+      <span>{{ link.text }}</span></a
     >
   </li>
-  <!--Requests-->
-  <li class="nav-item" routerLinkActive="active">
-    <a class="nav-link" [routerLink]="['/view-all-requests']">
-      <i class="fas fa-fw fa-chart-area"></i>
-      <span>Todas las Solicitudes</span></a
+  <!-- Terminan los admins aca -->
+
+  <hr class="sidebar-divider d-none d-md-block" />
+
+  <div class="sidebar-heading">
+    Ciudadanos
+  </div>
+  <li
+    class="nav-item"
+    routerLinkActive="active"
+    *ngFor="let link of citizenLinks"
+  >
+    <a class="nav-link" [routerLink]="link.route">
+      <i class="{{ link.icon }}"></i>
+      <span>{{ link.text }}</span></a
     >
   </li>
 </ul>
-<!-- End of Sidebar -->

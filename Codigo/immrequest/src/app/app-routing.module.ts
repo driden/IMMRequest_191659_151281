@@ -5,12 +5,12 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NewRequestComponent } from './components/requests/new-request/new-request.component';
 import { ViewRequestComponent } from './components/requests/view-request/view-request.component';
 import { LoginComponent } from './components/login/login.component';
-import { AllrequestComponent } from './components/requests/allrequest/allrequest.component';
 import { SearchByMailComponent } from './components/reports/searchByMail/searchByMail.component';
 import { MostusedtypesComponent } from './components/reports/mostusedtypes/mostusedtypes.component';
 import { NewTypeComponent } from './components/types/new-type/new-type.component';
 import { FileImportComponent } from './components/file-import/file-import.component';
 import { ViewAllRequestsComponent } from './components/requests/view-all-requests/view-all-requests.component';
+import { AddAdminComponent } from './components/add-admin/add-admin.component';
 
 const routes: Routes = [
   {
@@ -58,7 +58,12 @@ const routes: Routes = [
     pathMatch: 'full',
     component: NewTypeComponent,
   },
-  { path: '**', component: DashboardComponent },
+  {
+    path: 'add-admin',
+    pathMatch:'full',
+    component: AddAdminComponent
+  },
+  { path: '**', redirectTo: '/dashboard'},
 ];
 
 @NgModule({

@@ -21,6 +21,8 @@ import { NewTypeComponent } from './components/types/new-type/new-type.component
 import { FileImportComponent } from './components/file-import/file-import.component';
 import { ViewAllRequestsComponent } from './components/requests/view-all-requests/view-all-requests.component';
 import { ErrorComponent } from './components/shared/error/error.component';
+import { AddAdminComponent } from './components/add-admin/add-admin.component';
+import { SuccessComponent } from './components/shared/success/success.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { ErrorComponent } from './components/shared/error/error.component';
     FileImportComponent,
     ViewAllRequestsComponent,
     ErrorComponent,
+    AddAdminComponent,
+    SuccessComponent,
   ],
   imports: [
     CommonModule,
