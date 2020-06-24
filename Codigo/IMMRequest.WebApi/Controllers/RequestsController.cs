@@ -1,6 +1,7 @@
 namespace IMMRequest.WebApi.Controllers
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Filters;
     using Logic.Interfaces;
     using Logic.Models.Request;
@@ -41,7 +42,7 @@ namespace IMMRequest.WebApi.Controllers
         }
 
         /// <summary>
-        ///     Gets a list of all the status in the system
+        ///     Gets a list of all the requests in the system
         /// </summary>
         /// <returns>A json object with a list of all requests in the system</returns>
         [HttpGet]
@@ -52,6 +53,17 @@ namespace IMMRequest.WebApi.Controllers
             return Ok(_requestsLogic.GetAllRequests());
         }
 
+        /// <summary>
+        ///     Gets a list of all the requests for a given email
+        /// </summary>
+        /// <returns>A json object with a list of all requests in the system</returns>
+        [HttpGet]
+        [Route("email")]
+        [ProducesResponseType(typeof(IEnumerable<RequestStatusModel>), 200)]
+        public ActionResult<IEnumerable<RequestStatusModel>> GetByEmail(string email)
+        {
+            return Ok(_requestsLogic.GetAllRequests().Where(req => req.RequestedBy == email));
+        }
         /// <summary>
         ///     Gets a request details
         /// </summary>
