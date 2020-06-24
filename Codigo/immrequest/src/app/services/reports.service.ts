@@ -10,7 +10,7 @@ export class ReportsService
 
   }
 
-  getDataReportA(data: any)
+  getDataReportByMail(data: any)
   {
 
     return this.http.post(
@@ -18,4 +18,14 @@ export class ReportsService
       data
     );
   }
+
+  getDataReportMostUsedTypes(data: any)
+  {
+    return this.http.post(
+      `${environment.serverUrl}/api/reports/b`,
+      data
+    )
+  }
+
+
 }

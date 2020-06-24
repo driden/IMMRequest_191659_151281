@@ -3,22 +3,21 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { take } from 'rxjs/operators';
 import { FormBuilder } from '@angular/forms';
 
-export interface ReportAData {
-  stateName: string;
+export interface ReportData {
+  name: string;
   quantity: number;
-  ids: number[];
 }
 
 @Component({
-  selector: 'app-searchByMail',
-  templateUrl: './searchByMail.component.html',
-  styleUrls: ['./searchByMail.component.css']
+  selector: 'app-mostusedtypes',
+  templateUrl: './mostusedtypes.component.html',
+  styleUrls: ['./mostusedtypes.component.css']
 })
 
 
-export class SearchByMailComponent implements OnInit {
+export class MostusedtypesComponent implements OnInit {
 
-  reportData: ReportAData[] = [];
+  reportData: ReportData[] = [];
   checkoutForm;
 
   constructor(
@@ -37,9 +36,8 @@ export class SearchByMailComponent implements OnInit {
 
   }
 
-  proccedDataReport(mail: string, startDate: Date, endDate: Date): void {
-    this.reportsService.getDataReportByMail({
-      "mail": mail,
+  proccedDataReport(startDate: Date, endDate: Date): void {
+    this.reportsService.getDataReportMostUsedTypes({
 	    "startDate": startDate,
       "endDate": endDate,
     })
@@ -54,7 +52,7 @@ export class SearchByMailComponent implements OnInit {
 
   onSubmit(searchData) {
 
-    this.proccedDataReport(searchData.mail, searchData.startDate, searchData.endDate);
+    this.proccedDataReport(searchData.startDate, searchData.endDate);
 
     console.log('Search', searchData);
   }
