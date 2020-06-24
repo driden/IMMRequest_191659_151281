@@ -1,142 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
+<div id="content-wrapper" class="d-flex flex-column">
+  <!-- Main Content -->
+  <div id="content">
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <!-- Page Heading -->
+      <h1 class="h3 mb-2 text-gray-800">Solicitudes por ciudadanos</h1>
+      <p class="mb-4">
+        Según un correo y un rango de fechas, se obtienen todos los tipos de
+        solicitudes realizadas.
+      </p>
 
-<head>
+      <!-- DataTales Example -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Listado</h6>
+        </div>
 
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-</head>
-
-<body id="page-top">
-
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-
-      <!-- Main Content -->
-      <div id="content">
-
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-          <!-- Sidebar Toggle (Topbar) -->
-          <form class="form-inline">
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-              <i class="fa fa-bars"></i>
-            </button>
-          </form>
-
-          <!-- Topbar Search -->
-
-
-          <!-- Topbar Navbar -->
-          <ul class="navbar-nav ml-auto">
-
-            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-            <li class="nav-item dropdown no-arrow d-sm-none">
-              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-search fa-fw"></i>
-              </a>
-
-            </li>
-
-            <div class="topbar-divider d-none d-sm-block"></div>
-
-            <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
-              </a>
-            </li>
-
-          </ul>
-
-        </nav>
-        <!-- End of Topbar -->
-
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-
-          <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Solicitudes por ciudadanos</h1>
-          <p class="mb-4">Según un correo y un rango de fechas, se obtienen todos los tipos de solicitudes realizadas.</p>
-
-          <!-- DataTales Example -->
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Listado</h6>
-            </div>
-
-            <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
-
-              <div>
-                <input id="mail" type="text" formControlName="mail">
-                <input id="startDate" type="date" formControlName="startDate">
-                <input id="endDate" type="date" formControlName="endDate">
-                <button class="btn btn-primary" type="submit">Buscar</button>
-              </div>
-            </form>
-
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>Estado</th>
-                      <th>Cantidad</th>
-                      <th>Nro de Solicitudes</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let item of reportData" >
-                      <td> {{ item.stateName }} </td>
-                      <td> {{ item.quantity }} </td>
-                      <td> {{ item.ids.join(',') }} </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+        <form
+          [formGroup]="checkoutForm"
+          (ngSubmit)="onSubmit(checkoutForm.value)"
+        >
+          <div class="d-flex justify-content-center mt-3">
+            <input id="mail" type="text" formControlName="mail" class="mr-1" />
+            <input
+              id="startDate"
+              type="date"
+              formControlName="startDate"
+              class="mr-1"
+            />
+            <input
+              id="endDate"
+              type="date"
+              formControlName="endDate"
+              class="mr-3"
+            />
+            <button class="btn btn-primary" type="submit">Buscar</button>
           </div>
+        </form>
 
-        </div>
-        <!-- /.container-fluid -->
-
-      </div>
-      <!-- End of Main Content -->
-
-
-
-  <!-- End of Page Wrapper -->
-
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table
+              class="table table-bordered"
+              id="dataTable"
+              width="100%"
+              cellspacing="0"
+            >
+              <thead>
+                <tr>
+                  <th>Estado</th>
+                  <th>Cantidad</th>
+                  <th>Nro de Solicitudes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of reportData">
+                  <td>{{ item.stateName }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <td>{{ item.ids.join(",") }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
+    <!-- /.container-fluid -->
   </div>
-
 </div>
-
-</body>
-
-</html>

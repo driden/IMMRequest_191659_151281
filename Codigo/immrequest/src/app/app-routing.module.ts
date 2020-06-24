@@ -11,6 +11,7 @@ import { NewTypeComponent } from './components/types/new-type/new-type.component
 import { FileImportComponent } from './components/file-import/file-import.component';
 import { ViewAllRequestsComponent } from './components/requests/view-all-requests/view-all-requests.component';
 import { AddAdminComponent } from './components/add-admin/add-admin.component';
+import { TypesListComponent } from './components/types/types-list/types-list.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,11 @@ const routes: Routes = [
     path: 'view-all-requests',
     pathMatch: 'full',
     component: ViewAllRequestsComponent,
+  },
+  {
+    path: 'view-all-types',
+    pathMatch: 'full',
+    component: TypesListComponent,
   },
   {
     path: 'searchByMail',

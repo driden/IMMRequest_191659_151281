@@ -23,6 +23,10 @@ export class TypesService {
       .toPromise();
   }
 
+  delete(typeId: number) {
+    return this.http.delete(`${environment.serverUrl}/api/types/${typeId}`);
+  }
+
   getAvailableTypes(): { value: string; text: string }[] {
     return [
       { value: 'date', text: 'fecha' },
