@@ -29,20 +29,20 @@ namespace IMMRequest.WebApi.Controllers
         /// </summary>
         /// <param name="reportInput"> Input to generate report a </param>
         /// <returns>A json object with the details of the request</returns>
-        [HttpGet]
+        [HttpPost]
         [ProducesResponseType(typeof(IEnumerable<StateReportModel>), 200)]
         [Route("a")]
         [AuthorizationFilter]
         public ActionResult<IEnumerable<StateReportModel>> GetAllRequestByMail([FromBody] SearchByMailModel reportInput)
-        { 
-            return Ok(_reportsLogic.GetRequestByMail(reportInput.Mail, reportInput.StartDate, reportInput.EndDate)); 
+        {
+            return Ok(_reportsLogic.GetRequestByMail(reportInput.Mail, reportInput.StartDate, reportInput.EndDate));
         }
-        
+
         /// <summary>
         ///     Lists all the most used type for requests
         /// </summary>
         /// <returns>Returns the list of types in a topic</returns>
-        [HttpGet]
+        [HttpPost]
         [Route("b")]
         [AuthorizationFilter]
         public ActionResult<IEnumerable<TypeReportModel>> GetMostUsedTypes([FromBody] SearchTypeModel reportInput)

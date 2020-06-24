@@ -14,8 +14,8 @@ import { ViewRequestComponent } from './components/requests/view-request/view-re
 import { DropdownDirective } from './shared/dropdown.directive';
 import { LoginComponent } from './components/login/login.component';
 import { IndexComponent } from './components/index/index.component';
-import { ReportAComponent } from './components/reports/report-a/report-a.component';
-import { ReportBComponent } from './components/reports/report-b/report-b.component';
+import { SearchByMailComponent } from './components/reports/searchByMail/searchByMail.component';
+import { MostusedtypesComponent } from './components/reports/mostusedtypes/mostusedtypes.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { NewTypeComponent } from './components/types/new-type/new-type.component';
 import { FileImportComponent } from './components/file-import/file-import.component';
@@ -32,8 +32,8 @@ import { ErrorComponent } from './components/shared/error/error.component';
     DropdownDirective,
     LoginComponent,
     IndexComponent,
-    ReportAComponent,
-    ReportBComponent,
+    SearchByMailComponent,
+    MostusedtypesComponent,
     NewTypeComponent,
     FileImportComponent,
     ViewAllRequestsComponent,
