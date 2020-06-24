@@ -9,7 +9,7 @@
 
 ### Frontend
 * [x] Crear listado de requests
-* [ ] Un usuario debería pode consultar sus requests por email
+* [x] Un usuario debería pode consultar sus requests por email
 * [x] Crear pagina para agregar más admins
 * [ ] Crear pagina para eliminar admins
 * [x] Hacer que el listado de request rediriga a la request seleccionada

@@ -1,0 +1,58 @@
+<div id="wrapper">
+  <div id="content-wrapper" class="d-flex flex-column justify-content-end pt-5">
+    <div id="content">
+      <app-error [message]=""></app-error> <div class="container">
+             <h1 class="h3 mb-4 text-gray-800">Mis solicitudes</h1>
+        Para ver tus solicitudes debes ingresar buscar con el email que usaste
+        al ingresarlas.
+        <br />
+        <div class="row justify-content-center my-5">
+          <div class="col-12 col-md-10 col-lg-8">
+            <div class="card card-sm">
+              <div class="card-body row no-gutters align-items-center">
+                <div class="col-auto">
+                  <i
+                    class="fas fa-search text-body"
+                    style="font-size: 1.5em;"
+                  ></i>
+                </div>
+                <!--end of col-->
+                <div class="col">
+                  <input
+                    class="form-control form-control-lg form-control-borderless"
+                    type="search"
+                    placeholder="email que usaste"
+                    #emailInput
+                  />
+                </div>
+                <!--end of col-->
+                <div class="col-auto">
+                  <button
+                    class="btn btn-lg btn-outline-primary"
+                    type="button"
+                    (click)="buscar()"
+                  >
+                    Search
+                  </button>
+                </div>
+                <!--end of col-->
+              </div>
+            </div>
+          </div>
+          <!--end of col-->
+        </div>
+        <div class="container-fluid">
+          <!-- Page Heading -->
+          <div class="row">
+            <div
+              class="col-xl-3 col-md-6 mb-4"
+              *ngFor="let request of requests"
+            >
+              <app-request-card [request]="request"></app-request-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

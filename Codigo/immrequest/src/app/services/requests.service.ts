@@ -5,6 +5,14 @@ import { environment } from '../../environments/environment.prod';
 import { Request } from '../models/Request';
 import { Observable } from 'rxjs';
 import { FullRequest } from '../models/FullRequest';
+
+export type R = {
+  requestId: number;
+  requestedBy: string;
+  status: string;
+  details: string;
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -24,12 +32,15 @@ export class RequestsService {
     );
   }
 
-  getAll(): Observable<FullRequest[]> {
-    return this.http.get<FullRequest[]>(
-      `${environment.serverUrl}/api/requests`
-    );
+  getAll(): Observable<R[]> {
+    return this.http.get<R[]>(`${environment.serverUrl}/api/requests`);
   }
 
+  getAllByEmail(email:string): Observable<R[]> {
+    return this.http.get<R[]>(`${environment.serverUrl}/api/requests/email`, {
+      params:{email}
+    });
+  }
   update(id: number, newState: string) {
     return this.http.put(`${environment.serverUrl}/api/requests/${id}`, {
       newState,

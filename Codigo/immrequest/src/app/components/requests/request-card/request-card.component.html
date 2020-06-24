@@ -1,0 +1,26 @@
+<div class="card border-left-primary shadow h-100 py-2">
+  <div class="caRequest-body" (click)="visit(request.requestId)">
+    <div class="row no-gutters align-items-center">
+      <div class="col mt-2 mr-3 ml-4">
+        <div
+          [ngClass]="[
+            'badge',
+            'badge-pill',
+            'float-right',
+            getClassForState(),
+            'h6',
+            'mb-0'
+          ]"
+        >
+          {{ request.status }}
+        </div>
+        <div class="text-xs font-weight-bold text-primary text-uppercase mb-2">
+          {{ request.requestedBy }}
+        </div>
+        <div class="h5 mb-1 font-weight-bold text-gray-800">
+          {{ request.details }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

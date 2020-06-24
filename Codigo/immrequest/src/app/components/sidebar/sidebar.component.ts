@@ -10,6 +10,7 @@ export class SidebarComponent implements OnInit {
   adminLinks: { text: string; route: any[]; icon: string }[] = [
     { text: 'Nuevo Tipo', route: ['/new-type'], icon: 'fas fa-kiwi-bird' },
     { text: 'Nueva solicitud', route: ['/new-request'], icon: 'fas fa-kiwi-bird' },
+    { text: 'Mis solicitudes', route: ['/view-my-requests'], icon: 'fas fa-kiwi-bird' },
     { text: 'Solicitudes por ciudadano', route: ['/searchByMail'], icon: 'fas fa-kiwi-bird' },
     { text: 'Tipos más usados', route: ['/mostusedtypes'], icon: 'fas fa-kiwi-bird' },
     { text: 'Todas las Solicitudes', route: ['/view-all-requests'], icon: 'fas fa-kiwi-bird' },

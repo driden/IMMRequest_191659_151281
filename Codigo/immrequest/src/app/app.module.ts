@@ -24,6 +24,8 @@ import { ErrorComponent } from './components/shared/error/error.component';
 import { AddAdminComponent } from './components/add-admin/add-admin.component';
 import { SuccessComponent } from './components/shared/success/success.component';
 import { TypesListComponent } from './components/types/types-list/types-list.component';
+import { MyRequestsComponent } from './components/requests/my-requests/my-requests.component';
+import { RequestCardComponent } from './components/requests/request-card/request-card.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { TypesListComponent } from './components/types/types-list/types-list.com
     AddAdminComponent,
     SuccessComponent,
     TypesListComponent,
+    MyRequestsComponent,
+    RequestCardComponent,
   ],
   imports: [
     CommonModule,

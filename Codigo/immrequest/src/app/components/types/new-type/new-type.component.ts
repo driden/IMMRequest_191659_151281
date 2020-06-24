@@ -24,6 +24,7 @@ import { Type } from 'src/app/models/Type';
 })
 export class NewTypeComponent implements OnInit, OnDestroy {
   errorMsg = '';
+  successMsg = '';
   uiTypes = [];
   areas: Area[] = [];
   topics: Topic[] = [];
@@ -67,7 +68,7 @@ export class NewTypeComponent implements OnInit, OnDestroy {
     const type = this.createNewType();
     this.typeService
       .add(type)
-      .then(() => alert('se agrego'))
+      .then(() => this.successMsg = 'se agrego')
       .catch(this.setError);
   }
 
