@@ -6,7 +6,7 @@ import { NewRequestComponent } from './components/requests/new-request/new-reque
 import { ViewRequestComponent } from './components/requests/view-request/view-request.component';
 import { LoginComponent } from './components/login/login.component';
 import { AllrequestComponent } from './components/requests/allrequest/allrequest.component';
-import { ReportAComponent } from './components/reports/report-a/report-a.component';
+import { ReportAComponent } from './components/reports/searchByMail/searchByMail.component';
 import { ReportBComponent } from './components/reports/report-b/report-b.component';
 import { NewTypeComponent } from './components/types/new-type/new-type.component';
 import { FileImportComponent } from './components/file-import/file-import.component';
@@ -43,7 +43,7 @@ const routes: Routes = [
     component: AllrequestComponent,
   },
   {
-    path: 'report-a',
+    path: 'searchByMail',
     pathMatch: 'full',
     component: ReportAComponent,
   },
