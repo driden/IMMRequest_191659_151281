@@ -27,27 +27,31 @@ namespace IMMRequest.WebApi.Controllers
         /// <summary>
         ///     Gets all request by a user mail between two dates
         /// </summary>
-        /// <param name="reportInput"> Input to generate report a </param>
+        /// <param name="mail">Mail from Citizen</param>
+        /// <param name="startDate">Start date</param>
+        /// <param name="endDate">End date</param>
         /// <returns>A json object with the details of the request</returns>
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<StateReportModel>), 200)]
         [Route("a")]
         [AuthorizationFilter]
-        public ActionResult<IEnumerable<StateReportModel>> GetAllRequestByMail([FromBody] SearchByMailModel reportInput)
+        public ActionResult<IEnumerable<StateReportModel>> GetAllRequestByMail(string mail, DateTime startDate, DateTime endDate)
         {
-            return Ok(_reportsLogic.GetRequestByMail(reportInput.Mail, reportInput.StartDate, reportInput.EndDate));
+            return Ok(_reportsLogic.GetRequestByMail(mail, startDate, endDate));
         }
 
         /// <summary>
         ///     Lists all the most used type for requests
         /// </summary>
+        /// <param name="startDate">Start date</param>
+        /// <param name="endDate">End date</param>
         /// <returns>Returns the list of types in a topic</returns>
-        [HttpPost]
+        [HttpGet]
         [Route("b")]
         [AuthorizationFilter]
-        public ActionResult<IEnumerable<TypeReportModel>> GetMostUsedTypes([FromBody] SearchTypeModel reportInput)
+        public ActionResult<IEnumerable<TypeReportModel>> GetMostUsedTypes(DateTime startDate, DateTime endDate)
         {
-            return Ok(_reportsLogic.GetMostUsedTypes(reportInput.StartDate, reportInput.EndDate));
+            return Ok(_reportsLogic.GetMostUsedTypes(startDate, endDate));
         }
     }
 }
