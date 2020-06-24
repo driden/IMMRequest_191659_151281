@@ -14,6 +14,7 @@ export class SidebarComponent implements OnInit {
     { text: 'Tipos más usados', route: ['/mostusedtypes'], icon: 'fas fa-kiwi-bird' },
     { text: 'Todas las Solicitudes', route: ['/view-all-requests'], icon: 'fas fa-kiwi-bird' },
     { text: 'Agregar un administrador', route: ['/add-admin'], icon: 'fas fa-kiwi-bird' },
+    { text: 'Listar tipos', route: ['/view-all-types'], icon: 'fas fa-kiwi-bird' },
   ];
 
   citizenLinks:{ text: string; route: any[]; icon: string }[] = [

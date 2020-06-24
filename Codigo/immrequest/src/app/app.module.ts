@@ -23,6 +23,7 @@ import { ViewAllRequestsComponent } from './components/requests/view-all-request
 import { ErrorComponent } from './components/shared/error/error.component';
 import { AddAdminComponent } from './components/add-admin/add-admin.component';
 import { SuccessComponent } from './components/shared/success/success.component';
+import { TypesListComponent } from './components/types/types-list/types-list.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { SuccessComponent } from './components/shared/success/success.component'
     ErrorComponent,
     AddAdminComponent,
     SuccessComponent,
+    TypesListComponent,
   ],
   imports: [
     CommonModule,
