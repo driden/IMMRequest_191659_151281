@@ -42,7 +42,7 @@ namespace IMMRequest.WebApi.Controllers
         ///     Lists all the most used type for requests
         /// </summary>
         /// <returns>Returns the list of types in a topic</returns>
-        [HttpGet]
+        [HttpPost]
         [Route("b")]
         [AuthorizationFilter]
         public ActionResult<IEnumerable<TypeReportModel>> GetMostUsedTypes([FromBody] SearchTypeModel reportInput)
