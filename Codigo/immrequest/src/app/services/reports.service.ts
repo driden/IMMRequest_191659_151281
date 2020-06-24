@@ -13,10 +13,9 @@ export class ReportsService
   getDataReportByMail(data: any)
   {
 
-    return this.http.post(
-      `${environment.serverUrl}/api/reports/a`,
-      data
-    );
+    return this.http.get(
+      `${environment.serverUrl}/api/reports/a/mail=${data.mail}&startDate=${data.startDate}&endDate=${data.endDate}`);
+
   }
 
   getDataReportMostUsedTypes(data: any)
