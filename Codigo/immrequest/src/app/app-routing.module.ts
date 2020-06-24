@@ -10,6 +10,7 @@ import { SearchByMailComponent } from './components/reports/searchByMail/searchB
 import { MostusedtypesComponent } from './components/reports/mostusedtypes/mostusedtypes.component';
 import { NewTypeComponent } from './components/types/new-type/new-type.component';
 import { FileImportComponent } from './components/file-import/file-import.component';
+import { ViewAllRequestsComponent } from './components/requests/view-all-requests/view-all-requests.component';
 
 const routes: Routes = [
   {
@@ -38,9 +39,9 @@ const routes: Routes = [
     component: FileImportComponent,
   },
   {
-    path: 'allrequest',
+    path: 'view-all-requests',
     pathMatch: 'full',
-    component: AllrequestComponent,
+    component: ViewAllRequestsComponent,
   },
   {
     path: 'searchByMail',

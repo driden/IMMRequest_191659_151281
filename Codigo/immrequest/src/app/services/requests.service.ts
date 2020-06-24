@@ -24,6 +24,12 @@ export class RequestsService {
     );
   }
 
+  getAll(): Observable<FullRequest[]> {
+    return this.http.get<FullRequest[]>(
+      `${environment.serverUrl}/api/requests`
+    );
+  }
+
   update(id: number, newState: string) {
     return this.http.put(`${environment.serverUrl}/api/requests/${id}`, {
       newState,

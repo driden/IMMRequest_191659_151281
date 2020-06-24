@@ -14,13 +14,13 @@ import { ViewRequestComponent } from './components/requests/view-request/view-re
 import { DropdownDirective } from './shared/dropdown.directive';
 import { LoginComponent } from './components/login/login.component';
 import { IndexComponent } from './components/index/index.component';
-import { AllrequestComponent } from './components/requests/allrequest/allrequest.component';
 import { SearchByMailComponent } from './components/reports/searchByMail/searchByMail.component';
 import { MostusedtypesComponent } from './components/reports/mostusedtypes/mostusedtypes.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { NewTypeComponent } from './components/types/new-type/new-type.component';
 import { FileImportComponent } from './components/file-import/file-import.component';
-import { from } from 'rxjs';
+import { ViewAllRequestsComponent } from './components/requests/view-all-requests/view-all-requests.component';
+import { ErrorComponent } from './components/shared/error/error.component';
 
 @NgModule({
   declarations: [
@@ -32,11 +32,12 @@ import { from } from 'rxjs';
     DropdownDirective,
     LoginComponent,
     IndexComponent,
-    AllrequestComponent,
     SearchByMailComponent,
     MostusedtypesComponent,
     NewTypeComponent,
     FileImportComponent,
+    ViewAllRequestsComponent,
+    ErrorComponent,
   ],
   imports: [
     CommonModule,
