@@ -1,5 +1,6 @@
 namespace IMMRequest.Domain.Tests
 {
+    using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -14,6 +15,14 @@ namespace IMMRequest.Domain.Tests
             Assert.AreEqual(null, user.Name);
             Assert.AreEqual(null, user.Email);
             Assert.AreEqual(null, user.PhoneNumber);
+        }
+
+        [TestMethod]
+        public void CantAddAUserWithSpacesInEmail()
+        {
+            var user = new User();
+
+            Assert.ThrowsException<InvalidEmailException>(() => user.Email = "mail @yahoo.com");
         }
 
     }

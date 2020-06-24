@@ -37,7 +37,7 @@ namespace IMMRequest.Domain
                 {
                     throw new InvalidEmailException("Please type an email");
                 }
-                else if (Regex.Match(value, @"^[^@]+@[^@]+\.[a-zA-Z]{2,}$").Success)
+                else if (Regex.Match(value, @"^\w+@\w+\.[a-zA-Z]{2,}$").Success)
                 {
                     _email = value;
                 }
