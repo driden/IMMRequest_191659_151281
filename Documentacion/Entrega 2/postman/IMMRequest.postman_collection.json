@@ -1,0 +1,3424 @@
+{
+	"info": {
+		"_postman_id": "0aa1739f-2a54-48d7-b16e-534e4fc3361b",
+		"name": "IMMRequest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Requests",
+			"item": [
+				{
+					"name": "Requests",
+					"item": [
+						{
+							"name": "GetRequests",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "6204bdfc-6aa6-4a8f-9a5a-54ee7aeaed0f",
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: \"http://localhost:5000/api/Sessions\",\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:Application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            email: pm.environment.get(\"user\"),\r",
+											"            password: pm.environment.get(\"password\")\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (!err) {\r",
+											"        let token = res.json().token;\r",
+											"        console.log(res.json());\r",
+											"        pm.environment.set(\"token\", token)\r",
+											"\r",
+											"    } else { console.log(err) }\r",
+											"\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "username",
+										"value": "{{user}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{server}}/api/requests/",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"api",
+										"requests",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CreateRequest",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "text/j",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"details\": \"some details\",\n\t\"email\": \"email3@citizen.com\",\n\t\"name\": \"citizens name\",\n\t\"phone\": \"5555-555-555\",\n\t\"typeId\": 1,\n\t\"additionalFields\" :[\n\t\t{\"name\": \"Nro de Movil\", \"values\":\"111111|22222|33333|55555\"},\n\t\t{\"name\": \"Fecha y hora\", \"values\":\"9/5/2020|20/6/2020\"},\n\t\t{\"name\": \"Matricula\", \"values\":\"111111|22222|33333|55555\"}\n\t]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server}}/api/requests",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"api",
+										"requests"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetARequest",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "{{token}}",
+										"disabled": true
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "username",
+										"type": "text",
+										"value": "{{user}}",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{server}}/api/requests/1",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"api",
+										"requests",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateRequest",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "d32c9af7-f30a-4eeb-9c4d-69043f86cee8",
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: \"http://localhost:5000/api/Sessions\",\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:Application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            email: pm.environment.get(\"user\"),\r",
+											"            password: pm.environment.get(\"password\")\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (!err) {\r",
+											"        let token = res.json().token;\r",
+											"        console.log(res.json());\r",
+											"        pm.environment.set(\"token\", token)\r",
+											"\r",
+											"    } else { console.log(err) }\r",
+											"\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "username",
+										"value": "{{user}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"newState\": \"InReview\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server}}/api/requests/1",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"api",
+										"requests",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Tests",
+					"item": [
+						{
+							"name": "CreateRequestTests",
+							"item": [
+								{
+									"name": "[400] - No Details",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "cdcd7dd3-e5ee-4b84-9a55-bbb698807a6b",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "09f9177f-26eb-4fa1-b0e5-e63d66d9b75b",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json(); \r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"Please input some details.\")\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "text/j",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"email\": \"email3@citizen.com\",\n\t\"name\": \"citizens name\",\n\t\"phone\": \"5555-555-555\",\n\t\"typeId\": 1,\n\t\"additionalFields\" :[\n\t\t{\"name\": \"Nro de Movil\", \"values\":\"111111\"},\n\t\t{\"name\": \"Fecha y hora\", \"values\":\"9/5/2020\"}\n\t]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] - No Phone",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "2601a2d9-4c75-4a23-8d34-515af4e626f2",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "6978637e-237a-43b9-983e-fafacdd0a6f1",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"Please provide a phone number\")\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "text/j",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"details\": \"some details\",\n\t\"email\": \"email3@citizen.com\",\n\t\"name\": \"citizens name\",\n\t\"typeId\": 1,\n\t\"additionalFields\" :[\n\t\t{\"name\": \"Nro de Movil\", \"values\":\"111111\"},\n\t\t{\"name\": \"Fecha y hora\", \"values\":\"9/5/2020\"}\n\t]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] - Missing Required Fields",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "e66f826a-513c-497a-8e9e-f32c29621418",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "67dc1ffa-102d-4c68-a267-86ade30901f5",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"Required fields Nro de Movil should have been provided\")\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "text/j",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"details\": \"some details\",\n\t\"email\": \"email3@citizen.com\",\n\t\"name\": \"citizens name\",\n\t\"phone\": \"5555-555-555\",\n\t\"typeId\": 1,\n\t\"additionalFields\" :[\n\t\n\t]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] - Additional field not in range",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "31e44132-b6a3-43e3-b3d2-8d2a82e7a840",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "3955ed37-f0e2-4ca3-847e-4741b562abea",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"One of the date values 09-05-2120 is not in range [20-06-2010,20-06-2030]\")\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "text/j",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"details\": \"some details\",\n\t\"email\": \"email3@citizen.com\",\n\t\"name\": \"citizens name\",\n\t\"phone\": \"5555-555-555\",\n\t\"typeId\": 1,\n\t\"additionalFields\" :[\n\t\t{\"name\": \"Fecha y hora\", \"values\":\"9/5/2120\"}\n\t]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] - Additional Field Wrong Type",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "ce4d1157-917d-4754-be2c-58e5a3352647",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "76c8dea4-3729-4c29-ab67-6541c4573bc2",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"value 'esto deberia ser nun numero' for field with name Nro de Movil cannot be read as an integer\")\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "text/j",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"details\": \"some details\",\n\t\"email\": \"email3@citizen.com\",\n\t\"name\": \"citizens name\",\n\t\"phone\": \"5555-555-555\",\n\t\"typeId\": 1,\n\t\"additionalFields\" :[\n\t\t{\"name\": \"Nro de Movil\", \"values\":\"esto deberia ser nun numero\"},\n\t\t{\"name\": \"Fecha y hora\", \"values\":\"9/5/2020\"}\n\t]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] - Repeated Additional Field",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f266bb65-c362-49dd-9130-4b1238dc3f59",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "f39e2750-ee4d-40e9-9f65-799dacef57aa",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"The entered field names(Nro de Movil) are repeated.\")\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "text/j",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"details\": \"some details\",\n\t\"email\": \"email3@citizen.com\",\n\t\"name\": \"citizens name\",\n\t\"phone\": \"5555-555-555\",\n\t\"typeId\": 1,\n\t\"additionalFields\" :[\n\t\t{\"name\": \"Nro de Movil\", \"values\":\"111111\"},\n\t\t{\"name\": \"Nro de Movil\", \"values\":\"111111\"}\n\t]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] - TypeId should be a number",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "8cfb450d-c03b-4f36-bc8a-021279aa9e04",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "e186dad9-7095-46f6-9f41-274900a7f92f",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "text/j",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"details\": \"some details\",\n\t\"email\": \"email3@citizen.com\",\n\t\"name\": \"citizens name\",\n\t\"phone\": \"5555-555-555\",\n\t\"typeId\": \"1\",\n\t\"additionalFields\" :[\n\t\t{\"name\": \"Nro de Movil\", \"values\":\"111111\"},\n\t\t{\"name\": \"Fecha y hora\", \"values\":\"9/5/2020\"}\n\t]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] - Non existent TypeId",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "8ac55b2f-1766-481c-a56d-08a74f34cf6b",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "90982333-9014-482c-9b4e-ed1d8922f408",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"No type with id=10000 exists\")\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "text/j",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"details\": \"some details\",\n\t\"email\": \"email3@citizen.com\",\n\t\"name\": \"citizens name\",\n\t\"phone\": \"5555-555-555\",\n\t\"typeId\": 10000,\n\t\"additionalFields\" :[\n\t\t{\"name\": \"Nro de Movil\", \"values\":\"111111\"},\n\t\t{\"name\": \"Fecha y hora\", \"values\":\"9/5/2020\"}\n\t]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] - No TypeId",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "d14e1037-fd4c-425f-bb12-2be1efbfe28b",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "84b55cac-a2cd-4df2-b9c6-b6f049ec522f",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"No type with id=-1 exists\")\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "text/j",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"details\": \"some details\",\n\t\"email\": \"email3@citizen.com\",\n\t\"name\": \"citizens name\",\n\t\"phone\": \"5555-555-555\",\n\t\"additionalFields\" :[\n\t\t{\"name\": \"Nro de Movil\", \"values\":\"111111\"},\n\t\t{\"name\": \"Fecha y hora\", \"values\":\"9/5/2020\"}\n\t]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] - Phone Wrong Format",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "b98bd82b-60dd-4ba1-8c7a-7037be8c8e15",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "668a3ed2-9633-4d60-9d94-f0b65a203018",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"The phone format is not valid\")\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "text/j",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"details\": \"some details\",\n\t\"email\": \"email3@citizen.com\",\n\t\"name\": \"citizens name\",\n\t\"phone\": \"5555@@@@555-555\",\n\t\"typeId\": 1,\n\t\"additionalFields\" :[\n\t\t{\"name\": \"Nro de Movil\", \"values\":\"111111\"},\n\t\t{\"name\": \"Fecha y hora\", \"values\":\"9/5/2020\"}\n\t]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] -  2001 Length Details",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "d512eaa0-3593-4327-a1ae-b9c05456e597",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "84ca04cb-a248-4bd5-956f-94a781bc0987",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"The detail is too long\")\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "text/j",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"details\": \"K8IS7U0SY15305NDIRF8YUYLLCEMJGCGS4R5TGWDECVML43RKX60TY7WV9NBM64U060JTMAD7FKSP4FWNGQ5I3ZLHRMSJYPSWBUL3BUE2OVN5SWELYYE728UOM603ZP6J51QMD715IW4AT9WV9AULEXJ7JNLMPMWU45AMVDQ8WYNWESVFCKZZFS97RGH7N37ML5F55WGB5KLGAU0YJ5GZTPOBBA8ND7CGW45WMXDMIBW6BFHA2OOT82B4E7HHKDPDVMKC3UD5NZS9Y35POYKLFO4YQTTJFONJJW3WEZ2LNUJSFVB1JKHDK865NFGXJNCO450CQ7KPF0XIHV0BC142Q53196IUV4UUDBX5BRCXLIN80IDAKISN2SO2MSLWENLYY7E8JREMQVZZNPA0OS2ZVBXXVD44ZHHZH1EKVCP1YISWH9K5686E1UGEXH900YZV95KMQDOAE90MBURFF53B7RMMVGCLDJO486GBIOERSN6L0DQSOMA5HF9A9M92W9AD6ZEPSXBSCL0ARZ863RPJMG28ESK5BPC9MKRT66IOXQFY785YTC7679KZ6K6P9YD3X56587BN2SA26ASCA4KXNGEGZOXN0OCYI3SK6EN5G5TB3BBNFG70E0R6944QVQX2RNCQW31MM2Q8KN4MMP3PGVBK252KCG7SYBNGSS58VMEJJX45VXFZF1Q6N9QA3VMRZQMV4H601IMAWOWZU03YNMIVDQLKFRRL1A5OZ3MB8RGD6NSM290KJUCDNWHWLJ5F8844R7OB9STYYOBG6WTWDFL486B9GW9SF45H3KJ9J243C0U657CUFDOSYL60B3VR471J5E557OFEEJW9STG3K34VP23ICRKO0773A7TW63CX59EUBYL0BX1WSD6SEGYHIYQN2IW8YS2F7RVW4429TDQ3VMFUE8T3B5SB9UO1PR5PFFPVLEM002KXZ679ENB1OEHDR59X8185ZVCYWUF813AHYV1LJLP3X2U9K3MZ4OQ0LA2TOP41WPGKMDOT8GJ3IH1VA8ZW8PAD7N4FB3JS1RHW53RK79CFZQN5FJQJH7ITIY97MCOT4T5VL5W5NNOLU26HJGCXN51LQE4M76KLW445GQU0ZZEJX5KXV89KYML4GVX5HBIPEGZ5W4GKS1XYGDVCHLNYKSTPEZRXN76X33GIXWNDO8IYIVVM8SJC63CD5XDSCX1WV2VVNBGGVL7N5T8NILF2FR6JHULBARVLGP1RQ1G26F6N4MNFQ9SIBOQ53AYIWD3CCN8NBT5AINB91YH42H3C0CGUD25DQM4FW6ODVLGA49OUR5KMT8P52HDQ15AG9BULC1R0M4WHJ0GUXPS6ESXISU6Y0RUCVHABTWAAFWKHCLOJ2A73SHD885JM9229AOJES4UNWEZ59J1F7DE53GN4GWGZHMX9VJUGQUEZ5UTKKCV81ASCLHKUNUZAO2MFEFPJK540G6G0VQCPQHCO0YTI17I8WBUEWQ3UVA6YMV4WIS3RSPAF6IJ744V09VPX3W3J1WX8A4ABE5W2B3CW4DWJK2L5H47DQTFURJEG3VZ2SSVXGRSZPUSX8A0ZB4SLZHD8BCLNUBLKFS6NGQRIICNWAIBPMWH3K82GBXG0GBX8ZJGDJMHVA0ESGIXUY2ERHZ958614ZW1QZGBZAOHRMB0AW4SSNSLR6Y46US25N1DKVQ807Y7MACF9V9049TD0OV9DU0O9A77UL828QZV9TO3Q1CYZZMN3RAZBDY9QZ7487B17UH59TN2J1VNQG4HY1TBKH10LJPNLYLU3FM1K6EXU8HLP9211YWSVG5F7T3VCVPK7CPPUDQ71CPDJE9YGV6TDYG0HCE82EEWFTRTXVMF3IVJT6AHS79ZP3QYDI2S7ED4GHK91A3HJZDFSZU2T8GB8V7I7ZMMWHFVUOC0MXHRTIGVW9K7MZZM914CLRGLFFW81RR8FKWRKNQFAJZV3N91YET3WLUNRT9L25Q6WN0JY0CZNLSS3\",\n\t\"email\": \"email3@citizen.com\",\n\t\"name\": \"citizens name\",\n\t\"phone\": \"5555-555-555\",\n\t\"typeId\": 1,\n\t\"additionalFields\" :[\n\t\t{\"name\": \"Nro de Movil\", \"values\":\"111111\"},\n\t\t{\"name\": \"Fecha y hora\", \"values\":\"9/5/2020\"}\n\t]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] - No Email",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "58456e06-d161-4b65-9a48-b1651b6f0ada",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "d89be31a-e4eb-4bb6-ac05-c8fa944a6765",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"Please type an email\")\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "text/j",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"details\": \"some details\",\n\t\"name\": \"citizens name\",\n\t\"phone\": \"5555-555-555\",\n\t\"typeId\": 1,\n\t\"additionalFields\" :[\n\t\t{\"name\": \"Nro de Movil\", \"values\":\"111111\"},\n\t\t{\"name\": \"Fecha y hora\", \"values\":\"9/5/2020\"}\n\t]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] - Bad Email Format",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "e3e06b76-52ab-4546-a240-113775ce9235",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "2381c8e3-8af9-4b91-8972-cfe54ed3344b",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"The email format is not valid\")\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "text/j",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"details\": \"some details\",\n\t\"email\": \"email\",\n\t\"name\": \"citizens name\",\n\t\"phone\": \"5555-555-555\",\n\t\"typeId\": 1,\n\t\"additionalFields\" :[\n\t\t{\"name\": \"Nro de Movil\", \"values\":\"111111\"},\n\t\t{\"name\": \"Fecha y hora\", \"values\":\"9/5/2020\"}\n\t]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[200] - Create Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d63c8f78-2040-4b10-98b2-48ba958bd179",
+												"exec": [
+													"pm.test(\"Status code is 201\", function () {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the new id\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('id', 'text')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Id number\", function () {\r",
+													"    const num = pm.response.json().id;\r",
+													"    pm.expect(num).to.be.greaterThan(0)\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "text/j",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"details\": \"creation details\",\n\t\"email\": \"email8@citizen.com\",\n\t\"name\": \"citizen 8\",\n\t\"phone\": \"9999-888\",\n\t\"typeId\": 1,\n\t\"additionalFields\" :[\n\t\t{\"name\": \"Nro de Movil\", \"values\":\"888998\"},\n\t\t{\"name\": \"Fecha y hora\", \"values\":\"9/5/2020\"}\n\t]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "GetRequestTests",
+							"item": [
+								{
+									"name": "[200] - GetRequests",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "b8e85a18-ba7e-4657-bce8-3f1db202f8bb",
+												"exec": [
+													"const loginRequest = {\r",
+													"    url: \"http://localhost:5000/api/Sessions\",\r",
+													"    method: 'POST',\r",
+													"    header: 'Content-Type:Application/json',\r",
+													"    body: {\r",
+													"        mode: 'raw',\r",
+													"        raw: JSON.stringify({\r",
+													"            email: pm.environment.get(\"user\"),\r",
+													"            password: pm.environment.get(\"password\")\r",
+													"        })\r",
+													"    }\r",
+													"};\r",
+													"pm.sendRequest(loginRequest, function (err, res) {\r",
+													"    if (!err) {\r",
+													"        let token = res.json().token;\r",
+													"        console.log(res.json());\r",
+													"        pm.environment.set(\"token\", token)\r",
+													"\r",
+													"    } else { console.log(err) }\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "2bd196ae-96b8-4777-a939-0c878d9101d6",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.be.an('array')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    const first = res.first();\r",
+													"    pm.expect(first).to.have.keys('requestId', 'requestedBy','status','details')\r",
+													"});\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "username",
+												"value": "{{user}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{server}}/api/requests",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "UpdateRequestTests",
+							"item": [
+								{
+									"name": "[404] Update a request that doesnt exist",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "a3387186-7b40-4591-b930-a7ea03315b73",
+												"exec": [
+													"const loginRequest = {\r",
+													"    url: \"http://localhost:5000/api/Sessions\",\r",
+													"    method: 'POST',\r",
+													"    header: 'Content-Type:Application/json',\r",
+													"    body: {\r",
+													"        mode: 'raw',\r",
+													"        raw: JSON.stringify({\r",
+													"            email: pm.environment.get(\"user\"),\r",
+													"            password: pm.environment.get(\"password\")\r",
+													"        })\r",
+													"    }\r",
+													"};\r",
+													"pm.sendRequest(loginRequest, function (err, res) {\r",
+													"    if (!err) {\r",
+													"        let token = res.json().token;\r",
+													"        console.log(res.json());\r",
+													"        pm.environment.set(\"token\", token)\r",
+													"\r",
+													"    } else { console.log(err) }\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "7ba976be-a86f-4420-9b4e-f372c45dee61",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"Request with id 9999 could not be found.\")\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "username",
+												"type": "text",
+												"value": "{{user}}"
+											},
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"newState\": \"inreview\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests/9999",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests",
+												"9999"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] Updating a negative Id request",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "6d2d49b6-bdf0-4ffc-9de3-8d96e3f9baaf",
+												"exec": [
+													"const loginRequest = {\r",
+													"    url: \"http://localhost:5000/api/Sessions\",\r",
+													"    method: 'POST',\r",
+													"    header: 'Content-Type:Application/json',\r",
+													"    body: {\r",
+													"        mode: 'raw',\r",
+													"        raw: JSON.stringify({\r",
+													"            email: pm.environment.get(\"user\"),\r",
+													"            password: pm.environment.get(\"password\")\r",
+													"        })\r",
+													"    }\r",
+													"};\r",
+													"pm.sendRequest(loginRequest, function (err, res) {\r",
+													"    if (!err) {\r",
+													"        let token = res.json().token;\r",
+													"        console.log(res.json());\r",
+													"        pm.environment.set(\"token\", token)\r",
+													"\r",
+													"    } else { console.log(err) }\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "38a66ab9-8f3f-4622-a384-6a685b80bd13",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"id -1 is invalid.\")\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "username",
+												"value": "{{user}}",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"newState\": \"done\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests/-1",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests",
+												"-1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] Not providing a new state",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "60ba8aa3-4212-4b5c-ad08-8f061a2c4572",
+												"exec": [
+													"const loginRequest = {\r",
+													"    url: \"http://localhost:5000/api/Sessions\",\r",
+													"    method: 'POST',\r",
+													"    header: 'Content-Type:Application/json',\r",
+													"    body: {\r",
+													"        mode: 'raw',\r",
+													"        raw: JSON.stringify({\r",
+													"            email: pm.environment.get(\"user\"),\r",
+													"            password: pm.environment.get(\"password\")\r",
+													"        })\r",
+													"    }\r",
+													"};\r",
+													"pm.sendRequest(loginRequest, function (err, res) {\r",
+													"    if (!err) {\r",
+													"        let token = res.json().token;\r",
+													"        console.log(res.json());\r",
+													"        pm.environment.set(\"token\", token)\r",
+													"\r",
+													"    } else { console.log(err) }\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "f49c5cc1-7d04-4564-a730-09299562c6ff",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"state '' is not a valid state.\")\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "username",
+												"value": "{{user}}",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests/1",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] Updating to a not available state",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "11f0e8a2-9674-4e1f-baf8-3fb463faa0a7",
+												"exec": [
+													"const loginRequest = {\r",
+													"    url: \"http://localhost:5000/api/Sessions\",\r",
+													"    method: 'POST',\r",
+													"    header: 'Content-Type:Application/json',\r",
+													"    body: {\r",
+													"        mode: 'raw',\r",
+													"        raw: JSON.stringify({\r",
+													"            email: pm.environment.get(\"user\"),\r",
+													"            password: pm.environment.get(\"password\")\r",
+													"        })\r",
+													"    }\r",
+													"};\r",
+													"pm.sendRequest(loginRequest, function (err, res) {\r",
+													"    if (!err) {\r",
+													"        let token = res.json().token;\r",
+													"        console.log(res.json());\r",
+													"        pm.environment.set(\"token\", token)\r",
+													"\r",
+													"    } else { console.log(err) }\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "88881d23-0c11-4189-96d0-77a0882db68e",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"can't update a created request to 'Done', possible options are: InReview\")\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "username",
+												"type": "text",
+												"value": "{{user}}"
+											},
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"newState\": \"done\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests/1",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] Unauthorized",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "287c9970-0bb0-4bfe-b8bf-242894541edd",
+												"exec": [
+													"const loginRequest = {\r",
+													"    url: \"http://localhost:5000/api/Sessions\",\r",
+													"    method: 'POST',\r",
+													"    header: 'Content-Type:Application/json',\r",
+													"    body: {\r",
+													"        mode: 'raw',\r",
+													"        raw: JSON.stringify({\r",
+													"            email: pm.environment.get(\"user\"),\r",
+													"            password: pm.environment.get(\"password\")\r",
+													"        })\r",
+													"    }\r",
+													"};\r",
+													"pm.sendRequest(loginRequest, function (err, res) {\r",
+													"    if (!err) {\r",
+													"        let token = res.json().token;\r",
+													"        console.log(res.json());\r",
+													"        pm.environment.set(\"token\", token)\r",
+													"\r",
+													"    } else { console.log(err) }\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "1e7f957b-0b30-40e0-a5df-5cb31e442486",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"Token is required\")\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "username",
+												"type": "text",
+												"value": "{{user}}",
+												"disabled": true
+											},
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{token}}",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"newState\": \"string\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests/1",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] Invalid State name",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "68b35b8a-b88e-4b9c-a23a-281df42bd068",
+												"exec": [
+													"const loginRequest = {\r",
+													"    url: \"http://localhost:5000/api/Sessions\",\r",
+													"    method: 'POST',\r",
+													"    header: 'Content-Type:Application/json',\r",
+													"    body: {\r",
+													"        mode: 'raw',\r",
+													"        raw: JSON.stringify({\r",
+													"            email: pm.environment.get(\"user\"),\r",
+													"            password: pm.environment.get(\"password\")\r",
+													"        })\r",
+													"    }\r",
+													"};\r",
+													"pm.sendRequest(loginRequest, function (err, res) {\r",
+													"    if (!err) {\r",
+													"        let token = res.json().token;\r",
+													"        console.log(res.json());\r",
+													"        pm.environment.set(\"token\", token)\r",
+													"\r",
+													"    } else { console.log(err) }\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "6cfd6ed3-ba82-4669-839e-cc2605f415d3",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"state 'string' is not a valid state.\")\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "username",
+												"type": "text",
+												"value": "{{user}}"
+											},
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"newState\": \"string\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/requests/1",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"requests",
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Types",
+			"item": [
+				{
+					"name": "Requests",
+					"item": [
+						{
+							"name": "CreateType",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "bc90b076-3144-4789-8872-fa3f6e06ddd9",
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: \"http://localhost:5000/api/Sessions\",\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:Application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            email: pm.environment.get(\"user\"),\r",
+											"            password: pm.environment.get(\"password\")\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (!err) {\r",
+											"        let token = res.json().token;\r",
+											"        console.log(res.json());\r",
+											"        pm.environment.set(\"token\", token)\r",
+											"\r",
+											"    } else { console.log(err) }\r",
+											"\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "username",
+										"value": "{{user}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"type2\",\r\n  \"topicId\": 1,\r\n  \"additionalFields\": [\r\n    {\r\n      \"name\": \"campo\",\r\n      \"fieldType\": \"int\",\r\n      \"isRequired\": true,\r\n      \"range\": [\"6\",\"7\"]\r\n    },\r\n    {\r\n      \"name\": \"field_text\",\r\n      \"fieldType\": \"text\",\r\n      \"isRequired\": false,\r\n      \"range\": [\"6\",\"7\"]\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server}}/api/types",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"api",
+										"types"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteType",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "a4996dbc-e0bc-4907-a6ce-d7b879b578d2",
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: \"http://localhost:5000/api/Sessions\",\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:Application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            email: pm.environment.get(\"user\"),\r",
+											"            password: pm.environment.get(\"password\")\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (!err) {\r",
+											"        let token = res.json().token;\r",
+											"        console.log(res.json());\r",
+											"        pm.environment.set(\"token\", token)\r",
+											"\r",
+											"    } else { console.log(err) }\r",
+											"\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "username",
+										"value": "{{user}}",
+										"type": "text"
+									},
+									{
+										"key": "Content",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{server}}/api/types/2",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"api",
+										"types",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetTypes",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{server}}/api/types/1",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"api",
+										"types",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Tests",
+					"item": [
+						{
+							"name": "RemoveTypeTests",
+							"item": [
+								{
+									"name": "[400] Unauthorized",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "2c348425-bde4-42df-91fc-2e82cedc2b30",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "ce114726-c7d5-4826-bba6-4244fb2cbbb8",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"Token is required\")\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{token}}",
+												"disabled": true
+											},
+											{
+												"key": "username",
+												"type": "text",
+												"value": "{{user}}",
+												"disabled": true
+											},
+											{
+												"key": "Content",
+												"type": "text",
+												"value": ""
+											}
+										],
+										"url": {
+											"raw": "{{server}}/api/types/2",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"types",
+												"2"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] Cant delete non existing type",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "8bb0f8af-bdad-4409-b9d9-be2035ffdffb",
+												"exec": [
+													"const loginRequest = {\r",
+													"    url: \"http://localhost:5000/api/Sessions\",\r",
+													"    method: 'POST',\r",
+													"    header: 'Content-Type:Application/json',\r",
+													"    body: {\r",
+													"        mode: 'raw',\r",
+													"        raw: JSON.stringify({\r",
+													"            email: pm.environment.get(\"user\"),\r",
+													"            password: pm.environment.get(\"password\")\r",
+													"        })\r",
+													"    }\r",
+													"};\r",
+													"pm.sendRequest(loginRequest, function (err, res) {\r",
+													"    if (!err) {\r",
+													"        let token = res.json().token;\r",
+													"        console.log(res.json());\r",
+													"        pm.environment.set(\"token\", token)\r",
+													"\r",
+													"    } else { console.log(err) }\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "588d3b12-3f1c-4457-b851-3cde07ae91a3",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"No type with id exists 22225\")\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{token}}"
+											},
+											{
+												"key": "username",
+												"type": "text",
+												"value": "{{user}}"
+											},
+											{
+												"key": "Content",
+												"type": "text",
+												"value": ""
+											}
+										],
+										"url": {
+											"raw": "{{server}}/api/types/22225",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"types",
+												"22225"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] cant delete negative number",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "7ced0331-6849-4679-8060-4a49f41ccbe8",
+												"exec": [
+													"const loginRequest = {\r",
+													"    url: \"http://localhost:5000/api/Sessions\",\r",
+													"    method: 'POST',\r",
+													"    header: 'Content-Type:Application/json',\r",
+													"    body: {\r",
+													"        mode: 'raw',\r",
+													"        raw: JSON.stringify({\r",
+													"            email: pm.environment.get(\"user\"),\r",
+													"            password: pm.environment.get(\"password\")\r",
+													"        })\r",
+													"    }\r",
+													"};\r",
+													"pm.sendRequest(loginRequest, function (err, res) {\r",
+													"    if (!err) {\r",
+													"        let token = res.json().token;\r",
+													"        console.log(res.json());\r",
+													"        pm.environment.set(\"token\", token)\r",
+													"\r",
+													"    } else { console.log(err) }\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "1d3ab02a-fafe-4be5-8ea8-ab4140c01eb1",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"typeId \\\"-2\\\" is invalid.\")\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{token}}"
+											},
+											{
+												"key": "username",
+												"type": "text",
+												"value": "{{user}}"
+											},
+											{
+												"key": "Content",
+												"type": "text",
+												"value": ""
+											}
+										],
+										"url": {
+											"raw": "{{server}}/api/types/-2",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"types",
+												"-2"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "CreateTypeTest",
+							"item": [
+								{
+									"name": "[400] Wrong AF type specified",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "1ccd2718-fe2d-4f77-98ad-9cfaca17cc83",
+												"exec": [
+													"const loginRequest = {\r",
+													"    url: \"http://localhost:5000/api/Sessions\",\r",
+													"    method: 'POST',\r",
+													"    header: 'Content-Type:Application/json',\r",
+													"    body: {\r",
+													"        mode: 'raw',\r",
+													"        raw: JSON.stringify({\r",
+													"            email: pm.environment.get(\"user\"),\r",
+													"            password: pm.environment.get(\"password\")\r",
+													"        })\r",
+													"    }\r",
+													"};\r",
+													"pm.sendRequest(loginRequest, function (err, res) {\r",
+													"    if (!err) {\r",
+													"        let token = res.json().token;\r",
+													"        console.log(res.json());\r",
+													"        pm.environment.set(\"token\", token)\r",
+													"\r",
+													"    } else { console.log(err) }\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "f81958cc-d23d-406c-a90b-dcc645988514",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"value 'text' cannot be read as an integer\")\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{token}}"
+											},
+											{
+												"key": "username",
+												"type": "text",
+												"value": "{{user}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"newtype\",\r\n  \"topicId\": 1,\r\n  \"additionalFields\": [\r\n    {\r\n      \"name\": \"campo\",\r\n      \"fieldType\": \"int\",\r\n      \"isRequired\": true,\r\n      \"range\": [ \"text\",\"text2\"]\r\n    }\r\n  ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/types",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"types"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] Bad Type in Additional Field",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "cffea897-12a2-467c-925f-00dfc2d3a750",
+												"exec": [
+													"const loginRequest = {\r",
+													"    url: \"http://localhost:5000/api/Sessions\",\r",
+													"    method: 'POST',\r",
+													"    header: 'Content-Type:Application/json',\r",
+													"    body: {\r",
+													"        mode: 'raw',\r",
+													"        raw: JSON.stringify({\r",
+													"            email: pm.environment.get(\"user\"),\r",
+													"            password: pm.environment.get(\"password\")\r",
+													"        })\r",
+													"    }\r",
+													"};\r",
+													"pm.sendRequest(loginRequest, function (err, res) {\r",
+													"    if (!err) {\r",
+													"        let token = res.json().token;\r",
+													"        console.log(res.json());\r",
+													"        pm.environment.set(\"token\", token)\r",
+													"\r",
+													"    } else { console.log(err) }\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "30bd3b78-81a6-421f-9b1e-15fd905f72f7",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"tipoValor are not valid field types\")\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{token}}"
+											},
+											{
+												"key": "username",
+												"type": "text",
+												"value": "{{user}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"newtype\",\r\n  \"topicId\": 1,\r\n  \"additionalFields\": [\r\n    {\r\n      \"name\": \"campo\",\r\n      \"fieldType\": \"tipoValor\",\r\n      \"isRequired\": true,\r\n      \"range\": [\"6\",\"7\"]\r\n    }\r\n  ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/types",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"types"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] Bad Range",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "7ed112cf-3642-4d88-92bd-fbb1c4a5a34d",
+												"exec": [
+													"const loginRequest = {\r",
+													"    url: \"http://localhost:5000/api/Sessions\",\r",
+													"    method: 'POST',\r",
+													"    header: 'Content-Type:Application/json',\r",
+													"    body: {\r",
+													"        mode: 'raw',\r",
+													"        raw: JSON.stringify({\r",
+													"            email: pm.environment.get(\"user\"),\r",
+													"            password: pm.environment.get(\"password\")\r",
+													"        })\r",
+													"    }\r",
+													"};\r",
+													"pm.sendRequest(loginRequest, function (err, res) {\r",
+													"    if (!err) {\r",
+													"        let token = res.json().token;\r",
+													"        console.log(res.json());\r",
+													"        pm.environment.set(\"token\", token)\r",
+													"\r",
+													"    } else { console.log(err) }\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "60ca2c65-1343-4665-9e9f-037ebefc6070",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"Integer fields in range should be in ascending order\")\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{token}}"
+											},
+											{
+												"key": "username",
+												"type": "text",
+												"value": "{{user}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"newtype\",\r\n  \"topicId\": 1,\r\n  \"additionalFields\": [\r\n    {\r\n      \"name\": \"campo\",\r\n      \"fieldType\": \"int\",\r\n      \"isRequired\": true,\r\n      \"range\": [\"8\",\"6\"]\r\n    }\r\n  ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/types",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"types"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] Duplicated Additional Fields",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "cbdfab35-0daa-4a21-beda-d4136ccfc3fe",
+												"exec": [
+													"const loginRequest = {\r",
+													"    url: \"http://localhost:5000/api/Sessions\",\r",
+													"    method: 'POST',\r",
+													"    header: 'Content-Type:Application/json',\r",
+													"    body: {\r",
+													"        mode: 'raw',\r",
+													"        raw: JSON.stringify({\r",
+													"            email: pm.environment.get(\"user\"),\r",
+													"            password: pm.environment.get(\"password\")\r",
+													"        })\r",
+													"    }\r",
+													"};\r",
+													"pm.sendRequest(loginRequest, function (err, res) {\r",
+													"    if (!err) {\r",
+													"        let token = res.json().token;\r",
+													"        console.log(res.json());\r",
+													"        pm.environment.set(\"token\", token)\r",
+													"\r",
+													"    } else { console.log(err) }\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "878eab4e-dd47-4596-991b-a9a70f12a63b",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql('Some of the additional field names are repeated \"campo\"')\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{token}}"
+											},
+											{
+												"key": "username",
+												"type": "text",
+												"value": "{{user}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"newtype\",\r\n  \"topicId\": 1,\r\n  \"additionalFields\": \r\n  [\t{\r\n      \"name\": \"campo\",\r\n      \"fieldType\": \"int\",\r\n      \"isRequired\": true,\r\n      \"range\": [ \"6\",\"7\"]\r\n    },\r\n    {\r\n      \"name\": \"campo\",\r\n      \"fieldType\": \"int\",\r\n      \"isRequired\": true,\r\n      \"range\": [\"6\" ,\"7\"]\r\n    }\r\n  ]\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/types",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"types"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] Non existing TopicId",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "06e2b5f1-383d-4d01-b4d4-eaf4c96c0f43",
+												"exec": [
+													"const loginRequest = {\r",
+													"    url: \"http://localhost:5000/api/Sessions\",\r",
+													"    method: 'POST',\r",
+													"    header: 'Content-Type:Application/json',\r",
+													"    body: {\r",
+													"        mode: 'raw',\r",
+													"        raw: JSON.stringify({\r",
+													"            email: pm.environment.get(\"user\"),\r",
+													"            password: pm.environment.get(\"password\")\r",
+													"        })\r",
+													"    }\r",
+													"};\r",
+													"pm.sendRequest(loginRequest, function (err, res) {\r",
+													"    if (!err) {\r",
+													"        let token = res.json().token;\r",
+													"        console.log(res.json());\r",
+													"        pm.environment.set(\"token\", token)\r",
+													"\r",
+													"    } else { console.log(err) }\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "f3b41708-baf8-4dd0-8ab6-8c759d73f989",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"No topic with id 99999999 exists.\")\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{token}}"
+											},
+											{
+												"key": "username",
+												"type": "text",
+												"value": "{{user}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"newtype\",\r\n  \"topicId\": 99999999,\r\n  \"additionalFields\": [\r\n    {\r\n      \"name\": \"campo\",\r\n      \"fieldType\": \"int\",\r\n      \"isRequired\": true,\r\n      \"range\": [\"6\",\"7\"]\r\n    }\r\n  ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/types",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"types"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] No TopicId",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f673f4ad-a849-4ac2-bc96-facec00cc7ba",
+												"exec": [
+													"const loginRequest = {\r",
+													"    url: \"http://localhost:5000/api/Sessions\",\r",
+													"    method: 'POST',\r",
+													"    header: 'Content-Type:Application/json',\r",
+													"    body: {\r",
+													"        mode: 'raw',\r",
+													"        raw: JSON.stringify({\r",
+													"            email: pm.environment.get(\"user\"),\r",
+													"            password: pm.environment.get(\"password\")\r",
+													"        })\r",
+													"    }\r",
+													"};\r",
+													"pm.sendRequest(loginRequest, function (err, res) {\r",
+													"    if (!err) {\r",
+													"        let token = res.json().token;\r",
+													"        console.log(res.json());\r",
+													"        pm.environment.set(\"token\", token)\r",
+													"\r",
+													"    } else { console.log(err) }\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "9add9bbb-46f6-4a29-907c-d38291e21527",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"topicId 0 is invalid.\")\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{token}}"
+											},
+											{
+												"key": "username",
+												"type": "text",
+												"value": "{{user}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"newtype\",\r\n  \"additionalFields\": [\r\n    {\r\n      \"name\": \"campo\",\r\n      \"fieldType\": \"int\",\r\n      \"isRequired\": true,\r\n      \"range\": [ \"6\", \"7\" ]\r\n    }\r\n  ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/types",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"types"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "[400] No type name",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "2b7344a2-f555-4b3b-b936-dd474a9f6b88",
+												"exec": [
+													"const loginRequest = {\r",
+													"    url: \"http://localhost:5000/api/Sessions\",\r",
+													"    method: 'POST',\r",
+													"    header: 'Content-Type:Application/json',\r",
+													"    body: {\r",
+													"        mode: 'raw',\r",
+													"        raw: JSON.stringify({\r",
+													"            email: pm.environment.get(\"user\"),\r",
+													"            password: pm.environment.get(\"password\")\r",
+													"        })\r",
+													"    }\r",
+													"};\r",
+													"pm.sendRequest(loginRequest, function (err, res) {\r",
+													"    if (!err) {\r",
+													"        let token = res.json().token;\r",
+													"        console.log(res.json());\r",
+													"        pm.environment.set(\"token\", token)\r",
+													"\r",
+													"    } else { console.log(err) }\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "edc74338-87ae-4838-9adb-c36f8f03edba",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error message\", function () {\r",
+													"    const res = pm.response.json();\r",
+													"    pm.expect(res).to.have.keys('error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Error text\", function () {\r",
+													"    const msg = pm.response.json().error;\r",
+													"    pm.expect(msg).to.eql(\"Provided type Name cannot be empty.\")\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											},
+											{
+												"key": "username",
+												"value": "{{user}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"topicId\": 1,\r\n  \"additionalFields\": [\r\n    {\r\n      \"name\": \"campo\",\r\n      \"fieldType\": \"int\",\r\n      \"isRequired\": true,\r\n      \"range\": [\"6\",\"7\"]       \r\n    }\r\n  ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{server}}/api/types",
+											"host": [
+												"{{server}}"
+											],
+											"path": [
+												"api",
+												"types"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Admins",
+			"item": [
+				{
+					"name": "Requests",
+					"item": [
+						{
+							"name": "GetAll Admins",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "username",
+										"value": "{{user}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [],
+									"options": {
+										"formdata": {}
+									}
+								},
+								"url": {
+									"raw": "{{server}}/api/admins",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"api",
+										"admins"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": "{{token}}",
+											"disabled": true
+										},
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Admin",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "username",
+										"value": "{{user}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"password\": \"dadasdads\",\r\n  \"name\": \"un nombre\",\r\n  \"email\": \"mail@pija.com\",\r\n  \"phoneNumber\": \"46546489\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server}}/api/admins/1",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"api",
+										"admins",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Admin",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "{{token}}"
+									},
+									{
+										"key": "username",
+										"type": "text",
+										"value": "{{user}}"
+									}
+								],
+								"url": {
+									"raw": "{{server}}/api/admins/8",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"api",
+										"admins",
+										"8"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Admin",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "{{token}}"
+									},
+									{
+										"key": "username",
+										"type": "text",
+										"value": "{{user}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"password\": \"pa$$\",\r\n  \"name\": \"\",\r\n  \"email\": \"mail2@admin.com\",\r\n  \"phoneNumber\": \"dddd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server}}/api/admins/",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"api",
+										"admins",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Areas",
+			"item": [
+				{
+					"name": "GeAreas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/api/areas",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"areas"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Topics",
+			"item": [
+				{
+					"name": "GetTopics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/api/topics/1",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"topics",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Session",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "username",
+								"type": "text",
+								"value": "{{user}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"admin@foo.com\",\r\n  \"password\": \"pass\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sslserver}}/api/sessions/",
+							"host": [
+								"{{sslserver}}"
+							],
+							"path": [
+								"api",
+								"sessions",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Reports",
+			"item": [
+				{
+					"name": "Reporte a",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "e3e1176e-a8f3-4afd-b39f-032476752164",
+								"exec": [
+									"const loginRequest = {\r",
+									"    url: \"http://localhost:5000/api/Sessions\",\r",
+									"    method: 'POST',\r",
+									"    header: 'Content-Type:Application/json',\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify({\r",
+									"            email: pm.environment.get(\"user\"),\r",
+									"            password: pm.environment.get(\"password\")\r",
+									"        })\r",
+									"    }\r",
+									"};\r",
+									"pm.sendRequest(loginRequest, function (err, res) {\r",
+									"    if (!err) {\r",
+									"        let token = res.json().token;\r",
+									"        console.log(res.json());\r",
+									"        pm.environment.set(\"token\", token)\r",
+									"\r",
+									"    } else { console.log(err) }\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "username",
+								"value": "{{user}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [],
+							"options": {
+								"formdata": {}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/api/reports/a?mail=test@user.com&startDate=2020-01-01&endDate=2020-08-01",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"reports",
+								"a"
+							],
+							"query": [
+								{
+									"key": "mail",
+									"value": "test@user.com"
+								},
+								{
+									"key": "username",
+									"value": "{{user}}",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "2020-01-01"
+								},
+								{
+									"key": "endDate",
+									"value": "2020-08-01"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reporte b",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "e1ace23f-b550-4cb1-9466-02f3f222ad0a",
+								"exec": [
+									"const loginRequest = {\r",
+									"    url: \"http://localhost:5000/api/Sessions\",\r",
+									"    method: 'POST',\r",
+									"    header: 'Content-Type:Application/json',\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify({\r",
+									"            email: pm.environment.get(\"user\"),\r",
+									"            password: pm.environment.get(\"password\")\r",
+									"        })\r",
+									"    }\r",
+									"};\r",
+									"pm.sendRequest(loginRequest, function (err, res) {\r",
+									"    if (!err) {\r",
+									"        let token = res.json().token;\r",
+									"        console.log(res.json());\r",
+									"        pm.environment.set(\"token\", token)\r",
+									"\r",
+									"    } else { console.log(err) }\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "username",
+								"type": "text",
+								"value": "{{user}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [],
+							"options": {
+								"formdata": {}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/api/reports/b?mail=test@user.com&startDate=2020-01-01&endDate=2020-08-01",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"reports",
+								"b"
+							],
+							"query": [
+								{
+									"key": "mail",
+									"value": "test@user.com"
+								},
+								{
+									"key": "username",
+									"value": "{{user}}",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "2020-01-01"
+								},
+								{
+									"key": "endDate",
+									"value": "2020-08-01"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
