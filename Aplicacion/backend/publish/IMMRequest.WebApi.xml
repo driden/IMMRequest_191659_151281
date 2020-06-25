@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IMMRequest.WebApi</name>
+    </assembly>
+    <members>
+        <member name="M:IMMRequest.WebApi.Controllers.ReportsController.GetAllRequestByMail(System.String,System.DateTime,System.DateTime)">
+            <summary>
+                Gets all request by a user mail between two dates
+            </summary>
+            <param name="mail">Mail from Citizen</param>
+            <param name="startDate">Start date</param>
+            <param name="endDate">End date</param>
+            <returns>A json object with the details of the request</returns>
+        </member>
+        <member name="M:IMMRequest.WebApi.Controllers.ReportsController.GetMostUsedTypes(System.DateTime,System.DateTime)">
+            <summary>
+                Lists all the most used type for requests
+            </summary>
+            <param name="startDate">Start date</param>
+            <param name="endDate">End date</param>
+            <returns>Returns the list of types in a topic</returns>
+        </member>
+        <member name="M:IMMRequest.WebApi.Controllers.RequestsController.CreateRequest(IMMRequest.Logic.Models.Request.CreateRequestModel)">
+            <summary>
+                Creates a new request in the system
+            </summary>
+            <param name="requestModel">request body</param>
+            <response code="201">Request created</response>
+            <response code="400">There's something wrong with the request body</response>
+            <response code="404">A field name could not be found</response>
+            <response code="500">Something is wrong with the server</response>
+        </member>
+        <member name="M:IMMRequest.WebApi.Controllers.RequestsController.GetAll">
+            <summary>
+                Gets a list of all the requests in the system
+            </summary>
+            <returns>A json object with a list of all requests in the system</returns>
+        </member>
+        <member name="M:IMMRequest.WebApi.Controllers.RequestsController.GetByEmail(System.String)">
+            <summary>
+                Gets a list of all the requests for a given email
+            </summary>
+            <returns>A json object with a list of all requests in the system</returns>
+        </member>
+        <member name="M:IMMRequest.WebApi.Controllers.RequestsController.GetOne(System.Int32)">
+            <summary>
+                Gets a request details
+            </summary>
+            <returns>A json object with the details of the request</returns>
+        </member>
+        <member name="M:IMMRequest.WebApi.Controllers.RequestsController.UpdateStatus(System.Int32,IMMRequest.Logic.Models.Request.UpdateStateModel)">
+            <summary>
+                Updates the State of a request
+            </summary>
+            <param name="id">The id of the request to update</param>
+            <param name="updateStateRequest">The state to which the request should be updated to</param>
+            <response code="200">Request updated</response>
+            <response code="400">There's something wrong with the request body</response>
+            <response code="404">A request with the given Id could not be found</response>
+            <response code="500">Something is wrong with the server</response>
+        </member>
+        <member name="M:IMMRequest.WebApi.Controllers.TopicsController.GetAll(System.Int32)">
+            <summary>
+                Lists all the topics for a given Area
+            </summary>
+            <param name="areaId">the area Id for which their topic should be listed</param>
+            <returns>Returns the list of topics in an area</returns>
+        </member>
+        <member name="M:IMMRequest.WebApi.Controllers.TopicsController.CreateTopic(IMMRequest.Logic.Models.Topic.TopicModel)">
+            <summary>
+                Creates a new topic in the system
+            </summary>
+            <param name="topicModel">topic body</param>
+            <response code="201">Topic created</response>
+            <response code="400">There's something wrong with the request body</response>
+            <response code="404">A field name could not be found</response>
+            <response code="500">Something is wrong with the server</response>
+        </member>
+        <member name="M:IMMRequest.WebApi.Controllers.TypesController.AddType(IMMRequest.Logic.Models.Type.CreateTypeRequest)">
+            <summary>
+                Creates a new type in the system
+            </summary>
+            <param name="request">request body</param>
+            <response code="200">Type created</response>
+            <response code="400">There's something wrong with the request body</response>
+            <response code="500">Something is wrong with the server</response>
+        </member>
+        <member name="M:IMMRequest.WebApi.Controllers.TypesController.DeleteType(System.Int32)">
+            <summary>
+                Creates a new type in the system
+            </summary>
+            <param name="id">Type id</param>
+            <response code="200">Type created</response>
+            <response code="400">There's something wrong with the request body</response>
+            <response code="500">Something is wrong with the server</response>
+        </member>
+        <member name="M:IMMRequest.WebApi.Controllers.TypesController.GetAll(System.Int32)">
+            <summary>
+                Lists all the types for a given topic.
+            </summary>
+            <param name="topicId">the topic Id for which their type should be listed</param>
+            <returns>Returns the list of types in a topic</returns>
+        </member>
+    </members>
+</doc>
