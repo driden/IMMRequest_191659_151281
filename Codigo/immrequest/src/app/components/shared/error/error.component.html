@@ -1,0 +1,22 @@
+<div class="container fly" *ngIf="!!message">
+  <div class="alert alert-danger row msg-text" role="alert">
+    <button
+      type="button btn btn-danger btn-sm float-right"
+      class="close"
+      aria-label="Close"
+      (click)="clearMessage()"
+    >
+      <i class="far fa-window-close text-danger"></i>
+    </button>
+    <div class="col-lg-9 col-xl-9 col-md-9">
+      <h4 class="alert-heading">
+        Error <i class="far fa-frown"></i>
+      </h4>
+    </div>
+    <div class="col-lg-2 col-xl-2 col-md-2"></div>
+    <hr />
+    <p>
+      {{ message }}
+    </p>
+  </div>
+</div>

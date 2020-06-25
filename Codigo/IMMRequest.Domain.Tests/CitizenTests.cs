@@ -1,8 +1,8 @@
 namespace IMMRequest.Domain.Tests
 {
+    using System;
     using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
 
     [TestClass]
     public class CitizenTests

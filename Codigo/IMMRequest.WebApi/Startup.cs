@@ -1,22 +1,15 @@
 namespace IMMRequest.WebApi
 {
-    using System;
-    using System.IO;
     using System.Reflection;
     using DataAccess.Core;
-    using DataAccess.Core.Repositories;
-    using DataAccess.Interfaces;
-    using Domain;
-    using Logic.Core;
-    using Logic.Interfaces;
+    using Factory;
+    using Filters;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Http.Features;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Microsoft.OpenApi.Models;
-    using Type = Domain.Type;
 
     public class Startup
     {
@@ -30,54 +23,31 @@ namespace IMMRequest.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(
-                options =>
-                {
-                    options.AddPolicy(
-                        "CorsPolicy",
-                        builder => builder
-                            .AllowAnyOrigin()
-                            .AllowAnyMethod()
-                            .AllowAnyHeader());
-                });
-
-            services.AddControllers();
-
-            services.AddDbContext<DbContext, IMMRequestContext>(options =>
+            services.AddControllers(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                options.UseLazyLoadingProxies();
-                options.EnableSensitiveDataLogging();
+                options.Filters.Add(typeof(DomainExceptionFilter), 1);
+                options.Filters.Add(typeof(LogicExceptionFilter), 2);
+                options.Filters.Add(typeof(SystemExceptionFilter), 3);
             });
 
-            services.AddSwaggerGen(options =>
+            services.Configure<FormOptions>(opts =>
             {
-                options.SwaggerDoc("v1",
-                    new OpenApiInfo { Title = "IMM Request API", Version = "v1" });
-
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                options.IncludeXmlComments(xmlPath);
+                opts.MemoryBufferThreshold = int.MaxValue;
+                opts.ValueLengthLimit = int.MaxValue;
+                opts.MultipartBodyLengthLimit = int.MaxValue;
             });
 
-            // Database Injections
-            services.AddScoped<IDbSeeder, IMMRequestDBSeeder>();
-            services.AddScoped<IRepository<Area>, AreaRepository>();
-            services.AddScoped<IRepository<Request>, RequestRepository>();
-            services.AddScoped<IAreaQueries, AreaRepository>();
-            services.AddScoped<IRepository<Topic>, TopicRepository>();
-            services.AddScoped<IRepository<Type>, TypeRepository>();
-            services.AddScoped<IRepository<User>, UserRepository>();
-            services.AddScoped<IRepository<Admin>, AdminRepository>();
-            services.AddScoped<IRepository<Type>, TypeRepository>();
 
-            // Logic Injection
-            services.AddScoped<IRequestsLogic, RequestsLogic>();
-            services.AddScoped<ITypesLogic, TypesLogic>();
-            services.AddScoped<IAdminsLogic, AdminsLogic>();
+            services.AddImmRequestSwagger(Assembly.GetExecutingAssembly().GetName().Name);
+            services.AddImmRequestCors();
+            services.AddImmRequestDbConnectionString(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddImmRequestDatabase();
+            services.AddImmRequestLogic();
+            services.AddImmRequestAuthorization();
 
-            // Authorization
-            services.AddScoped<ISessionLogic, SessionLogic>();
+            services.AddScoped<DomainExceptionFilter>();
+            services.AddScoped<LogicExceptionFilter>();
+            services.AddScoped<SystemExceptionFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,6 +62,8 @@ namespace IMMRequest.WebApi
 
             app.UseRouting();
 
+            app.UseCors("CorsPolicy");
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -104,8 +76,6 @@ namespace IMMRequest.WebApi
                 conf.SwaggerEndpoint("/swagger/v1/swagger.json", "IMM Request API");
                 conf.RoutePrefix = "swagger";
             });
-
-            app.UseCors("CorsPolicy");
 
             var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
             using (var scope = scopeFactory.CreateScope())

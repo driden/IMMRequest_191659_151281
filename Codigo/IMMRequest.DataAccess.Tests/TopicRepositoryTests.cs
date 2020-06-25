@@ -2,7 +2,6 @@ namespace IMMRequest.DataAccess.Tests
 {
     using System.Linq;
     using Core.Repositories;
-    using Domain;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

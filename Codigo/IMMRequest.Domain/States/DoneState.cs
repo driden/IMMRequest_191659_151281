@@ -6,7 +6,7 @@ namespace IMMRequest.Domain.States
     {
         public DoneState()
         {
-            Description = "This request is currently done";
+            Description = "Done";
         }
 
         public DoneState(Request Request) : this()

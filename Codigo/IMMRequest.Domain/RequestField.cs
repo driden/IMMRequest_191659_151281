@@ -1,7 +1,9 @@
-using System;
-
 namespace IMMRequest.Domain
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class RequestField
     {
         public int Id { get; set; }
@@ -9,33 +11,29 @@ namespace IMMRequest.Domain
         public string Name { get; set; }
     }
 
-    public class IntRequestField: RequestField
+    public class IntRequestField : RequestField
     {
-        public int Value { get; set; }
+        public List<int> Values { get; set; }
 
-        public override string ToString()
-        {
-            return Value.ToString();
-        }
+        public override string ToString() => string.Join(',', Values);
     }
 
-    public class TextRequestField: RequestField
+    public class TextRequestField : RequestField
     {
-        public string Value { get; set; }
+        public List<string> Values { get; set; }
 
-        public override string ToString()
-        {
-            return Value;
-        }
+        public override string ToString() => string.Join(',', Values);
     }
 
-    public class DateRequestField: RequestField
+    public class DateRequestField : RequestField
     {
-        public DateTime Value { get; set; }
+        public List<DateTime> Values { get; set; }
 
-        public override string ToString()
-        {
-            return Value.ToString("G");
-        }
+        public override string ToString() => string.Join(',', Values.Select(v => v.ToString("yyyy-MM-dd")));
+    }
+
+    public class BooleanRequestField : RequestField
+    {
+        public List<bool> Values { get; set; }
     }
 }

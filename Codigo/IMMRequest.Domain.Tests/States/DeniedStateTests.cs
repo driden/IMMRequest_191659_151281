@@ -1,6 +1,7 @@
-namespace IMMRequest.Domain.States.Tests
+namespace IMMRequest.Domain.Tests.States
 {
     using System;
+    using Domain.States;
     using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 

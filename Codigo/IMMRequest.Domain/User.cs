@@ -1,6 +1,5 @@
 namespace IMMRequest.Domain
 {
-    using System.Numerics;
     using System.Text.RegularExpressions;
     using Exceptions;
 
@@ -17,7 +16,7 @@ namespace IMMRequest.Domain
                 {
                     throw new InvalidNameFormatException("Please type a name");
                 }
-                if(Regex.Match(value, @"^[\w\d_-][\s\w\d]{2,50}$").Success)
+                if (Regex.Match(value, @"^[\w\d_-][\s\w\d]{2,50}$").Success)
                 {
                     _name = value;
                 }
@@ -38,7 +37,7 @@ namespace IMMRequest.Domain
                 {
                     throw new InvalidEmailException("Please type an email");
                 }
-                else if (Regex.Match(value, @"^[^@]+@[^@]+\.[a-zA-Z]{2,}$").Success)
+                else if (Regex.Match(value, @"^\w+@\w+\.[a-zA-Z]{2,}$").Success)
                 {
                     _email = value;
                 }

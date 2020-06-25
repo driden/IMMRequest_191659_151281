@@ -1,135 +1,83 @@
 namespace IMMRequest.WebApi.Controllers
 {
-    using System;
     using System.Collections.Generic;
-    using Domain.Exceptions;
-    using Logic.Exceptions;
-    using Logic.Exceptions.CreateTopic;
+    using System.Linq;
+    using Filters;
     using Logic.Interfaces;
-    using Logic.Models;
-    using Microsoft.AspNetCore.Http;
+    using Logic.Models.Request;
+    using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
 
-    [Route("api/[controller]")]
+    [Route("api/requests")]
+    [EnableCors("CorsPolicy")]
     [ApiController]
+    [SystemExceptionFilter]
+    [DomainExceptionFilter]
+    [LogicExceptionFilter]
     public class RequestsController : ControllerBase
     {
         private readonly IRequestsLogic _requestsLogic;
+
         public RequestsController(IRequestsLogic requestsLogic)
         {
             _requestsLogic = requestsLogic;
         }
 
         /// <summary>
-        /// Creates a new request in the system
+        ///     Creates a new request in the system
         /// </summary>
-        /// <param name="request">request body</param>
-        /// <response code="200">Request created</response>
+        /// <param name="requestModel">request body</param>
+        /// <response code="201">Request created</response>
         /// <response code="400">There's something wrong with the request body</response>
         /// <response code="404">A field name could not be found</response>
         /// <response code="500">Something is wrong with the server</response>
         [HttpPost]
-        public ActionResult CreateRequest([FromBody] CreateRequest request)
+        public ActionResult CreateRequest([FromBody] CreateRequestModel requestModel)
         {
-            try
-            {
-                var requestId = _requestsLogic.Add(request);
-                return new OkObjectResult(new {Id = requestId, Text = $"request created with id {requestId}"});
-            }
-            catch (NoSuchTypeException nste)
-            {
-                return BadRequest(new ErrorResponse(nste.Message));
-            }
-            catch (InvalidAdditionalFieldForTypeException iaf)
-            {
-                return BadRequest(new ErrorResponse(iaf.Message));
-            }
-            catch (NoSuchAdditionalFieldException nsaf)
-            {
-                return NotFound(new ErrorResponse(nsaf.Message));
-            }
-            catch (InvalidFieldValueCastForFieldTypeException ifve)
-            {
-                return BadRequest(new ErrorResponse(ifve.Message));
-            }
-            catch (InvalidFieldRangeException ifre)
-            {
-                return BadRequest(new ErrorResponse(ifre.Message));
-            }
-            catch (LessAdditionalFieldsThanRequiredException ladftre)
-            {
-                return BadRequest(new ErrorResponse(ladftre.Message));
-            }
-            catch (InvalidDetailsException exception)
-            {
-                return BadRequest(new ErrorResponse(exception.Message));
-            }
-            catch (InvalidNameFormatException exception)
-            {
-                return BadRequest(new ErrorResponse(exception.Message));
-            }
-            catch (InvalidEmailException exception)
-            {
-                return BadRequest(new ErrorResponse(exception.Message));
-            }
-            catch (InvalidPhoneNumberException exception)
-            {
-                return BadRequest(new ErrorResponse(exception.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
-            }
+            var requestId = _requestsLogic.Add(requestModel);
+            return CreatedAtRoute(
+                nameof(GetOne),
+                new { Id = requestId },
+                new { Id = requestId, Text = $"request created with id {requestId}" });
         }
 
         /// <summary>
-        /// Gets a list of all the status in the system
+        ///     Gets a list of all the requests in the system
         /// </summary>
         /// <returns>A json object with a list of all requests in the system</returns>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<GetAllRequestsStatusResponse>), 200)]
-        [Filters.AuthenticationFilter]
-        public ObjectResult GetAll()
+        [ProducesResponseType(typeof(IEnumerable<RequestStatusModel>), 200)]
+        [AuthorizationFilter]
+        public ActionResult<IEnumerable<RequestStatusModel>> GetAll()
         {
-            try
-            {
-                return new ObjectResult(_requestsLogic.GetAllRequests());
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
-            }
+            return Ok(_requestsLogic.GetAllRequests());
         }
 
         /// <summary>
-        /// Gets a request details
+        ///     Gets a list of all the requests for a given email
+        /// </summary>
+        /// <returns>A json object with a list of all requests in the system</returns>
+        [HttpGet]
+        [Route("email")]
+        [ProducesResponseType(typeof(IEnumerable<RequestStatusModel>), 200)]
+        public ActionResult<IEnumerable<RequestStatusModel>> GetByEmail(string email)
+        {
+            return Ok(_requestsLogic.GetAllRequests().Where(req => req.RequestedBy == email));
+        }
+        /// <summary>
+        ///     Gets a request details
         /// </summary>
         /// <returns>A json object with the details of the request</returns>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<GetAllRequestsStatusResponse>), 200)]
-        [Route("{id}")]
-        public ObjectResult GetOne(int id)
+        [ProducesResponseType(typeof(IEnumerable<RequestStatusModel>), 200)]
+        [Route("{id}", Name = "GetOne")]
+        public ActionResult<RequestModel> GetOne(int id)
         {
-            try
-            {
-                return new ObjectResult(_requestsLogic.GetRequestStatus(id));
-            }
-            catch (InvalidTopicIdException invalidRequestId)
-            {
-                return BadRequest(new ErrorResponse(invalidRequestId.Message));
-            }
-            catch (NoSuchRequestException noSuchRequest)
-            {
-                return BadRequest(new ErrorResponse(noSuchRequest.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
-            }
+            return Ok(_requestsLogic.GetRequestStatus(id));
         }
 
         /// <summary>
-        /// Updates the State of a request
+        ///     Updates the State of a request
         /// </summary>
         /// <param name="id">The id of the request to update</param>
         /// <param name="updateStateRequest">The state to which the request should be updated to</param>
@@ -139,34 +87,11 @@ namespace IMMRequest.WebApi.Controllers
         /// <response code="500">Something is wrong with the server</response>
         [HttpPut]
         [Route("{id}")]
-        [Filters.AuthenticationFilter]
-        public ActionResult UpdateStatus(int id, [FromBody]UpdateStateRequest updateStateRequest)
+        [AuthorizationFilter]
+        public ActionResult UpdateStatus(int id, [FromBody] UpdateStateModel updateStateRequest)
         {
-            try
-            {
-                _requestsLogic.UpdateRequestStatus(id, updateStateRequest.NewState);
-                return new OkResult();
-            }
-            catch (InvalidStateNameException ex)
-            {
-                return BadRequest(new ErrorResponse(ex.Message));
-            }
-            catch (InvalidTopicIdException ex)
-            {
-                return BadRequest(new ErrorResponse(ex.Message));
-            }
-            catch (NoSuchRequestException ex)
-            {
-                return NotFound(new ErrorResponse(ex.Message));
-            }
-            catch (InvalidStateException ex)
-            {
-                return BadRequest(new ErrorResponse(ex.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponse(ex.Message));
-            }
+            _requestsLogic.UpdateRequestStatus(id, updateStateRequest.NewState);
+            return NoContent();
         }
     }
 }

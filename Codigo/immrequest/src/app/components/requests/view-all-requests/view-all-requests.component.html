@@ -1,0 +1,12 @@
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <app-error [message]="errorMessage"></app-error>
+  <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-5">
+    <h1 class="h3 mb-2 text-gray-800">Todas las solicitudes</h1>
+  </div>
+  <div class="row">
+    <div class="col-xl-3 col-md-6 mb-4" *ngFor="let request of allRequests">
+      <app-request-card [request]="request"></app-request-card>
+    </div>
+  </div>
+</div>

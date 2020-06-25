@@ -1,0 +1,129 @@
+<div class="d-flex flex-column">
+  <div class="container" *ngIf="!!errorMsg">
+    <div class="alert alert-danger row" role="alert">
+      <div class="col-lg-9 col-xl-9 col-md-9">
+        <h4 class="alert-heading">Error :(</h4>
+      </div>
+      <div class="col-lg-2 col-xl-2 col-md-2">
+        <button
+          type="button btn btn-danger btn-sm float-right"
+          class="close"
+          aria-label="Close"
+          (click)="errorMsg = ''"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <hr />
+      <p>
+        {{ errorMsg }}
+      </p>
+    </div>
+  </div>
+  <div class="row justify-content-center" *ngIf="request">
+    <div class="col-xl-6 col-lg-8 col-md-10 col-sm-12 col-12">
+      <div class="card shadow mt-5">
+        <div class="card-header py-3">
+          <div class="row">
+            <h6
+              class="m-0 font-weight-bold text-primary col-xl-8 col-lg-8 col-md-8 col-sm-8"
+            >
+              Ver una Solicitud
+            </h6>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2" *ngIf="!!user">
+              <div class="dropdown" appDropdown #r="appDropdown">
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                >
+                  Estado
+                </button>
+                <div class="dropdown-menu" [ngClass]="{ show: r.isOpen }">
+                  <span
+                    *ngFor="let state of getAvailableStates()"
+                    class="dropdown-item"
+                    (click)="updateRequestState(state)"
+                    >{{ translateState(state) }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2">
+              <span
+                [ngClass]="[
+                  'badge',
+                  'badge-pill',
+                  'float-right',
+                  getClassForState(),
+                  'pill-bigger'
+                ]"
+                >{{ stateInSpanish }}</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="text-center">
+            <div class="form-group row">
+              <label class="col-xl-3 col-lg-3 col-md-3 mb-0 pb-0">Nombre</label>
+              <input
+                type="text"
+                class="form-control col-xl-9 col-lg-9 col-md-9"
+                disabled
+                value="{{ request.citizenName }}"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-xl-3 col-lg-3 col-md-3 mb-0 pb-0"
+                >Numero telefonico</label
+              >
+              <input
+                type="text"
+                class="form-control col-xl-9 col-lg-9 col-md-9"
+                disabled
+                value="{{ request.citizenPhoneNumber }}"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-xl-3 col-lg-3 col-md-3 mb-0 pb-0"
+                >Correo Electronico</label
+              >
+              <input
+                type="email"
+                disabled
+                value="{{ request.citizenEmail }}"
+                class="form-control col-xl-9 col-lg-9 col-md-9"
+              />
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-lg-3 col-xl-3 col-md-3">
+                  <label class>Detalles</label>
+                </div>
+              </div>
+              <textarea class="form-control" disabled>{{
+                request.details
+              }}</textarea>
+            </div>
+            <!-- campos adicionales -->
+            <div class="container">
+              <div class="row">
+                <div class="col" *ngFor="let field of request.fields">
+                  <label>{{ field.name }}</label>
+                  <ul
+                    class="list-group"
+                    *ngFor="let value of field.values.split(',')"
+                  >
+                    <li class="list-group-item">{{ value }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,7 +4,7 @@ namespace IMMRequest.Logic.Tests
     using System.Collections.Generic;
     using Domain;
     using Domain.Fields;
-    using Models;
+    using Models.Request;
     using Type = Domain.Type;
 
     public class IMMRequestLogicTestBase
@@ -20,13 +20,13 @@ namespace IMMRequest.Logic.Tests
             };
         }
 
-        protected List<RequestField> GetSomeAdditionaFields()
+        protected List<RequestField> GetSomeAdditionalFields()
         {
             return new List<RequestField>
             {
-                new IntRequestField{ Name = "num", Value = 4},
-                new TextRequestField { Name = "text", Value = "some text"},
-                new DateRequestField { Name = "date", Value = DateTime.Today}
+                new IntRequestField{ Name = "num", Values = new List<int>{4}},
+                new TextRequestField { Name = "text", Values =new List<string>{ "some text"}},
+                new DateRequestField { Name = "date", Values =new List<DateTime>{ DateTime.Today}}
             };
         }
 
@@ -44,7 +44,7 @@ namespace IMMRequest.Logic.Tests
 
             return new Type
             {
-                Name = "TestType",
+                Name = "Type One",
                 AdditionalFields = new List<AdditionalField> { dateFieldFechaYHora }
             };
         }
@@ -74,7 +74,7 @@ namespace IMMRequest.Logic.Tests
              new TextField { Name = "Matricula" }
         };
 
-        protected CreateRequest CreateRequest => new CreateRequest
+        protected CreateRequestModel CreateRequestModel => new CreateRequestModel
         {
             Email = "test@mail.com",
             Details = "test details",
@@ -82,9 +82,9 @@ namespace IMMRequest.Logic.Tests
             Phone = "555-555555",
         };
 
-        protected CreateRequest NewCreateRequestBody()
+        protected CreateRequestModel NewCreateRequestBody()
         {
-            return new CreateRequest
+            return new CreateRequestModel
             {
                 Email = "test@mail.com",
                 Details = "test details",

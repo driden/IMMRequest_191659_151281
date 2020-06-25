@@ -1,38 +1,28 @@
-using System;
-using IMMRequest.Logic.Interfaces;
-using IMMRequest.Logic.Models;
-using Microsoft.AspNetCore.Mvc;
-
 namespace IMMRequest.WebApi.Controllers
 {
-    using Logic.Exceptions;
+    using Filters;
+    using Logic.Interfaces;
+    using Logic.Models.Admin;
+    using Microsoft.AspNetCore.Cors;
+    using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
-    [Route("api/[controller]")]
+    [EnableCors("CorsPolicy")]
+    [Route("api/sessions")]
     public class SessionsController : ControllerBase
     {
         private readonly ISessionLogic _sessionLogic;
 
         public SessionsController(ISessionLogic sessionLogic)
         {
-            this._sessionLogic = sessionLogic;
+            _sessionLogic = sessionLogic;
         }
 
         [HttpPost]
-        public IActionResult Login([FromBody]ModelAdminLogin adminLogin)
+        [LogicExceptionFilter]
+        public IActionResult Login([FromBody] AdminLoginModel adminLogin)
         {
-            try
-            {
-                return Ok(new { Token = this._sessionLogic.Login(adminLogin) });
-            }
-            catch (NoSuchAdministrator noSuchAdministrator)
-            {
-                return BadRequest(new ErrorResponse(noSuchAdministrator.Message));
-            }
-            catch (Exception)
-            {
-                return BadRequest(new ErrorResponse("An error occurred while logging you in, please try again"));
-            }
+            return Ok(new { Token = _sessionLogic.Login(adminLogin) });
         }
     }
 }

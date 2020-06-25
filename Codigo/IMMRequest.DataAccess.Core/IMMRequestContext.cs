@@ -1,10 +1,12 @@
 namespace IMMRequest.DataAccess.Core
 {
+    using System;
+    using System.Linq;
     using Domain;
     using Domain.Fields;
     using Domain.States;
     using Microsoft.EntityFrameworkCore;
-
+    using Type = Domain.Type;
     public class IMMRequestContext : DbContext
     {
         public IMMRequestContext(DbContextOptions<IMMRequestContext> options) : base(options)
@@ -36,10 +38,38 @@ namespace IMMRequest.DataAccess.Core
             builder.Entity<IntegerField>();
             builder.Entity<TextField>();
             builder.Entity<DateField>();
+            builder.Entity<BooleanField>();
 
-            builder.Entity<IntRequestField>();
-            builder.Entity<TextRequestField>();
-            builder.Entity<DateRequestField>();
+            builder.Entity<IntRequestField>()
+                .Property(field => field.Values)
+                .HasConversion(
+                    v => string.Join(";", v),
+                    v => v.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(int.Parse)
+                        .ToList());
+
+            builder.Entity<TextRequestField>()
+                .Property(field => field.Values)
+                .HasConversion(
+                    v => string.Join(";", v),
+                    v => v.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
+                        .ToList());
+
+            builder.Entity<DateRequestField>()
+                .Property(field => field.Values)
+                .HasConversion(
+                    v => string.Join(";", v),
+                    v => v.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(DateTime.Parse)
+                        .ToList());
+
+            builder.Entity<BooleanRequestField>()
+                .Property(field => field.Values)
+                .HasConversion(
+                    v => string.Join(";", v),
+                    v => v.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(bool.Parse)
+                        .ToList());
 
             // State
             builder.Entity<AcceptedState>();

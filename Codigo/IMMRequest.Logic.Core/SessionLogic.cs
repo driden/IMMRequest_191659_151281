@@ -1,13 +1,11 @@
-using System;
-using IMMRequest.DataAccess.Interfaces;
-using IMMRequest.Domain;
-using IMMRequest.Logic.Interfaces;
-
 namespace IMMRequest.Logic.Core
 {
-    using Domain.Exceptions;
-    using Exceptions;
-    using Models;
+    using System;
+    using DataAccess.Interfaces;
+    using Domain;
+    using Exceptions.Account;
+    using Interfaces;
+    using Models.Admin;
 
     public class SessionLogic : ISessionLogic
     {
@@ -15,20 +13,20 @@ namespace IMMRequest.Logic.Core
 
         public SessionLogic(IRepository<Admin> adminRepository)
         {
-            this._adminRepository = adminRepository;
+            _adminRepository = adminRepository;
         }
 
-        public Guid Login(ModelAdminLogin loginInfo)
+        public Guid Login(AdminLoginModel loginInfo)
         {
             var userName = loginInfo.Email;
             var password = loginInfo.Password;
 
-            var admin = this._adminRepository.FirstOrDefault(a => a.Email.Equals(userName)
+            var admin = _adminRepository.FirstOrDefault(a => a.Email.Equals(userName)
                                                                   && a.Password.Equals(password));
             if (admin != null && admin.Token == Guid.Empty)
             {
                 admin.Token = Guid.NewGuid();
-                this._adminRepository.Update(admin);
+                _adminRepository.Update(admin);
             }
             else if (admin is null)
             {
@@ -40,7 +38,7 @@ namespace IMMRequest.Logic.Core
 
         public bool IsValidToken(Guid token, string username)
         {
-            return this._adminRepository.Exists(a => a.Token == token && a.Email == username);
+            return _adminRepository.Exists(a => a.Token == token && a.Email == username);
         }
     }
 }

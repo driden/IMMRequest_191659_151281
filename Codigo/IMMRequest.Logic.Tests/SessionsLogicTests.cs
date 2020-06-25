@@ -3,36 +3,36 @@ namespace IMMRequest.Logic.Tests
     using System;
     using System.Linq.Expressions;
     using Core;
+    using Core.Exceptions.Account;
     using DataAccess.Interfaces;
     using Domain;
-    using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Models;
+    using Models.Admin;
     using Moq;
 
     [TestClass]
     public class SessionsLogicTests
     {
-        private Mock<IRepository<Admin>> mockedAdminRepo;
+        private Mock<IRepository<Admin>> _adminRepositoryMock;
         private SessionLogic _sessionLogic;
 
         [TestInitialize]
         public void SetUp()
         {
-            mockedAdminRepo = new Mock<IRepository<Admin>>(MockBehavior.Strict);
-            _sessionLogic = new SessionLogic(mockedAdminRepo.Object);
+            _adminRepositoryMock = new Mock<IRepository<Admin>>(MockBehavior.Strict);
+            _sessionLogic = new SessionLogic(_adminRepositoryMock.Object);
         }
 
         [TestMethod]
         public void CanSendLoginInformationToLoginMethod()
         {
-            var loginInfo = new ModelAdminLogin { Email = "email@mail.com", Password = "password" };
-            mockedAdminRepo
+            var loginInfo = new AdminLoginModel { Email = "email@mail.com", Password = "password" };
+            _adminRepositoryMock
                 .Setup(m => m.FirstOrDefault(It.IsAny<Expression<Func<Admin, bool>>>()))
                 .Returns(new Admin { Id = 1 });
 
             Admin updatedAdmin = null;
-            mockedAdminRepo
+            _adminRepositoryMock
                 .Setup(m => m.Update(It.IsAny<Admin>()))
                 .Callback<Admin>(admin => updatedAdmin = admin);
 
@@ -44,8 +44,8 @@ namespace IMMRequest.Logic.Tests
         [TestMethod]
         public void NoAdministratorWithCredentialsThrowsException()
         {
-            var loginInfo = new ModelAdminLogin { Email = "email@mail.com", Password = "password" };
-            mockedAdminRepo
+            var loginInfo = new AdminLoginModel { Email = "email@mail.com", Password = "password" };
+            _adminRepositoryMock
                 .Setup(m => m.FirstOrDefault(It.IsAny<Expression<Func<Admin, bool>>>()))
                 .Returns<Admin>(null);
 

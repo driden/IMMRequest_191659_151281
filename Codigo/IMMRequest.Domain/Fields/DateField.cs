@@ -20,18 +20,19 @@ namespace IMMRequest.Domain.Fields
             IsRequired = false;
         }
 
-        public override void ValidateRange(object value)
+        public override void ValidateRange<T>(IEnumerable<T> values)
         {
             ValidateRangeIsCorrect();
             if (Range.Count() == 2)
             {
-                DateTime val = (DateTime)value;
+                DateTime[] val = values.Cast<DateTime>().ToArray();
                 DateTime first = Range.First().Value;
                 DateTime second = Range.Skip(1).First().Value;
 
-                if (first > val || val > second)
+                if (val.All(v => first > v || v > second))
                 {
-                    throw new InvalidFieldRangeException($"Date value {ToDateString(val)} is not in range [{ToDateString(first)},{ToDateString(second)}]");
+                    var dateValues = string.Join(',', val.Select(ToDateString));
+                    throw new InvalidFieldRangeException($"One of the date values {dateValues} is not in range [{ToDateString(first)},{ToDateString(second)}]");
                 }
             }
         }
@@ -62,9 +63,16 @@ namespace IMMRequest.Domain.Fields
             }
         }
 
+        public override IEnumerable<string> GetRangeAsText()
+        {
+            return Range.Select(dateItem => dateItem.ToString());
+        }
+
+        public override string GetTypeName() => "date";
+
         private string ToDateString(DateTime date)
         {
-            return date.ToString("dd-MM-yyyy");
+            return date.ToString("yyyy-MM-dd");
         }
     }
 }

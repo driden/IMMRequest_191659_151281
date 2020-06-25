@@ -32,7 +32,7 @@ namespace IMMRequest.DataAccess.Tests
             Assert.AreEqual(1, _context.Set<Topic>().Count());
             Assert.AreEqual(1, _context.Set<Type>().First().AdditionalFields.Count());
         }
-        
+
         [TestMethod]
         public void ATrackedAreaHasAnId()
         {
@@ -96,7 +96,7 @@ namespace IMMRequest.DataAccess.Tests
             _context.SaveChanges();
 
             var areaFromType = _repository.FindWithTypeId(_context.Set<Type>().First().Id);
-            Assert.AreEqual(areaFromType.Id,area.Id);
+            Assert.AreEqual(areaFromType.Id, area.Id);
         }
     }
 }

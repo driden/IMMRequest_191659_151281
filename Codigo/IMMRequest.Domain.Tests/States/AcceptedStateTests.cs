@@ -1,6 +1,7 @@
-namespace IMMRequest.Domain.States.Tests
+namespace IMMRequest.Domain.Tests.States
 {
     using System;
+    using Domain.States;
     using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,7 +12,7 @@ namespace IMMRequest.Domain.States.Tests
         public void AcceptedStateTest()
         {
             State accepted = new AcceptedState();
-            
+
             Assert.AreEqual(default(int), accepted.Id);
             Assert.AreEqual(default(int), accepted.RequestId);
             Assert.IsNull(accepted.Request);

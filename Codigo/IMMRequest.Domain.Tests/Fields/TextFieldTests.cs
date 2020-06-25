@@ -1,6 +1,7 @@
-namespace IMMRequest.Domain.Fields.Tests
+namespace IMMRequest.Domain.Tests.Fields
 {
     using System.Linq;
+    using Domain.Fields;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

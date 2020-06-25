@@ -5,9 +5,9 @@ namespace IMMRequest.Domain.Tests
     using System.Linq;
     using System.Text;
     using Domain.Fields;
+    using Domain.States;
     using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using States;
     using Type = Domain.Type;
 
     [TestClass]
@@ -19,7 +19,7 @@ namespace IMMRequest.Domain.Tests
             var request = new Request();
             Assert.AreEqual(typeof(CreatedState), request.Status.GetType());
         }
-        
+
         [TestMethod]
         public void RequestStatusTest()
         {
@@ -28,11 +28,11 @@ namespace IMMRequest.Domain.Tests
 
             Assert.AreEqual(typeof(AcceptedState), request.Status.GetType());
         }
-        
+
         [TestMethod]
         public void RequestDetailsTest()
         {
-            var detail = "this is a test";
+            const string detail = "this is a test";
             var request = new Request
             {
                 Details = detail
@@ -40,23 +40,20 @@ namespace IMMRequest.Domain.Tests
             Assert.AreSame(detail, request.Details);
         }
 
-       
         [TestMethod]
         public void RequestDetailsLessTest()
         {
-            int length = 2000;
+            const int length = 2000;
 
             // creating a StringBuilder object()
             StringBuilder str_build = new StringBuilder();
             Random random = new Random();
 
-            char letter;
-
             for (int i = 0; i < length; i++)
             {
                 double flt = random.NextDouble();
                 int shift = Convert.ToInt32(Math.Floor(25 * flt));
-                letter = Convert.ToChar(shift + 65);
+                char letter = Convert.ToChar(shift + 65);
                 str_build.Append(letter);
             }
 
@@ -72,7 +69,7 @@ namespace IMMRequest.Domain.Tests
         [ExpectedException(typeof(InvalidDetailsException))]
         public void RequestDetailsMoreTest()
         {
-            int length = 2001;
+            const int length = 2001;
 
             StringBuilder str_build = new StringBuilder();
             Random random = new Random();
@@ -102,7 +99,7 @@ namespace IMMRequest.Domain.Tests
 
             Assert.AreSame(citizen, request.Citizen);
         }
-        
+
         [TestMethod]
         public void RequestTopicTest()
         {
@@ -118,7 +115,8 @@ namespace IMMRequest.Domain.Tests
         {
             var dateItem = new DateItem
             {
-                Id = 1, DateFieldId = 1
+                Id = 1,
+                DateFieldId = 1
             };
             Assert.AreEqual(1, dateItem.Id);
             Assert.AreEqual(1, dateItem.DateFieldId);
@@ -129,7 +127,8 @@ namespace IMMRequest.Domain.Tests
         {
             var textItem = new TextItem
             {
-                Id = 1, TextFieldId = 1
+                Id = 1,
+                TextFieldId = 1
             };
 
             Assert.AreEqual(1, textItem.Id);
@@ -141,7 +140,8 @@ namespace IMMRequest.Domain.Tests
         {
             var intItem = new IntegerItem
             {
-                Id = 1, IntegerFieldId = 1
+                Id = 1,
+                IntegerFieldId = 1
             };
 
             Assert.AreEqual(1, intItem.Id);
@@ -153,12 +153,20 @@ namespace IMMRequest.Domain.Tests
         {
             var request = new Request
             {
-                Id = 1, FieldValues = new List<RequestField> {new TextRequestField {Id = 1, requestId = 1}}
+                Id = 1,
+                FieldValues = new List<RequestField> { new TextRequestField { Id = 1, requestId = 1 } }
             };
 
             Assert.AreEqual(1, request.Id);
             Assert.AreEqual(1, request.FieldValues.First().Id);
             Assert.AreEqual(1, request.FieldValues.First().requestId);
+        }
+
+        [TestMethod]
+        public void RequestCreationDateTime()
+        {
+            var request = new Request();
+            Assert.AreEqual(DateTime.Now.Date, request.CreationDateTime.Date);
         }
     }
 

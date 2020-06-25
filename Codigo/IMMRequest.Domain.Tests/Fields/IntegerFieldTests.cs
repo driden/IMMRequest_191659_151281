@@ -1,6 +1,7 @@
-namespace IMMRequest.Domain.Fields.Tests
+namespace IMMRequest.Domain.Tests.Fields
 {
     using System.Linq;
+    using Domain.Fields;
     using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -74,13 +75,13 @@ namespace IMMRequest.Domain.Fields.Tests
         public void LoweThanInitialRangeThrowsException()
         {
             var integerField = new IntegerField();
-            var lowRange = new IntegerItem {Id = 1, Value = 3};
-            var midRange = new IntegerItem {Id = 2, Value = 5};
+            var lowRange = new IntegerItem { Id = 1, Value = 3 };
+            var midRange = new IntegerItem { Id = 2, Value = 5 };
 
             integerField.AddToRange(lowRange);
             integerField.AddToRange(midRange);
 
-            Assert.ThrowsException<InvalidFieldRangeException>(() => integerField.ValidateRange(2));
+            Assert.ThrowsException<InvalidFieldRangeException>(() => integerField.ValidateRange(new[] { 2 }));
         }
 
 
@@ -88,13 +89,13 @@ namespace IMMRequest.Domain.Fields.Tests
         public void HigherThanEndRangeThrowsException()
         {
             var integerField = new IntegerField();
-            var lowRange = new IntegerItem {Id = 1, Value = 3};
-            var midRange = new IntegerItem {Id = 2, Value = 5};
+            var lowRange = new IntegerItem { Id = 1, Value = 3 };
+            var midRange = new IntegerItem { Id = 2, Value = 5 };
 
             integerField.AddToRange(lowRange);
             integerField.AddToRange(midRange);
 
-            Assert.ThrowsException<InvalidFieldRangeException>(() => integerField.ValidateRange(6));
+            Assert.ThrowsException<InvalidFieldRangeException>(() => integerField.ValidateRange(new[] { 6 }));
         }
 
 

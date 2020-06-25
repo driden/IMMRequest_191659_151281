@@ -6,7 +6,7 @@ namespace IMMRequest.Domain.States
     {
         public DeniedState()
         {
-            Description = "This request has been denied";
+            Description = "Denied";
         }
 
         public DeniedState(Request request) : this()
