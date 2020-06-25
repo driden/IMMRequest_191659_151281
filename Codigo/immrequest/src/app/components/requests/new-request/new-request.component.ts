@@ -85,7 +85,7 @@ export class NewRequestComponent implements OnInit, OnDestroy {
   onTypeSelected(typeId: number) {
     this.newRequestForm.get('typeId').setValue(typeId);
     this.additionalFields = this.types.filter(
-      (t: Type) => t.id !== typeId
+      (t: Type) => t.id === +typeId
     )[0].additionalFields;
     this.loadAdditionalFields();
   }
