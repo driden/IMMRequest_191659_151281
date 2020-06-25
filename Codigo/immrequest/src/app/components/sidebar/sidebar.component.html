@@ -18,26 +18,15 @@
   <hr class="sidebar-divider" />
   <!-- Login  -->
   <li class="nav-item">
-    <a class="nav-link" [routerLink]="['/login']">
+    <a class="nav-link" [routerLink]="['/login']" *ngIf="!user">
       <i class="fas fa-fw fa-chart-area"></i>
       <span>Login</span></a
     >
-  </li>
-  <hr class="sidebar-divider" />
-  <div class="sidebar-heading">
-    Administrador
-  </div>
-  <li
-    class="nav-item"
-    routerLinkActive="active"
-    *ngFor="let link of adminLinks"
-  >
-    <a class="nav-link" [routerLink]="link.route">
-      <i class="{{ link.icon }}"></i>
-      <span>{{ link.text }}</span></a
+    <a (click)="logout()" class="nav-link" *ngIf="!!user">
+      <i class="fas fa-fw fa-chart-area"></i>
+      <span>Logout</span></a
     >
   </li>
-  <!-- Terminan los admins aca -->
 
   <hr class="sidebar-divider d-none d-md-block" />
 
@@ -54,4 +43,21 @@
       <span>{{ link.text }}</span></a
     >
   </li>
+  <!-- Menu de Adminis -->
+  <div *ngIf="!!user">
+    <hr class="sidebar-divider" />
+    <div class="sidebar-heading">
+      Administrador
+    </div>
+    <li
+      class="nav-item"
+      routerLinkActive="active"
+      *ngFor="let link of adminLinks"
+    >
+      <a class="nav-link" [routerLink]="link.route">
+        <i class="{{ link.icon }}"></i>
+        <span>{{ link.text }}</span></a
+      >
+    </li>
+  </div>
 </ul>

@@ -50,12 +50,12 @@ const routes: Routes = [
     component: TypesListComponent,
   },
   {
-    path: 'searchByMail',
+    path: 'search-by-mail',
     pathMatch: 'full',
     component: SearchByMailComponent,
   },
   {
-    path: 'mostusedtypes',
+    path: 'most-used-types',
     pathMatch: 'full',
     component: MostusedtypesComponent,
   },

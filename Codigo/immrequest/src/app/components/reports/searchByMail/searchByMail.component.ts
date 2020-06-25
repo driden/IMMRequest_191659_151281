@@ -12,49 +12,55 @@ export interface ReportAData {
 @Component({
   selector: 'app-searchByMail',
   templateUrl: './searchByMail.component.html',
-  styleUrls: ['./searchByMail.component.css']
+  styleUrls: ['./searchByMail.component.css'],
 })
-
-
 export class SearchByMailComponent implements OnInit {
-
   reportData: ReportAData[] = [];
   checkoutForm;
+  errorMsg = '';
 
   constructor(
     private reportsService: ReportsService,
 
-    private formBuilder: FormBuilder,
-    ) {
-      this.checkoutForm = this.formBuilder.group({
-        mail: '',
-        startDate: '',
-        endDate: '',
-      });
-    }
-
-  ngOnInit(): void {
-
+    private formBuilder: FormBuilder
+  ) {
+    this.checkoutForm = this.formBuilder.group({
+      mail: '',
+      startDate: '',
+      endDate: '',
+    });
   }
 
+  ngOnInit(): void {}
+
   proccedDataReport(mail: string, startDate: Date, endDate: Date): void {
-    this.reportsService.getDataReportByMail({
-      "mail": mail,
-	    "startDate": startDate,
-      "endDate": endDate,
-    })
-    .pipe(take(1))
-    .subscribe(
-      (res: any[]) => { console.log(res)
+    this.reportsService
+      .getDataReportByMail({
+        mail: mail,
+        startDate: startDate,
+        endDate: endDate,
+      })
+      .pipe(take(1))
+      .subscribe(
+        (res: any[]) => {
+          console.log(res);
           this.reportData = res;
-      },
-      (error) => { console.log(error)},
-    )
+          if (!res.length) {
+            this.errorMsg = 'No hay resultados para la búsqueda';
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   onSubmit(searchData) {
-
-    this.proccedDataReport(searchData.mail, searchData.startDate, searchData.endDate);
+    this.proccedDataReport(
+      searchData.mail,
+      searchData.startDate,
+      searchData.endDate
+    );
 
     console.log('Search', searchData);
   }
