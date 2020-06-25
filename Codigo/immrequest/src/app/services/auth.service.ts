@@ -46,7 +46,7 @@ export class AuthService {
 
   logout(): void {
     this.userSubject.next(null);
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/view-my-requests']);
     localStorage.removeItem('userData');
   }
 

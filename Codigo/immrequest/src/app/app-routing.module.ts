@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NewRequestComponent } from './components/requests/new-request/new-request.component';
 import { ViewRequestComponent } from './components/requests/view-request/view-request.component';
 import { LoginComponent } from './components/login/login.component';
@@ -15,11 +14,6 @@ import { TypesListComponent } from './components/types/types-list/types-list.com
 import { MyRequestsComponent } from './components/requests/my-requests/my-requests.component';
 
 const routes: Routes = [
-  {
-    path: 'dashboard',
-    pathMatch: 'full',
-    component: DashboardComponent,
-  },
   {
     path: 'new-request',
     pathMatch: 'full',
@@ -75,7 +69,7 @@ const routes: Routes = [
     pathMatch:'full',
     component: AddAdminComponent
   },
-  { path: '**', redirectTo: '/dashboard'},
+  { path: '**', redirectTo: '/view-my-requests'},
 ];
 
 @NgModule({
