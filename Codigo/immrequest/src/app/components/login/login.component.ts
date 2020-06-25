@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .login(this.user.email, this.user.password)
       .pipe(
         tap(() => {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/view-my-requests']);
         }, this.handleError)
       )
       .subscribe();

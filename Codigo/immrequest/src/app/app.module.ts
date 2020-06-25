@@ -8,12 +8,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NewRequestComponent } from './components/requests/new-request/new-request.component';
 import { ViewRequestComponent } from './components/requests/view-request/view-request.component';
 import { DropdownDirective } from './shared/dropdown.directive';
 import { LoginComponent } from './components/login/login.component';
-import { IndexComponent } from './components/index/index.component';
 import { SearchByMailComponent } from './components/reports/searchByMail/searchByMail.component';
 import { MostusedtypesComponent } from './components/reports/mostusedtypes/mostusedtypes.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
@@ -31,12 +29,10 @@ import { RequestCardComponent } from './components/requests/request-card/request
   declarations: [
     AppComponent,
     SidebarComponent,
-    DashboardComponent,
     NewRequestComponent,
     ViewRequestComponent,
     DropdownDirective,
     LoginComponent,
-    IndexComponent,
     SearchByMailComponent,
     MostusedtypesComponent,
     NewTypeComponent,

@@ -35,9 +35,9 @@ export class AuthService {
     }
 
     const loadedUser = JSON.parse(storedUser);
-    const user = new User(loadedUser.email, loadedUser.token);
+    const user = new User(loadedUser.email, loadedUser.userToken);
 
-    if (user && user.token) {
+    if (user && user.userToken) {
       this.userSubject.next(user);
     } else {
       localStorage.removeItem('userData');
@@ -46,7 +46,7 @@ export class AuthService {
 
   logout(): void {
     this.userSubject.next(null);
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/view-my-requests']);
     localStorage.removeItem('userData');
   }
 

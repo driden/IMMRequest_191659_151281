@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NewRequestComponent } from './components/requests/new-request/new-request.component';
 import { ViewRequestComponent } from './components/requests/view-request/view-request.component';
 import { LoginComponent } from './components/login/login.component';
@@ -13,13 +12,9 @@ import { ViewAllRequestsComponent } from './components/requests/view-all-request
 import { AddAdminComponent } from './components/add-admin/add-admin.component';
 import { TypesListComponent } from './components/types/types-list/types-list.component';
 import { MyRequestsComponent } from './components/requests/my-requests/my-requests.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  {
-    path: 'dashboard',
-    pathMatch: 'full',
-    component: DashboardComponent,
-  },
   {
     path: 'new-request',
     pathMatch: 'full',
@@ -44,6 +39,7 @@ const routes: Routes = [
     path: 'view-all-requests',
     pathMatch: 'full',
     component: ViewAllRequestsComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'view-my-requests',
@@ -54,28 +50,33 @@ const routes: Routes = [
     path: 'view-all-types',
     pathMatch: 'full',
     component: TypesListComponent,
+    canActivate: [AuthGuard],
   },
   {
-    path: 'searchByMail',
+    path: 'search-by-mail',
     pathMatch: 'full',
     component: SearchByMailComponent,
+    canActivate: [AuthGuard],
   },
   {
-    path: 'mostusedtypes',
+    path: 'most-used-types',
     pathMatch: 'full',
     component: MostusedtypesComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'new-type',
     pathMatch: 'full',
     component: NewTypeComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'add-admin',
-    pathMatch:'full',
-    component: AddAdminComponent
+    pathMatch: 'full',
+    component: AddAdminComponent,
+    canActivate: [AuthGuard],
   },
-  { path: '**', redirectTo: '/dashboard'},
+  { path: '**', redirectTo: '/view-my-requests' },
 ];
 
 @NgModule({
